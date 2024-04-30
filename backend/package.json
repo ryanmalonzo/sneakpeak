@@ -1,0 +1,23 @@
+{
+  "name": "sneakpeak-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanmalonzo/sneakpeak.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryanmalonzo/sneakpeak/issues"
+  },
+  "homepage": "https://github.com/ryanmalonzo/sneakpeak#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.3.3"
+  }
+}
