@@ -8,6 +8,7 @@ You need to have the following environment variables in your PATH or .env file:
 | Environment Variable | Description |
 | -------------- | --------------- |
 | MONGODB_URI | The MongoDB connection string to your database |
+| PORT | The port to run the app on (default: 3000) |
 | JWT_SECRET | The secret phrase that will be used to sign JWTs for authentication |
 
 
