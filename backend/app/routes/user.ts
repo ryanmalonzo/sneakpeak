@@ -1,10 +1,8 @@
 import express from 'express';
-import { StatusCodes } from 'http-status-codes';
+import { registerUser } from '../controllers/user';
 
 const router = express.Router();
 
-router.post('/register', (req, res) => {
-  res.sendStatus(StatusCodes.CREATED);
-});
+router.post('/register', registerUser);
 
 export default router;
