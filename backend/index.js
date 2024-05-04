@@ -7,7 +7,7 @@ dotenv.config();
 const MONGODB_URI = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGODB_URI, { dbName: 'sneakpeak' })
   .then(() => {
     console.log('MongoDB connected');
   })
