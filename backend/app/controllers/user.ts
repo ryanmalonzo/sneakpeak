@@ -12,7 +12,7 @@ export const registerUser = async (req: Request, res: Response) => {
   try {
     await user.save();
   } catch (error) {
-    return res.status(StatusCodes.BAD_REQUEST).json({ message: error });
+    return res.status(StatusCodes.BAD_REQUEST).json(error);
   }
 
   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET as string, {
