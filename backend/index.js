@@ -1,8 +1,21 @@
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import app from './app/index.js';
 
-const port = process.env.PORT || 3000;
+dotenv.config();
 
-app.listen(port, () => {
-  console.log(`SneakPeak API listening on port ${port}`)
+const MONGODB_URI = process.env.MONGODB_URI;
+const PORT = process.env.PORT || 3000;
+
+mongoose.connect(MONGODB_URI)
+  .then(() => {
+    console.log('MongoDB connected');
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+app.listen(PORT, () => {
+  console.log(`SneakPeak API listening on port ${PORT}`)
 });
 
