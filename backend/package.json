@@ -23,7 +23,8 @@
     "express": "^4.19.2",
     "http-status-codes": "^2.3.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.3.3"
+    "mongoose": "^8.3.3",
+    "postmark": "^4.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",
