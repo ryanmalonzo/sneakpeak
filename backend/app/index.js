@@ -13,8 +13,7 @@ app.use((err, req, res, next) => {
   console.error(err);
 
   if (err instanceof RequestError) {
-    const status = err.status || StatusCodes.INTERNAL_SERVER_ERROR;
-    return res.status(status).json({ error: err.message });
+    return res.status(err.status).json({ error: err.message });
   }
 
   return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
