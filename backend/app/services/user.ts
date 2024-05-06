@@ -49,12 +49,7 @@ export class UserService {
     });
   }
 
-  static async verifyEmail(userId: string, token: string) {
-    const user = await UserService.findById(userId);
-
-    if (!user) {
-      throw new RequestError(StatusCodes.NOT_FOUND, 'user_not_found');
-    }
+  static async verifyEmail(user: HydratedDocument<IUser>, token: string) {
     if (user.challenge.email.verified) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'email_already_verified');
     }
