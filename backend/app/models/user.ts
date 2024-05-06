@@ -1,29 +1,53 @@
 import bcrypt from 'bcrypt';
-import { model, Schema } from 'mongoose';
+import { Model, model, Schema } from 'mongoose';
 
-interface User {
+export interface IUser {
   email: string;
   password: string;
-};
+  challenge: {
+    email: {
+      verified: boolean;
+      token: string;
+      expiresAt: Date;
+    };
+  };
+}
 
 const SALT_ROUNDS = 10;
 
-const UserSchema: Schema = new Schema<User>({
-  email: {
-    type: String,
-    required: true,
-    unique: true
+const UserSchema: Schema = new Schema<IUser>(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    challenge: {
+      email: {
+        verified: {
+          type: Boolean,
+          default: false,
+        },
+        token: {
+          type: String,
+        },
+        expiresAt: {
+          type: Date,
+        },
+      },
+    },
   },
-  password: {
-    type: String,
-    required: true
-  }
-}, { timestamps: true });
+  { timestamps: true },
+);
 
-UserSchema.pre('save', async function (next) {
+UserSchema.pre('save', async function(next) {
   const hash = await bcrypt.hash(this.password as string, SALT_ROUNDS);
   this.password = hash;
   next();
 });
 
-export default model('User', UserSchema);
+export const User: Model<IUser> = model<IUser>('User', UserSchema);

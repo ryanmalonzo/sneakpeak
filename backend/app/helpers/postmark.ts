@@ -22,6 +22,6 @@ const sendEmail = async (
   );
 };
 
-export default {
+export const PostmarkClient = {
   sendEmail,
 };
