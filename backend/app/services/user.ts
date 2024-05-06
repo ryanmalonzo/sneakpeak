@@ -42,7 +42,7 @@ export class UserService {
     // Store token in user document
     user.challenge.email.token = emailVerificationToken;
     user.challenge.email.expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1d
-    user.save();
+    await user.save();
 
     await PostmarkClient.sendEmail(email, ACCOUNT_VERIFICATION_TEMPLATE_ID, {
       verification_url: `${process.env.API_URL}/api/users/${user._id}/challenge/email?token=${emailVerificationToken}`,
@@ -61,7 +61,7 @@ export class UserService {
     }
 
     user.challenge.email.verified = true;
-    user.save();
+    await user.save();
 
     return {
       token: UserService.generateAuthToken(user),
