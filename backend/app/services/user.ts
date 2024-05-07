@@ -1,11 +1,13 @@
 import { HydratedDocument } from 'mongoose';
-import { User, IUser } from '../models/user';
-import { PostmarkClient } from '../helpers/postmark';
+import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
-import { RequestError } from '../helpers/error';
 import { StatusCodes } from 'http-status-codes';
+import { User, IUser } from '../models/user';
+import { RequestError } from '../helpers/error';
+import { PostmarkClient } from '../helpers/postmark';
 
+const SALT_ROUNDS = 10;
 const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
 const JWT_EXPIRY_TIME = '1h';
 
@@ -26,6 +28,10 @@ export class UserService {
     }
 
     const user = new User({ email, password });
+
+    const hash = await bcrypt.hash(user.password, SALT_ROUNDS);
+    user.password = hash;
+
     await UserService.sendVerificationEmail(user, email);
   }
 
