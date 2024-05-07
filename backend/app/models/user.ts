@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt';
 import { Model, model, Schema } from 'mongoose';
 
 export interface IUser {
@@ -12,8 +11,6 @@ export interface IUser {
     };
   };
 }
-
-const SALT_ROUNDS = 10;
 
 const UserSchema: Schema = new Schema<IUser>(
   {
@@ -43,11 +40,5 @@ const UserSchema: Schema = new Schema<IUser>(
   },
   { timestamps: true },
 );
-
-UserSchema.pre('save', async function(next) {
-  const hash = await bcrypt.hash(this.password as string, SALT_ROUNDS);
-  this.password = hash;
-  next();
-});
 
 export const User: Model<IUser> = model<IUser>('User', UserSchema);
