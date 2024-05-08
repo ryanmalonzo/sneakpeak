@@ -51,7 +51,7 @@ export class UserService {
     await user.save();
 
     await PostmarkClient.sendEmail(email, ACCOUNT_VERIFICATION_TEMPLATE_ID, {
-      verification_url: `${process.env.API_URL}/api/users/${user._id}/challenge/email?token=${emailVerificationToken}`,
+      verification_url: `${process.env.WEBAPP_URL}/verify-email?id=${user._id}&token=${emailVerificationToken}`,
     });
   }
 
