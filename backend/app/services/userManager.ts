@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 const SALT_ROUNDS = 10;
 
 export class UserManager {
-  static async create(email: string, password: string) {
+  static async create(email: string, password: string): Promise<IUser> {
     const user = new User({ email, password });
     const hash = await bcrypt.hash(user.password, SALT_ROUNDS);
     user.password = hash;
@@ -13,49 +13,50 @@ export class UserManager {
     return user;
   }
 
-  static async update(userId: ObjectId, data: Partial<IUser>) {
+  static async update(
+    userId: ObjectId,
+    data: Partial<IUser>,
+  ): Promise<IUser | null> {
     return await User.findByIdAndUpdate(userId, data, { new: true });
   }
 
-  static async delete(userId: string) {
+  static async delete(userId: string): Promise<IUser | null> {
     return await User.findByIdAndDelete(userId);
   }
 
-  static async findById(userId: string) {
+  static async findById(userId: string): Promise<IUser | null> {
     return await User.findById(userId);
   }
 
-  static async findByEmail(email: string) {
-    return await User.findOne({
-      email,
-    });
+  static async findByEmail(email: string): Promise<IUser | null> {
+    return await User.findOne({ email });
   }
 
-  static async findUserByRole(role: string) {
+  static async findUserByRole(role: string): Promise<IUser | null> {
     return await User.findOne({
       role,
     });
   }
 
-  static async findUsersByRole(role: string) {
+  static async findUsersByRole(role: string): Promise<IUser[]> {
     return await User.find({
       role,
     });
   }
 
-  static async findUsers() {
+  static async findUsers(): Promise<IUser[]> {
     return await User.find();
   }
 
-  static async findUserVerifiedEmail(email: string) {
-    return await User.findOne({
+  static async findUsersVerifiedEmail(email: string): Promise<IUser[]> {
+    return await User.find({
       email,
       'challenge.email.verified': true,
     });
   }
 
-  static async findUserNotVerifiedEmail(email: string) {
-    return await User.findOne({
+  static async findUsersNotVerifiedEmail(email: string): Promise<IUser[]> {
+    return await User.find({
       email,
       'challenge.email.verified': false,
     });
@@ -73,7 +74,10 @@ export class UserManager {
     return user;
   }
 
-  static async changePassword(userId: ObjectId, newPassword: string) {
+  static async changePassword(
+    userId: ObjectId,
+    newPassword: string,
+  ): Promise<IUser | null> {
     const hash = await bcrypt.hash(newPassword, SALT_ROUNDS);
     return await User.findByIdAndUpdate(
       userId,
@@ -83,9 +87,9 @@ export class UserManager {
   }
 
   private static async _comparePassword(
-    user: HydratedDocument<IUser>,
+    user: IUser,
     password: string,
-  ) {
+  ): Promise<boolean> {
     return await bcrypt.compare(password, user.password);
   }
 }
