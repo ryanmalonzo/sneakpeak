@@ -19,7 +19,7 @@ export class UserService {
 
     const user = await UserManager.create(email, password);
 
-    await UserService.sendVerificationEmail(user as HydratedDocument<IUser>, email);
+    await UserService.sendVerificationEmail(user, email);
   }
 
   static async sendVerificationEmail(
