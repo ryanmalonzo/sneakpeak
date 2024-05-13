@@ -14,6 +14,10 @@ export class SessionService {
       throw new RequestError(StatusCodes.UNAUTHORIZED, 'invalid_credentials');
     }
 
+    if (!user.challenge.email.verified) {
+      throw new RequestError(StatusCodes.UNAUTHORIZED, 'email_not_verified');
+    }
+
     return {
       token: UserService.generateAuthToken(user),
     };
