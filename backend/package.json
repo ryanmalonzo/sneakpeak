@@ -18,7 +18,14 @@
     "build": "tsc"
   },
   "engines": {
-    "node": "22.x"
+    "node": "22.x",
+    "prepare": "cd .. && husky backend/.husky"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -36,6 +43,8 @@
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
     "eslint": "^8.57.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "tsx": "^4.9.1",
