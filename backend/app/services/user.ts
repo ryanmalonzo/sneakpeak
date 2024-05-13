@@ -12,7 +12,7 @@ const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
 const JWT_EXPIRY_TIME = '1h';
 
 export class UserService {
-  static async registerUser(email: string, password: string) : Promise<void> {
+  static async registerUser(email: string, password: string): Promise<void> {
     if (await UserManager.findByEmail(email)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'user_already_exists');
     }
@@ -25,7 +25,7 @@ export class UserService {
   static async sendVerificationEmail(
     user: HydratedDocument<IUser>,
     email: string,
-  ) : Promise<void> {
+  ): Promise<void> {
     if (user.challenge.email.verified) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'email_already_verified');
     }
@@ -42,7 +42,10 @@ export class UserService {
     });
   }
 
-  static async verifyEmail(user: HydratedDocument<IUser>, token: string) : Promise<{ token: string }> {
+  static async verifyEmail(
+    user: HydratedDocument<IUser>,
+    token: string,
+  ): Promise<{ token: string }> {
     if (user.challenge.email.verified) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'email_already_verified');
     }
@@ -57,11 +60,11 @@ export class UserService {
     await UserManager.update(user._id, user);
 
     return {
-      token: UserService._generateAuthToken(user),
+      token: UserService.generateAuthToken(user),
     };
   }
 
-  private static _generateAuthToken(user: HydratedDocument<IUser>) : string {
+  static generateAuthToken(user: HydratedDocument<IUser>): string {
     return jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
       expiresIn: JWT_EXPIRY_TIME,
     });
