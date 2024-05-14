@@ -11,10 +11,16 @@ import { UserManager } from './userManager';
 const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
 const JWT_EXPIRY_TIME = '1h';
 
+const MIN_PASSWORD_LENGTH = 12;
+
 export class UserService {
   static async registerUser(email: string, password: string): Promise<void> {
     if (await UserManager.findByEmail(email)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'user_already_exists');
+    }
+
+    if (!UserService._checkPasswordStrength(password)) {
+      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_password');
     }
 
     const user = await UserManager.create(email, password);
@@ -68,5 +74,16 @@ export class UserService {
     return jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
       expiresIn: JWT_EXPIRY_TIME,
     });
+  }
+
+  // Recommandations de la CNIL
+  private static _checkPasswordStrength(password: string): boolean {
+    return (
+      password.length >= MIN_PASSWORD_LENGTH
+      && /[^A-Za-z0-9]/.test(password)
+      && /[A-Z]/.test(password)
+      && /[a-z]/.test(password)
+      && /[0-9]/.test(password)
+    );
   }
 }
