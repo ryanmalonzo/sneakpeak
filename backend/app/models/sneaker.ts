@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema } from 'mongoose';
 
-interface ISneakers extends Document {
+interface ISneaker extends Document {
   reference: string;
   name: string;
   description: string;
@@ -21,7 +21,7 @@ interface ISneakers extends Document {
   }[];
 }
 
-const SneakersSchema: Schema<ISneakers> = new Schema({
+const SneakerSchema: Schema<ISneaker> = new Schema({
   reference: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
@@ -46,9 +46,6 @@ const SneakersSchema: Schema<ISneakers> = new Schema({
   ],
 });
 
-const SneakerModel: Model<ISneakers> = model<ISneakers>(
-  'Sneakers',
-  SneakersSchema,
-);
+const SneakerModel: Model<ISneaker> = model<ISneaker>('Sneaker', SneakerSchema);
 
-export { SneakerModel, ISneakers };
+export { SneakerModel, ISneaker };

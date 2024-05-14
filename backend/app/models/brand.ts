@@ -8,7 +8,7 @@ interface IBrand extends Document {
   isActive?: boolean;
 }
 
-const BrandsSchema: Schema<IBrand> = new Schema({
+const BrandSchema: Schema<IBrand> = new Schema({
   name: { type: String, required: true, unique: true },
   slug: { type: String, required: true, unique: true },
   image: { type: String },
@@ -16,6 +16,6 @@ const BrandsSchema: Schema<IBrand> = new Schema({
   isActive: { type: Boolean },
 });
 
-const BrandsModel: Model<IBrand> = model<IBrand>('Brands', BrandsSchema);
+const BrandModel: Model<IBrand> = model<IBrand>('Brand', BrandSchema);
 
-export { BrandsModel, IBrand };
+export { BrandModel, IBrand };

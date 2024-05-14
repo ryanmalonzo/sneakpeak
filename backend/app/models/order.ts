@@ -9,7 +9,7 @@ interface IOrderItem extends Document {
   mainCover: string;
   quantity: number;
   unitPrice: number;
-  adjustment?: number;
+  discount?: number;
   total: number;
 }
 
@@ -41,7 +41,7 @@ const OrderItemSchema: Schema<IOrderItem> = new Schema({
   mainCover: { type: String, required: true },
   quantity: { type: Number, required: true },
   unitPrice: { type: Number, required: true },
-  adjustment: { type: Number },
+  discount: { type: Number },
   total: { type: Number, required: true },
 });
 
