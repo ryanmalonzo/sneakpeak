@@ -8,7 +8,7 @@ interface ICategory extends Document {
   isActive?: boolean;
 }
 
-const CategoriesSchema: Schema<ICategory> = new Schema({
+const CategorySchema: Schema<ICategory> = new Schema({
   name: { type: String, required: true, unique: true },
   slug: { type: String, required: true, unique: true },
   image: { type: String },
@@ -16,9 +16,9 @@ const CategoriesSchema: Schema<ICategory> = new Schema({
   isActive: { type: Boolean },
 });
 
-const CategoriesModel: Model<ICategory> = model<ICategory>(
-  'Categories',
-  CategoriesSchema,
+const CategoryModel: Model<ICategory> = model<ICategory>(
+  'Category',
+  CategorySchema,
 );
 
-export { CategoriesModel, ICategory };
+export { CategoryModel, ICategory };

@@ -9,7 +9,7 @@ interface ICartItem extends Document {
   mainCover: string;
   quantity: number;
   unitPrice: number;
-  adjustment?: number;
+  discount?: number;
   total: number;
 }
 
@@ -17,7 +17,7 @@ interface ICart extends Document {
   userId: number;
   items: ICartItem[];
   totalCart: number;
-  ModifiedAt: Date;
+  modifiedAt: Date;
   expiredAt: Date;
 }
 
@@ -30,7 +30,7 @@ const CartItemSchema: Schema<ICartItem> = new Schema({
   mainCover: { type: String, required: true },
   quantity: { type: Number, required: true },
   unitPrice: { type: Number, required: true },
-  adjustment: { type: Number },
+  discount: { type: Number },
   total: { type: Number, required: true },
 });
 
@@ -38,7 +38,7 @@ const CartSchema: Schema<ICart> = new Schema({
   userId: { type: Number, required: true },
   items: [CartItemSchema],
   totalCart: { type: Number, required: true },
-  ModifiedAt: { type: Date, required: true },
+  modifiedAt: { type: Date, required: true },
   expiredAt: { type: Date, required: true },
 });
 
