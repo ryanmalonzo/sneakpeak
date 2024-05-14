@@ -12,10 +12,10 @@
   },
   "license": "MIT",
   "author": "",
-  "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "tsx index.js"
+    "start": "tsx index.js",
+    "build": "tsc"
   },
   "engines": {
     "node": "22.x"
