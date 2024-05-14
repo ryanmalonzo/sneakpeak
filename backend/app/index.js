@@ -1,12 +1,22 @@
 import express from 'express';
+import cors from 'cors';
+import { SessionRouter } from './routers/session';
 import { UserRouter } from './routers/user';
 import { StatusCodes } from 'http-status-codes';
 import { RequestError } from './helpers/error';
 
 const app = express();
 
+app.use(
+  cors({
+    origin: ['http://localhost:5173'],
+    methods: 'GET,POST',
+    allowedHeaders: 'Content-Type,Authorization',
+  }),
+);
 app.use(express.json());
-app.use('/api', UserRouter);
+app.use('/', UserRouter);
+app.use('/', SessionRouter);
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 app.use((err, req, res, next) => {
