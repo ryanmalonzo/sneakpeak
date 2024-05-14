@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
-import postmark, { TemplatedMessage } from 'postmark';
+import { ServerClient, TemplatedMessage } from 'postmark';
 
 dotenv.config();
 
-const client = new postmark.ServerClient(
+const client = new ServerClient(
   process.env.POSTMARK_SERVER_API_TOKEN!,
 );
 
