@@ -4,7 +4,7 @@ import { User, IUser } from '../models/user';
 import bcrypt from 'bcrypt';
 const SALT_ROUNDS = 10;
 
-export class UserManager {
+export class UserRepository {
   static async create(
     email: string,
     password: string,
