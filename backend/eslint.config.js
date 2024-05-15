@@ -1,10 +1,10 @@
 // @ts-check
 
-import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import globals from 'globals';
+const eslint = require('@eslint/js');
+const tseslint = require('typescript-eslint');
+const globals = require('globals');
 
-export default tseslint.config(
+module.exports = tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -13,5 +13,9 @@ export default tseslint.config(
         ...globals.node,
       },
     },
+    rules: {
+      '@typescript-eslint/no-var-requires': 'off',
+    },
+    ignores: ['build'],
   },
 );
