@@ -18,6 +18,7 @@ const findUser = async (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
+// Register a new user
 UserRouter.post(
   '/users',
   async (req: Request, res: Response, next: NextFunction) => {
@@ -32,8 +33,10 @@ UserRouter.post(
   },
 );
 
+// Verify if the user exists before sending email verification
 UserRouter.use('/users/:id/challenge/email', findUser);
 
+// Verify email
 UserRouter.post(
   '/users/:id/challenge/email',
   async (req: Request, res: Response, next: NextFunction) => {
