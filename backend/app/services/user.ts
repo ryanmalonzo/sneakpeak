@@ -6,18 +6,19 @@ import { StatusCodes } from 'http-status-codes';
 import { RequestError } from '../helpers/error';
 import { PostmarkClient } from '../helpers/postmark';
 import { IUser } from '../models/user';
-import { UserManager } from './userManager';
+import { UserRepository } from '../repositories/userRepository';
 
 const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
 const JWT_EXPIRY_TIME = '1h';
 
 export class UserService {
+  
   static async registerUser(email: string, password: string): Promise<void> {
-    if (await UserManager.findByEmail(email)) {
+    if (await UserRepository.findByEmail(email)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'user_already_exists');
     }
 
-    const user = await UserManager.create(email, password);
+    const user = await UserRepository.create(email, password);
 
     await UserService.sendVerificationEmail(user, email);
   }
@@ -35,7 +36,7 @@ export class UserService {
     // Store token in user document
     user.challenge.email.token = emailVerificationToken;
     user.challenge.email.expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1d
-    await UserManager.update(user._id, user);
+    await UserRepository.update(user._id, user);
 
     await PostmarkClient.sendEmail(email, ACCOUNT_VERIFICATION_TEMPLATE_ID, {
       verification_url: `${process.env.WEBAPP_URL}/verify-email?id=${user._id}&token=${emailVerificationToken}`,
@@ -57,7 +58,7 @@ export class UserService {
     }
 
     user.challenge.email.verified = true;
-    await UserManager.update(user._id, user);
+    await UserRepository.update(user._id, user);
 
     return {
       token: UserService.generateAuthToken(user),
