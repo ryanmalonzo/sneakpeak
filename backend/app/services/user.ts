@@ -9,12 +9,11 @@ import { IUser } from '../models/user';
 import { UserRepository } from '../repositories/user';
 
 const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
+const PASSWORD_RESET_TEMPLATE_ID = 35966741;
 const JWT_EXPIRY_TIME = '1h';
-
 const MIN_PASSWORD_LENGTH = 12;
 
 export class UserService {
-
   static async registerUser(email: string, password: string): Promise<void> {
     if (await UserRepository.findByEmail(email)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'user_already_exists');
@@ -75,6 +74,52 @@ export class UserService {
     };
   }
 
+  static async sendPasswordResetEmail(email: string): Promise<void> {
+    const user = await UserRepository.findByEmail(email);
+    if (!user) {
+      // Let the endpoint return a 200 status code to avoid user enumeration
+      return;
+    }
+
+    const passwordResetToken = crypto.randomBytes(32).toString('hex');
+
+    // Store token in user document
+    user.challenge.passwordReset.token = passwordResetToken;
+    user.challenge.passwordReset.expiresAt = new Date(
+      Date.now() + 24 * 60 * 60 * 1000,
+    ); // 1d
+    await UserRepository.update(user._id, user);
+
+    await PostmarkClient.sendEmail(email, PASSWORD_RESET_TEMPLATE_ID, {
+      email,
+      password_reset_url: `${process.env.WEBAPP_URL}/reset-password?id=${user._id}&token=${passwordResetToken}`,
+    });
+  }
+
+  static async resetPassword(
+    user: HydratedDocument<IUser>,
+    token: string,
+    password: string,
+  ): Promise<void> {
+    if (user.challenge.passwordReset.token !== token) {
+      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_token');
+    }
+    if (user.challenge.passwordReset.expiresAt < new Date()) {
+      throw new RequestError(StatusCodes.BAD_REQUEST, 'token_expired');
+    }
+
+    if (!UserService._checkPasswordStrength(password)) {
+      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_password');
+    }
+
+    const newUser = (await UserRepository.changePassword(
+      user._id,
+      password,
+    )) as HydratedDocument<IUser>;
+    newUser.challenge.passwordReset.expiresAt = new Date();
+    await UserRepository.update(newUser._id, newUser);
+  }
+
   static generateAuthToken(user: HydratedDocument<IUser>): string {
     return jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
       expiresIn: JWT_EXPIRY_TIME,
@@ -84,11 +129,11 @@ export class UserService {
   // Recommandations de la CNIL
   private static _checkPasswordStrength(password: string): boolean {
     return (
-      password.length >= MIN_PASSWORD_LENGTH
-      && /[^A-Za-z0-9]/.test(password)
-      && /[A-Z]/.test(password)
-      && /[a-z]/.test(password)
-      && /[0-9]/.test(password)
+      password.length >= MIN_PASSWORD_LENGTH &&
+      /[^A-Za-z0-9]/.test(password) &&
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /[0-9]/.test(password)
     );
   }
 }
