@@ -6,13 +6,13 @@ import { StatusCodes } from 'http-status-codes';
 import { RequestError } from '../helpers/error';
 import { PostmarkClient } from '../helpers/postmark';
 import { IUser } from '../models/user';
-import { UserRepository } from '../repositories/userRepository';
+import { UserRepository } from '../repositories/user';
 
 const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
 const JWT_EXPIRY_TIME = '1h';
 
 export class UserService {
-  
+
   static async registerUser(email: string, password: string): Promise<void> {
     if (await UserRepository.findByEmail(email)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'user_already_exists');
