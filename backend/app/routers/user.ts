@@ -35,8 +35,6 @@ UserRouter.post(
 
 // Verify if the user exists before sending email verification
 UserRouter.use('/users/:id/challenge/email', findUser);
-
-// Verify email
 UserRouter.post(
   '/users/:id/challenge/email',
   async (req: Request, res: Response, next: NextFunction) => {
@@ -47,6 +45,37 @@ UserRouter.post(
       return res
         .status(StatusCodes.OK)
         .json(await UserService.verifyEmail(user, token));
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+UserRouter.post(
+  '/users/password-reset',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email } = req.body;
+      return res
+        .status(StatusCodes.OK)
+        .json(await UserService.sendPasswordResetEmail(email));
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+UserRouter.use('/users/:id/password', findUser);
+UserRouter.put(
+  '/users/:id/password',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { user } = res.locals;
+      const { token, password } = req.body;
+
+      return res
+        .status(StatusCodes.OK)
+        .json(await UserService.resetPassword(user, token, password));
     } catch (error) {
       next(error);
     }
