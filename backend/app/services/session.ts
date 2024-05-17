@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { UserService } from './user';
-import { UserManager } from './userManager';
+import { UserRepository } from '../repositories/user';
 import { RequestError } from '../helpers/error';
 
 export class SessionService {
@@ -8,7 +8,7 @@ export class SessionService {
     email: string,
     password: string,
   ): Promise<{ token: string }> {
-    const user = await UserManager.findByEmailAndPassword(email, password);
+    const user = await UserRepository.findByEmailAndPassword(email, password);
 
     if (!user) {
       throw new RequestError(StatusCodes.UNAUTHORIZED, 'invalid_credentials');
