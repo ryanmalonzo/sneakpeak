@@ -3,5 +3,7 @@ import BasePage from '@/components/BasePage.vue'
 </script>
 
 <template>
-  <BasePage />
+  <BasePage>
+    <!-- Contenu de la page d'accueil ici-->
+  </BasePage>
 </template>
