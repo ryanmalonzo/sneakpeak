@@ -5,6 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        // PrimeVue
         primary: 'rgb(var(--primary))',
         'primary-inverse': 'rgb(var(--primary-inverse))',
         'primary-hover': 'rgb(var(--primary-hover))',
@@ -39,6 +40,8 @@ export default {
         'surface-900': 'rgb(var(--surface-900))',
         'surface-950': 'rgb(var(--surface-950))',
 
+        // Custom
+        black: '#121212',
         'sneakpeak-gray': {
           50: '#f6f6f6',
           100: '#e7e7e7',
@@ -56,6 +59,7 @@ export default {
       spacing: {
         '5px': '5px',
         '30px': '30px',
+        '50px': '50px',
         '70px': '70px'
       }
     }
