@@ -2,10 +2,7 @@
   "version": "1",
   "name": "UserCollection",
   "type": "collection",
-  "ignore": [
-    "node_modules",
-    ".git"
-  ],
+  "ignore": ["node_modules", ".git"],
   "presets": {
     "requestType": "http",
     "requestUrl": "http://localhost:3000"
