@@ -26,10 +26,6 @@ export class UserService {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_password');
     }
 
-    if (!UserService._checkPasswordStrength(password)) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_password');
-    }
-
     const user = new User({ email, password });
     const hash = await bcrypt.hash(user.password, SALT_ROUNDS);
     user.password = hash;
