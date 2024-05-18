@@ -6,20 +6,13 @@ meta {
 
 post {
   url: http://localhost:3000/users
-  body: json
+  body: none
   auth: none
 }
 
-body:json {
-  {
-    "email":"admin3@gmail.com",
-    "password":"ExemplePassword1!"
-  }
-}
-
 body:form-urlencoded {
-  email: f.mechmeche@myges.fr
-  password: test123
+  email: {{email}}
+  password: {{password}}
 }
 
 body:multipart-form {
@@ -27,6 +20,24 @@ body:multipart-form {
   password: test123
 }
 
+vars:pre-request {
+  email: test@gmail.com
+  password: test
+}
+
 assert {
   res.status: eq 201
+}
+
+script:pre-request {
+  const { faker } = require('@faker-js/faker');
+   
+  const randomEmail = faker.internet.email();
+  console.log(randomEmail);
+  
+   
+  req.setBody({
+    email: randomEmail,
+    password: "ExemplePassword1!"
+  });
 }
