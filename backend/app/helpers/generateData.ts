@@ -50,8 +50,8 @@ const generateData = async (model: string, isDelete: string, count: string) => {
 // on génère 10 utilisateurs par défaut
 async function generateDataModelUser(count: number = 10) {
   for (let i = 0; i < count; i++) {
-    let email: string = faker.internet.email();
-    let password = 'ExemplePassword1!';
+    const email: string = faker.internet.email();
+    const password = 'ExemplePassword1!';
     await UserService.registerUser(email, password);
     console.log('Email ' + email + ' with password ' + password);
     console.log('User ' + i + ' created');
