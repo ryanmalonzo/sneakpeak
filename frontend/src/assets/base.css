@@ -67,7 +67,7 @@
     --primary-highlight-opacity: 0.1;
     --primary-highlight-inverse: var(--surface-0);
     --primary-highlight-hover-opacity: 0.2;
-  
+  }
 }
 
 * {
