@@ -9,6 +9,10 @@ export interface IUser {
       token: string;
       expiresAt: Date;
     };
+    passwordReset: {
+      token: string;
+      expiresAt: Date;
+    };
   };
 }
 
@@ -29,6 +33,14 @@ const UserSchema: Schema = new Schema<IUser>(
           type: Boolean,
           default: false,
         },
+        token: {
+          type: String,
+        },
+        expiresAt: {
+          type: Date,
+        },
+      },
+      passwordReset: {
         token: {
           type: String,
         },

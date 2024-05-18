@@ -2,14 +2,14 @@ import express, { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { UserService } from '../services/user';
 import { RequestError } from '../helpers/error';
-import { UserManager } from '../services/userManager';
+import { UserRepository } from '../repositories/user';
 
 export const UserRouter = express.Router();
 
 const findUser = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
 
-  const user = await UserManager.findById(id);
+  const user = await UserRepository.findById(id);
   if (!user) {
     next(new RequestError(StatusCodes.NOT_FOUND, 'user_not_found'));
   }
@@ -18,6 +18,7 @@ const findUser = async (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
+// Register a new user
 UserRouter.post(
   '/users',
   async (req: Request, res: Response, next: NextFunction) => {
@@ -32,6 +33,7 @@ UserRouter.post(
   },
 );
 
+// Verify if the user exists before sending email verification
 UserRouter.use('/users/:id/challenge/email', findUser);
 UserRouter.post(
   '/users/:id/challenge/email',
@@ -43,6 +45,37 @@ UserRouter.post(
       return res
         .status(StatusCodes.OK)
         .json(await UserService.verifyEmail(user, token));
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+UserRouter.post(
+  '/users/password-reset',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email } = req.body;
+      return res
+        .status(StatusCodes.OK)
+        .json(await UserService.sendPasswordResetEmail(email));
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+UserRouter.use('/users/:id/password', findUser);
+UserRouter.put(
+  '/users/:id/password',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { user } = res.locals;
+      const { token, password } = req.body;
+
+      return res
+        .status(StatusCodes.OK)
+        .json(await UserService.resetPassword(user, token, password));
     } catch (error) {
       next(error);
     }
