@@ -1,0 +1,32 @@
+meta {
+  name: Register User valid
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email":"admin3@gmail.com",
+    "password":"ExemplePassword1!"
+  }
+}
+
+body:form-urlencoded {
+  email: f.mechmeche@myges.fr
+  password: test123
+}
+
+body:multipart-form {
+  email: fmechmeche1@myges.fr
+  password: test123
+}
+
+assert {
+  res.status: eq 201
+}
