@@ -8,7 +8,7 @@ const router = createRouter({
       path: '/verify-email',
       name: 'email_verification',
       component: EmailVerification
-    },
+    }
   ]
 })
 
