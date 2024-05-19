@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 import { RequestError } from '../helpers/error';
 import { PostmarkClient } from '../helpers/postmark';
-import { IUser, User } from '../models/user';
+import { IUser, UserModel } from '../models/user';
 import { UserRepository } from '../repositories/user';
 import { ObjectId } from 'mongodb';
 import bcrypt from 'bcrypt';
@@ -26,7 +26,7 @@ export class UserService {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_password');
     }
 
-    const user = new User({ email, password });
+    const user = new UserModel({ email, password });
     const hash = await bcrypt.hash(user.password, SALT_ROUNDS);
     user.password = hash;
     UserRepository.create(user);

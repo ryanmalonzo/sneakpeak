@@ -1,6 +1,6 @@
 import { Model, model, Schema } from 'mongoose';
 
-export interface IUser {
+interface IUser {
   email: string;
   password: string;
   challenge: {
@@ -53,4 +53,5 @@ const UserSchema: Schema = new Schema<IUser>(
   { timestamps: true },
 );
 
-export const User: Model<IUser> = model<IUser>('User', UserSchema);
+const UserModel: Model<IUser> = model<IUser>('User', UserSchema);
+export { UserModel, IUser };
