@@ -4,7 +4,7 @@ import Footer from '@/components/Footer.vue'
 import LoginModal from '@/components/LoginModal.vue'
 import { ref } from 'vue'
 
-const isLoginVisible = ref(true)
+const isLoginVisible = ref(false)
 </script>
 
 <template>

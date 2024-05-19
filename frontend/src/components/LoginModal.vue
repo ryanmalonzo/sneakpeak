@@ -7,26 +7,33 @@ const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
     <Dialog
       v-model:visible="modelLoginVisible"
       modal
-      header="Edit Profile"
-      :style="{ width: '25rem' }"
+      header="Connexion"
+      :style="{ width: '30rem' }"
     >
-      <span class="p-text-secondary block mb-5">Update your information.</span>
-      <div class="flex align-items-center gap-3 mb-3">
-        <label for="username" class="font-semibold w-6rem">Username</label>
-        <InputText id="username" class="flex-auto" autocomplete="off" />
+      <div class="flex flex-col align-items-center gap-2 mb-3">
+        <label for="email" class="w-6rem">Adresse mail</label>
+        <InputText id="email" class="flex-auto" placeholder="john.doe@gmail.com" />
       </div>
-      <div class="flex align-items-center gap-3 mb-5">
-        <label for="email" class="font-semibold w-6rem">Email</label>
-        <InputText id="email" class="flex-auto" autocomplete="off" />
+      <div class="flex flex-col align-items-center gap-2 mb-5">
+        <label for="password" class="w-6rem">Mot de passe</label>
+        <InputText id="password" class="flex-auto" placeholder="************" />
+        <a href="#" class="text-sm text-gray-500 underline hover:text-sneakpeak-gray-900"
+          >Mot de passe oublié ?</a
+        >
       </div>
-      <div class="flex justify-content-end gap-2">
+      <!-- Buttons -->
+      <div class="flex flex-col justify-content-end gap-2">
         <Button
           type="button"
-          label="Cancel"
-          severity="secondary"
+          label="Se connecter"
           @click="modelLoginVisible = false"
+          rounded
         ></Button>
-        <Button type="button" label="Save" @click="modelLoginVisible = false"></Button>
+        <a
+          href="#"
+          class="text-center text-sm text-gray-500 underline hover:text-sneakpeak-gray-900"
+          >Pas encore de compte ?</a
+        >
       </div>
     </Dialog>
   </div>

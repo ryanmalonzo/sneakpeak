@@ -18,7 +18,15 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-app.use(PrimeVue, { unstyled: true, pt: Aura })
+app.use(PrimeVue, {
+  unstyled: true,
+  pt: {
+    ...Aura,
+    inputtext: {
+      root: 'border border-sneakpeak-gray-50 rounded-full px-4 py-2'
+    }
+  }
+})
 
 // Register global components
 app.component('Button', Button)
