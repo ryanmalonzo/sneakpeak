@@ -44,10 +44,14 @@ export class UserService {
     await UserService.sendVerificationEmail(user, email);
   }  
 
-  static async sendVerificationEmail(
+ static async sendVerificationEmail(
     user: HydratedDocument<IUser>,
     email: string,
   ): Promise<void> {
+    if (!UserService._isValidEmail(email)) {
+      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_email');
+    }
+
     if (user.challenge.email.verified) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'email_already_verified');
     }
@@ -87,6 +91,10 @@ export class UserService {
   }
 
   static async sendPasswordResetEmail(email: string): Promise<void> {
+    if (!UserService._isValidEmail(email)) {
+      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_email');
+    }
+
     const user = await UserRepository.findByEmail(email);
     if (!user) {
       // Let the endpoint return a 200 status code to avoid user enumeration
