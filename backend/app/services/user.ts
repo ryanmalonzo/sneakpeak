@@ -17,22 +17,32 @@ const MIN_PASSWORD_LENGTH = 12;
 const SALT_ROUNDS = 10;
 
 export class UserService {
+  // Vérifie si le mail renseigné a un format e-mail
+  private static _isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
   static async registerUser(email: string, password: string): Promise<void> {
+    if (!UserService._isValidEmail(email)) {
+      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_email');
+    }
+  
     if (await UserRepository.findByEmail(email)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'user_already_exists');
     }
-
+  
     if (!UserService._checkPasswordStrength(password)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_password');
     }
-
+  
     const user = new UserModel({ email, password });
     const hash = await bcrypt.hash(user.password, SALT_ROUNDS);
     user.password = hash;
     UserRepository.create(user);
-
+  
     await UserService.sendVerificationEmail(user, email);
-  }
+  }  
 
   static async sendVerificationEmail(
     user: HydratedDocument<IUser>,
