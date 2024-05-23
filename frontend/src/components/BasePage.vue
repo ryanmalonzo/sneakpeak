@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import Header from '@/components/Header.vue'
-import Footer from '@/components/Footer.vue'
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
 </script>
 
 <template>
-  <Header />
+  <AppHeader />
 
   <main class="flex flex-1 self-stretch">
     <slot />
   </main>
 
-  <Footer />
+  <AppFooter />
 </template>
 
 <style scoped></style>
