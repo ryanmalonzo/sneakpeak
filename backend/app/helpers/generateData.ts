@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { HydratedDocument } from 'mongoose';
-import { UserService } from '../services/user';
 import { CategoryService } from '../services/category';
 import { faker } from '@faker-js/faker';
 import { BrandService } from '../services/brand';
