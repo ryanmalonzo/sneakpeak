@@ -1,14 +1,15 @@
 import { HydratedDocument } from 'mongoose';
 import { ISneaker, SneakerModel } from '../models/sneaker';
-import { SortOptions } from '../helpers/interfaces';
+import { FilterOptions, SortOptions } from '../helpers/interfaces';
 
 export class SneakerRepository {
   static async getPaginated(
     page: number,
     limit: number,
     sortOptions: SortOptions,
+    filterOptions: FilterOptions,
   ): Promise<HydratedDocument<ISneaker>[]> {
-    const sneakers = await SneakerModel.find()
+    const sneakers = await SneakerModel.find(filterOptions)
       .skip((page - 1) * limit)
       .limit(limit)
       .sort(sortOptions);

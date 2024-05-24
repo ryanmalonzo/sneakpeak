@@ -14,15 +14,16 @@ SneakerRouter.get(
   '/sneakers',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { page, limit, sortOptions } = res.locals;
+      const { page, limit, sortOptions, filterOptions } = res.locals;
 
       return res
         .status(StatusCodes.OK)
         .json(
           await SneakerService.getPaginated(
-            Number(page),
-            Number(limit),
+            page,
+            limit,
             sortOptions,
+            filterOptions,
           ),
         );
     } catch (error) {
