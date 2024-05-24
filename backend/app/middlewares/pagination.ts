@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { RequestError } from '../helpers/error';
-import { SortOptions } from '../helpers/interfaces';
+import { FilterOptions, SortOptions } from '../helpers/interfaces';
 
 const MAX_LIMIT = 100;
 
@@ -10,7 +10,13 @@ export const pagination = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const { page = 1, limit = 1, sort = '_id', order = 'asc' } = req.query;
+  const {
+    page = 1,
+    limit = 1,
+    sort = '_id',
+    order = 'asc',
+    ...filters
+  } = req.query;
   const pageInt = Number(page);
   const limitInt = Number(limit);
 
@@ -41,9 +47,15 @@ export const pagination = async (
   const sortOptions: SortOptions = {};
   sortOptions[sort as string] = order === 'asc' ? 1 : -1;
 
+  const filterOptions: FilterOptions = {};
+  for (const key in filters) {
+    filterOptions[key] = filters[key] as string;
+  }
+
   res.locals.page = pageInt;
   res.locals.limit = limitInt;
   res.locals.sortOptions = sortOptions;
+  res.locals.filterOptions = filterOptions;
 
   next();
 };

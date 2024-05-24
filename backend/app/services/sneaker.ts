@@ -1,7 +1,7 @@
 import { HydratedDocument } from 'mongoose';
 import { SneakerRepository } from '../repositories/sneaker';
 import { ISneaker, SneakerModel } from '../models/sneaker';
-import { SortOptions } from '../helpers/interfaces';
+import { FilterOptions, SortOptions } from '../helpers/interfaces';
 
 interface PaginatedSneakersResponse {
   total: number;
@@ -15,11 +15,13 @@ export class SneakerService {
     page: number,
     limit: number,
     sortOptions: SortOptions,
+    filterOptions: FilterOptions,
   ): Promise<PaginatedSneakersResponse> {
     const sneakers = await SneakerRepository.getPaginated(
       page,
       limit,
       sortOptions,
+      filterOptions,
     );
 
     // Pour en déduire le nombre total de pages à afficher sur la web app
