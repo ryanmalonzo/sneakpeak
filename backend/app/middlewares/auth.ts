@@ -3,11 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { RequestError } from '../helpers/error';
 import jwt from 'jsonwebtoken';
 
-export const verifyToken = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const auth = async (req: Request, res: Response, next: NextFunction) => {
   const token: string | undefined = req.headers.authorization?.split(' ')[1];
 
   if (!token) {
