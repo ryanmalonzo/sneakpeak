@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 import { RequestError } from '../helpers/error';
 import { PostmarkClient } from '../helpers/postmark';
-import { IUser, User } from '../models/user';
+import { IUser, UserModel } from '../models/user';
 import { UserRepository } from '../repositories/user';
 import { ObjectId } from 'mongodb';
 import bcrypt from 'bcrypt';
@@ -17,27 +17,41 @@ const MIN_PASSWORD_LENGTH = 12;
 const SALT_ROUNDS = 10;
 
 export class UserService {
+  // Vérifie si le mail renseigné a un format e-mail
+  private static _isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
   static async registerUser(email: string, password: string): Promise<void> {
+    if (!UserService._isValidEmail(email)) {
+      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_email');
+    }
+  
     if (await UserRepository.findByEmail(email)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'user_already_exists');
     }
-
+  
     if (!UserService._checkPasswordStrength(password)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_password');
     }
-
-    const user = new User({ email, password });
+  
+    const user = new UserModel({ email, password });
     const hash = await bcrypt.hash(user.password, SALT_ROUNDS);
     user.password = hash;
     UserRepository.create(user);
-
+  
     await UserService.sendVerificationEmail(user, email);
-  }
+  }  
 
-  static async sendVerificationEmail(
+ static async sendVerificationEmail(
     user: HydratedDocument<IUser>,
     email: string,
   ): Promise<void> {
+    if (!UserService._isValidEmail(email)) {
+      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_email');
+    }
+
     if (user.challenge.email.verified) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'email_already_verified');
     }
@@ -77,6 +91,10 @@ export class UserService {
   }
 
   static async sendPasswordResetEmail(email: string): Promise<void> {
+    if (!UserService._isValidEmail(email)) {
+      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_email');
+    }
+
     const user = await UserRepository.findByEmail(email);
     if (!user) {
       // Let the endpoint return a 200 status code to avoid user enumeration

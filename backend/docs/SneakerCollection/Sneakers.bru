@@ -1,0 +1,22 @@
+meta {
+  name: Sneakers
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:3000/sneakers?page=0&limit=10&sort=name&order=asc
+  body: none
+  auth: bearer
+}
+
+query {
+  page: 0
+  limit: 10
+  sort: name
+  order: asc
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQyNjE1M2Q0YzI2MzVmOWEwZWI4OGEiLCJpYXQiOjE3MTY1NTIzMjgsImV4cCI6MTcxNjU1NTkyOH0.QLO2j51cb2BvlvqDkFYGvudYFS9_W3HaRkkNmQnTfSc
+}

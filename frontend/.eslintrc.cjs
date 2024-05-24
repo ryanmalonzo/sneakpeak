@@ -13,8 +13,8 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   rules: {
-    // autres règles
     'vue/multi-word-component-names': 'off',
     'vue/no-reserved-component-names': 'off'
-  }
+  },
+  ignorePatterns: ['./src/presets/*']
 }
