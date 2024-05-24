@@ -15,7 +15,7 @@ interface ISneaker extends Document {
     image: string;
     sizes: {
       reference: string;
-      size: string;
+      size: number;
       stock: number;
     }[];
   }[];
@@ -38,7 +38,7 @@ const SneakerSchema: Schema<ISneaker> = new Schema({
       sizes: [
         {
           reference: { type: String, required: true, unique: true },
-          size: { type: String, required: true },
+          size: { type: Number, required: true },
           stock: { type: Number, required: true, default: 0 },
         },
       ],

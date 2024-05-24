@@ -6,6 +6,8 @@ import { faker } from '@faker-js/faker';
 import { BrandService } from '../services/brand';
 import { IBrand } from '../models/brand';
 import { UserModel } from '../models/user';
+import { SneakerService } from '../services/sneaker';
+import { ISneaker } from '../models/sneaker';
 
 dotenv.config();
 
@@ -32,6 +34,7 @@ const generateData = async (model: string, isDelete: string, count: string) => {
       console.log('Data generated for User model');
       break;
     case 'sneaker':
+      await generateDataModelSneaker(isDelete === 'true', parseInt(count));
       console.log('Data generated for Sneaker model');
       break;
     case 'category':
@@ -141,5 +144,45 @@ async function generateDataModelCategory(
       faker.datatype.boolean(),
     );
     console.log('Category ' + i + ' created');
+  }
+}
+
+async function generateDataModelSneaker(
+  isDelete: boolean = false,
+  count: number = 10,
+): Promise<void> {
+  if (isDelete) {
+    const sneakers = await SneakerService.findSneakers();
+    sneakers.forEach(async (sneaker: HydratedDocument<ISneaker>) => {
+      await SneakerService.delete(sneaker._id);
+    });
+  }
+
+  for (let i = 0; i < count; i++) {
+    await SneakerService.create(
+      faker.lorem.word(),
+      faker.lorem.word(),
+      faker.lorem.sentence(),
+      faker.number.float({ min: 50, max: 250, multipleOf: 0.1 }),
+      faker.lorem.word(),
+      faker.lorem.word(),
+      faker.image.url(),
+      faker.datatype.boolean(),
+      faker.datatype.boolean(),
+      [
+        {
+          name: faker.lorem.word(),
+          image: faker.image.url(),
+          sizes: [
+            {
+              reference: faker.lorem.word(),
+              size: faker.number.int({ min: 35, max: 50 }),
+              stock: faker.number.int({ min: 0, max: 100 }),
+            },
+          ],
+        },
+      ],
+    );
+    console.log('Sneaker ' + i + ' created');
   }
 }
