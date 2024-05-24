@@ -6,12 +6,13 @@ import { CategoryService } from '../services/category';
 import { faker } from '@faker-js/faker';
 import { BrandService } from '../services/brand';
 import { IBrand } from '../models/brand';
+import { UserModel } from '../models/user';
 
 dotenv.config();
 
 const MONGODB_URI = process.env.MONGODB_URI || '';
 
-async function connect() {
+async function connect(): Promise<void> {
   try {
     await mongoose.connect(MONGODB_URI, { dbName: 'sneakpeak' });
     await generateData(process.argv[2], process.argv[3], process.argv[4]);
@@ -48,12 +49,53 @@ const generateData = async (model: string, isDelete: string, count: string) => {
 };
 
 // on génère 10 utilisateurs par défaut
-async function generateDataModelUser(count: number = 10) {
+async function generateDataModelUser(count: number = 10): Promise<void> {
   for (let i = 0; i < count; i++) {
     const email: string = faker.internet.email();
-    const password = 'ExemplePassword1!';
-    await UserService.registerUser(email, password);
-    console.log('Email ' + email + ' with password ' + password);
+    const password: string = 'ExemplePassword1!';
+    const firstName: string = faker.person.firstName();
+    const lastName: string = faker.person.lastName();
+    const phone: string = faker.phone.number();
+    const billingAddresses: Array<object> = [
+      {
+        street: faker.location.street(),
+        city: faker.location.city(),
+        postalCode: faker.location.zipCode(),
+        country: faker.location.country(),
+        isDefault: true,
+      },
+    ];
+    const shippingAddresses: Array<object> = [
+      {
+        street: faker.location.street(),
+        city: faker.location.city(),
+        postalCode: faker.location.zipCode(),
+        country: faker.location.country(),
+        isDefault: true,
+      },
+    ];
+    const createdAt: Date = new Date();
+    const updatedAt: Date = new Date();
+    const challenge: object = {
+      email: {
+        verified: true,
+        token: faker.string.uuid(),
+        expiresAt: faker.date.future(),
+      },
+    };
+    await UserModel.create({
+      email,
+      password,
+      challenge,
+      firstName,
+      lastName,
+      phone,
+      billingAddresses,
+      shippingAddresses,
+      createdAt,
+      updatedAt,
+    });
+    console.log('User' + i + ' email: ' + email + ' password: ' + password);
     console.log('User ' + i + ' created');
   }
 }
@@ -62,7 +104,7 @@ async function generateDataModelUser(count: number = 10) {
 async function generateDataModelBrand(
   isDelete: boolean = false,
   count: number = 10,
-) {
+): Promise<void> {
   if (isDelete) {
     const brands: HydratedDocument<IBrand>[] = await BrandService.findBrands();
     for (const brand of brands) {
@@ -85,7 +127,7 @@ async function generateDataModelBrand(
 async function generateDataModelCategory(
   isDelete: boolean = false,
   count: number = 10,
-) {
+): Promise<void> {
   if (isDelete) {
     const categories = await CategoryService.findCategories();
     for (const category of categories) {
