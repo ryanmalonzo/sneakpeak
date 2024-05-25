@@ -4,19 +4,21 @@ import { SessionRouter } from './routers/session';
 import { UserRouter } from './routers/user';
 import { StatusCodes } from 'http-status-codes';
 import { RequestError } from './helpers/error';
+import { SneakerRouter } from './routers/sneaker';
 
 const app = express();
 
 app.use(
   cors({
-    origin: ['http://localhost:5173'],
-    methods: 'GET,POST',
+    origin: ['http://localhost:5173', 'https://dev.sneakpeak.store'],
+    methods: 'GET,POST,PUT',
     allowedHeaders: 'Content-Type,Authorization',
   }),
 );
 app.use(express.json());
 app.use('/', UserRouter);
 app.use('/', SessionRouter);
+app.use('/', SneakerRouter);
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 app.use((err, req, res, next) => {

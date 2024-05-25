@@ -1,0 +1,39 @@
+meta {
+  name: Register User Exists
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email":"fmechmeche1@myges.fr",
+    "password":"test1234"
+  }
+}
+
+body:form-urlencoded {
+  email: f.mechmeche@myges.fr
+  password: test123
+}
+
+body:multipart-form {
+  email: fmechmeche1@myges.fr
+  password: test123
+}
+
+assert {
+  res.status: eq 400
+  res.body.error: eq user_already_exists
+  res.status: neq 201
+  res.body: neq ""
+}
+
+docs {
+  Permet de tester qu'un utilisateur existe 
+}

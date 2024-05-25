@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema } from 'mongoose';
 
-interface IBrand extends Document {
+export interface IBrand extends Document {
   name: string;
   slug: string;
   image?: string;
@@ -16,6 +16,4 @@ const BrandSchema: Schema<IBrand> = new Schema({
   isActive: { type: Boolean },
 });
 
-const BrandModel: Model<IBrand> = model<IBrand>('Brand', BrandSchema);
-
-export { BrandModel, IBrand };
+export const BrandModel: Model<IBrand> = model<IBrand>('Brand', BrandSchema);

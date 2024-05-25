@@ -1,0 +1,47 @@
+meta {
+  name: Register User valid
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/users
+  body: none
+  auth: none
+}
+
+body:form-urlencoded {
+  email: {{email}}
+  password: {{password}}
+}
+
+body:multipart-form {
+  email: fmechmeche1@myges.fr
+  password: test123
+}
+
+vars:pre-request {
+  email: test@gmail.com
+  password: test
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:pre-request {
+  const { faker } = require('@faker-js/faker');
+   
+  const randomEmail = faker.internet.email();
+  console.log(randomEmail);
+  
+   
+  req.setBody({
+    email: randomEmail,
+    password: "ExemplePassword1!"
+  });
+}
+
+docs {
+  Permet de tester qu'un utilisateur est crée
+}

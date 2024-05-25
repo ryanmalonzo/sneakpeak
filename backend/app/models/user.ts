@@ -1,6 +1,6 @@
 import { Model, model, Schema } from 'mongoose';
 
-export interface IUser {
+interface IUser {
   email: string;
   password: string;
   challenge: {
@@ -9,7 +9,29 @@ export interface IUser {
       token: string;
       expiresAt: Date;
     };
+    passwordReset: {
+      token: string;
+      expiresAt: Date;
+    };
   };
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  roles?: string[];
+  shippingAddresses?: {
+    street: string;
+    city: string;
+    postalCode: string;
+    country: string;
+    isDefault: boolean;
+  }[];
+  billingAddresses?: {
+    street: string;
+    city: string;
+    postalCode: string;
+    country: string;
+    isDefault: boolean;
+  }[];
 }
 
 const UserSchema: Schema = new Schema<IUser>(
@@ -36,9 +58,69 @@ const UserSchema: Schema = new Schema<IUser>(
           type: Date,
         },
       },
+      passwordReset: {
+        token: {
+          type: String,
+        },
+        expiresAt: {
+          type: Date,
+        },
+      },
     },
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    roles: {
+      type: [String],
+      default: ['ROLE_USER'],
+    },
+    shippingAddresses: [
+      {
+        street: {
+          type: String,
+        },
+        city: {
+          type: String,
+        },
+        postalCode: {
+          type: String,
+        },
+        country: {
+          type: String,
+        },
+        isDefault: {
+          type: Boolean,
+        },
+      },
+    ],
+    billingAddresses: [
+      {
+        street: {
+          type: String,
+        },
+        city: {
+          type: String,
+        },
+        postalCode: {
+          type: String,
+        },
+        country: {
+          type: String,
+        },
+        isDefault: {
+          type: Boolean,
+        },
+      },
+    ],
   },
   { timestamps: true },
 );
 
-export const User: Model<IUser> = model<IUser>('User', UserSchema);
+const UserModel: Model<IUser> = model<IUser>('User', UserSchema);
+export { UserModel, IUser };

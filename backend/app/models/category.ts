@@ -1,6 +1,6 @@
 import { Document, Model, model, Schema } from 'mongoose';
 
-interface ICategory extends Document {
+export interface ICategory extends Document {
   name: string;
   slug: string;
   image?: string;
@@ -16,9 +16,7 @@ const CategorySchema: Schema<ICategory> = new Schema({
   isActive: { type: Boolean },
 });
 
-const CategoryModel: Model<ICategory> = model<ICategory>(
+export const CategoryModel: Model<ICategory> = model<ICategory>(
   'Category',
   CategorySchema,
 );
-
-export { CategoryModel, ICategory };
