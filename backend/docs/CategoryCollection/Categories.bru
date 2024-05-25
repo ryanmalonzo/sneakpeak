@@ -1,20 +1,15 @@
 meta {
-  name: Sneakers
+  name: Categories
   type: http
   seq: 2
 }
 
 get {
-  url: http://localhost:3000/sneakers
+  url: http://localhost:3000/categories
   body: none
   auth: bearer
 }
 
 auth:bearer {
   token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjUyMjc0MmIzODBjNzU1MDE0ZTQ3YjUiLCJpYXQiOjE3MTY2NjM3MzAsImV4cCI6MTcxNjY2NzMzMH0.wbeQ_c3ML1oGw3ouhCBBaeavnPyjLMXM08DiYpP392s
-}
-
-assert {
-  res.status: eq 200
-  res.body: isJson
 }

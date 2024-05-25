@@ -39,6 +39,12 @@ export class SneakerService {
     return await SneakerRepository.findSneakers();
   }
 
+  public static async findSneakerByIsBest(): Promise<
+    HydratedDocument<ISneaker>[]
+  > {
+    return await SneakerRepository.findSneakerByIsBest();
+  }
+
   public static async delete(id: string): Promise<void> {
     return await SneakerRepository.delete(id);
   }

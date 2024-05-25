@@ -34,4 +34,8 @@ export class CategoryRepository {
   static async findCategories(): Promise<HydratedDocument<ICategory>[]> {
     return await CategoryModel.find();
   }
+
+  static async findCategoriesByIsBest(): Promise<HydratedDocument<ICategory> | null> {
+    return await CategoryModel.findOne({ isBest: true });
+  }
 }

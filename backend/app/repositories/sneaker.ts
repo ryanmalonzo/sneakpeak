@@ -24,6 +24,10 @@ export class SneakerRepository {
     return await SneakerModel.find();
   }
 
+  static async findSneakerByIsBest(): Promise<HydratedDocument<ISneaker>[]> {
+    return await SneakerModel.find({ isBest: true }).limit(3);
+  }
+
   static async delete(id: string): Promise<void> {
     await SneakerModel.findByIdAndDelete(id);
   }

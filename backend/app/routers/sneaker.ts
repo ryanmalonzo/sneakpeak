@@ -31,3 +31,16 @@ SneakerRouter.get(
     }
   },
 );
+
+SneakerRouter.get(
+  '/sneakers/best',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res
+        .status(StatusCodes.OK)
+        .json(await SneakerService.findSneakerByIsBest());
+    } catch (error) {
+      next(error);
+    }
+  },
+);

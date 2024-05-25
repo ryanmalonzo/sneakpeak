@@ -31,6 +31,10 @@ export class BrandService {
     return await BrandRepository.findBrands();
   }
 
+  static async findBrandsByIsBest(): Promise<HydratedDocument<IBrand>[]> {
+    return await BrandRepository.findBrandsByIsBest();
+  }
+
   static async findById(
     brandId: string,
   ): Promise<HydratedDocument<IBrand> | null> {

@@ -29,4 +29,10 @@ export class CategoryService {
   static async findCategories(): Promise<HydratedDocument<ICategory>[]> {
     return await CategoryRepository.findCategories();
   }
+
+  static async findCategoriesByIsBest(): Promise<
+    HydratedDocument<ICategory>[]
+  > {
+    return await CategoryRepository.findCategoriesByIsBest();
+  }
 }

@@ -1,11 +1,11 @@
 meta {
-  name: Sneakers
+  name: BestSneakers
   type: http
-  seq: 2
+  seq: 3
 }
 
 get {
-  url: http://localhost:3000/sneakers
+  url: http://localhost:3000/sneakers/best
   body: none
   auth: bearer
 }
@@ -16,5 +16,5 @@ auth:bearer {
 
 assert {
   res.status: eq 200
-  res.body: isJson
+  res.body: isJson 
 }
