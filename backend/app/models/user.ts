@@ -1,126 +1,40 @@
-import { Model, model, Schema } from 'mongoose';
+import { DataTypes, Model } from 'sequelize';
+import { sequelize } from '.';
 
-interface IUser {
-  email: string;
-  password: string;
-  challenge: {
-    email: {
-      verified: boolean;
-      token: string;
-      expiresAt: Date;
-    };
-    passwordReset: {
-      token: string;
-      expiresAt: Date;
-    };
-  };
-  firstName?: string;
-  lastName?: string;
-  phone?: string;
-  roles?: string[];
-  shippingAddresses?: {
-    street: string;
-    city: string;
-    postalCode: string;
-    country: string;
-    isDefault: boolean;
-  }[];
-  billingAddresses?: {
-    street: string;
-    city: string;
-    postalCode: string;
-    country: string;
-    isDefault: boolean;
-  }[];
+export class User extends Model {
+  declare email: string;
+  declare password: string;
+  declare firstName: string;
+  declare lastName: string;
+  declare phone: string;
 }
 
-const UserSchema: Schema = new Schema<IUser>(
+User.init(
   {
     email: {
-      type: String,
-      required: true,
+      type: DataTypes.STRING,
+      allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     password: {
-      type: String,
-      required: true,
-    },
-    challenge: {
-      email: {
-        verified: {
-          type: Boolean,
-          default: false,
-        },
-        token: {
-          type: String,
-        },
-        expiresAt: {
-          type: Date,
-        },
-      },
-      passwordReset: {
-        token: {
-          type: String,
-        },
-        expiresAt: {
-          type: Date,
-        },
-      },
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     firstName: {
-      type: String,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     lastName: {
-      type: String,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     phone: {
-      type: String,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    roles: {
-      type: [String],
-      default: ['ROLE_USER'],
-    },
-    shippingAddresses: [
-      {
-        street: {
-          type: String,
-        },
-        city: {
-          type: String,
-        },
-        postalCode: {
-          type: String,
-        },
-        country: {
-          type: String,
-        },
-        isDefault: {
-          type: Boolean,
-        },
-      },
-    ],
-    billingAddresses: [
-      {
-        street: {
-          type: String,
-        },
-        city: {
-          type: String,
-        },
-        postalCode: {
-          type: String,
-        },
-        country: {
-          type: String,
-        },
-        isDefault: {
-          type: Boolean,
-        },
-      },
-    ],
   },
-  { timestamps: true },
+  { sequelize, underscored: true },
 );
-
-const UserModel: Model<IUser> = model<IUser>('User', UserSchema);
-export { UserModel, IUser };
