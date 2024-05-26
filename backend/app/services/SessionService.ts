@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import { UserService } from './UserRouter';
+import { UserService } from './UserService';
 import { UserRepository } from '../repositories/UserRepository';
 import { RequestError } from '../helpers/error';
 import bcrypt from 'bcrypt';

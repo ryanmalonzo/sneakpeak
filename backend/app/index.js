@@ -1,11 +1,10 @@
-import express from 'express';
 import cors from 'cors';
-import { SessionRouter } from './routers/SessionRouter';
-import { UserRouter } from './routers/UserRouter';
+import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { RequestError } from './helpers/error';
+import { SessionRouter } from './routers/SessionRouter';
 import { SneakerRouter } from './routers/SneakerRouter';
-import { ValidationError } from 'sequelize';
+import { UserRouter } from './routers/UserRouter';
 
 const app = express();
 
@@ -26,11 +25,7 @@ app.use((err, req, res, next) => {
   console.error(err);
 
   if (err instanceof RequestError) {
-    return res.status(err.status).json({ errors: [err.message] });
-  }
-
-  if (err instanceof ValidationError) {
-    return res.status(StatusCodes.BAD_REQUEST).json({ errors: err.errors });
+    return res.status(err.status).json({ error: err.message });
   }
 
   return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
