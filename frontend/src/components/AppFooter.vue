@@ -11,22 +11,22 @@ const footerLinks = [
 </script>
 
 <template>
-  <footer class="flex p-30px items-start gap-30px flex-shrink-0 self-stretch bg-black">
+  <footer class="flex flex-shrink-0 items-start gap-30px self-stretch bg-black p-30px">
     <!-- Main -->
-    <div class="flex flex-col flex-start gap-30px flex-1 self-stretch">
+    <div class="flex-start flex flex-1 flex-col gap-30px self-stretch">
       <!-- Footer text -->
       <div class="flex flex-col items-start gap-5 self-stretch">
-        <p class="text-white font-medium">SneakPeak</p>
+        <p class="font-medium text-white">SneakPeak</p>
         <p class="text-sneakpeak-gray-500">
           SneakPeak est une plateforme fictive de vente de chaussures en ligne.
         </p>
       </div>
 
       <!-- Footer links -->
-      <div class="flex items-start gap-50px flex-1 self-stretch">
+      <div class="flex flex-1 flex-col items-start gap-5 self-stretch md:flex-row md:gap-50px">
         <template v-for="link in footerLinks" :key="link.title">
           <div class="flex flex-col items-start gap-2.5 self-stretch">
-            <p class="text-white font-medium">{{ link.title }}</p>
+            <p class="font-medium text-white">{{ link.title }}</p>
             <template v-for="sublink in link.links" :key="sublink">
               <router-link :to="`/${sublink}`" class="text-sneakpeak-gray-500 hover:text-white">{{
                 sublink

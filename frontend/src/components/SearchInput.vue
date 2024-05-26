@@ -9,7 +9,7 @@ const styleOverrides = {
 
 <template>
   <span class="relative flex flex-1">
-    <i class="pi pi-search absolute right-4 top-1/2 transform -translate-y-1/2"></i>
-    <InputText type="text" placeholder="Nike Air Force 1..." :pt="styleOverrides" />
+    <i class="pi pi-search absolute right-4 top-1/2 -translate-y-1/2 transform"></i>
+    <InputText type="text" placeholder="Nike Air Force 1" :pt="styleOverrides" />
   </span>
 </template>

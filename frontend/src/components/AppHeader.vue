@@ -3,41 +3,57 @@ import Image from 'primevue/image'
 import { RouterLink } from 'vue-router'
 import logo from '@/assets/images/logo.svg'
 import SearchInput from '@/components/SearchInput.vue'
+import MegaMenu from 'primevue/megamenu'
+import { ref } from 'vue'
 
 const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
+const items = ref([
+  {
+    label: 'Promotions',
+    root: true
+  },
+  {
+    label: 'Marques',
+    root: true
+  },
+  {
+    label: 'Catégories',
+    root: true
+  }
+])
 </script>
 
 <template>
-  <header class="flex items-center gap-5 flex-shrink-0 self-stretch bg-white h-70px px-30px">
-    <!-- Logo -->
-    <RouterLink to="/">
-      <Image :src="logo" alt="Logo SneakPeak" />
-    </RouterLink>
+  <MegaMenu :model="items" class="px-2.5 md:px-5">
+    <template #start>
+      <Image :src="logo" alt="Logo SneakPeak" class="pr-2.5" />
+    </template>
 
-    <SearchInput />
+    <template #end>
+      <div class="flex items-center gap-2.5">
+        <SearchInput class="hidden md:block" />
+        <i class="pi pi-search cursor-pointer rounded-full p-2.5 hover:bg-gray-50 md:hidden"></i>
 
-    <div class="flex justify-end items-center gap-10 flex-1 self-stretch">
-      <i class="pi pi-bell p-2.5 hover:bg-gray-50 rounded-full cursor-pointer"></i>
-      <!-- Shopping cart -->
-      <div
-        id="cart"
-        class="flex py-5px px-2.5 justify-end items-center gap-2.5 bg-sneakpeak-gray-50 hover:bg-sneakpeak-gray-100 cursor-pointer rounded-full"
-      >
-        <i class="pi pi-shopping-bag"></i>
-        <span>2 articles</span>
+        <i class="pi pi-bell cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
+        <!-- Shopping cart -->
+        <div
+          id="cart"
+          class="flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
+        >
+          <i class="pi pi-shopping-bag"></i>
+        </div>
+
+        <!-- User -->
+        <div
+          id="user"
+          class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
+          @click="modelLoginVisible = !modelLoginVisible"
+        >
+          <i class="pi pi-user"></i>
+        </div>
       </div>
-
-      <!-- User -->
-      <div
-        id="user"
-        class="flex items-center gap-2.5 cursor-pointer hover:bg-gray-50 rounded-full py-5px px-2.5"
-        @click="modelLoginVisible = !modelLoginVisible"
-      >
-        <i class="pi pi-user"></i>
-        <span>Se connecter</span>
-      </div>
-    </div>
-  </header>
+    </template>
+  </MegaMenu>
 </template>
 
 <style scoped>
