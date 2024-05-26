@@ -32,7 +32,9 @@ const items = ref([
     <template #end>
       <div class="flex items-center gap-2.5">
         <SearchInput class="hidden md:block" />
-        <i class="pi pi-search cursor-pointer rounded-full p-2.5 hover:bg-gray-50 md:hidden"></i>
+        <div class="md:hidden">
+          <i class="pi pi-search cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
+        </div>
 
         <i class="pi pi-bell cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
         <!-- Shopping cart -->
