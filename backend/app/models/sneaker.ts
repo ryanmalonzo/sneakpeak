@@ -1,51 +1,40 @@
-import { Document, Model, model, Schema } from 'mongoose';
+import {
+  CreationOptional,
+  DataTypes,
+  ForeignKey,
+  Model,
+  Sequelize,
+} from 'sequelize';
+import { Category } from './category';
+import { Brand } from './brand';
 
-interface ISneaker extends Document {
-  reference: string;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  brand: string;
-  coverImage: string;
-  isBest?: boolean;
-  isActive?: boolean;
-  colors: {
-    name: string;
-    image: string;
-    sizes: {
-      reference: string;
-      size: number;
-      stock: number;
-    }[];
-  }[];
+export class Sneaker extends Model {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare description: string;
+  declare price: number;
+  declare categoryId: ForeignKey<Category['id']>;
+  declare brandId: ForeignKey<Brand['id']>;
 }
 
-const SneakerSchema: Schema<ISneaker> = new Schema({
-  reference: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  price: { type: Number, required: true },
-  category: { type: String, required: true },
-  brand: { type: String, required: true },
-  coverImage: { type: String, required: true },
-  isBest: { type: Boolean },
-  isActive: { type: Boolean },
-  colors: [
+export default (sequelize: Sequelize) => {
+  Sneaker.init(
     {
-      name: { type: String, required: true },
-      image: { type: String, required: true },
-      sizes: [
-        {
-          reference: { type: String, required: true, unique: true },
-          size: { type: Number, required: true },
-          stock: { type: Number, required: true, default: 0 },
-        },
-      ],
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      price: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
     },
-  ],
-});
+    { sequelize, underscored: true },
+  );
 
-const SneakerModel: Model<ISneaker> = model<ISneaker>('Sneaker', SneakerSchema);
-
-export { SneakerModel, ISneaker };
+  return Sneaker;
+};

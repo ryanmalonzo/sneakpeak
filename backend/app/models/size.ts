@@ -7,7 +7,7 @@ import {
 } from 'sequelize';
 import { Sneaker } from './sneaker';
 
-export class Brand extends Model {
+export class Size extends Model {
   declare id: CreationOptional<number>;
   declare name: string;
   declare slug: string;
@@ -16,7 +16,7 @@ export class Brand extends Model {
 }
 
 export default (sequelize: Sequelize) => {
-  Brand.init(
+  Size.init(
     {
       name: {
         type: DataTypes.STRING,
@@ -26,13 +26,9 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      price: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-      },
     },
     { sequelize, underscored: true },
   );
 
-  return Brand;
+  return Size;
 };

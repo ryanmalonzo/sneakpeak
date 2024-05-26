@@ -7,7 +7,7 @@ import {
 } from 'sequelize';
 import { Sneaker } from './sneaker';
 
-export class Brand extends Model {
+export class Color extends Model {
   declare id: CreationOptional<number>;
   declare name: string;
   declare slug: string;
@@ -16,7 +16,7 @@ export class Brand extends Model {
 }
 
 export default (sequelize: Sequelize) => {
-  Brand.init(
+  Color.init(
     {
       name: {
         type: DataTypes.STRING,
@@ -34,5 +34,5 @@ export default (sequelize: Sequelize) => {
     { sequelize, underscored: true },
   );
 
-  return Brand;
+  return Color;
 };
