@@ -25,18 +25,15 @@ export class UserService {
     if (!UserService._isValidEmail(email)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_email');
     }
-
     if (await UserRepository.findByEmail(email)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'user_already_exists');
     }
-
     if (!UserService._checkPasswordStrength(password)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_password');
     }
 
-    const user = UserRepository.build({ email, password });
-    const hash = await bcrypt.hash(user.password, SALT_ROUNDS);
-    user.password = hash;
+    const hash = await bcrypt.hash(password, SALT_ROUNDS);
+    const user = UserRepository.build({ email, password: hash });
     await UserRepository.save(user);
 
     await UserService.sendVerificationEmail(user, email);
@@ -52,7 +49,7 @@ export class UserService {
       'email',
     );
 
-    if (challenge?.verified) {
+    if (challenge?.disabled) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'email_already_verified');
     }
 
@@ -62,7 +59,6 @@ export class UserService {
       type: 'email',
       token: emailVerificationToken,
       expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1d
-      verified: false,
       userId: user.id,
     });
 
@@ -83,8 +79,7 @@ export class UserService {
     if (!challenge) {
       throw new RequestError(StatusCodes.INTERNAL_SERVER_ERROR);
     }
-
-    if (challenge.verified) {
+    if (challenge.disabled) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'email_already_verified');
     }
     if (challenge.token !== token) {
@@ -94,7 +89,7 @@ export class UserService {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'token_expired');
     }
 
-    await ChallengeRepository.update(challenge, { verified: true });
+    await ChallengeRepository.update(challenge, { disabled: true });
 
     return {
       token: UserService.generateAuthToken(user),

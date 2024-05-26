@@ -24,7 +24,7 @@ export class SessionService {
     if (!challenge) {
       throw new RequestError(StatusCodes.INTERNAL_SERVER_ERROR);
     }
-    if (!challenge.verified) {
+    if (!challenge.disabled) {
       throw new RequestError(StatusCodes.UNAUTHORIZED, 'email_not_verified');
     }
 

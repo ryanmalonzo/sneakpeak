@@ -12,7 +12,7 @@ export class Challenge extends Model {
   declare token: string;
   declare type: string;
   declare expiresAt: Date;
-  declare verified: boolean;
+  declare disabled: boolean;
   declare userId: ForeignKey<User['id']>;
 }
 
@@ -32,8 +32,10 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
-      verified: {
+      disabled: {
         type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
     },
     { sequelize, underscored: true },
