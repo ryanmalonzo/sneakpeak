@@ -12,7 +12,7 @@ const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
 const PASSWORD_RESET_TEMPLATE_ID = 35966741;
 const JWT_EXPIRY_TIME = '1h';
 const MIN_PASSWORD_LENGTH = 12;
-const SALT_ROUNDS = 10;
+export const SALT_ROUNDS = 10;
 
 export class UserService {
   // Vérifie si le mail renseigné a un format e-mail

@@ -26,10 +26,6 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      price: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-      },
     },
     { sequelize, underscored: true },
   );
