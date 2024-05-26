@@ -1,8 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { UserService } from '../services/user';
+import { UserService } from '../services/UserRouter';
 import { RequestError } from '../helpers/error';
-import { UserRepository } from '../repositories/user';
+import { UserRepository } from '../repositories/UserRepository';
 
 export const UserRouter = express.Router();
 

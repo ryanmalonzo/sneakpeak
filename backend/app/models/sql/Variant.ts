@@ -5,9 +5,9 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import { Sneaker } from './sneaker';
-import { Size } from './size';
-import { Color } from './color';
+import { Sneaker } from './Sneaker';
+import { Size } from './Size';
+import { Color } from './Color';
 
 export class Variant extends Model {
   declare id: CreationOptional<number>;

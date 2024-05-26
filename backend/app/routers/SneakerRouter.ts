@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { SneakerService } from '../services/sneaker';
+import { SneakerService } from '../services/SneakerRouter';
 import { StatusCodes } from 'http-status-codes';
 import { auth } from '../middlewares/auth';
 import { pagination } from '../middlewares/pagination';

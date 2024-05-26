@@ -1,12 +1,12 @@
 import { Sequelize } from 'sequelize';
-import user, { User } from './user';
-import challenge, { Challenge } from './challenge';
-import sneaker, { Sneaker } from './sneaker';
-import category, { Category } from './category';
-import brand, { Brand } from './brand';
-import color, { Color } from './brand';
-import size, { Size } from './brand';
-import variant, { Variant } from './variant';
+import user, { User } from './User';
+import challenge, { Challenge } from './Challenge';
+import sneaker, { Sneaker } from './Sneaker';
+import category, { Category } from './Category';
+import brand, { Brand } from './Brand';
+import color, { Color } from './Brand';
+import size, { Size } from './Brand';
+import variant, { Variant } from './Variant';
 
 export const sequelize = new Sequelize(process.env.DATABASE_URL);
 

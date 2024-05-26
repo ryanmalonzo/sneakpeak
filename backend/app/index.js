@@ -1,10 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import { SessionRouter } from './routers/session';
-import { UserRouter } from './routers/user';
+import { SessionRouter } from './routers/SessionRouter';
+import { UserRouter } from './routers/UserRouter';
 import { StatusCodes } from 'http-status-codes';
 import { RequestError } from './helpers/error';
-import { SneakerRouter } from './routers/sneaker';
+import { SneakerRouter } from './routers/SneakerRouter';
 import { ValidationError } from 'sequelize';
 
 const app = express();

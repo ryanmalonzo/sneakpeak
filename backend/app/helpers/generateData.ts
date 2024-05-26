@@ -4,10 +4,10 @@ import { HydratedDocument } from 'mongoose';
 import { CategoryService } from '../services/category';
 import { faker } from '@faker-js/faker';
 import { BrandService } from '../services/brand';
-import { IBrand } from '../models/brand';
+import { IBrand } from '../models/Brand';
 // import { UserModel } from '../models/user';
-import { SneakerService } from '../services/sneaker';
-import { ISneaker } from '../models/sneaker';
+import { SneakerService } from '../services/SneakerRouter';
+import { ISneaker } from '../models/Sneaker';
 
 dotenv.config();
 

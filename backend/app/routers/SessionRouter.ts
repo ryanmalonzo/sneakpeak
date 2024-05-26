@@ -1,6 +1,6 @@
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { SessionService } from '../services/session';
+import { SessionService } from '../services/SessionService';
 
 export const SessionRouter = express.Router();
 
