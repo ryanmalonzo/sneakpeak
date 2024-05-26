@@ -1,5 +1,5 @@
 import { HydratedDocument } from 'mongoose';
-import { ISneaker, SneakerModel } from '../models/sneaker';
+import { ISneaker, SneakerModel } from '../models/mongodb/SneakerOut';
 import { FilterOptions, SortOptions } from '../helpers/interfaces';
 
 export class SneakerRepository {

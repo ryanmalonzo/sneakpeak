@@ -1,8 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
-import { UserService } from './user';
-import { UserRepository } from '../repositories/user';
+import { UserService } from './UserService';
+import { UserRepository } from '../repositories/UserRepository';
 import { RequestError } from '../helpers/error';
 import bcrypt from 'bcrypt';
+import { ChallengeRepository } from '../repositories/ChallengeRepository';
 
 export class SessionService {
   static async login(
@@ -15,7 +16,15 @@ export class SessionService {
       throw new RequestError(StatusCodes.UNAUTHORIZED, 'invalid_credentials');
     }
 
-    if (!user.challenge.email.verified) {
+    const challenge = await ChallengeRepository.findByUserAndType(
+      user,
+      'email',
+    );
+
+    if (!challenge) {
+      throw new RequestError(StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    if (!challenge.disabled) {
       throw new RequestError(StatusCodes.UNAUTHORIZED, 'email_not_verified');
     }
 

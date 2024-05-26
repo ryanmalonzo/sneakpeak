@@ -1,6 +1,6 @@
 import { HydratedDocument } from 'mongoose';
-import { SneakerRepository } from '../repositories/sneaker';
-import { ISneaker, SneakerModel } from '../models/sneaker';
+import { SneakerRepository } from '../repositories/SneakerRepository';
+import { ISneaker, SneakerModel } from '../models/mongodb/SneakerOut';
 import { FilterOptions, SortOptions } from '../helpers/interfaces';
 
 interface PaginatedSneakersResponse {

@@ -1,15 +1,15 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { UserService } from '../services/user';
+import { UserService } from '../services/UserService';
 import { RequestError } from '../helpers/error';
-import { UserRepository } from '../repositories/user';
+import { UserRepository } from '../repositories/UserRepository';
 
 export const UserRouter = express.Router();
 
 const findUser = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
 
-  const user = await UserRepository.findById(id);
+  const user = await UserRepository.findById(Number(id));
   if (!user) {
     next(new RequestError(StatusCodes.NOT_FOUND, 'user_not_found'));
   }

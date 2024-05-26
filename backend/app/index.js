@@ -1,10 +1,10 @@
-import express from 'express';
 import cors from 'cors';
-import { SessionRouter } from './routers/session';
-import { UserRouter } from './routers/user';
+import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { RequestError } from './helpers/error';
-import { SneakerRouter } from './routers/sneaker';
+import { SessionRouter } from './routers/SessionRouter';
+import { SneakerRouter } from './routers/SneakerRouter';
+import { UserRouter } from './routers/UserRouter';
 import { BrandRouter } from './routers/brand';
 import { CategoryRouter } from './routers/category';
 
@@ -12,7 +12,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'https://dev.sneakpeak.store'],
+    origin: ['http://localhost:5173', 'https://sneakpeak.store'],
     methods: 'GET,POST,PUT',
     allowedHeaders: 'Content-Type,Authorization',
   }),
