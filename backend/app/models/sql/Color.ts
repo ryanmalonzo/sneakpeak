@@ -5,7 +5,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import { Sneaker } from './sneaker';
+import { Sneaker } from './Sneaker';
 
 export class Color extends Model {
   declare id: CreationOptional<number>;

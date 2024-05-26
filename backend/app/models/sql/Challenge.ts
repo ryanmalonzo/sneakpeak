@@ -5,7 +5,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import { User } from './user';
+import { User } from './User';
 
 export class Challenge extends Model {
   declare id: CreationOptional<number>;

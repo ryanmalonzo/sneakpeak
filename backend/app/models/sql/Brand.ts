@@ -1,30 +1,28 @@
 import {
   CreationOptional,
   DataTypes,
-  ForeignKey,
+  HasManyGetAssociationsMixin,
   Model,
   Sequelize,
 } from 'sequelize';
-import { Category } from './category';
-import { Brand } from './brand';
+import { Sneaker } from './Sneaker';
 
-export class Sneaker extends Model {
+export class Brand extends Model {
   declare id: CreationOptional<number>;
   declare name: string;
-  declare description: string;
-  declare price: number;
-  declare categoryId: ForeignKey<Category['id']>;
-  declare brandId: ForeignKey<Brand['id']>;
+  declare slug: string;
+
+  declare getSneakers: HasManyGetAssociationsMixin<Sneaker>;
 }
 
 export default (sequelize: Sequelize) => {
-  Sneaker.init(
+  Brand.init(
     {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      description: {
+      slug: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -36,5 +34,5 @@ export default (sequelize: Sequelize) => {
     { sequelize, underscored: true },
   );
 
-  return Sneaker;
+  return Brand;
 };
