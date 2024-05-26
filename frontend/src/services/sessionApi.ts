@@ -3,7 +3,7 @@
 import { getToken, removeToken, saveToken } from '@/helpers/token'
 
 export class SessionApi {
-  static BASE_URL = 'http://localhost:3000'
+  static BASE_URL = import.meta.env.VITE_API_URL
 
   static async register(email: string, password: string) {
     try {

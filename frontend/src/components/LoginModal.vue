@@ -39,8 +39,8 @@ async function onSubmit() {
 
   const response = await SessionApi.login(email.value, password.value)
 
-  if (response.errors) {
-    loginError.value = Traduction.loginErrors(response.errors[0])!
+  if (response.error) {
+    loginError.value = Traduction.loginErrors(response.error)!
     return null
   }
 
@@ -48,7 +48,6 @@ async function onSubmit() {
   password.value = ''
   loginError.value = ''
   modelLoginVisible.value = !modelLoginVisible.value
-  console.log('success')
 }
 
 const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
@@ -78,6 +77,7 @@ const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
         <div class="flex flex-col align-items-center gap-2 mb-5">
           <label for="password" class="w-6rem">Mot de passe</label>
           <InputText
+            type="password"
             id="password"
             class="flex-auto"
             placeholder="************"
