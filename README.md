@@ -42,6 +42,7 @@ You need to have the following environment variables set up in your .env file:
 | POSTMARK_SERVER_API | The Postmark server API key that will be used to send emails |
 | API_URL | The URL to this API |
 | WEBAPP_URL | The URL to this project's webapp |
+| DATABASE_URL | The PostgreSQL connection string |
 
 ### How to run
 
