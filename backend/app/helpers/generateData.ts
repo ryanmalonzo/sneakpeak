@@ -5,7 +5,7 @@ import { CategoryService } from '../services/category';
 import { faker } from '@faker-js/faker';
 import { BrandService } from '../services/brand';
 import { IBrand } from '../models/brand';
-import { UserModel } from '../models/user';
+// import { UserModel } from '../models/user';
 import { SneakerService } from '../services/sneaker';
 import { ISneaker } from '../models/sneaker';
 
@@ -30,7 +30,7 @@ connect();
 const generateData = async (model: string, isDelete: string, count: string) => {
   switch (model.toLowerCase()) {
     case 'user':
-      await generateDataModelUser(parseInt(count));
+      // await generateDataModelUser(parseInt(count));
       console.log('Data generated for User model');
       break;
     case 'sneaker':
@@ -51,56 +51,56 @@ const generateData = async (model: string, isDelete: string, count: string) => {
 };
 
 // on génère 10 utilisateurs par défaut
-async function generateDataModelUser(count: number = 10): Promise<void> {
-  for (let i = 0; i < count; i++) {
-    const email: string = faker.internet.email();
-    const password: string = 'ExemplePassword1!';
-    const firstName: string = faker.person.firstName();
-    const lastName: string = faker.person.lastName();
-    const phone: string = faker.phone.number();
-    const billingAddresses: Array<object> = [
-      {
-        street: faker.location.street(),
-        city: faker.location.city(),
-        postalCode: faker.location.zipCode(),
-        country: faker.location.country(),
-        isDefault: true,
-      },
-    ];
-    const shippingAddresses: Array<object> = [
-      {
-        street: faker.location.street(),
-        city: faker.location.city(),
-        postalCode: faker.location.zipCode(),
-        country: faker.location.country(),
-        isDefault: true,
-      },
-    ];
-    const createdAt: Date = new Date();
-    const updatedAt: Date = new Date();
-    const challenge: object = {
-      email: {
-        verified: true,
-        token: faker.string.uuid(),
-        expiresAt: faker.date.future(),
-      },
-    };
-    await UserModel.create({
-      email,
-      password,
-      challenge,
-      firstName,
-      lastName,
-      phone,
-      billingAddresses,
-      shippingAddresses,
-      createdAt,
-      updatedAt,
-    });
-    console.log('User' + i + ' email: ' + email + ' password: ' + password);
-    console.log('User ' + i + ' created');
-  }
-}
+// async function generateDataModelUser(count: number = 10): Promise<void> {
+//   for (let i = 0; i < count; i++) {
+//     const email: string = faker.internet.email();
+//     const password: string = 'ExemplePassword1!';
+//     const firstName: string = faker.person.firstName();
+//     const lastName: string = faker.person.lastName();
+//     const phone: string = faker.phone.number();
+//     const billingAddresses: Array<object> = [
+//       {
+//         street: faker.location.street(),
+//         city: faker.location.city(),
+//         postalCode: faker.location.zipCode(),
+//         country: faker.location.country(),
+//         isDefault: true,
+//       },
+//     ];
+//     const shippingAddresses: Array<object> = [
+//       {
+//         street: faker.location.street(),
+//         city: faker.location.city(),
+//         postalCode: faker.location.zipCode(),
+//         country: faker.location.country(),
+//         isDefault: true,
+//       },
+//     ];
+//     const createdAt: Date = new Date();
+//     const updatedAt: Date = new Date();
+//     const challenge: object = {
+//       email: {
+//         verified: true,
+//         token: faker.string.uuid(),
+//         expiresAt: faker.date.future(),
+//       },
+//     };
+//     await UserModel.create({
+//       email,
+//       password,
+//       challenge,
+//       firstName,
+//       lastName,
+//       phone,
+//       billingAddresses,
+//       shippingAddresses,
+//       createdAt,
+//       updatedAt,
+//     });
+//     console.log('User' + i + ' email: ' + email + ' password: ' + password);
+//     console.log('User ' + i + ' created');
+//   }
+// }
 
 // on génère 10 brands par défaut et supprimer est à false par défaut
 async function generateDataModelBrand(

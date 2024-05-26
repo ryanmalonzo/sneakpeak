@@ -1,40 +1,47 @@
-import { DataTypes, Model } from 'sequelize';
-import { sequelize } from '.';
+import {
+  CreationOptional,
+  DataTypes,
+  HasManyGetAssociationsMixin,
+  Model,
+  Sequelize,
+} from 'sequelize';
+import { Challenge } from './challenge';
 
 export class User extends Model {
+  declare id: CreationOptional<number>;
   declare email: string;
   declare password: string;
   declare firstName: string;
   declare lastName: string;
   declare phone: string;
+
+  declare getChallenges: HasManyGetAssociationsMixin<Challenge>;
 }
 
-User.init(
-  {
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
+export default (sequelize: Sequelize) => {
+  User.init(
+    {
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      firstName: {
+        type: DataTypes.STRING,
+      },
+      lastName: {
+        type: DataTypes.STRING,
+      },
+      phone: {
+        type: DataTypes.STRING,
       },
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    phone: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  },
-  { sequelize, underscored: true },
-);
+    { sequelize, underscored: true },
+  );
+
+  return User;
+};
