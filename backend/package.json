@@ -27,7 +27,8 @@
   "lint-staged": {
     "*.{js,ts}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --write",
+      "mocha --require esm --require tsx 'tests/**/*.ts'"
     ]
   },
   "dependencies": {

@@ -32,6 +32,7 @@ jobs:
     - run: npm ci
     - run: npx eslint .
     - run: npm run build --if-present
+    - run: npm test
 
   frontend:
     runs-on: ubuntu-latest
