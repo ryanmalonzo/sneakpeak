@@ -198,6 +198,7 @@ describe('UserService', () => {
       } as Challenge;
 
       sinon.stub(ChallengeRepository, 'findByUserAndType').resolves(challenge);
+      sinon.stub(UserService, 'generateAuthToken').returns('authToken');
 
       const update = sinon
         .mock(ChallengeRepository)
