@@ -10,5 +10,6 @@
     "allowJs": true,
     "outDir": "build"
   },
-  "exclude": ["eslint.config.js", "./build"]
+  "exclude": ["eslint.config.js", "./build"],
+  "include": ["./*.ts"]
 }

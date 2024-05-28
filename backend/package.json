@@ -12,10 +12,10 @@
   },
   "license": "MIT",
   "author": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "tsx index.js",
-    "dev": "tsx watch index.js",
+    "start": "tsx index.ts",
+    "dev": "tsx watch index.ts",
     "build": "tsc",
     "data": "tsx ./app/helpers/generateData.ts $MODEL $IS_DELETE $COUNT"
   },

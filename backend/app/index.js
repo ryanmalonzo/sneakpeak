@@ -5,6 +5,7 @@ import { RequestError } from './helpers/error';
 import { SessionRouter } from './routers/SessionRouter';
 import { SneakerRouter } from './routers/SneakerRouter';
 import { UserRouter } from './routers/UserRouter';
+import { BrandRouter } from './routers/BrandRouter';
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/', UserRouter);
 app.use('/', SessionRouter);
 app.use('/', SneakerRouter);
+app.use('/', BrandRouter);
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 app.use((err, req, res, next) => {
