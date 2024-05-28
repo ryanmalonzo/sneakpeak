@@ -1,0 +1,22 @@
+meta {
+  name: Create Brands
+  type: http
+  seq: 2
+}
+
+put {
+  url: http://localhost:3000/brands/22
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE3MTY5MjA1NDEsImV4cCI6MTcxNjkyNDE0MX0.kzRxwCKuTP39249J-1hv4GNuNZRB9Ya6QEC-YyqHVMs
+}
+
+body:json {
+  {
+    "name":"ratio",
+    "slug":"ratio"
+  }
+}
