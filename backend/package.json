@@ -17,7 +17,7 @@
     "start": "tsx index.js",
     "dev": "tsx watch index.js",
     "build": "tsc",
-    "test": "mocha --require esm --require tsx 'tests/**/*.ts'",
+    "test": "NODE_NO_WARNINGS=1 mocha --require esm --require tsx 'tests/**/*.ts'",
     "data": "tsx ./app/helpers/generateData.ts $MODEL $IS_DELETE $COUNT"
   },
   "engines": {

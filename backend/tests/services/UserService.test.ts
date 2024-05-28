@@ -1,13 +1,13 @@
-import sinon from 'sinon';
+import bcrypt from 'bcrypt';
 import { expect, use } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import { UserService } from '../../app/services/UserService';
-import { UserRepository } from '../../app/repositories/UserRepository';
-import bcrypt from 'bcrypt';
-import { User } from '../../app/models/sql/User';
-import { ChallengeRepository } from '../../app/repositories/ChallengeRepository';
+import sinon from 'sinon';
 import { PostmarkClient } from '../../app/helpers/postmark';
 import { Challenge } from '../../app/models/sql/Challenge';
+import { User } from '../../app/models/sql/User';
+import { ChallengeRepository } from '../../app/repositories/ChallengeRepository';
+import { UserRepository } from '../../app/repositories/UserRepository';
+import { UserService } from '../../app/services/UserService';
 
 use(chaiAsPromised);
 
@@ -17,7 +17,7 @@ afterEach(() => {
 
 describe('UserService', () => {
   const EMAIL = 'john.doe@gmail.com';
-  const PASSWORD = 'GroudonIsUselessPokemon123$';
+  const PASSWORD = 'MySuperSecurePassword123!';
   const USER = { email: EMAIL, password: PASSWORD } as User;
 
   describe('registerUser', () => {
@@ -37,7 +37,7 @@ describe('UserService', () => {
       ).to.be.rejectedWith('invalid_email');
     });
 
-    it('should throw if user exists', async () => {
+    it('should throw an error when the user exists', async () => {
       sinon.stub(UserRepository, 'findByEmail').resolves(USER);
 
       await expect(
@@ -45,7 +45,7 @@ describe('UserService', () => {
       ).to.be.rejectedWith('user_already_exists');
     });
 
-    it('should throw if password is invalid', async () => {
+    it('should throw an error when the password is invalid', async () => {
       sinon.stub(UserRepository, 'findByEmail').resolves();
 
       await expect(
@@ -81,13 +81,13 @@ describe('UserService', () => {
         .fulfilled;
     });
 
-    it('should throw if the email is invalid', async () => {
+    it('should throw an error when the email is invalid', async () => {
       await expect(
         UserService.sendVerificationEmail(USER, 'invalidEmail'),
       ).to.be.rejectedWith('invalid_email');
     });
 
-    it('should throw if the email is already verified', async () => {
+    it('should throw an error when the email is already verified', async () => {
       sinon.stub(ChallengeRepository, 'findByUserAndType').resolves({
         disabled: true,
       } as Challenge);
@@ -145,18 +145,18 @@ describe('UserService', () => {
       sinon.stub(ChallengeRepository, 'update').resolves();
       sinon.stub(UserService, 'generateAuthToken').returns('authToken');
 
-      expect(UserService.verifyEmail(USER, 'token')).to.eventually.equal({
+      expect(UserService.verifyEmail(USER, 'token')).to.eventually.deep.equal({
         token: 'authToken',
       });
     });
 
-    it('should throw if the challenge is not found', async () => {
+    it('should throw an error when the challenge is not found', async () => {
       sinon.stub(ChallengeRepository, 'findByUserAndType').resolves();
 
       await expect(UserService.verifyEmail(USER, 'token')).to.be.rejected;
     });
 
-    it('should throw if the challenge is already disabled', async () => {
+    it('should throw an error when the challenge is already disabled', async () => {
       sinon.stub(ChallengeRepository, 'findByUserAndType').resolves({
         disabled: true,
       } as Challenge);
@@ -166,7 +166,7 @@ describe('UserService', () => {
       );
     });
 
-    it('should throw if the token is invalid', async () => {
+    it('should throw an error when the token is invalid', async () => {
       sinon.stub(ChallengeRepository, 'findByUserAndType').resolves({
         disabled: false,
         token: 'token',
@@ -178,7 +178,7 @@ describe('UserService', () => {
       ).to.be.rejectedWith('invalid_token');
     });
 
-    it('should throw if the token is expired', async () => {
+    it('should throw an error when the token is expired', async () => {
       sinon.stub(ChallengeRepository, 'findByUserAndType').resolves({
         disabled: false,
         token: 'token',
@@ -220,7 +220,7 @@ describe('UserService', () => {
       await expect(UserService.sendPasswordResetEmail(EMAIL)).to.be.fulfilled;
     });
 
-    it('should throw if the email is invalid', async () => {
+    it('should throw an error when the email is invalid', async () => {
       await expect(
         UserService.sendPasswordResetEmail('invalidEmail'),
       ).to.be.rejectedWith('invalid_email');
@@ -301,14 +301,14 @@ describe('UserService', () => {
         .fulfilled;
     });
 
-    it('should throw if the challenge is not found', async () => {
+    it('should throw an error when the challenge is not found', async () => {
       sinon.stub(ChallengeRepository, 'findByUserAndType').resolves();
 
       await expect(UserService.resetPassword(USER, 'token', PASSWORD)).to.be
         .rejected;
     });
 
-    it('should throw if the token is invalid', async () => {
+    it('should throw an error when the token is invalid', async () => {
       sinon.stub(ChallengeRepository, 'findByUserAndType').resolves(CHALLENGE);
 
       await expect(
@@ -316,7 +316,7 @@ describe('UserService', () => {
       ).to.be.rejectedWith('invalid_token');
     });
 
-    it('should throw if the token is expired', async () => {
+    it('should throw an error when the token is expired', async () => {
       sinon.stub(ChallengeRepository, 'findByUserAndType').resolves({
         token: 'token',
         expiresAt: new Date(Date.now() - 1000),
@@ -327,7 +327,7 @@ describe('UserService', () => {
       ).to.be.rejectedWith('token_expired');
     });
 
-    it('should throw if the password is invalid', async () => {
+    it('should throw an error when the password is invalid', async () => {
       sinon.stub(ChallengeRepository, 'findByUserAndType').resolves(CHALLENGE);
 
       await expect(
