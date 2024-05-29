@@ -4,7 +4,7 @@ import { SessionService } from '../services/SessionService';
 
 export const SessionRouter = express.Router();
 
-SessionRouter.post('/session', async (req, res, next) => {
+SessionRouter.post('/', async (req, res, next) => {
   try {
     const { email, password } = req.body;
     return res

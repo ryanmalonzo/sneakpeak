@@ -20,7 +20,7 @@ const findUser = async (req: Request, res: Response, next: NextFunction) => {
 
 // Register a new user
 UserRouter.post(
-  '/users',
+  '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password } = req.body;
@@ -34,9 +34,9 @@ UserRouter.post(
 );
 
 // Verify if the user exists before sending email verification
-UserRouter.use('/users/:id/challenge/email', findUser);
+UserRouter.use('/:id/challenge/email', findUser);
 UserRouter.post(
-  '/users/:id/challenge/email',
+  '/:id/challenge/email',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { user } = res.locals;
@@ -52,7 +52,7 @@ UserRouter.post(
 );
 
 UserRouter.post(
-  '/users/password-reset',
+  '/password-reset',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email } = req.body;
@@ -65,9 +65,9 @@ UserRouter.post(
   },
 );
 
-UserRouter.use('/users/:id/password', findUser);
+UserRouter.use('/:id/password', findUser);
 UserRouter.put(
-  '/users/:id/password',
+  '/:id/password',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { user } = res.locals;

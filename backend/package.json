@@ -17,7 +17,9 @@
     "start": "tsx index.js",
     "dev": "tsx watch index.js",
     "build": "tsc",
-    "test": "NODE_NO_WARNINGS=1 mocha --require esm --require tsx 'tests/**/*.ts'",
+    "test": "mocha tests/unit/*.test.ts",
+    "unit": "mocha tests/unit/*.test.ts",
+    "integration": "mocha --file ./tests/integration/setup.ts tests/integration/*.test.ts",
     "data": "tsx ./app/helpers/generateData.ts $MODEL $IS_DELETE $COUNT"
   },
   "engines": {
@@ -27,8 +29,7 @@
   "lint-staged": {
     "*.{js,ts}": [
       "eslint --fix",
-      "prettier --write",
-      "mocha --require esm --require tsx 'tests/**/*.ts'"
+      "prettier --write"
     ]
   },
   "dependencies": {
@@ -54,6 +55,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mocha": "^10.0.6",
     "@types/sinon": "^17.0.3",
+    "@types/supertest": "^6.0.2",
     "chai": "^5.1.1",
     "chai-as-promised": "^7.1.2",
     "eslint": "^8.57.0",
@@ -63,6 +65,7 @@
     "mocha": "^10.4.0",
     "prettier": "^3.2.5",
     "sinon": "^18.0.0",
+    "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.11.0",
     "typescript": "^5.4.5",

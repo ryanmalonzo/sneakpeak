@@ -30,3 +30,5 @@ mongoose
 app.listen(PORT, () => {
   console.log(`SneakPeak API listening on port ${PORT}`);
 });
+
+export default app;

@@ -9,7 +9,7 @@ export const SneakerRouter = Router();
 // Tous les endpoints de ce router nécessitent un bearer token
 SneakerRouter.use(auth);
 
-SneakerRouter.use('/sneakers', pagination);
+SneakerRouter.use('/', pagination);
 SneakerRouter.get(
   '/sneakers',
   async (req: Request, res: Response, next: NextFunction) => {

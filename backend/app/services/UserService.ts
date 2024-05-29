@@ -21,7 +21,7 @@ export class UserService {
     return emailRegex.test(email);
   }
 
-  static async registerUser(email: string, password: string): Promise<void> {
+  static async registerUser(email: string, password: string): Promise<User> {
     if (!UserService._isValidEmail(email)) {
       throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_email');
     }
@@ -37,6 +37,8 @@ export class UserService {
     await UserRepository.save(user);
 
     await UserService.sendVerificationEmail(user, email);
+
+    return user;
   }
 
   static async sendVerificationEmail(user: User, email: string): Promise<void> {
@@ -80,13 +82,16 @@ export class UserService {
       throw new RequestError(StatusCodes.INTERNAL_SERVER_ERROR);
     }
     if (challenge.disabled) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'email_already_verified');
+      throw new RequestError(
+        StatusCodes.UNAUTHORIZED,
+        'email_already_verified',
+      );
     }
     if (challenge.token !== token) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_token');
+      throw new RequestError(StatusCodes.UNAUTHORIZED, 'invalid_token');
     }
     if (challenge.expiresAt < new Date()) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'token_expired');
+      throw new RequestError(StatusCodes.UNAUTHORIZED, 'token_expired');
     }
 
     await ChallengeRepository.update(challenge, { disabled: true });
@@ -148,10 +153,10 @@ export class UserService {
       throw new RequestError(StatusCodes.INTERNAL_SERVER_ERROR);
     }
     if (challenge.token !== token) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_token');
+      throw new RequestError(StatusCodes.UNAUTHORIZED, 'invalid_token');
     }
     if (challenge.expiresAt < new Date()) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'token_expired');
+      throw new RequestError(StatusCodes.UNAUTHORIZED, 'token_expired');
     }
 
     if (!UserService._checkPasswordStrength(password)) {
