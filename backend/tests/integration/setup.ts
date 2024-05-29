@@ -7,7 +7,7 @@ before(async () => {
   sinon.stub(PostmarkClient, 'sendEmail').resolves();
 
   await sequelize.authenticate();
-  await sequelize.sync();
+  await sequelize.sync({ force: true });
 });
 
 after(async () => {
