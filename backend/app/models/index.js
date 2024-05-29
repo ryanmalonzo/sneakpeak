@@ -8,7 +8,9 @@ import color, { Color } from './sql/Color';
 import size, { Size } from './sql/Size';
 import variant, { Variant } from './sql/Variant';
 
-export const sequelize = new Sequelize(process.env.DATABASE_URL);
+export const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  logging: process.env.NODE_ENV !== 'test',
+});
 
 user(sequelize);
 challenge(sequelize);

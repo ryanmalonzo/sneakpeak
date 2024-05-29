@@ -6,12 +6,12 @@ dotenv.config();
 let client: ServerClient | null = null;
 
 const getClient = (): ServerClient => {
-  if (!process.env.POSTMARK_API_KEY) {
-    throw new Error('POSTMARK_API_KEY is not defined');
+  if (!process.env.POSTMARK_SERVER_API_TOKEN) {
+    throw new Error('POSTMARK_SERVER_API_TOKEN is not defined');
   }
 
   if (!client) {
-    client = new ServerClient(process.env.POSTMARK_API_KEY);
+    client = new ServerClient(process.env.POSTMARK_SERVER_API_TOKEN);
   }
   return client;
 };
