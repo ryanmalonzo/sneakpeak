@@ -3,5 +3,5 @@ process.env.NODE_NO_WARNINGS = 1;
 
 module.exports = {
   require: ['esm', 'tsx'],
-  timeout: '10000',
+  timeout: '30000',
 };

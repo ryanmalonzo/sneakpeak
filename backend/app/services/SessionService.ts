@@ -30,7 +30,7 @@ export class SessionService {
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      throw new RequestError(StatusCodes.UNAUTHORIZED, 'wrong_password');
+      throw new RequestError(StatusCodes.UNAUTHORIZED, 'invalid_credentials');
     }
 
     return {

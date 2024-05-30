@@ -23,13 +23,16 @@ export class UserService {
 
   static async registerUser(email: string, password: string): Promise<User> {
     if (!UserService._isValidEmail(email)) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_email');
+      throw new RequestError(StatusCodes.UNPROCESSABLE_ENTITY, 'invalid_email');
     }
     if (await UserRepository.findByEmail(email)) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'user_already_exists');
+      throw new RequestError(StatusCodes.UNAUTHORIZED, 'user_already_exists');
     }
     if (!UserService._checkPasswordStrength(password)) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_password');
+      throw new RequestError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        'invalid_password',
+      );
     }
 
     const hash = await bcrypt.hash(password, SALT_ROUNDS);
@@ -43,7 +46,7 @@ export class UserService {
 
   static async sendVerificationEmail(user: User, email: string): Promise<void> {
     if (!UserService._isValidEmail(email)) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_email');
+      throw new RequestError(StatusCodes.UNPROCESSABLE_ENTITY, 'invalid_email');
     }
 
     const challenge = await ChallengeRepository.findByUserAndType(
@@ -52,7 +55,10 @@ export class UserService {
     );
 
     if (challenge?.disabled) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'email_already_verified');
+      throw new RequestError(
+        StatusCodes.UNAUTHORIZED,
+        'email_already_verified',
+      );
     }
 
     const emailVerificationToken = crypto.randomBytes(32).toString('hex');
@@ -103,7 +109,7 @@ export class UserService {
 
   static async sendPasswordResetEmail(email: string): Promise<void> {
     if (!UserService._isValidEmail(email)) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_email');
+      throw new RequestError(StatusCodes.UNPROCESSABLE_ENTITY, 'invalid_email');
     }
 
     const user = await UserRepository.findByEmail(email);
@@ -160,7 +166,10 @@ export class UserService {
     }
 
     if (!UserService._checkPasswordStrength(password)) {
-      throw new RequestError(StatusCodes.BAD_REQUEST, 'invalid_password');
+      throw new RequestError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        'invalid_password',
+      );
     }
 
     await this.changePassword(user.id, password);
