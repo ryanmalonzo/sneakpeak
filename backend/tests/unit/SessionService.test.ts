@@ -70,7 +70,7 @@ describe('SessionService', () => {
 
       await expect(
         SessionService.login(USER.email, USER.password),
-      ).to.be.rejectedWith('wrong_password');
+      ).to.be.rejectedWith('invalid_credentials');
     });
   });
 });

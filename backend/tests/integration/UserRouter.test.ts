@@ -22,38 +22,35 @@ describe('UserRouter', () => {
       expect(response.status).to.equal(StatusCodes.CREATED);
     });
 
-    it('should return a 400 status code if email is already in use', async () => {
+    it('should return a 401 status code if email is already in use', async () => {
       const email = uniqueEmail();
 
-      await User.create({
-        email,
-        password: PASSWORD,
-      });
+      await UserService.registerUser(email, PASSWORD);
 
       const response = await request(app).post('/users').send({
         email,
         password: PASSWORD,
       });
 
-      expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+      expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
     });
 
-    it('should return a 400 status code if email is invalid', async () => {
+    it('should return a 422 status code if email is invalid', async () => {
       const response = await request(app).post('/users').send({
         email: 'invalid-email',
         password: PASSWORD,
       });
 
-      expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+      expect(response.status).to.equal(StatusCodes.UNPROCESSABLE_ENTITY);
     });
 
-    it('should return a 400 status code if password is invalid', async () => {
+    it('should return a 422 status code if password is invalid', async () => {
       const response = await request(app).post('/users').send({
         email: uniqueEmail(),
         password: 'invalid-password',
       });
 
-      expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+      expect(response.status).to.equal(StatusCodes.UNPROCESSABLE_ENTITY);
     });
   });
 
@@ -141,12 +138,12 @@ describe('UserRouter', () => {
       expect(response.status).to.equal(StatusCodes.OK);
     });
 
-    it('should return a 400 status code if email is invalid', async () => {
+    it('should return a 422 status code if email is invalid', async () => {
       const response = await request(app).post('/users/password-reset').send({
         email: 'invalid-email',
       });
 
-      expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+      expect(response.status).to.equal(StatusCodes.UNPROCESSABLE_ENTITY);
     });
 
     it('should return a 200 satus code even if user is not found', async () => {
@@ -158,7 +155,7 @@ describe('UserRouter', () => {
     });
   });
 
-  describe('POST /users/:id/password', () => {
+  describe('PUT /users/:id/password', () => {
     const registerUser = async (): Promise<User> => {
       return await UserService.registerUser(uniqueEmail(), PASSWORD);
     };
