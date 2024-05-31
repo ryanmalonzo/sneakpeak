@@ -37,17 +37,15 @@ async function onSubmit() {
     return null
   }
 
-  const response = await SessionApi.login(email.value, password.value)
-
-  if (response.error) {
-    loginError.value = Traduction.loginErrors(response.error)!
-    return null
+  try {
+    const responseUser = await SessionApi.login(email.value, password.value)    
+    email.value = ''
+    password.value = ''
+    loginError.value = ''
+    modelLoginVisible.value = !modelLoginVisible.value
+  } catch(e) {    
+     loginError.value = Traduction.loginErrors(e as Error)!
   }
-
-  email.value = ''
-  password.value = ''
-  loginError.value = ''
-  modelLoginVisible.value = !modelLoginVisible.value
 }
 
 const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
