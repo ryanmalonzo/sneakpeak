@@ -2,27 +2,21 @@ import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { RequestError } from '../helpers/error';
 import jwt from 'jsonwebtoken';
+import { UserService } from '../services/UserService';
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
-  const token: string | undefined = req.headers.authorization?.split(' ')[1];
+  const cookie = req.cookies?.accessToken;
 
-  if (!token) {
-    next(new RequestError(StatusCodes.UNAUTHORIZED, 'unauthorized'));
-    return;
+  if (!cookie) {
+    next(new RequestError(StatusCodes.UNAUTHORIZED, 'not_logged_in'));
   }
 
-  if (!process.env.JWT_SECRET) {
-    next(new RequestError(StatusCodes.INTERNAL_SERVER_ERROR));
-    console.error('JWT_SECRET not set');
-    return;
+  const user = await UserService.verifyAuthToken(cookie);
+
+  if (!user) {
+    next(new RequestError(StatusCodes.UNAUTHORIZED, 'token_invalid'));
   }
 
-  try {
-    jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
-    next(new RequestError(StatusCodes.UNAUTHORIZED, 'unauthorized'));
-  }
-
-  res.locals.token = token;
+  res.locals.user = user;
   next();
 };

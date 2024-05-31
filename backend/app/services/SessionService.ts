@@ -6,10 +6,7 @@ import bcrypt from 'bcrypt';
 import { ChallengeRepository } from '../repositories/ChallengeRepository';
 
 export class SessionService {
-  static async login(
-    email: string,
-    password: string,
-  ): Promise<{ token: string } | null> {
+  static async login(email: string, password: string): Promise<string> {
     const user = await UserRepository.findByEmail(email);
 
     if (!user) {
@@ -33,8 +30,8 @@ export class SessionService {
       throw new RequestError(StatusCodes.UNAUTHORIZED, 'invalid_credentials');
     }
 
-    return {
-      token: UserService.generateAuthToken(user),
-    };
+    const token = UserService.generateAuthToken(user);
+
+    return token;
   }
 }

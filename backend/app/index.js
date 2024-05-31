@@ -13,6 +13,7 @@ app.use(
     origin: ['http://localhost:5173', 'https://sneakpeak.store'],
     methods: 'GET,POST,PUT',
     allowedHeaders: 'Content-Type,Authorization',
+    credentials: true,
   }),
 );
 app.use(express.json());
