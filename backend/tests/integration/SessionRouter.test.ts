@@ -53,7 +53,7 @@ describe('SessionRouter', () => {
         password: PASSWORD,
       });
 
-      expect(response.status).to.equal(StatusCodes.NO_CONTENT);
+      expect(response.status).to.equal(StatusCodes.OK);
 
       // Verif si le cookie est bien créé
       const cookie = response.headers['set-cookie'];

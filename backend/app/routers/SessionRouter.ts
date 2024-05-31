@@ -2,10 +2,10 @@ import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { SessionService } from '../services/SessionService';
 import { auth } from '../middlewares/auth';
+import cookieParser from 'cookie-parser';
 
 export const SessionRouter = express.Router();
 
-const cookieParser = require('cookie-parser');
 SessionRouter.use(cookieParser());
 
 SessionRouter.post('/', async (req, res, next) => {
@@ -21,7 +21,7 @@ SessionRouter.post('/', async (req, res, next) => {
       maxAge: 60 * 60 * 1000, // 1h
     });
 
-    return res.sendStatus(StatusCodes.NO_CONTENT);
+    return res.sendStatus(StatusCodes.OK);
   } catch (error) {
     next(error);
   }
