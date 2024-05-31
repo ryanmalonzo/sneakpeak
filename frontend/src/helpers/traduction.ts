@@ -11,7 +11,7 @@ export class Traduction {
   static loginErrors(message: Error) {
     switch ((message as IError).error) {
       case 'invalid_credentials':
-        return 'Utilisateur inconnu'
+        return 'Identifiants incorrects'
 
       case 'email_not_verified':
         return 'Email non vérifié'
