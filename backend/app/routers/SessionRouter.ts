@@ -11,7 +11,7 @@ SessionRouter.use(cookieParser());
 SessionRouter.post('/', async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const token = await SessionService.login(email, password);
+    const { token } = await SessionService.login(email, password);
 
     //Creation cookie
     res.cookie('accessToken', token, {

@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { RequestError } from '../helpers/error';
-import jwt from 'jsonwebtoken';
 import { UserService } from '../services/UserService';
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {

@@ -6,7 +6,10 @@ import bcrypt from 'bcrypt';
 import { ChallengeRepository } from '../repositories/ChallengeRepository';
 
 export class SessionService {
-  static async login(email: string, password: string): Promise<string> {
+  static async login(
+    email: string,
+    password: string,
+  ): Promise<{ token: string }> {
     const user = await UserRepository.findByEmail(email);
 
     if (!user) {
@@ -32,6 +35,6 @@ export class SessionService {
 
     const token = UserService.generateAuthToken(user);
 
-    return token;
+    return { token: token };
   }
 }
