@@ -182,6 +182,17 @@ export class UserService {
     });
   }
 
+  static async verifyAuthToken(token: string): Promise<User | null> {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+        userId: number;
+      };
+      return await UserRepository.findById(decoded.userId);
+    } catch {
+      return null;
+    }
+  }
+
   // Recommandations de la CNIL
   private static _checkPasswordStrength(password: string): boolean {
     return (
