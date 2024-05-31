@@ -35,7 +35,7 @@ describe('SessionRouter', () => {
       expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
     });
 
-    it('should return a token if email is verified', async () => {
+    it('should set a cookie if email is verified', async () => {
       const user = await registerUser();
 
       const challenge = await Challenge.findOne({
@@ -53,8 +53,17 @@ describe('SessionRouter', () => {
         password: PASSWORD,
       });
 
-      expect(response.status).to.equal(StatusCodes.OK);
-      expect(response.body).to.have.property('token');
+      expect(response.status).to.equal(StatusCodes.NO_CONTENT);
+
+      // Verif si le cookie est bien créé
+      const cookie = response.headers['set-cookie'];
+      expect(cookie).to.not.be.empty;
+
+      expect(cookie[0]).to.include('accessToken');
+      const accessToken: string = cookie[0];
+
+      expect(accessToken).to.include('HttpOnly');
+      expect(accessToken).to.include('SameSite=Strict');
     });
   });
 });
