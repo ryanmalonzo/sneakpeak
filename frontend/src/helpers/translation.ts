@@ -3,7 +3,7 @@ export interface IError {
   message: string;
   error: string;
 }
-export class Traduction {
+export class Translation {
   /**
    * @param message Erreur de connexion en anglais
    * @returns Erreur de connexion en français
