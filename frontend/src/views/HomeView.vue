@@ -31,17 +31,15 @@ const products = [
       <section>
         <a href="#" class="flex w-screen items-end justify-center">
           <img src="../assets/images/image.png" alt="" class="w-full" />
-          <button
-            class="absolute bg-white py-4 font-bold max-md:mb-4 max-md:px-2 md:mb-20 md:px-40"
-          >
+          <a class="absolute mb-4 bg-white px-2 py-4 font-bold md:mb-20 md:px-40">
             Sneakers Puma : Achetez maintenant !
-          </button>
+          </a>
         </a>
       </section>
 
       <section>
         <h1 class="my-10 text-center text-xl font-bold not-italic">NOS DERNIÈRES BASKETS</h1>
-        <div class="flex-wrap justify-center gap-10 max-md:hidden md:mx-40 md:flex">
+        <div class="hidden flex-wrap justify-center gap-10 md:mx-40 md:flex">
           <CardProduct />
           <CardProduct />
           <CardProduct />
@@ -82,7 +80,7 @@ const products = [
       <section>
         <h1 class="my-10 text-center text-xl font-bold not-italic">NOS MARQUES</h1>
         <div
-          class="w-full shrink-0 flex-row flex-wrap content-start items-start justify-center gap-2.5 px-0 max-md:hidden md:flex"
+          class="hidden w-full shrink-0 flex-wrap content-start items-start justify-center gap-2.5 px-0 md:flex"
         >
           <CardBrand />
           <CardBrand />
@@ -124,7 +122,7 @@ const products = [
               alt=""
               class="h-[566px] w-[439px] shrink-0 max-lg:hidden"
             />
-            <div class="flex flex-col">
+            <div class="flex flex-col justify-between">
               <CardBestProduct />
               <CardBestProduct />
               <CardBestProduct />
@@ -133,7 +131,7 @@ const products = [
         </section>
         <section class="flex justify-center">
           <div
-            class="my-10 flex flex-1 flex-col items-center justify-center gap-30px bg-black px-4 py-30px text-center max-md:w-full md:w-1/2"
+            class="my-10 flex w-full flex-1 flex-col items-center justify-center gap-30px bg-black px-4 py-30px text-center md:w-1/2"
           >
             <p class="text-white">À propos de nous</p>
             <p class="text-white">
