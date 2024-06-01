@@ -16,8 +16,11 @@ export class SneakerRepository {
     return sneakers;
   }
 
-  static async getTotalCount(): Promise<number> {
-    return await SneakerModel.countDocuments();
+  static async getTotalCount(
+    sortOptions: SortOptions,
+    filterOptions: FilterOptions,
+  ): Promise<number> {
+    return await SneakerModel.countDocuments(filterOptions, sortOptions);
   }
 
   static async findSneakers(): Promise<HydratedDocument<ISneaker>[]> {

@@ -28,7 +28,7 @@ const footerLinks = [
           <div class="flex flex-col items-start gap-2.5 self-stretch">
             <p class="font-medium text-white">{{ link.title }}</p>
             <template v-for="sublink in link.links" :key="sublink">
-              <router-link :to="`/${sublink}`" class="text-sneakpeak-gray-500 hover:text-white">{{
+              <router-link :to="'#'" class="text-sneakpeak-gray-500 hover:text-white">{{
                 sublink
               }}</router-link>
             </template>

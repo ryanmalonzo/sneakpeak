@@ -12,7 +12,7 @@ export const pagination = async (
 ) => {
   const {
     page = 1,
-    limit = 1,
+    limit = 10,
     sort = '_id',
     order = 'asc',
     ...filters
@@ -50,7 +50,9 @@ export const pagination = async (
   const filterOptions: FilterOptions = {};
   for (const key in filters) {
     if (key === 'q') {
-      filterOptions.$text = { $search: filters[key] as string };
+      if (filters[key]?.length) {
+        filterOptions.$text = { $search: filters[key] as string };
+      }
       continue;
     }
     filterOptions[key] = filters[key] as string;

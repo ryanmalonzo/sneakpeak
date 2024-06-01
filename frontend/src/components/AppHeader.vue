@@ -1,10 +1,21 @@
 <script setup lang="ts">
 import Image from 'primevue/image'
-import { RouterLink } from 'vue-router'
 import logo from '@/assets/images/logo.svg'
 import SearchInput from '@/components/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+
+const searchRef = ref('')
+
+onMounted(() => {
+  if (route.query.q) {
+    searchRef.value = route.query.q as string
+  }
+})
 
 const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
 const items = ref([
@@ -21,17 +32,24 @@ const items = ref([
     root: true
   }
 ])
+
+const handleSubmit = () => {
+  router.push({ path: '/search', query: { q: searchRef.value } })
+}
 </script>
 
 <template>
   <MegaMenu :model="items" class="px-2.5 md:px-5">
     <template #start>
-      <Image :src="logo" alt="Logo SneakPeak" class="pr-2.5" />
+      <a href="/">
+        <Image :src="logo" alt="Logo SneakPeak" class="pr-2.5" />
+      </a>
     </template>
 
     <template #end>
       <div class="flex items-center gap-2.5">
-        <SearchInput class="hidden md:block" />
+        <SearchInput class="hidden md:block" :submit="handleSubmit" v-model="searchRef" />
+
         <div class="md:hidden">
           <i class="pi pi-search cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
         </div>
