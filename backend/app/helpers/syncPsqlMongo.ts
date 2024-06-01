@@ -11,7 +11,7 @@ type Operation = 'create' | 'update' | 'delete';
 async function syncWithMongoDB(
   modelName: string,
   operation: Operation,
-  data: Object,
+  data: object,
 ) {
   // Create a new model instance
   const ModelMongo = mongoose.model(modelName, getModel(modelName).schema);
