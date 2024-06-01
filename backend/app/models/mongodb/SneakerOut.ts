@@ -46,6 +46,8 @@ const SneakerSchema: Schema<ISneaker> = new Schema({
   ],
 });
 
+SneakerSchema.index({ '$**': 'text' });
+
 const SneakerModel: Model<ISneaker> = model<ISneaker>('Sneaker', SneakerSchema);
 
 export { SneakerModel, ISneaker };

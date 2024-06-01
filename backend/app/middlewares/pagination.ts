@@ -49,6 +49,10 @@ export const pagination = async (
 
   const filterOptions: FilterOptions = {};
   for (const key in filters) {
+    if (key === 'q') {
+      filterOptions.$text = { $search: filters[key] as string };
+      continue;
+    }
     filterOptions[key] = filters[key] as string;
   }
 
