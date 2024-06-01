@@ -1,6 +1,6 @@
 import { HydratedDocument } from 'mongoose';
-import { SneakerRepository } from '../repositories/SneakerRepository';
-import { ISneaker, SneakerModel } from '../models/mongodb/SneakerOut';
+import { SneakerRepository } from '../repositories/sql/SneakerRepository';
+import { ISneaker, SneakerModel } from '../models/mongodb/Sneaker';
 import { FilterOptions, SortOptions } from '../helpers/interfaces';
 
 interface PaginatedSneakersResponse {
@@ -43,7 +43,7 @@ export class SneakerService {
     return await SneakerRepository.findSneakers();
   }
 
-  public static async delete(id: string): Promise<void> {
+  public static async delete(id: number): Promise<void> {
     return await SneakerRepository.delete(id);
   }
 

@@ -1,6 +1,7 @@
 import { HydratedDocument } from 'mongoose';
-import { ISneaker, SneakerModel } from '../models/mongodb/SneakerOut';
-import { FilterOptions, SortOptions } from '../helpers/interfaces';
+import { ISneaker, SneakerModel } from '../../models/mongodb/Sneaker';
+import { FilterOptions, SortOptions } from '../../helpers/interfaces';
+import { Sneaker } from '../../models/sql/Sneaker';
 
 export class SneakerRepository {
   static async getPaginated(
@@ -27,8 +28,12 @@ export class SneakerRepository {
     return await SneakerModel.find();
   }
 
-  static async delete(id: string): Promise<void> {
-    await SneakerModel.findByIdAndDelete(id);
+  static async delete(id: number): Promise<void> {
+    await Sneaker.findByPk(id).then((sneaker) => {
+      if (sneaker) {
+        sneaker.destroy();
+      }
+    });
   }
 
   static async create(

@@ -112,7 +112,7 @@ async function generateDataModelUser(
       type: 'email',
       token: faker.string.alphanumeric(32),
       expiresAt: faker.date.future(),
-      disabled: false,
+      disabled: true,
       userId: user.id,
     });
 

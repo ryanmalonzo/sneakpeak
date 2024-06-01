@@ -6,6 +6,7 @@ import { SessionRouter } from './routers/SessionRouter';
 import { SneakerRouter } from './routers/SneakerRouter';
 import { UserRouter } from './routers/UserRouter';
 import cookieParser from 'cookie-parser';
+import { BrandRouter } from './routers/BrandRouter';
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use('/users', UserRouter);
 app.use('/session', SessionRouter);
 app.use('/sneakers', SneakerRouter);
+app.use('/brands', BrandRouter);
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 app.use((err, req, res, next) => {

@@ -1,0 +1,18 @@
+meta {
+  name: Create Brands
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/brands/brands
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name":"tests",
+    "slug":"tests"
+  }
+}

@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 import { UserService } from './UserService';
-import { UserRepository } from '../repositories/UserRepository';
+import { UserRepository } from '../repositories/sql/UserRepository';
 import { RequestError } from '../helpers/error';
 import bcrypt from 'bcrypt';
-import { ChallengeRepository } from '../repositories/ChallengeRepository';
+import { ChallengeRepository } from '../repositories/sql/ChallengeRepository';
 
 export class SessionService {
   static async login(
