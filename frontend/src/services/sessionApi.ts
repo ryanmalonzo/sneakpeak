@@ -1,6 +1,4 @@
-// Appel Api
-
-import { getToken, removeToken, saveToken } from '@/helpers/token'
+import { handleError } from "@/helpers/error"
 
 export class SessionApi {
   static BASE_URL = import.meta.env.VITE_API_URL
@@ -28,22 +26,24 @@ export class SessionApi {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email: email, password: password })
+        body: JSON.stringify({ email: email, password: password }),
+        credentials: 'include'
       })
-      const data = await response.json()
 
-      if (data.token) {
-        console.log(getToken())
-        saveToken(data.token)
+      if (response.ok) {
+        return
+      } else {
+        throw response as Response
       }
-      return data
+      
     } catch (error) {
-      console.error('Error login:', error)
+      handleError(error as Response)
+      throw await (error as Response).json() // Renvoie le message d'erreur au composant
     }
   }
 
   static logout() {
-    removeToken()
+    // TODO remove cookie token
   }
 
   static async checkSession() {
@@ -53,28 +53,12 @@ export class SessionApi {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ token: getToken() })
+        body: JSON.stringify({})
       })
       const data = await response.json()
       console.log(data)
     } catch (error) {
       console.error('Error check:', error)
     }
-  }
-
-  static isConnected() {
-    const token = getToken()
-
-    if (token === 'undefined' || token === 'null') {
-      console.log('Token is undefined or null')
-      return false
-    }
-
-    if (token === '') {
-      console.log('Token is an empty string')
-      return false
-    }
-
-    return true
   }
 }

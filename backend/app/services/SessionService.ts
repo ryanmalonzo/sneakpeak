@@ -9,7 +9,7 @@ export class SessionService {
   static async login(
     email: string,
     password: string,
-  ): Promise<{ token: string } | null> {
+  ): Promise<{ token: string }> {
     const user = await UserRepository.findByEmail(email);
 
     if (!user) {
@@ -30,11 +30,11 @@ export class SessionService {
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      throw new RequestError(StatusCodes.UNAUTHORIZED, 'wrong_password');
+      throw new RequestError(StatusCodes.UNAUTHORIZED, 'invalid_credentials');
     }
 
-    return {
-      token: UserService.generateAuthToken(user),
-    };
+    const token = UserService.generateAuthToken(user);
+
+    return { token: token };
   }
 }

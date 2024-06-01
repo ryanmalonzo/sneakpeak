@@ -1,12 +1,17 @@
-export class Traduction {
+export interface IError {
+  name: string;
+  message: string;
+  error: string;
+}
+export class Translation {
   /**
    * @param message Erreur de connexion en anglais
    * @returns Erreur de connexion en français
    */
-  static loginErrors(message: string) {
-    switch (message) {
+  static loginErrors(message: Error) {
+    switch ((message as IError).error) {
       case 'invalid_credentials':
-        return 'Utilisateur inconnu'
+        return 'Identifiants incorrects'
 
       case 'email_not_verified':
         return 'Email non vérifié'

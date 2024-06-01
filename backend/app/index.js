@@ -14,17 +14,21 @@ app.use(
     origin: ['http://localhost:5173', 'https://sneakpeak.store'],
     methods: 'GET,POST,PUT',
     allowedHeaders: 'Content-Type,Authorization',
+    credentials: true,
   }),
 );
 app.use(express.json());
-app.use('/', UserRouter);
-app.use('/', SessionRouter);
-app.use('/', SneakerRouter);
-app.use('/', BrandRouter);
+
+app.use('/users', UserRouter);
+app.use('/session', SessionRouter);
+app.use('/sneakers', SneakerRouter);
+app.use('/brands', BrandRouter);
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 app.use((err, req, res, next) => {
-  console.error(err);
+  if (process.env.NODE_ENV !== 'test') {
+    console.error(err);
+  }
 
   if (err instanceof RequestError) {
     return res.status(err.status).json({ error: err.message });

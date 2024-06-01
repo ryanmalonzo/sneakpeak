@@ -3,8 +3,7 @@ import { ref, computed } from 'vue'
 import { z } from 'zod'
 import type { ComputedRef } from 'vue'
 import { SessionApi } from '@/services/sessionApi'
-
-import { Traduction } from '@/helpers/traduction'
+import { Translation } from '@/helpers/translation'
 
 const emailSchema = z
   .string()
@@ -37,17 +36,15 @@ async function onSubmit() {
     return null
   }
 
-  const response = await SessionApi.login(email.value, password.value)
-
-  if (response.error) {
-    loginError.value = Traduction.loginErrors(response.error)!
-    return null
+  try {
+    await SessionApi.login(email.value, password.value)    
+    email.value = ''
+    password.value = ''
+    loginError.value = ''
+    modelLoginVisible.value = !modelLoginVisible.value
+  } catch(e) {    
+     loginError.value = Translation.loginErrors(e as Error)!
   }
-
-  email.value = ''
-  password.value = ''
-  loginError.value = ''
-  modelLoginVisible.value = !modelLoginVisible.value
 }
 
 const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
