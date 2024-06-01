@@ -38,8 +38,8 @@ const products = [
       </section>
 
       <section>
-        <h1 class="my-10 text-center text-xl font-bold not-italic">NOS DERNIÈRES BASKETS</h1>
-        <div class="hidden flex-wrap justify-center gap-10 md:mx-40 md:flex">
+        <h1 class="py-10 text-center text-xl font-bold">Nos dernières baskets</h1>
+        <div class="hidden flex-wrap justify-center gap-10 md:flex">
           <CardProduct />
           <CardProduct />
           <CardProduct />
@@ -78,7 +78,7 @@ const products = [
       </section>
 
       <section>
-        <h1 class="my-10 text-center text-xl font-bold not-italic">NOS MARQUES</h1>
+        <h1 class="py-10 text-center text-xl font-bold uppercase">Nos marques</h1>
         <div
           class="hidden w-full shrink-0 flex-wrap content-start items-start justify-center gap-2.5 px-0 md:flex"
         >
@@ -113,7 +113,7 @@ const products = [
       </section>
       <div class="flex flex-col px-5 md:px-48">
         <section>
-          <h1 class="my-10 text-center text-xl font-bold uppercase not-italic">
+          <h1 class="py-10 text-center text-xl font-bold uppercase">
             Les meilleures ventes du moment
           </h1>
           <div class="flex justify-between gap-5">
