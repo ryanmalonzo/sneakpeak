@@ -18,7 +18,7 @@ async function syncWithMongoDB(
 
   // Perform the operation
   switch (operation) {
-    case 'create':
+    case 'create': {
       // Create a new document
       console.log('Creating a new document:', data);
       const newDocument = new ModelMongo({
@@ -28,8 +28,8 @@ async function syncWithMongoDB(
       // Save the document
       await newDocument.save();
       break;
-
-    case 'update':
+    }
+    case 'update': {
       // Update the document
       if (!('id' in data)) {
         throw new Error('The document ID is required to update the document.');
@@ -41,8 +41,8 @@ async function syncWithMongoDB(
         new: true,
       });
       break;
-
-    case 'delete':
+    }
+    case 'delete': {
       // Delete the document
       if (!('id' in data)) {
         throw new Error('The document ID is required to delete the document.');
@@ -51,10 +51,11 @@ async function syncWithMongoDB(
       console.log('Deleting the document:', data.id);
       await ModelMongo.findOneAndDelete({ id: data.id });
       break;
-
-    default:
+    }
+    default: {
       // Throw an error
       throw new Error(`Unsupported operation type: ${operation}`);
+    }
   }
 }
 
