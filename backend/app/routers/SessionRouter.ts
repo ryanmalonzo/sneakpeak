@@ -2,11 +2,8 @@ import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { SessionService } from '../services/SessionService';
 import { auth } from '../middlewares/auth';
-import cookieParser from 'cookie-parser';
 
 export const SessionRouter = express.Router();
-
-SessionRouter.use(cookieParser());
 
 SessionRouter.post('/', async (req, res, next) => {
   try {

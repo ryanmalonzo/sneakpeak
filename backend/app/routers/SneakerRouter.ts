@@ -11,7 +11,7 @@ SneakerRouter.use(auth);
 
 SneakerRouter.use('/', pagination);
 SneakerRouter.get(
-  '/sneakers',
+  '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { page, limit, sortOptions, filterOptions } = res.locals;
