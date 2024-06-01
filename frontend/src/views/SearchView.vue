@@ -3,30 +3,29 @@ import BasePage from '@/components/BasePage.vue'
 import SneakerCard from '@/components/sneakers/SneakerCard.vue'
 import SneakerGrid from '@/components/sneakers/SneakerGrid.vue'
 import { SneakerApi } from '@/services/sneakerApi'
+import Paginator, { type PageState } from 'primevue/paginator'
 import { ref, watchEffect, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-interface SneakerOut {
-  _id: string
-  coverImage: string
-  name: string
-  price: number
-}
-
 const route = useRoute()
 
-const sneakers: Ref<SneakerOut[]> = ref([])
+const sneakers: Ref<SneakerApi.SneakerOut[]> = ref([])
 const totalCount = ref(0)
+const currentPage = ref(1)
 
-const searchSneakers = async (query: string) => {
-  const data = await SneakerApi.get(query)
+const searchSneakers = async (query: string, page: number) => {
+  const data = await SneakerApi.getPaginated({ q: query, page })
   sneakers.value = data.items
   totalCount.value = data.total
 }
 
 watchEffect(() => {
-  searchSneakers(route.query.q as string)
+  searchSneakers(route.query.q as string, currentPage.value)
 })
+
+const handlePageChange = (event: PageState) => {
+  currentPage.value = event.page + 1
+}
 </script>
 
 <template>
@@ -45,6 +44,8 @@ watchEffect(() => {
           :price="sneaker.price"
         />
       </SneakerGrid>
+
+      <Paginator :rows="sneakers.length" :total-records="totalCount" @page="handlePageChange" />
     </div>
   </BasePage>
 </template>

@@ -12,7 +12,7 @@ export const pagination = async (
 ) => {
   const {
     page = 1,
-    limit = 10,
+    limit = 25,
     sort = '_id',
     order = 'asc',
     ...filters
