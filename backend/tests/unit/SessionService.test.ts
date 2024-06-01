@@ -1,8 +1,8 @@
 import { expect, use } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
-import { ChallengeRepository } from '../../app/repositories/ChallengeRepository';
-import { UserRepository } from '../../app/repositories/UserRepository';
+import { ChallengeRepository } from '../../app/repositories/sql/ChallengeRepository';
+import { UserRepository } from '../../app/repositories/sql/UserRepository';
 import { SessionService } from '../../app/services/SessionService';
 import { UserService } from '../../app/services/UserService';
 import { User } from '../../app/models/sql/User';
