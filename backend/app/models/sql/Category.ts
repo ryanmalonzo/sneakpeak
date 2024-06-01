@@ -6,6 +6,7 @@ import {
   Sequelize,
 } from 'sequelize';
 import { Sneaker } from './Sneaker';
+import syncWithMongoDB from '../../helpers/syncPsqlMongo';
 
 export class Category extends Model {
   declare id: CreationOptional<number>;
@@ -29,6 +30,21 @@ export default (sequelize: Sequelize) => {
     },
     { sequelize, underscored: true },
   );
+
+  Category.afterCreate(async (category) => {
+    const data = category.toJSON();
+    await syncWithMongoDB(Category.name, 'create', data);
+  });
+
+  Category.afterUpdate(async (category) => {
+    const data = category.toJSON();
+    await syncWithMongoDB(Category.name, 'update', data);
+  });
+
+  Category.afterDestroy(async (category) => {
+    const data = category.toJSON();
+    await syncWithMongoDB(Category.name, 'delete', data);
+  });
 
   return Category;
 };

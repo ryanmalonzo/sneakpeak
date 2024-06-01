@@ -1,6 +1,6 @@
 import { FindOptions } from 'sequelize';
-import { Challenge } from '../models/sql/Challenge';
-import { User } from '../models/sql/User';
+import { Challenge } from '../../models/sql/Challenge';
+import { User } from '../../models/sql/User';
 
 export class ChallengeRepository {
   static build(data: Partial<Challenge>): Challenge {

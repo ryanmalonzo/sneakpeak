@@ -1,4 +1,4 @@
-import { User } from '../models/sql/User';
+import { User } from '../../models/sql/User';
 
 export class UserRepository {
   static build(data: Partial<User>): User {

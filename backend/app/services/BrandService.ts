@@ -1,5 +1,4 @@
-import { BrandRepository } from '../repositories/BrandRepository';
-import { Sneaker } from '../models/sql/Sneaker';
+import { BrandRepository } from '../repositories/sql/BrandRepository';
 
 export class BrandService {
   static async save(name: string, slug: string): Promise<void> {

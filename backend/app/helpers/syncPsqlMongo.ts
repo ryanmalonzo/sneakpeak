@@ -11,7 +11,7 @@ type Operation = 'create' | 'update' | 'delete';
 async function syncWithMongoDB(
   modelName: string,
   operation: Operation,
-  data: any,
+  data: {},
 ) {
   // Create a new model instance
   const ModelMongo = mongoose.model(modelName, getModel(modelName).schema);
@@ -31,6 +31,9 @@ async function syncWithMongoDB(
 
     case 'update':
       // Update the document
+      if (!('id' in data)) {
+        throw new Error('The document ID is required to update the document.');
+      }
       console.log('Updating the document:', data);
       console.log('Updating the document:', data.id);
       await ModelMongo.findOneAndUpdate({ id: data.id }, data, {
@@ -41,6 +44,9 @@ async function syncWithMongoDB(
 
     case 'delete':
       // Delete the document
+      if (!('id' in data)) {
+        throw new Error('The document ID is required to delete the document.');
+      }
       console.log('Deleting the document:', data);
       console.log('Deleting the document:', data.id);
       await ModelMongo.findOneAndDelete({ id: data.id });

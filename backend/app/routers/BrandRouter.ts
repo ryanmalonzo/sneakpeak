@@ -2,10 +2,12 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { BrandService } from '../services/BrandService';
 import { StatusCodes } from 'http-status-codes';
 import { auth } from '../middlewares/auth';
+import cookieParser from 'cookie-parser';
 
 export const BrandRouter = Router();
 
-// Tous les endpoints de ce router nécessitent un bearer token
+// Tous les endpoints de ce router nécessitent un cookie d'authentification
+BrandRouter.use(cookieParser());
 BrandRouter.use(auth);
 
 BrandRouter.post(

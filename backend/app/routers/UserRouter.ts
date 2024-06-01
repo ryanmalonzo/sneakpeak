@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { UserService } from '../services/UserService';
 import { RequestError } from '../helpers/error';
-import { UserRepository } from '../repositories/UserRepository';
+import { UserRepository } from '../repositories/sql/UserRepository';
 
 export const UserRouter = express.Router();
 

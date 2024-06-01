@@ -4,9 +4,9 @@ import { StatusCodes } from 'http-status-codes';
 import { RequestError } from '../helpers/error';
 import { PostmarkClient } from '../helpers/postmark';
 import { User } from '../models/sql/User';
-import { UserRepository } from '../repositories/UserRepository';
+import { UserRepository } from '../repositories/sql/UserRepository';
 import bcrypt from 'bcrypt';
-import { ChallengeRepository } from '../repositories/ChallengeRepository';
+import { ChallengeRepository } from '../repositories/sql/ChallengeRepository';
 
 const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
 const PASSWORD_RESET_TEMPLATE_ID = 35966741;

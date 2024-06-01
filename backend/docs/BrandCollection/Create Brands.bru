@@ -4,19 +4,15 @@ meta {
   seq: 2
 }
 
-put {
-  url: http://localhost:3000/brands/22
+post {
+  url: http://localhost:3000/brands/brands
   body: json
-  auth: bearer
-}
-
-auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE3MTY5MjA1NDEsImV4cCI6MTcxNjkyNDE0MX0.kzRxwCKuTP39249J-1hv4GNuNZRB9Ya6QEC-YyqHVMs
+  auth: inherit
 }
 
 body:json {
   {
-    "name":"ratio",
-    "slug":"ratio"
+    "name":"tests",
+    "slug":"tests"
   }
 }

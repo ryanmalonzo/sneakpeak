@@ -1,4 +1,4 @@
-import { Brand } from '../models/sql/Brand';
+import { Brand } from '../../models/sql/Brand';
 
 export class BrandRepository {
   static build(data: Partial<Brand>): Brand {
@@ -21,7 +21,16 @@ export class BrandRepository {
     return await brand.update(data);
   }
 
-  static async delete(brandId: number): Promise<number> {
-    return await Brand.destroy({ where: { id: brandId } });
+  static async delete(brandId: number): Promise<Brand | null> {
+    const brand = await Brand.findByPk(brandId);
+    if (!brand) {
+      return null;
+    }
+    await brand.destroy();
+    return brand;
+  }
+
+  static async findBrandById(brandId: number): Promise<Brand | null> {
+    return await Brand.findByPk(brandId);
   }
 }
