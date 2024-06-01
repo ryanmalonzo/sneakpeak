@@ -9,6 +9,7 @@ import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
+const showMobileSearchRef = ref(false)
 const searchRef = ref('')
 
 onMounted(() => {
@@ -39,7 +40,7 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <MegaMenu :model="items" class="px-2.5 md:px-5">
+  <MegaMenu :model="items" class="sticky top-0 rounded-none px-2.5 md:px-5">
     <template #start>
       <a href="/">
         <Image :src="logo" alt="Logo SneakPeak" class="pr-2.5" />
@@ -49,8 +50,16 @@ const handleSubmit = () => {
     <template #end>
       <div class="flex items-center gap-2.5">
         <SearchInput class="hidden md:block" :submit="handleSubmit" v-model="searchRef" />
+        <div
+          class="absolute left-0 top-0 flex w-full flex-1 items-center gap-2.5 bg-white p-2.5 md:hidden"
+          id="search-mobile"
+          v-if="showMobileSearchRef"
+        >
+          <SearchInput :submit="handleSubmit" v-model="searchRef" />
+          <button type="button" @click="showMobileSearchRef = false">Annuler</button>
+        </div>
 
-        <div class="md:hidden">
+        <div class="cursor-pointer md:hidden" @click="showMobileSearchRef = true">
           <i class="pi pi-search cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
         </div>
 
@@ -77,7 +86,8 @@ const handleSubmit = () => {
 </template>
 
 <style scoped>
-header {
+header,
+#search-mobile {
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
 }
 </style>

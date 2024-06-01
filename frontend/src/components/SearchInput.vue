@@ -18,7 +18,7 @@ const styleOverrides = {
 </script>
 
 <template>
-  <form @submit.prevent="submit">
+  <form @submit.prevent="submit" class="flex flex-1">
     <span class="relative flex flex-1">
       <button class="pi pi-search absolute right-4 top-1/2 -translate-y-1/2 transform"></button>
       <InputText
