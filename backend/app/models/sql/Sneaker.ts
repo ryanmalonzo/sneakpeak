@@ -8,9 +8,9 @@ import {
 import { Category } from './Category';
 import { Brand } from './Brand';
 import syncWithMongoDB from '../../helpers/syncPsqlMongo';
-import { BrandRepository } from '/Users/fayssal/Desktop/sneakpeak/backend/app/repositories/sql/BrandRepository';
-import { CategoryRepository } from '/Users/fayssal/Desktop/sneakpeak/backend/app/repositories/sql/CategoryRepository';
-import { VariantRepository } from '/Users/fayssal/Desktop/sneakpeak/backend/app/repositories/sql/VariantRepository';
+import { BrandRepository } from '../../repositories/sql/BrandRepository';
+import { CategoryRepository } from '../../repositories/sql/CategoryRepository';
+import { VariantRepository } from '../../repositories/sql/VariantRepository';
 
 export class Sneaker extends Model {
   declare id: CreationOptional<number>;

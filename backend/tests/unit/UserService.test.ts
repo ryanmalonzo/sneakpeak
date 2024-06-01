@@ -5,8 +5,8 @@ import sinon from 'sinon';
 import { PostmarkClient } from '../../app/helpers/postmark';
 import { Challenge } from '../../app/models/sql/Challenge';
 import { User } from '../../app/models/sql/User';
-import { ChallengeRepository } from '../../app/repositories/ChallengeRepository';
-import { UserRepository } from '../../app/repositories/UserRepository';
+import { ChallengeRepository } from '../../app/repositories/sql/ChallengeRepository';
+import { UserRepository } from '../../app/repositories/sql/UserRepository';
 import { UserService } from '../../app/services/UserService';
 
 use(chaiAsPromised);
