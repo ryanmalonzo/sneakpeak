@@ -5,7 +5,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import { Sneaker } from './Sneaker';
+import { Sneaker, updateSneakerInMongoDB } from './Sneaker';
 import { Size } from './Size';
 import { Color } from './Color';
 
@@ -32,6 +32,11 @@ export default (sequelize: Sequelize) => {
     },
     { sequelize, underscored: true },
   );
+
+  Variant.afterCreate(async (variant) => {
+    const sneaker = await Sneaker.findByPk(variant.sneakerId);
+    await updateSneakerInMongoDB(sneaker!);
+  });
 
   return Variant;
 };
