@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Image from 'primevue/image'
 import logo from '@/assets/images/logo.svg'
-import SearchInput from '@/components/SearchInput.vue'
+import SearchInput from '@/components/search/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'

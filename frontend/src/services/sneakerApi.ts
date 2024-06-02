@@ -2,7 +2,9 @@ const BASE_URL = import.meta.env.VITE_API_URL
 
 export namespace SneakerApi {
   export interface PaginationIn {
-    q: string
+    q?: string
+    sort?: string
+    order?: string
     page?: number
     limit?: number
   }
@@ -21,10 +23,20 @@ export namespace SneakerApi {
 
   export const getPaginated = async ({
     q,
-    page = 1,
-    limit = 25
+    sort,
+    order,
+    page,
+    limit
   }: PaginationIn): Promise<PaginationOut> => {
-    const response = await fetch(`${BASE_URL}/sneakers?q=${q}&page=${page}&limit=${limit}`)
+    const params = new URLSearchParams()
+
+    if (q) params.append('q', q)
+    if (sort) params.append('sort', sort)
+    if (order) params.append('order', order)
+    if (page) params.append('page', page.toString())
+    if (limit) params.append('limit', limit.toString())
+
+    const response = await fetch(`${BASE_URL}/sneakers?${params.toString()}`)
     const data = await response.json()
     return data
   }

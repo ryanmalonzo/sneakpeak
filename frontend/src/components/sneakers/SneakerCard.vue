@@ -11,7 +11,7 @@ defineProps<{
     <img
       :src="image"
       :alt="name"
-      class="h-[144px] w-[264px] rounded-[10px] object-cover"
+      class="h-[105px] w-[159px] rounded-[10px] object-cover md:h-[144px] md:w-[264px]"
       id="cover"
     />
     <div class="flex flex-col text-center">

@@ -55,7 +55,9 @@ export const pagination = async (
       }
       continue;
     }
-    filterOptions[key] = filters[key] as string;
+
+    // TODO: custom parsing
+    filterOptions[key] = JSON.parse(filters[key] as string);
   }
 
   res.locals.page = pageInt;
