@@ -3,14 +3,15 @@
       :visible="visible"
       @update:visible="$emit('update:visible', $event)"
       :modal="true"
+      :dismissableMask="true"
       :header="header"
       :style="{ width: width }"
     >
       <slot></slot>
     </Dialog>
-</template>
+  </template>
   
-<script setup lang="ts">
+  <script setup lang="ts">
   import { defineProps, defineEmits } from 'vue'
   
   const props = defineProps({
@@ -29,6 +30,7 @@
   })
   
   const emits = defineEmits(['update:visible'])
-</script>
+  </script>
   
   <style scoped></style>
+  
