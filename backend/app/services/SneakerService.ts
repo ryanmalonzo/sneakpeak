@@ -25,7 +25,11 @@ export class SneakerService {
     );
 
     // Pour en déduire le nombre total de pages à afficher sur la web app
-    const totalCount = await SneakerRepository.getTotalCount();
+    // https://www.reddit.com/r/csharp/comments/uepldu/how_to_get_total_count_of_records_and_pagination/
+    const totalCount = await SneakerRepository.getTotalCount(
+      sortOptions,
+      filterOptions,
+    );
 
     return {
       total: totalCount,

@@ -3,5 +3,5 @@ export interface SortOptions {
 }
 
 export interface FilterOptions {
-  [key: string]: string;
+  [key: string]: unknown;
 }
