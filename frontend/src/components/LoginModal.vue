@@ -1,4 +1,3 @@
-<!-- LoginModal.vue -->
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { z } from 'zod'
@@ -7,6 +6,7 @@ import { SessionApi } from '@/services/sessionApi'
 import { Translation } from '@/helpers/translation'
 import GenericModal from './GenericModal.vue'
 
+// Schéma de validation pour l'email
 const emailSchema = z
   .string()
   .min(5, {
@@ -33,23 +33,25 @@ const emailError: ComputedRef<string> = computed(() => {
   return parsedEmail.error.errors[0].message
 })
 
+// Gestion de la soumission du formulaire
 async function onSubmit() {
   if (emailError.value !== '' || email.value === '' || password.value === '') {
     return null
   }
 
   try {
-    await SessionApi.login(email.value, password.value)    
+    await SessionApi.login(email.value, password.value)
     email.value = ''
     password.value = ''
     loginError.value = ''
-    modelLoginVisible.value = !modelLoginVisible.value
-  } catch(e) {    
+    modelLoginVisible.value = false // Fermeture de la modal après la connexion
+  } catch(e) {
      loginError.value = Translation.loginErrors(e as Error)!
   }
 }
 
-const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
+// Visibilité de la modal
+const modelLoginVisible = ref(false)
 </script>
 
 <template>
@@ -79,18 +81,12 @@ const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
         <p v-if="loginError">
           <span class="text-red-500 text-sm">{{ loginError }}</span>
         </p>
-        <a href="#" class="text-sm text-gray-500 underline hover:text-sneakpeak-gray-900"
-          >Mot de passe oublié ?</a
-        >
+        <a href="#" class="text-sm text-gray-500 underline hover:text-sneakpeak-gray-900">Mot de passe oublié ?</a>
       </div>
       <!-- Buttons -->
       <div class="flex flex-col justify-content-end gap-2">
         <Button type="submit" label="Se connecter" rounded></Button>
-        <a
-          href="#"
-          class="text-center text-sm text-gray-500 underline hover:text-sneakpeak-gray-900"
-          >Pas encore de compte ?</a
-        >
+        <a href="#" class="text-center text-sm text-gray-500 underline hover:text-sneakpeak-gray-900">Pas encore de compte ?</a>
       </div>
     </form>
   </GenericModal>

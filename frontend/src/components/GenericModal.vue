@@ -1,3 +1,4 @@
+<!-- Mise en place d'une modal générique  -->
 <template>
     <Dialog
       :visible="visible"
@@ -14,6 +15,7 @@
   <script setup lang="ts">
   import { defineProps, defineEmits } from 'vue'
   
+  // Props
   const props = defineProps({
     visible: {
       type: Boolean,
@@ -29,6 +31,7 @@
     }
   })
   
+
   const emits = defineEmits(['update:visible'])
   </script>
   
