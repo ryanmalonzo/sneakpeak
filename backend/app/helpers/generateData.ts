@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import { BuildOptions, Model } from 'sequelize';
 import { Brand } from '../models/sql/Brand';
 import { Category } from '../models/sql/Category';
@@ -13,14 +14,32 @@ import { Variant } from '../models/sql/Variant';
 import { SALT_ROUNDS } from '../services/UserService';
 
 dotenv.config();
+
 const { sequelize } = require('../models');
-// sequelize.options.logging = false;
+sequelize.options.logging = false;
 
 async function connect(): Promise<void> {
+  try {
+    mongoose
+      .connect(process.env.MONGODB_URI!, { dbName: 'sneakpeak' })
+      .then(() => {
+        console.log('MongoDB connected');
+        if (process.argv[3] === 'true') {
+          mongoose.connection.db.dropDatabase();
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  } catch (error) {
+    console.error('Error connecting to MongoDB: ', error);
+  }
+
   try {
     await sequelize.sync();
     await generateData(process.argv[2], process.argv[3], process.argv[4]);
     await sequelize.close();
+    await mongoose.connection.close();
   } catch (error) {
     console.error('Error connecting to PostgreSQL: ', error);
   }
@@ -62,7 +81,6 @@ async function generateData(model: string, isDelete: string, count: string) {
       break;
     case 'all':
       await generateDataModelUser(isDelete === 'true', parseInt(count));
-      await generateDataModelSneaker(isDelete === 'true', parseInt(count));
       await generateDataModelVariant(isDelete === 'true', parseInt(count));
       console.log('Data generated for all models');
       break;
@@ -188,8 +206,10 @@ async function generateDataModelSneaker(
     await Sneaker.truncate({ cascade: true, restartIdentity: true });
   }
 
-  await generateDataModelCategory(isDelete, count);
-  await generateDataModelBrand(isDelete, count);
+  await Promise.all([
+    generateDataModelCategory(isDelete, count),
+    generateDataModelBrand(isDelete, count),
+  ]);
 
   for (let i = 0; i < count; i++) {
     await Sneaker.create({
@@ -211,9 +231,11 @@ async function generateDataModelVariant(
     await Variant.truncate({ cascade: true, restartIdentity: true });
   }
 
-  await generateDataModelColor(isDelete, count);
-  await generateDataModelSize(isDelete, count);
-  await generateDataModelSneaker(isDelete, count);
+  await Promise.all([
+    generateDataModelColor(isDelete, count),
+    generateDataModelSize(isDelete, count),
+    generateDataModelSneaker(isDelete, count),
+  ]);
 
   for (let i = 0; i < count; i++) {
     await Variant.create({
