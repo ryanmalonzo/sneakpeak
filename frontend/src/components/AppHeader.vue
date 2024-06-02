@@ -5,6 +5,7 @@ import SearchInput from '@/components/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import LoginModal from '@/components/LoginModal.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -18,7 +19,7 @@ onMounted(() => {
   }
 })
 
-const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
+const modelLoginVisible = ref(false)
 const items = ref([
   {
     label: 'Promotions',
@@ -83,6 +84,9 @@ const handleSubmit = () => {
       </div>
     </template>
   </MegaMenu>
+
+  <!-- Login Modal -->
+  <LoginModal v-model:visible="modelLoginVisible" />
 </template>
 
 <style scoped>
