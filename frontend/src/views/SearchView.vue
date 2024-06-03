@@ -73,7 +73,7 @@ const handlePageChange = (event: PageState) => {
         <SneakerCard
           v-for="sneaker in sneakers"
           :key="sneaker._id"
-          :image="sneaker.coverImage"
+          :image="sneaker.variants[0].image"
           :name="sneaker.name"
           :price="sneaker.price"
         />

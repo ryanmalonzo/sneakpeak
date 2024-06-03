@@ -14,11 +14,19 @@ export namespace SneakerApi {
     items: SneakerOut[]
   }
 
+  export interface VariantOut {
+    _id: string
+    stock: number
+    image: string
+    size: number
+    color: string
+  }
+
   export interface SneakerOut {
     _id: string
-    coverImage: string
     name: string
     price: number
+    variants: VariantOut[]
   }
 
   export const getPaginated = async ({
@@ -35,6 +43,9 @@ export namespace SneakerApi {
     if (order) params.append('order', order)
     if (page) params.append('page', page.toString())
     if (limit) params.append('limit', limit.toString())
+
+    // Only fetch sneakers with variants
+    params.append('variants', JSON.stringify({ $exists: true, $ne: [] }))
 
     const response = await fetch(`${BASE_URL}/sneakers?${params.toString()}`)
     const data = await response.json()
