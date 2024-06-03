@@ -24,9 +24,6 @@ async function connect(): Promise<void> {
       .connect(process.env.MONGODB_URI!, { dbName: 'sneakpeak' })
       .then(() => {
         console.log('MongoDB connected');
-        if (process.argv[3] === 'true') {
-          mongoose.connection.db.dropDatabase();
-        }
       })
       .catch((err) => {
         console.error(err);
@@ -94,12 +91,14 @@ type GenericModel = typeof Model &
 
 async function generateDataModel(
   model: GenericModel,
+  mongoModelName: string,
   // eslint-disable-next-line @typescript-eslint/ban-types
   data: Function,
   isDelete: boolean,
   count: number,
 ): Promise<void> {
   if (isDelete) {
+    await mongoose.connection.db.dropCollection(mongoModelName);
     await model.truncate({ cascade: true, restartIdentity: true });
   }
 
@@ -144,6 +143,7 @@ async function generateDataModelBrand(
 ): Promise<void> {
   await generateDataModel(
     Brand as GenericModel,
+    'brands',
     () => ({
       name: faker.lorem.word(),
       slug: faker.lorem.slug(),
@@ -159,6 +159,7 @@ async function generateDataModelCategory(
 ): Promise<void> {
   await generateDataModel(
     Category as GenericModel,
+    'categories',
     () => ({
       name: faker.lorem.word(),
       slug: faker.lorem.slug(),
@@ -174,6 +175,7 @@ async function generateDataModelColor(
 ): Promise<void> {
   await generateDataModel(
     Color as GenericModel,
+    'colors',
     () => ({
       name: faker.lorem.word(),
       slug: faker.lorem.slug(),
@@ -189,6 +191,7 @@ async function generateDataModelSize(
 ): Promise<void> {
   await generateDataModel(
     Size as GenericModel,
+    'sizes',
     () => ({
       name: faker.lorem.word(),
       slug: faker.lorem.slug(),
@@ -203,6 +206,7 @@ async function generateDataModelSneaker(
   count: number = 10,
 ): Promise<void> {
   if (isDelete) {
+    await mongoose.connection.db.dropCollection('sneakers');
     await Sneaker.truncate({ cascade: true, restartIdentity: true });
   }
 
@@ -228,6 +232,7 @@ async function generateDataModelVariant(
   count: number = 10,
 ): Promise<void> {
   if (isDelete) {
+    await mongoose.connection.db.dropCollection('variants');
     await Variant.truncate({ cascade: true, restartIdentity: true });
   }
 
