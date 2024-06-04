@@ -13,6 +13,7 @@ import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
+const filterOptionsOpen = ref(false)
 const sneakers: Ref<SneakerApi.SneakerOut[]> = ref([])
 const totalCount = ref(0)
 const currentPage = ref(1)
@@ -52,16 +53,20 @@ const handlePageChange = (event: PageState) => {
   currentPage.value = event.page + 1
   setQueryParams({ page: currentPage.value.toString() })
 }
+
+const handleFilterOptionsOpen = (value: boolean) => {
+  filterOptionsOpen.value = value
+}
 </script>
 
 <template>
   <BasePage>
     <!-- Sidebar -->
-    <FilterOptions />
+    <FilterOptions :open="filterOptionsOpen" @open="handleFilterOptionsOpen" />
     <!-- Main content -->
     <section class="relative flex flex-1 flex-col gap-30px px-5 pb-5 md:px-10 md:pb-10">
       <div
-        class="sticky top-[64.5px] z-40 flex flex-col justify-between bg-white pb-2.5 pt-5 md:flex-row md:pb-5 md:pt-10"
+        class="sticky top-[64.5px] z-40 flex flex-col justify-between bg-white pb-2.5 pt-5 md:top-[66px] md:flex-row md:pb-5 md:pt-10"
       >
         <h1 class="text-xl font-medium">
           {{ route.query.q || 'Toutes les sneakers' }} ({{ totalCount }})
@@ -70,7 +75,10 @@ const handlePageChange = (event: PageState) => {
         <Divider class="md:hidden" />
 
         <div class="flex justify-between gap-10 md:justify-start">
-          <button type="button">Afficher les filtres <i class="pi pi-filter"></i></button>
+          <button type="button" @click="filterOptionsOpen = !filterOptionsOpen">
+            {{ filterOptionsOpen ? 'Masquer' : 'Afficher' }} les filtres
+            <i class="pi pi-filter"></i>
+          </button>
           <SortMenu @on-criteria-change="onCriteriaChange" />
         </div>
       </div>
