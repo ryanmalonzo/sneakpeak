@@ -25,7 +25,7 @@ const searchSneakers = async (pagination: SneakerApi.PaginationIn) => {
 
 watchEffect(() => {
   searchSneakers({
-    page: currentPage.value - 1,
+    page: currentPage.value,
     sort: route.query.sort as string,
     order: route.query.order as string,
     q: route.query.q as string
