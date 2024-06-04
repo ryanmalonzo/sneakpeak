@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BasePage from '@/components/BasePage.vue'
+import FilterOptions from '@/components/search/FilterOptions.vue'
 import SortMenu from '@/components/search/SortMenu.vue'
 import SneakerCard from '@/components/sneakers/SneakerCard.vue'
 import SneakerGrid from '@/components/sneakers/SneakerGrid.vue'
@@ -24,10 +25,10 @@ const searchSneakers = async (pagination: SneakerApi.PaginationIn) => {
 
 watchEffect(() => {
   searchSneakers({
-    q: route.query.q as string,
-    page: Number(route.query.page) || 1,
+    page: currentPage.value - 1,
     sort: route.query.sort as string,
-    order: route.query.order as string
+    order: route.query.order as string,
+    q: route.query.q as string
   })
 })
 
@@ -55,8 +56,13 @@ const handlePageChange = (event: PageState) => {
 
 <template>
   <BasePage>
-    <div class="flex flex-1 flex-col gap-30px p-5 md:p-10">
-      <div class="flex flex-col justify-between md:flex-row">
+    <!-- Sidebar -->
+    <FilterOptions />
+    <!-- Main content -->
+    <section class="relative flex flex-1 flex-col gap-30px px-5 pb-5 md:px-10 md:pb-10">
+      <div
+        class="sticky top-[64.5px] z-40 flex flex-col justify-between bg-white pb-2.5 pt-5 md:flex-row md:pb-5 md:pt-10"
+      >
         <h1 class="text-xl font-medium">
           {{ route.query.q || 'Toutes les sneakers' }} ({{ totalCount }})
         </h1>
@@ -85,6 +91,6 @@ const handlePageChange = (event: PageState) => {
         :total-records="totalCount"
         @page="handlePageChange"
       />
-    </div>
+    </section>
   </BasePage>
 </template>

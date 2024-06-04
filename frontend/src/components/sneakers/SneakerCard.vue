@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col gap-3" id="sneaker-card">
+  <div class="flex flex-col items-center gap-3" id="sneaker-card">
     <img
       :src="image"
       :alt="name"

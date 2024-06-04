@@ -62,6 +62,10 @@ export default {
         '50px': '50px',
         '70px': '70px'
       }
+    },
+    gridTemplateColumns: {
+      'auto-fill-159px': 'repeat(auto-fill, minmax(159px, 1fr))',
+      'auto-fill-264px': 'repeat(auto-fill, minmax(264px, 1fr))'
     }
   },
   plugins: []

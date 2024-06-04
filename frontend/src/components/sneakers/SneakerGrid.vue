@@ -2,7 +2,7 @@
 
 <template>
   <div
-    class="flex flex-wrap justify-center gap-x-2.5 gap-y-30px self-center sm:flex-row md:self-start"
+    class="md:grid-cols-auto-fill-264px grid-cols-auto-fill-159px grid justify-center gap-x-2.5 gap-y-30px"
   >
     <slot />
   </div>
