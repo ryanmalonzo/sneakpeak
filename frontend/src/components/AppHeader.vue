@@ -3,8 +3,9 @@ import Image from 'primevue/image'
 import logo from '@/assets/images/logo.svg'
 import SearchInput from '@/components/search/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { debounce } from 'underscore'
 
 const router = useRouter()
 const route = useRoute()
@@ -34,13 +35,21 @@ const items = ref([
   }
 ])
 
-const handleSubmit = () => {
+const goToSearch = debounce(() => {
   router.push({ path: '/search', query: { q: searchRef.value } })
+}, 500)
+
+watch(searchRef, () => {
+  goToSearch()
+})
+
+const handleSubmit = () => {
+  goToSearch()
 }
 </script>
 
 <template>
-  <MegaMenu :model="items" class="sticky top-0 rounded-none px-2.5 md:px-5">
+  <MegaMenu :model="items" class="sticky top-0 z-50 rounded-none px-2.5 md:px-5">
     <template #start>
       <a href="/">
         <Image :src="logo" alt="Logo SneakPeak" class="pr-2.5" />
