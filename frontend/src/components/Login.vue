@@ -6,6 +6,7 @@ import { SessionApi } from '@/services/sessionApi'
 import { Translation } from '@/helpers/translation'
 import GenericModal from './GenericModal.vue'
 import Register from './Register.vue'
+import ResetPassword from './ResetPassword.vue'
 
 const emailSchema = z
   .string()
@@ -43,15 +44,21 @@ async function onSubmit() {
 
 // Par défaut les modales sont fermées
 const modelLoginVisible = ref(false)
-const modelRegisterVisible = ref(false) 
+const modelRegisterVisible = ref(false)
+const modelResetPasswordVisible = ref(false) 
 
 // La modale pour l'inscription
 function openRegisterModal() {
   modelLoginVisible.value = false
   modelRegisterVisible.value = true
 }
-</script>
 
+// La modale pour la réinitialisation du mot de passe
+function openResetPasswordModal() {
+  modelLoginVisible.value = false
+  modelResetPasswordVisible.value = true
+}
+</script>
 
 <template>
   <GenericModal v-model:visible="modelLoginVisible" header="Connexion">
@@ -80,7 +87,8 @@ function openRegisterModal() {
         <p v-if="loginError">
           <span class="text-red-500 text-sm">{{ loginError }}</span>
         </p>
-        <a href="#" class="text-sm text-gray-500 underline hover:text-sneakpeak-gray-900">Mot de passe oublié ?</a>
+        <a href="#" class="text-sm text-gray-500 underline hover:text-sneakpeak-gray-900" @click="openResetPasswordModal">Mot de passe oublié ?</a>
+        <ResetPassword v-model:visible="modelResetPasswordVisible" />
       </div>
       <!-- Buttons -->
       <div class="flex flex-col justify-content-end gap-2">

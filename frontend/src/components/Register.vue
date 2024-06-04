@@ -1,20 +1,30 @@
 <template>
     <GenericModal v-model:visible="modelRegisterVisible" header="Inscription">
       <form>
-        <div class="flex flex-col align-items-center gap-2 mb-5">
+        <div class="grid grid-cols-2">
+          <div class="flex flex-col align-items-center gap-2 mb-5">
             <label for="firstName" class="w-6rem">Prénom</label>
             <InputText
                 id="firstName"
                 class="flex-auto"
                 placeholder="Amine"
             />
+          </div>
+          <div class="flex flex-col align-items-center gap-2 mb-5">
+              <label for="lastName" class="w-6rem">Nom</label>
+              <InputText
+                  id="lastName"
+                  class="flex-auto"
+                  placeholder="Nairi"
+              />
+          </div>
         </div>
         <div class="flex flex-col align-items-center gap-2 mb-5">
-            <label for="lastName" class="w-6rem">Nom</label>
+            <label for="phone" class="w-6rem">Tel</label>
             <InputText
-                id="lastName"
+                id="phone"
                 class="flex-auto"
-                placeholder="Nairi"
+                placeholder="07 72 34 42 34"
             />
         </div>
         <div class="flex flex-col align-items-center gap-2 mb-3">
@@ -28,14 +38,6 @@
             <p v-if="emailError">
                 <span class="text-red-500 text-sm">{{ emailError }}</span>
             </p>
-        </div>
-        <div class="flex flex-col align-items-center gap-2 mb-5">
-            <label for="phone" class="w-6rem">Tel</label>
-            <InputText
-                id="phone"
-                class="flex-auto"
-                placeholder="07 72 34 42 34"
-            />
         </div>
         <div class="flex flex-col align-items-center gap-2 mb-3">
             <label for="password" class="w-6rem">Mot de passe</label>
