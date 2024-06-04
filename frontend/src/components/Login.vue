@@ -5,19 +5,13 @@ import type { ComputedRef } from 'vue'
 import { SessionApi } from '@/services/sessionApi'
 import { Translation } from '@/helpers/translation'
 import GenericModal from './GenericModal.vue'
+import Register from './Register.vue'
 
-// Schéma de validation pour l'email
 const emailSchema = z
   .string()
-  .min(5, {
-    message: 'Doit contenir au moins 5 caractères'
-  })
-  .max(30, {
-    message: 'Doit contenir au plus 30 caractères'
-  })
-  .email({
-    message: 'Email invalide'
-  })
+  .min(5, { message: 'Doit contenir au moins 5 caractères' })
+  .max(30, { message: 'Doit contenir au plus 30 caractères' })
+  .email({ message: 'Email invalide' })
 
 const email = ref('')
 const password = ref('')
@@ -25,15 +19,12 @@ const loginError = ref('')
 
 const emailError: ComputedRef<string> = computed(() => {
   const parsedEmail = emailSchema.safeParse(email.value)
-
   if (parsedEmail.success || email.value === '') {
     return ''
   }
-
   return parsedEmail.error.errors[0].message
 })
 
-// Gestion de la soumission du formulaire
 async function onSubmit() {
   if (emailError.value !== '' || email.value === '' || password.value === '') {
     return null
@@ -44,15 +35,23 @@ async function onSubmit() {
     email.value = ''
     password.value = ''
     loginError.value = ''
-    modelLoginVisible.value = false // Fermeture de la modal après la connexion
-  } catch(e) {
-     loginError.value = Translation.loginErrors(e as Error)!
+    modelLoginVisible.value = false
+  } catch (e) {
+    loginError.value = Translation.loginErrors(e as Error)!
   }
 }
 
-// Visibilité de la modal
+// Par défaut les modales sont fermées
 const modelLoginVisible = ref(false)
+const modelRegisterVisible = ref(false) 
+
+// La modale pour l'inscription
+function openRegisterModal() {
+  modelLoginVisible.value = false
+  modelRegisterVisible.value = true
+}
 </script>
+
 
 <template>
   <GenericModal v-model:visible="modelLoginVisible" header="Connexion">
@@ -86,10 +85,12 @@ const modelLoginVisible = ref(false)
       <!-- Buttons -->
       <div class="flex flex-col justify-content-end gap-2">
         <Button type="submit" label="Se connecter" rounded></Button>
-        <a href="#" class="text-center text-sm text-gray-500 underline hover:text-sneakpeak-gray-900">Pas encore de compte ? Inscrivez-vous</a>
+        <a href="#" class="text-center text-sm text-gray-500 underline hover:text-sneakpeak-gray-900" @click="openRegisterModal">Pas encore de compte ? Inscrivez-vous</a>
+        <Register v-model:visible="modelRegisterVisible" />
       </div>
     </form>
   </GenericModal>
+
 </template>
 
 <style scoped></style>

@@ -5,11 +5,12 @@ import Login from '@/components/Login.vue'
 import { ref } from 'vue'
 
 const isLoginVisible = ref(false)
+const isRegisterVisible = ref(false)
 </script>
 
 <template>
-  <Login v-model:loginVisible="isLoginVisible" />
-  <AppHeader v-model:loginVisible="isLoginVisible" />
+  <Login v-model:visible="isLoginVisible" />
+  <AppHeader v-model:loginVisible="isLoginVisible" v-model:registerVisible="isRegisterVisible" />
 
   <main class="flex flex-1 self-stretch">
     <slot />

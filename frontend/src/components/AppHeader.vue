@@ -1,4 +1,3 @@
-<!-- AppHeader.vue -->
 <template>
   <header>
     <MegaMenu :model="items" class="sticky top-0 rounded-none px-2.5 md:px-5">
