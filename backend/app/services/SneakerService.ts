@@ -12,23 +12,37 @@ interface PaginatedSneakersResponse {
 
 export class SneakerService {
   public static async getPaginated(
+    q: string,
     page: number,
     limit: number,
     sortOptions: SortOptions,
     filterOptions: FilterOptions,
   ): Promise<PaginatedSneakersResponse> {
+    let allFilterOptions: Record<string, unknown> = {};
+    if (q) {
+      allFilterOptions['$or'] = [
+        { name: { $regex: q, $options: 'i' } },
+        { category: { $regex: q, $options: 'i' } },
+        { brand: { $regex: q, $options: 'i' } },
+        { 'variants.color': { $regex: q, $options: 'i' } },
+        { 'variants.size': { $regex: q, $options: 'i' } },
+      ];
+    }
+    allFilterOptions = { ...allFilterOptions, ...filterOptions };
+
     const sneakers = await SneakerRepository.getPaginated(
+      q,
       page,
       limit,
       sortOptions,
-      filterOptions,
+      allFilterOptions,
     );
 
     // Pour en déduire le nombre total de pages à afficher sur la web app
     // https://www.reddit.com/r/csharp/comments/uepldu/how_to_get_total_count_of_records_and_pagination/
     const totalCount = await SneakerRepository.getTotalCount(
       sortOptions,
-      filterOptions,
+      allFilterOptions,
     );
 
     return {

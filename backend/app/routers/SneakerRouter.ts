@@ -10,12 +10,13 @@ SneakerRouter.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { page, limit, sortOptions, filterOptions } = res.locals;
+      const { q, page, limit, sortOptions, filterOptions } = res.locals;
 
       return res
         .status(StatusCodes.OK)
         .json(
           await SneakerService.getPaginated(
+            q,
             page,
             limit,
             sortOptions,

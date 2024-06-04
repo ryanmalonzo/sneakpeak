@@ -11,6 +11,7 @@ export const pagination = async (
   next: NextFunction,
 ) => {
   const {
+    q,
     page = 1,
     limit = 25,
     sort = '_id',
@@ -49,17 +50,11 @@ export const pagination = async (
 
   const filterOptions: FilterOptions = {};
   for (const key in filters) {
-    if (key === 'q') {
-      if (filters[key]?.length) {
-        filterOptions.$text = { $search: filters[key] as string };
-      }
-      continue;
-    }
-
     // TODO: custom parsing
     filterOptions[key] = JSON.parse(filters[key] as string);
   }
 
+  res.locals.q = q;
   res.locals.page = pageInt;
   res.locals.limit = limitInt;
   res.locals.sortOptions = sortOptions;
