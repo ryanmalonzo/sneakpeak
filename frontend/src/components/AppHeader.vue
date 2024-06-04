@@ -31,7 +31,7 @@
       </template>
     </MegaMenu>
   </header>
-  <Login v-model:visible="modelLoginVisible" />
+  <AppLogin v-model:visible="modelLoginVisible" />
 </template>
 
 <script setup lang="ts">
@@ -41,7 +41,7 @@ import SearchInput from '@/components/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import Login from '@/components/Login.vue'
+import AppLogin from '@/components/AppLogin.vue'
 
 const router = useRouter()
 const route = useRoute()

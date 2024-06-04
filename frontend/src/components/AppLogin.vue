@@ -5,7 +5,7 @@ import type { ComputedRef } from 'vue'
 import { SessionApi } from '@/services/sessionApi'
 import { Translation } from '@/helpers/translation'
 import GenericModal from './GenericModal.vue'
-import Register from './Register.vue'
+import AppRegister from './AppRegister.vue'
 import ResetPassword from './ResetPassword.vue'
 
 const emailSchema = z
@@ -94,7 +94,7 @@ function openResetPasswordModal() {
       <div class="flex flex-col justify-content-end gap-2">
         <Button type="submit" label="Se connecter" rounded></Button>
         <a href="#" class="text-center text-sm text-gray-500 underline hover:text-sneakpeak-gray-900" @click="openRegisterModal">Pas encore de compte ? Inscrivez-vous</a>
-        <Register v-model:visible="modelRegisterVisible" />
+        <AppRegister v-model:visible="modelRegisterVisible" />
       </div>
     </form>
   </GenericModal>
