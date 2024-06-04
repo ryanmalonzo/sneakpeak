@@ -32,7 +32,7 @@
       </template>
     </MegaMenu>
   </header>
-  <LoginModal v-model:visible="modelLoginVisible" />
+  <Login v-model:visible="modelLoginVisible" />
 </template>
 
 <script setup lang="ts">
@@ -42,7 +42,7 @@ import SearchInput from '@/components/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import LoginModal from '@/components/LoginModal.vue'
+import Login from '@/components/Login.vue'
 
 const router = useRouter()
 const route = useRoute()
