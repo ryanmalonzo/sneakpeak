@@ -4,6 +4,7 @@ import { z } from 'zod'
 import type { ComputedRef } from 'vue'
 import { SessionApi } from '@/services/sessionApi'
 import { Translation } from '@/helpers/translation'
+import { checkAuth } from '@/helpers/auth'
 
 const emailSchema = z
   .string()
@@ -37,13 +38,15 @@ async function onSubmit() {
   }
 
   try {
-    await SessionApi.login(email.value, password.value)    
+    await SessionApi.login(email.value, password.value)
+    checkAuth()
+
     email.value = ''
     password.value = ''
     loginError.value = ''
     modelLoginVisible.value = !modelLoginVisible.value
-  } catch(e) {    
-     loginError.value = Translation.loginErrors(e as Error)!
+  } catch (e) {
+    loginError.value = Translation.loginErrors(e as Error)!
   }
 }
 

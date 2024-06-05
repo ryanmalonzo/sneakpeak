@@ -3,14 +3,17 @@ import Image from 'primevue/image'
 import logo from '@/assets/images/logo.svg'
 import SearchInput from '@/components/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
+import Menu from 'primevue/menu'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { profileStore } from '@/store/profile'
 
 const router = useRouter()
 const route = useRoute()
 
 const showMobileSearchRef = ref(false)
 const searchRef = ref('')
+const profile = profileStore() //Store profile
 
 onMounted(() => {
   if (route.query.q) {
@@ -33,9 +36,37 @@ const items = ref([
     root: true
   }
 ])
+const itemsProfile = ref([
+  {
+    label: 'Mon profil',
+    icon: 'pi pi-spin pi-cog',
+    command: () => {
+      router.push('/search') //TODO change path
+    }
+  },
+  {
+    label: 'Mes commandes',
+    icon: 'pi pi-truck',
+    command: () => {
+      router.push('/search') //TODO change path
+    }
+  },
+  {
+    label: 'Se déconnecter',
+    icon: 'pi pi-sign-out',
+    command: () => {
+      router.push('/search') //TODO change path
+    }
+  }
+])
 
 const handleSubmit = () => {
   router.push({ path: '/search', query: { q: searchRef.value } })
+}
+
+const menuProfile = ref<Menu>()
+const displayMenuProfile = (event: Event) => {
+  menuProfile.value?.toggle(event)
 }
 </script>
 
@@ -72,8 +103,16 @@ const handleSubmit = () => {
           <i class="pi pi-shopping-bag"></i>
         </div>
 
-        <!-- User -->
+        <!-- Menu Profile -->
+        <div v-if="profile.profile">
+          <div class="card flex justify-center">
+            <Button type="button" icon="pi pi-user" @click="displayMenuProfile" />
+            <Menu ref="menuProfile" :model="itemsProfile" :popup="true"></Menu>
+          </div>
+        </div>
+        <!-- Login -->
         <div
+          v-else
           id="user"
           class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
           @click="modelLoginVisible = !modelLoginVisible"
