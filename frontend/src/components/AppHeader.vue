@@ -3,7 +3,7 @@ import Image from 'primevue/image'
 import logo from '@/assets/images/logo.svg'
 import SearchInput from '@/components/search/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { debounce } from 'underscore'
 
@@ -11,13 +11,7 @@ const router = useRouter()
 const route = useRoute()
 
 const showMobileSearchRef = ref(false)
-const searchRef = ref('')
-
-onMounted(() => {
-  if (route.query.q) {
-    searchRef.value = route.query.q as string
-  }
-})
+const searchRef = ref((route.query.q as string) || '')
 
 const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
 const items = ref([

@@ -29,7 +29,10 @@ watchEffect(() => {
     page: currentPage.value,
     sort: route.query.sort as string,
     order: route.query.order as string,
-    q: route.query.q as string
+    q: route.query.q as string,
+    brand: route.query.brand as string,
+    category: route.query.category as string,
+    price: route.query.price as string
   })
 })
 
@@ -87,7 +90,7 @@ const handleFilterOptionsOpen = (value: boolean) => {
         <SneakerCard
           v-for="sneaker in sneakers"
           :key="sneaker._id"
-          :image="sneaker.variants[0].image"
+          :image="sneaker.variants[0]?.image"
           :name="sneaker.name"
           :price="sneaker.price"
         />

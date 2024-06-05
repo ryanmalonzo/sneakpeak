@@ -5,7 +5,14 @@ import { pagination } from '../middlewares/pagination';
 
 export const SneakerRouter = Router();
 
-SneakerRouter.use('/', pagination);
+SneakerRouter.use(
+  '/',
+  pagination({
+    brand: 'in',
+    category: 'in',
+    price: 'range',
+  }),
+);
 SneakerRouter.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {

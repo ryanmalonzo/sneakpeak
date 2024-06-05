@@ -7,6 +7,9 @@ export namespace SneakerApi {
     order?: string
     page?: number
     limit?: number
+    brand?: string
+    category?: string
+    price?: string
   }
 
   export interface PaginationOut {
@@ -34,7 +37,10 @@ export namespace SneakerApi {
     sort,
     order,
     page,
-    limit
+    limit,
+    brand,
+    category,
+    price
   }: PaginationIn): Promise<PaginationOut> => {
     const params = new URLSearchParams()
 
@@ -43,9 +49,9 @@ export namespace SneakerApi {
     if (order) params.append('order', order)
     if (page) params.append('page', page.toString())
     if (limit) params.append('limit', limit.toString())
-
-    // Only fetch sneakers with variants
-    params.append('variants', JSON.stringify({ $exists: true, $ne: [] }))
+    if (brand) params.append('brand', brand)
+    if (category) params.append('category', category)
+    if (price) params.append('price', price)
 
     const response = await fetch(`${BASE_URL}/sneakers?${params.toString()}`)
     const data = await response.json()
