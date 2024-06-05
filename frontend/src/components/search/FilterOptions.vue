@@ -2,6 +2,11 @@
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+import { onMounted, ref, type Ref } from 'vue'
+import { BrandApi } from '@/services/brandApi'
+import { CategoryApi } from '@/services/categoryApi'
+import Checkbox from 'primevue/checkbox'
+import Slider from 'primevue/slider'
 
 defineProps<{
   open: boolean
@@ -17,6 +22,22 @@ const getOpenClasses = () => {
   }
   return 'sticky top-[66px]'
 }
+
+const brands: Ref<BrandApi.BrandOut[]> = ref([])
+const selectedBrands = ref([])
+
+const categories: Ref<CategoryApi.CategoryOut[]> = ref([])
+const selectedCategories = ref([])
+
+const priceRange: Ref<number[]> = ref([0, 1000])
+
+onMounted(async () => {
+  const data = await BrandApi.getAll()
+  brands.value = data
+
+  const categoriesData = await CategoryApi.getAll()
+  categories.value = categoriesData
+})
 </script>
 
 <template>
@@ -36,13 +57,30 @@ const getOpenClasses = () => {
     <!-- Accordions -->
     <Accordion multiple>
       <AccordionTab header="Marques">
-        <p>Contenu</p>
+        <div v-for="brand of brands" :key="brand.slug" class="flex items-center gap-2">
+          <Checkbox
+            v-model="selectedBrands"
+            :inputId="brand.slug"
+            name="brand"
+            :value="brand.name"
+          />
+          <label :for="brand.slug">{{ brand.name }}</label>
+        </div>
       </AccordionTab>
       <AccordionTab header="Catégories">
-        <p>Contenu</p>
+        <div v-for="category of categories" :key="category.slug" class="flex items-center gap-2">
+          <Checkbox
+            v-model="selectedCategories"
+            :inputId="category.slug"
+            name="category"
+            :value="category.name"
+          />
+          <label :for="category.slug">{{ category.name }}</label>
+        </div>
       </AccordionTab>
       <AccordionTab header="Prix">
-        <p>Contenu</p>
+        <p class="pb-2.5">{{ priceRange[0] }}€ - {{ priceRange[1] }}€</p>
+        <Slider v-model="priceRange" range :max="500" />
       </AccordionTab>
     </Accordion>
   </div>
