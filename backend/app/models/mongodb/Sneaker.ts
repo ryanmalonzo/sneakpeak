@@ -3,10 +3,11 @@ import { Document, Model, model, Schema } from 'mongoose';
 interface IVariant extends Document {
   stock: number;
   image: string;
-  sneakerId: string;
-  colorId: string;
+  size: string;
+  color: string;
 }
 interface ISneaker extends Document {
+  id: number;
   name: string;
   description: string;
   price: number;
@@ -16,6 +17,7 @@ interface ISneaker extends Document {
 }
 
 const SneakerSchema: Schema<ISneaker> = new Schema({
+  id: { type: Number, required: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
