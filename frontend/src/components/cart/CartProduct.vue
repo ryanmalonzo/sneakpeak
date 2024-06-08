@@ -3,10 +3,10 @@
 </script>
 
 <template>
-    <div class="flex- flex-col items-start gap-8 self-stretch rounded-2xl">
-        <div class="flex h-auto justify-between items-start self-stretch rounded-xl border-black border">
-            <img src="../../assets/images/cartProduct.png" alt="" class="rounded-l-xl " />
-            <div class="flex p-5 flex-col items-start gap-3 flex-1 self-stretch">
+    <div class="flex flex-col items-start gap-8 self-stretch rounded-2xl">
+        <div class="flex h-auto justify-between items-start self-stretch rounded-xl md:border-black md:border">
+            <img src="../../assets/images/cartProduct.png" alt="" class="rounded-l-xl max-md:w-36" />
+            <div class="flex md:p-5 flex-col items-start gap-3 flex-1 self-stretch max-md:text-xs max-md:pl-4">
 
                 <div class="flex items-start gap-2 self-stretch">
                     <p class="flex-1">Sandale Altaventure Sport Swim</p>
