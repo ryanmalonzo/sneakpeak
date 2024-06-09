@@ -1,4 +1,3 @@
-
 <template>
   <Dialog
     :visible="visible"
@@ -16,7 +15,7 @@
 import { defineProps, defineEmits } from 'vue'
 
 // Props
-const props = defineProps({
+defineProps({
   visible: {
     type: Boolean,
     required: true
@@ -31,7 +30,5 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['update:visible'])
+defineEmits(['update:visible'])
 </script>
-
-<style scoped></style>
