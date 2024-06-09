@@ -5,6 +5,7 @@ import { Sneaker } from '../../models/sql/Sneaker';
 
 export class SneakerRepository {
   static async getPaginated(
+    q: string,
     page: number,
     limit: number,
     sortOptions: SortOptions,
