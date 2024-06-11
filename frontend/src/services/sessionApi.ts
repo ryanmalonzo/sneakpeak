@@ -52,8 +52,25 @@ export class SessionApi {
     }
   }
 
-  static logout() {
-    // TODO remove cookie token
+  static async logout() {
+    try {
+      const response = await fetch(`${this.BASE_URL}/session/logout`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      })
+
+      if (response.ok) {
+        return
+      } else {
+        throw response as Response
+      }
+    } catch (error) {
+      handleError(error as Response)
+      throw await (error as Response).json() // Renvoie le message d'erreur au composant
+    }
   }
 
   static async getProfile(): Promise<IProfile> {

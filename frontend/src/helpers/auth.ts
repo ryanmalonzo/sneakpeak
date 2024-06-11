@@ -1,3 +1,4 @@
+import router from '@/router'
 import { SessionApi } from '@/services/sessionApi'
 import { profileStore } from '@/store/profile'
 
@@ -9,5 +10,18 @@ export async function checkAuth() {
     profile.setProfile(user!)
   } catch (e) {
     profile.clearProfile()
+  }
+}
+
+export async function logout() {
+  try {
+    await SessionApi.logout()
+    profileStore().clearProfile()
+    router.push('/')
+    //TODO toaster
+  } catch (e) {
+    profileStore().clearProfile()
+    router.push('/')
+    console.error(e)
   }
 }

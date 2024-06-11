@@ -7,6 +7,7 @@ import Menu from 'primevue/menu'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { profileStore } from '@/store/profile'
+import { logout } from '@/helpers/auth'
 
 const router = useRouter()
 const route = useRoute()
@@ -55,7 +56,7 @@ const itemsProfile = ref([
     label: 'Se déconnecter',
     icon: 'pi pi-sign-out',
     command: () => {
-      router.push('/search') //TODO change path
+      logout()
     }
   }
 ])
