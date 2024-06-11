@@ -1,17 +1,17 @@
 <script setup lang="ts">
 defineProps<{
-  image: string
+  image: string | undefined
   name: string
   price: number
 }>()
 </script>
 
 <template>
-  <div class="flex flex-col gap-3" id="sneaker-card">
+  <div class="flex flex-col items-center gap-3" id="sneaker-card">
     <img
       :src="image"
       :alt="name"
-      class="h-[144px] w-[264px] rounded-[10px] object-cover"
+      class="h-[105px] w-[159px] rounded-[10px] object-cover md:h-[144px] md:w-[264px]"
       id="cover"
     />
     <div class="flex flex-col text-center">

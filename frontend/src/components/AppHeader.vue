@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import Image from 'primevue/image'
 import logo from '@/assets/images/logo.svg'
-import SearchInput from '@/components/SearchInput.vue'
+import SearchInput from '@/components/search/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
 import Menu from 'primevue/menu'
-import { onMounted, ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { debounce } from 'underscore'
 import { profileStore } from '@/store/profile'
 import { logout } from '@/helpers/auth'
 
@@ -13,14 +14,8 @@ const router = useRouter()
 const route = useRoute()
 
 const showMobileSearchRef = ref(false)
-const searchRef = ref('')
+const searchRef = ref((route.query.q as string) || '')
 const profile = profileStore() //Store profile
-
-onMounted(() => {
-  if (route.query.q) {
-    searchRef.value = route.query.q as string
-  }
-})
 
 const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
 const items = ref([
@@ -37,6 +32,20 @@ const items = ref([
     root: true
   }
 ])
+
+const goToSearch = debounce(() => {
+  router.push({ path: '/search', query: { q: searchRef.value } })
+}, 500)
+
+watch(searchRef, () => {
+  goToSearch()
+})
+
+const handleSubmit = () => {
+  goToSearch()
+}
+
+// Menu Profile
 const itemsProfile = ref([
   {
     label: 'Mon profil',
@@ -61,10 +70,6 @@ const itemsProfile = ref([
   }
 ])
 
-const handleSubmit = () => {
-  router.push({ path: '/search', query: { q: searchRef.value } })
-}
-
 const menuProfile = ref<Menu>()
 const displayMenuProfile = (event: Event) => {
   menuProfile.value?.toggle(event)
@@ -72,7 +77,7 @@ const displayMenuProfile = (event: Event) => {
 </script>
 
 <template>
-  <MegaMenu :model="items" class="sticky top-0 rounded-none px-2.5 md:px-5">
+  <MegaMenu :model="items" class="sticky top-0 z-50 rounded-none px-2.5 md:px-5">
     <template #start>
       <a href="/">
         <Image :src="logo" alt="Logo SneakPeak" class="pr-2.5" />

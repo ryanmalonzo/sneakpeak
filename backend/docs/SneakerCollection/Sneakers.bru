@@ -5,16 +5,19 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/sneakers?page=0&limit=10&sort=name&order=asc
+  url: http://localhost:3000/sneakers?page=1&limit=10&sort=name&order=desc&price=50,200&brand=excepturi,voldemort&category=running
   body: none
   auth: bearer
 }
 
 query {
-  page: 0
+  page: 1
   limit: 10
   sort: name
-  order: asc
+  order: desc
+  price: 50,200
+  brand: excepturi,voldemort
+  category: running
 }
 
 auth:bearer {

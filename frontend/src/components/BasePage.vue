@@ -11,7 +11,7 @@ const isLoginVisible = ref(false)
   <LoginModal v-model:loginVisible="isLoginVisible" />
   <AppHeader v-model:loginVisible="isLoginVisible" />
 
-  <main class="flex flex-1 self-stretch">
+  <main class="relative flex flex-1 self-stretch">
     <slot />
   </main>
 
