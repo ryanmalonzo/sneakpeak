@@ -48,30 +48,36 @@ const handleSubmit = () => {
 // Menu Profile
 const itemsProfile = ref([
   {
-    label: 'Mon profil',
-    icon: 'pi pi-spin pi-cog',
-    command: () => {
-      router.push('/search') //TODO change path
-    }
-  },
-  {
-    label: 'Mes commandes',
-    icon: 'pi pi-truck',
-    command: () => {
-      router.push('/search') //TODO change path
-    }
-  },
-  {
-    label: 'Se déconnecter',
-    icon: 'pi pi-sign-out',
-    command: () => {
-      logout()
-    }
+    label: ``,
+    items: [
+      {
+        label: 'Mon profil',
+        icon: 'pi pi-spin pi-cog',
+        command: () => {
+          router.push('/search') //TODO change path
+        }
+      },
+      {
+        label: 'Mes commandes',
+        icon: 'pi pi-truck',
+        command: () => {
+          router.push('/search') //TODO change path
+        }
+      },
+      {
+        label: 'Se déconnecter',
+        icon: 'pi pi-sign-out',
+        command: () => {
+          logout()
+        }
+      }
+    ]
   }
 ])
 
 const menuProfile = ref<Menu>()
 const displayMenuProfile = (event: Event) => {
+  itemsProfile.value[0].label = `Bienvenue ${profile.profile?.firstName} !`
   menuProfile.value?.toggle(event)
 }
 </script>

@@ -10,7 +10,7 @@ import { uniqueEmail } from './helpers';
 const PASSWORD = 'DarkraiIsBest123%';
 
 async function testThatCreateAndAuthenticateValidUserWithValidCookie(): Promise<request.Response> {
-  const user = await UserService.registerUser(uniqueEmail(), PASSWORD);
+  const user: User = await UserService.registerUser(uniqueEmail(), PASSWORD);
 
   const challenge = await Challenge.findOne({
     where: { userId: user.id, type: 'email' },
