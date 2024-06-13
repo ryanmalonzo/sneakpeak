@@ -3,6 +3,11 @@ import { StatusCodes } from 'http-status-codes';
 import { RequestError } from '../helpers/error';
 import { UserService } from '../services/UserService';
 
+/**
+ * Verifies if the user is authenticated
+ * @returns in "res.locals.user" the user data
+ */
+
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   const cookie = req.cookies?.accessToken;
 

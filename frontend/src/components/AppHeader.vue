@@ -3,15 +3,19 @@ import Image from 'primevue/image'
 import logo from '@/assets/images/logo.svg'
 import SearchInput from '@/components/search/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
+import Menu from 'primevue/menu'
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { debounce } from 'underscore'
+import { profileStore } from '@/store/profile'
+import { logout } from '@/helpers/auth'
 
 const router = useRouter()
 const route = useRoute()
 
 const showMobileSearchRef = ref(false)
 const searchRef = ref((route.query.q as string) || '')
+const profile = profileStore() //Store profile
 
 const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
 const items = ref([
@@ -39,6 +43,42 @@ watch(searchRef, () => {
 
 const handleSubmit = () => {
   goToSearch()
+}
+
+// Menu Profile
+const itemsProfile = ref([
+  {
+    label: ``,
+    items: [
+      {
+        label: 'Mon profil',
+        icon: 'pi pi-spin pi-cog',
+        command: () => {
+          router.push('/search') //TODO change path
+        }
+      },
+      {
+        label: 'Mes commandes',
+        icon: 'pi pi-truck',
+        command: () => {
+          router.push('/search') //TODO change path
+        }
+      },
+      {
+        label: 'Se déconnecter',
+        icon: 'pi pi-sign-out',
+        command: () => {
+          logout()
+        }
+      }
+    ]
+  }
+])
+
+const menuProfile = ref<Menu>()
+const displayMenuProfile = (event: Event) => {
+  itemsProfile.value[0].label = `Bienvenue ${profile.profile?.firstName} !`
+  menuProfile.value?.toggle(event)
 }
 </script>
 
@@ -75,8 +115,16 @@ const handleSubmit = () => {
           <i class="pi pi-shopping-bag"></i>
         </div>
 
-        <!-- User -->
+        <!-- Menu Profile -->
+        <div v-if="profile.profile">
+          <div class="card flex justify-center">
+            <Button type="button" icon="pi pi-user" @click="displayMenuProfile" />
+            <Menu ref="menuProfile" :model="itemsProfile" :popup="true"></Menu>
+          </div>
+        </div>
+        <!-- Login -->
         <div
+          v-else
           id="user"
           class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
           @click="modelLoginVisible = !modelLoginVisible"
