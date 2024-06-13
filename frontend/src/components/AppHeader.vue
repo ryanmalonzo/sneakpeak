@@ -1,39 +1,3 @@
-<template>
-  <header>
-    <MegaMenu :model="items" class="sticky top-0 rounded-none px-2.5 md:px-5">
-      <template #start>
-        <a href="/">
-          <Image :src="logo" alt="Logo SneakPeak" class="pr-2.5" />
-        </a>
-      </template>
-      <template #end>
-        <div class="flex items-center gap-2.5">
-          <SearchInput class="hidden md:block" :submit="handleSubmit" v-model="searchRef" />
-          <div
-            class="absolute left-0 top-0 flex w-full flex-1 items-center gap-2.5 bg-white p-2.5 md:hidden"
-            id="search-mobile"
-            v-if="showMobileSearchRef"
-          >
-            <SearchInput :submit="handleSubmit" v-model="searchRef" />
-            <button type="button" @click="showMobileSearchRef = false">Annuler</button>
-          </div>
-          <div class="cursor-pointer md:hidden" @click="showMobileSearchRef = true">
-            <i class="pi pi-search cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
-          </div>
-          <i class="pi pi-bell cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
-          <div id="cart" class="flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50">
-            <i class="pi pi-shopping-bag"></i>
-          </div>
-          <div id="user" class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50" @click="modelLoginVisible = true">
-            <i class="pi pi-user"></i>
-          </div>
-        </div>
-      </template>
-    </MegaMenu>
-  </header>
-  <AppLogin v-model:visible="modelLoginVisible" />
-</template>
-
 <script setup lang="ts">
 import Image from 'primevue/image'
 import logo from '@/assets/images/logo.svg'
@@ -78,7 +42,6 @@ const handleSubmit = () => {
         <Image :src="logo" alt="Logo SneakPeak" class="pr-2.5" />
       </a>
     </template>
-
     <template #end>
       <div class="flex items-center gap-2.5">
         <SearchInput class="hidden md:block" :submit="handleSubmit" v-model="searchRef" />
@@ -90,31 +53,20 @@ const handleSubmit = () => {
           <SearchInput :submit="handleSubmit" v-model="searchRef" />
           <button type="button" @click="showMobileSearchRef = false">Annuler</button>
         </div>
-
         <div class="cursor-pointer md:hidden" @click="showMobileSearchRef = true">
           <i class="pi pi-search cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
         </div>
-
         <i class="pi pi-bell cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
-        <!-- Shopping cart -->
-        <div
-          id="cart"
-          class="flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
-        >
+        <div id="cart" class="flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50">
           <i class="pi pi-shopping-bag"></i>
         </div>
-
-        <!-- User -->
-        <div
-          id="user"
-          class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
-          @click="modelLoginVisible = !modelLoginVisible"
-        >
+        <div id="user" class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50" @click="modelLoginVisible = true">
           <i class="pi pi-user"></i>
         </div>
       </div>
     </template>
   </MegaMenu>
+  <AppLogin v-model:visible="modelLoginVisible" />
 </template>
 
 <style scoped>
