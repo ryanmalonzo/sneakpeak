@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
-import LoginModal from '@/components/LoginModal.vue'
+import AppLogin from '@/components/AppLogin.vue'
 import { ref } from 'vue'
 
 const isLoginVisible = ref(false)
+const isRegisterVisible = ref(false)
 </script>
 
 <template>
-  <LoginModal v-model:loginVisible="isLoginVisible" />
-  <AppHeader v-model:loginVisible="isLoginVisible" />
+  <AppLogin v-model:visible="isLoginVisible" />
+  <AppHeader v-model:loginVisible="isLoginVisible" v-model:registerVisible="isRegisterVisible" />
 
   <main class="relative flex flex-1 self-stretch">
     <slot />

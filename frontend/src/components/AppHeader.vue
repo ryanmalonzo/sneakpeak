@@ -7,6 +7,7 @@ import Menu from 'primevue/menu'
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { debounce } from 'underscore'
+import AppLogin from '@/components/AppLogin.vue'
 import { profileStore } from '@/store/profile'
 import { logout } from '@/helpers/auth'
 
@@ -19,18 +20,9 @@ const profile = profileStore() //Store profile
 
 const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
 const items = ref([
-  {
-    label: 'Promotions',
-    root: true
-  },
-  {
-    label: 'Marques',
-    root: true
-  },
-  {
-    label: 'Catégories',
-    root: true
-  }
+  { label: 'Promotions', root: true },
+  { label: 'Marques', root: true },
+  { label: 'Catégories', root: true }
 ])
 
 const goToSearch = debounce(() => {
@@ -89,7 +81,6 @@ const displayMenuProfile = (event: Event) => {
         <Image :src="logo" alt="Logo SneakPeak" class="pr-2.5" />
       </a>
     </template>
-
     <template #end>
       <div class="flex items-center gap-2.5">
         <SearchInput class="hidden md:block" :submit="handleSubmit" v-model="searchRef" />
@@ -101,17 +92,11 @@ const displayMenuProfile = (event: Event) => {
           <SearchInput :submit="handleSubmit" v-model="searchRef" />
           <button type="button" @click="showMobileSearchRef = false">Annuler</button>
         </div>
-
         <div class="cursor-pointer md:hidden" @click="showMobileSearchRef = true">
           <i class="pi pi-search cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
         </div>
-
         <i class="pi pi-bell cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
-        <!-- Shopping cart -->
-        <div
-          id="cart"
-          class="flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
-        >
+        <div id="cart" class="flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50">
           <i class="pi pi-shopping-bag"></i>
         </div>
 
@@ -123,17 +108,13 @@ const displayMenuProfile = (event: Event) => {
           </div>
         </div>
         <!-- Login -->
-        <div
-          v-else
-          id="user"
-          class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
-          @click="modelLoginVisible = !modelLoginVisible"
-        >
+        <div id="user" class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50" @click="modelLoginVisible = true">
           <i class="pi pi-user"></i>
         </div>
       </div>
     </template>
   </MegaMenu>
+  <AppLogin v-model:visible="modelLoginVisible" />
 </template>
 
 <style scoped>
