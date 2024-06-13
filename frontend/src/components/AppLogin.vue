@@ -49,7 +49,7 @@ const modelResetPasswordVisible = ref(false)
 
 // La modale pour l'inscription
 function openRegisterModal() {
-  modelLoginVisible.value = false
+  modelLoginVisible.value = !true
   modelRegisterVisible.value = true
 }
 
@@ -88,7 +88,7 @@ function openResetPasswordModal() {
           @click="openResetPasswordModal"
           >Mot de passe oublié ?</a
         >
-        <ResetPassword :visible="modelResetPasswordVisible" />
+        <ResetPassword v-model:visible="modelResetPasswordVisible" />
       </div>
       <!-- Buttons -->
       <div class="justify-content-end flex flex-col gap-2">

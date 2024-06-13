@@ -1,5 +1,5 @@
 <template>
-  <GenericModal :visible="visible" header="Mot de passe oublié">
+  <GenericModal v-model:visible="modelResetPasswordVisible" header="Mot de passe oublié">
     <form>
       <div class="align-items-center mb-3 flex flex-col gap-2">
         <label for="email" class="w-6rem">Adresse mail</label>
@@ -13,12 +13,9 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import GenericModal from './GenericModal.vue'
 
-defineProps({
-  visible: {
-    type: Boolean,
-    required: true
-  }
-})
+const modelResetPasswordVisible = ref(false)
+
 </script>
