@@ -22,6 +22,7 @@ const styleOverrides = {
     <span class="relative flex flex-1">
       <button class="pi pi-search absolute right-4 top-1/2 -translate-y-1/2 transform"></button>
       <InputText
+        id="search"
         type="text"
         placeholder="Nike Air Force 1"
         :pt="styleOverrides"

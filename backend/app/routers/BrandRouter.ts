@@ -2,16 +2,23 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { BrandService } from '../services/BrandService';
 import { StatusCodes } from 'http-status-codes';
 import { auth } from '../middlewares/auth';
-import cookieParser from 'cookie-parser';
 
 export const BrandRouter = Router();
 
-// Tous les endpoints de ce router nécessitent un cookie d'authentification
-BrandRouter.use(cookieParser());
-BrandRouter.use(auth);
+BrandRouter.get(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res.status(StatusCodes.OK).json(await BrandService.findAll());
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 BrandRouter.post(
-  '/brands',
+  '/',
+  auth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       return res
@@ -24,7 +31,8 @@ BrandRouter.post(
 );
 
 BrandRouter.put(
-  '/brands/:id',
+  '/:id',
+  auth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       return res
@@ -43,7 +51,8 @@ BrandRouter.put(
 );
 
 BrandRouter.delete(
-  '/brands/:id',
+  '/:id',
+  auth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       return res

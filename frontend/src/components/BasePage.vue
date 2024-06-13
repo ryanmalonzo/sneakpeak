@@ -12,7 +12,7 @@ const isRegisterVisible = ref(false)
   <AppLogin v-model:visible="isLoginVisible" />
   <AppHeader v-model:loginVisible="isLoginVisible" v-model:registerVisible="isRegisterVisible" />
 
-  <main class="flex flex-1 self-stretch">
+  <main class="relative flex flex-1 self-stretch">
     <slot />
   </main>
 

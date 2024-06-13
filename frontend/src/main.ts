@@ -5,7 +5,6 @@ import { createPinia } from 'pinia'
 import router from './router'
 import App from './App.vue'
 import './assets/base.css'
-
 import 'primeicons/primeicons.css'
 import PrimeVue from 'primevue/config'
 // @ts-ignore
@@ -13,6 +12,8 @@ import Aura from './presets/aura'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Dialog from 'primevue/dialog'
+// @ts-ignore
+import vClickOutside from 'v-click-outside'
 
 const app = createApp(App)
 
@@ -25,6 +26,17 @@ app.use(PrimeVue, {
     inputtext: {
       root: 'border border-sneakpeak-gray-50 rounded-full px-4 py-2'
     }
+  }
+})
+
+const { bind, unbind } = vClickOutside.directive
+
+app.directive('click-outside', {
+  mounted(el, bindling) {
+    bind(el, { value: bindling.value })
+  },
+  beforeUnmount(el) {
+    unbind(el)
   }
 })
 

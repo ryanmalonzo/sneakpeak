@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
 import { BrandModel } from '../models/mongodb/Brand';
 import { CategoryModel } from '../models/mongodb/Category';
-import { ColorModel } from '../models/mongodb/Color';
-import { SizeModel } from '../models/mongodb/Size';
+import { SneakerModel } from '../models/mongodb/Sneaker';
 
 // Operation type
 type Operation = 'create' | 'update' | 'delete';
@@ -20,7 +19,6 @@ async function syncWithMongoDB(
   switch (operation) {
     case 'create': {
       // Create a new document
-      console.log('Creating a new document:', data);
       const newDocument = new ModelMongo({
         _id: new mongoose.Types.ObjectId(),
         ...data,
@@ -35,11 +33,7 @@ async function syncWithMongoDB(
         throw new Error('The document ID is required to update the document.');
       }
       console.log('Updating the document:', data);
-      console.log('Updating the document:', data.id);
-      await ModelMongo.findOneAndUpdate({ id: data.id }, data, {
-        upsert: true,
-        new: true,
-      });
+      await ModelMongo.findOneAndUpdate({ id: data.id }, data);
       break;
     }
     case 'delete': {
@@ -48,7 +42,6 @@ async function syncWithMongoDB(
         throw new Error('The document ID is required to delete the document.');
       }
       console.log('Deleting the document:', data);
-      console.log('Deleting the document:', data.id);
       await ModelMongo.findOneAndDelete({ id: data.id });
       break;
     }
@@ -66,10 +59,8 @@ function getModel(modelName: string) {
       return BrandModel;
     case 'Category':
       return CategoryModel;
-    case 'Color':
-      return ColorModel;
-    case 'Size':
-      return SizeModel;
+    case 'Sneaker':
+      return SneakerModel;
     default:
       throw new Error(`Unsupported model name: ${modelName}`);
   }

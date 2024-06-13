@@ -7,13 +7,14 @@ import { SneakerRouter } from './routers/SneakerRouter';
 import { UserRouter } from './routers/UserRouter';
 import cookieParser from 'cookie-parser';
 import { BrandRouter } from './routers/BrandRouter';
+import { CategoryRouter } from './routers/CategoryRouter';
 
 const app = express();
 
 app.use(
   cors({
     origin: ['http://localhost:5173', 'https://sneakpeak.store'],
-    methods: 'GET,POST,PUT',
+    methods: 'GET,POST,PUT,DELETE',
     allowedHeaders: 'Content-Type,Authorization',
     credentials: true,
   }),
@@ -25,6 +26,7 @@ app.use('/users', UserRouter);
 app.use('/session', SessionRouter);
 app.use('/sneakers', SneakerRouter);
 app.use('/brands', BrandRouter);
+app.use('/categories', CategoryRouter);
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 app.use((err, req, res, next) => {
