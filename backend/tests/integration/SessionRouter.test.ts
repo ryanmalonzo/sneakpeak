@@ -7,14 +7,43 @@ import { User } from '../../app/models/sql/User';
 import { UserService } from '../../app/services/UserService';
 import { uniqueEmail } from './helpers';
 
+const PASSWORD = 'DarkraiIsBest123%';
+
+async function testThatCreateAndAuthenticateValidUserWithValidCookie(): Promise<request.Response> {
+  const user: User = await UserService.registerUser(uniqueEmail(), PASSWORD);
+
+  const challenge = await Challenge.findOne({
+    where: { userId: user.id, type: 'email' },
+  });
+
+  if (!challenge) {
+    throw new Error('Challenge not found');
+  }
+
+  await UserService.verifyEmail(user, challenge.token);
+
+  const loginResponse = await request(app).post('/session').send({
+    email: user.email,
+    password: PASSWORD,
+  });
+
+  expect(loginResponse.status).to.equal(StatusCodes.OK);
+
+  // Verif si le cookie est bien créé
+  const cookie = loginResponse.headers['set-cookie'];
+  expect(cookie).to.not.be.empty;
+
+  expect(cookie[0]).to.include('accessToken');
+  const accessToken: string = cookie[0];
+
+  expect(accessToken).to.include('HttpOnly');
+  expect(accessToken).to.include('SameSite=Strict');
+
+  return loginResponse;
+}
+
 describe('SessionRouter', () => {
   describe('POST /session', () => {
-    const PASSWORD = 'DarkraiIsBest123%';
-
-    const registerUser = async (): Promise<User> => {
-      return await UserService.registerUser(uniqueEmail(), PASSWORD);
-    };
-
     it('should return a 401 status code if user does not exist', async () => {
       const response = await request(app).post('/session').send({
         email: 'email',
@@ -25,7 +54,7 @@ describe('SessionRouter', () => {
     });
 
     it('should return a 401 status code if email is unverified', async () => {
-      const user = await registerUser();
+      const user = await UserService.registerUser(uniqueEmail(), PASSWORD);
 
       const response = await request(app).post('/session').send({
         email: user.email,
@@ -35,35 +64,48 @@ describe('SessionRouter', () => {
       expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
     });
 
-    it('should set a cookie if email is verified', async () => {
-      const user = await registerUser();
+    it(
+      'should set a cookie if email is verified',
+      testThatCreateAndAuthenticateValidUserWithValidCookie,
+    );
+  });
 
-      const challenge = await Challenge.findOne({
-        where: { userId: user.id, type: 'email' },
-      });
+  describe('GET /session', () => {
+    it('should return a 401 status code if user is not authenticated', async () => {
+      const response = await request(app).get('/session');
 
-      if (!challenge) {
-        throw new Error('Challenge not found');
-      }
+      expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
+    });
 
-      await UserService.verifyEmail(user, challenge.token);
+    it('should return a 200 status code if user is authenticated', async () => {
+      const loginResponse =
+        await testThatCreateAndAuthenticateValidUserWithValidCookie();
 
-      const response = await request(app).post('/session').send({
-        email: user.email,
-        password: PASSWORD,
-      });
+      const cookie = loginResponse.headers['set-cookie'];
+      const response = await request(app).get('/session').set('Cookie', cookie);
 
       expect(response.status).to.equal(StatusCodes.OK);
+    });
+  });
 
-      // Verif si le cookie est bien créé
-      const cookie = response.headers['set-cookie'];
-      expect(cookie).to.not.be.empty;
+  describe('GET /session/logout', () => {
+    it('should return a 401 status code if user is not authenticated', async () => {
+      const response = await request(app).get('/session/logout');
 
-      expect(cookie[0]).to.include('accessToken');
-      const accessToken: string = cookie[0];
+      expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
+    });
 
-      expect(accessToken).to.include('HttpOnly');
-      expect(accessToken).to.include('SameSite=Strict');
+    it('should return a 200 status code if user is authenticated and remove the cookie', async () => {
+      const loginResponse =
+        await testThatCreateAndAuthenticateValidUserWithValidCookie();
+
+      const cookie = loginResponse.headers['set-cookie'];
+      const response = await request(app)
+        .get('/session/logout')
+        .set('Cookie', cookie);
+
+      expect(response.status).to.equal(StatusCodes.OK);
+      expect(response.headers['set-cookie'][0]).to.include('accessToken=;'); // Cookie empty
     });
   });
 });

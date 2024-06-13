@@ -31,3 +31,12 @@ SessionRouter.get('/', auth, async (req, res, next) => {
     next(error);
   }
 });
+
+SessionRouter.get('/logout', auth, async (req, res, next) => {
+  try {
+    res.clearCookie('accessToken');
+    return res.sendStatus(StatusCodes.OK);
+  } catch (error) {
+    next(error);
+  }
+});
