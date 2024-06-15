@@ -23,7 +23,11 @@ export class Translation {
         break
     }
   }
-
+  
+  /**
+   * @param message Erreur d'inscription en anglais
+   * @returns Erreur d'inscription en français
+   */
   static registerErrors(message: Error) {
     switch ((message as IError).error) {
       case 'email_already_exists':
