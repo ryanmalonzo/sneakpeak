@@ -23,4 +23,20 @@ export class Translation {
         break
     }
   }
+
+  static registerErrors(message: Error) {
+    switch ((message as IError).error) {
+      case 'email_already_exists':
+        return 'Email déjà utilisé'
+
+      case 'password_too_short':
+        return 'Mot de passe trop court'
+
+      case 'password_mismatch':
+        return 'Les mots de passe renseignés sont différents'
+
+      default:
+        break
+    }
+  }
 }

@@ -1,6 +1,6 @@
 <template>
     <GenericModal v-model:visible="modelRegisterVisible" header="Inscription">
-      <form>
+      <form @click.prevent="onSubmit">
         <div class="flex flex-col align-items-center gap-2 mb-3">
             <label for="email" class="w-6rem">Adresse mail</label>
             <InputText
@@ -30,7 +30,7 @@
               id="passwordConfirm"
               class="flex-auto"
               placeholder="************"
-              v-model="password"
+              v-model="passwordConfirm"
             />
         </div>
         <div class="flex flex-col justify-content-end gap-2">
@@ -44,8 +44,10 @@
   import { ref, computed } from 'vue'
   import { z } from 'zod'
   import GenericModal from './GenericModal.vue'
-  
-  // Gestion des erreurs dans le formulaire instantanément avec zod
+  import { SessionApi } from '@/services/sessionApi'
+  import { Translation } from '@/helpers/translation'
+
+  // Gestion des erreurs instantanément dans le formulaire avec zod
   const emailSchema = z
     .string()
     .min(5, { message: 'Doit contenir au moins 5 caractères' })
@@ -54,6 +56,9 @@
   
   const email = ref('')
   const password = ref('')
+  const passwordConfirm = ref('')
+  const registerError = ref('')
+  const modelRegisterVisible = ref(false)
 
   const emailError = computed(() => {
     const parsedEmail = emailSchema.safeParse(email.value)
@@ -62,8 +67,22 @@
     }
     return parsedEmail.error.errors[0].message
   })
-  
-  const modelRegisterVisible = ref(false)
+
+  async function onSubmit() {
+    if (password.value !== passwordConfirm.value || emailError.value !== '' || email.value === '' || password.value === '') {
+      return null
+    }
+
+    try {
+      await SessionApi.register(email.value, password.value)
+      email.value = ''
+      password.value = ''
+      registerError.value = ''
+      modelRegisterVisible.value = false
+    } catch (e) {
+      registerError.value = Translation.registerErrors(e as Error)!
+    }
+  }
 </script>
   
 <style scoped></style>
