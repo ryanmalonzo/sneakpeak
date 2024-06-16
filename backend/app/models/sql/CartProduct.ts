@@ -1,5 +1,4 @@
 import { CreationOptional, DataTypes, Model, Sequelize } from 'sequelize';
-import syncWithMongoDB from '../../helpers/syncPsqlMongo';
 
 export class CartProduct extends Model {
   declare id: CreationOptional<number>;
