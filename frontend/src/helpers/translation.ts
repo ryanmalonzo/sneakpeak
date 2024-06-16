@@ -43,4 +43,18 @@ export class Translation {
         break
     }
   }
+
+  /**
+   * @param message Erreur de réinitialisation de mot de passe en anglais
+   * @returns Erreur de réinitialisation de mot de passe en français
+   */
+  static resetPasswordErrors(message: Error) {
+    switch ((message as IError).error) {
+      case 'email_not_found':
+        return 'Cet utilisateur n\'existe pas'
+
+      default:
+        break
+    }
+  }
 }
