@@ -1,5 +1,5 @@
 <template>
-  <GenericModal v-model:visible="modelRegisterVisible" header="Inscription">
+  <GenericModal v-model:visible="localVisible" header="Inscription">
     <form @submit.prevent="onSubmit">
       <div class="flex flex-col align-items-center gap-2 mb-3">
         <label for="email" class="w-6rem">Adresse mail</label>
@@ -44,20 +44,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { z } from 'zod'
 import axios from 'axios'
 import GenericModal from './GenericModal.vue'
 
-// Initialisation des variables à utiliser
+const props = defineProps<{ visible: boolean }>()
+const emit = defineEmits(['update:visible'])
+
 const email = ref('')
 const password = ref('')
 const passwordConfirm = ref('')
 const registerError = ref('')
-const modelRegisterVisible = ref(false)
-const emit = defineEmits(['update:visible'])
+const localVisible = ref(props.visible)
 
-// Gestion des erreurs instantanément dans le formulaire avec zod
+watch(() => props.visible, (newVal) => {
+  localVisible.value = newVal
+})
+
+watch(localVisible, (newVal) => {
+  emit('update:visible', newVal)
+})
+
 const emailSchema = z
   .string()
   .min(5, { message: 'Doit contenir au moins 5 caractères' })
@@ -72,30 +80,26 @@ const emailError = computed(() => {
   return parsedEmail.error.errors[0].message
 })
 
-// Traitements à la soumission du formulaire
 async function onSubmit() {
   if (password.value !== passwordConfirm.value || emailError.value !== '' || email.value === '' || password.value === '' || passwordConfirm.value === '') {
-    return null
+    return
   }
 
   try {
-    const response = await axios.post('http://localhost:3000/users', { // A modifier pour mettre directement l'URL de l'API (Je garde localhost pour le test sur le port 3000)
+    const response = await axios.post('http://localhost:3000/users', {
       email: email.value,
       password: password.value,
     })
-   
-    // Vide les champs et ferme le formulaire
+
     email.value = ''
     password.value = ''
     passwordConfirm.value = ''
     registerError.value = ''
+    localVisible.value = false
 
-    emit('update:visible', false)
-
-    // ... Pop-up success .... //
-
+    // Pop-up success notification
   } catch (e: any) {
-    registerError.value = e.response?.data?.message || 'L\'inscription a échoué'
+    registerError.value = e.response?.data?.message || "L'inscription a échoué"
   }
 }
 </script>

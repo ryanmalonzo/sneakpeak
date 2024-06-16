@@ -1,5 +1,5 @@
 <template>
-  <GenericModal v-model:visible="modelResetPasswordVisible" header="Mot de passe oublié">
+  <GenericModal v-model:visible="localVisible" header="Mot de passe oublié">
     <form @submit.prevent="onSubmit">
       <div class="align-items-center mb-3 flex flex-col gap-2">
         <label for="email" class="w-6rem">Adresse mail</label>
@@ -15,17 +15,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { z } from 'zod'
 import GenericModal from './GenericModal.vue'
 import { Translation } from '@/helpers/translation'
 import axios from 'axios'
 
-// Initialisation des variables à utiliser
-const email = ref('')
-const modelResetPasswordVisible = ref(false)
-const resetPasswordError = ref('')
+const props = defineProps<{ visible: boolean }>()
 const emit = defineEmits(['update:visible'])
+
+const email = ref('')
+const resetPasswordError = ref('')
+const localVisible = ref(props.visible)
+
+watch(() => props.visible, (newVal) => {
+  localVisible.value = newVal
+})
+
+watch(localVisible, (newVal) => {
+  emit('update:visible', newVal)
+})
 
 const emailSchema = z
   .string()
@@ -41,7 +50,6 @@ const emailError = computed(() => {
   return parsedEmail.error.errors[0].message
 })
 
-// Traitement de l'envoi du mail de resetPassword
 async function onSubmit() {
   if (emailError.value !== '' || email.value === '') {
     return
@@ -50,11 +58,12 @@ async function onSubmit() {
   try {
     await axios.post('http://localhost:3000/users/password-reset', { email: email.value })
     
+    // reset les champs
     resetPasswordError.value = ''
     email.value = ''
     
     // ferme la modale
-    emit('update:visible', false)
+    localVisible.value = false
      
   } catch (e) {
     resetPasswordError.value = Translation.resetPasswordErrors(e as Error)!
