@@ -18,6 +18,7 @@ export class Sneaker extends Model {
   declare id: CreationOptional<number>;
   declare name: string;
   declare description: string;
+  declare mainCover: string;
   declare price: number;
   declare categoryId: ForeignKey<Category['id']>;
   declare brandId: ForeignKey<Brand['id']>;
@@ -58,6 +59,10 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
       },
       description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      mainCover: {
         type: DataTypes.STRING,
         allowNull: false,
       },
