@@ -16,11 +16,9 @@ export const updateCartInMongoDB = async (Cart: Cart) => {
   data.user = user!.email;
   data.items = await Promise.all(
     items.map(async (item: CartProduct) => {
-      const variation = await VariantRepository.findVariantById(
-        item.variation_id,
-      );
+      const variant = await VariantRepository.findVariantById(item.variant_id);
       const sneaker = await SneakerRepository.findSneakerById(
-        variation!.sneakerId,
+        variant!.sneakerId,
       );
       const category = await CategoryRepository.findCategoryById(
         sneaker!.categoryId,
@@ -32,7 +30,7 @@ export const updateCartInMongoDB = async (Cart: Cart) => {
         name: sneaker!.name,
         category: category!.name,
         brand: brand!.name,
-        mainCover: sneaker!.mainCover,
+        image: variant!.image,
         quantity: item!.quantity,
         unitPrice: sneaker!.price,
         adjustement: 0,

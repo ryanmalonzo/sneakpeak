@@ -4,7 +4,7 @@ import syncWithMongoDB from '../../helpers/syncPsqlMongo';
 export class CartProduct extends Model {
   declare id: CreationOptional<number>;
   declare cart_id: number;
-  declare variation_id: number;
+  declare variant_id: number;
   declare quantity: number;
   declare total: number;
   declare createdAt: Date;
@@ -18,7 +18,7 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      variation_id: {
+      variant_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
