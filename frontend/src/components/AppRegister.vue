@@ -83,11 +83,16 @@ async function onSubmit() {
       email: email.value,
       password: password.value,
     })
-    
-    // Si l'inscription est réussie, on cache le formulaire d'inscription et on envoie
+   
+    // Vide les champs et ferme le formulaire
+    email.value = ''
+    password.value = ''
+    passwordConfirm.value = ''
+    registerError.value = ''
+
     emit('update:visible', false)
 
-    // ... Pop up success .... //
+    // ... Pop-up success .... //
 
   } catch (e: any) {
     registerError.value = e.response?.data?.message || 'L\'inscription a échoué'
