@@ -1,5 +1,5 @@
 <template>
-  <GenericModal v-model:visible="modelLoginVisible" header="Connexion">
+  <GenericModal v-model:visible="localVisible" header="Connexion">
     <form @submit.prevent="onSubmit">
       <div class="align-items-center mb-3 flex flex-col gap-2">
         <label for="email" class="w-6rem">Adresse mail</label>
@@ -44,16 +44,30 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { z } from 'zod'
-import type { ComputedRef } from 'vue'
 import { SessionApi } from '@/services/sessionApi'
 import { Translation } from '@/helpers/translation'
 import GenericModal from './GenericModal.vue'
 import AppRegister from './AppRegister.vue'
 import ResetPassword from './ResetPassword.vue'
 import { checkAuth } from '@/helpers/auth'
-import { defineModel } from 'vue'
+
+const props = defineProps<{ visible: boolean }>()
+const emit = defineEmits(['update:visible'])
+
+const email = ref('')
+const password = ref('')
+const loginError = ref('')
+const localVisible = ref(props.visible)
+
+watch(() => props.visible, (newVal) => {
+  localVisible.value = newVal
+})
+
+watch(localVisible, (newVal) => {
+  emit('update:visible', newVal)
+})
 
 const emailSchema = z
   .string()
@@ -61,11 +75,7 @@ const emailSchema = z
   .max(30, { message: 'Doit contenir au plus 30 caractères' })
   .email({ message: 'Email invalide' })
 
-const email = ref('')
-const password = ref('')
-const loginError = ref('')
-
-const emailError: ComputedRef<string> = computed(() => {
+const emailError = computed(() => {
   const parsedEmail = emailSchema.safeParse(email.value)
   if (parsedEmail.success || email.value === '') {
     return ''
@@ -75,7 +85,7 @@ const emailError: ComputedRef<string> = computed(() => {
 
 async function onSubmit() {
   if (emailError.value !== '' || email.value === '' || password.value === '') {
-    return null
+    return
   }
 
   try {
@@ -85,26 +95,25 @@ async function onSubmit() {
     email.value = ''
     password.value = ''
     loginError.value = ''
-    modelLoginVisible.value = false
+    localVisible.value = false
+
+    // Pop-up success notification
   } catch (e) {
     loginError.value = Translation.loginErrors(e as Error)!
   }
 }
 
 // Par défaut les modales sont fermées
-const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
 const modelRegisterVisible = ref(false)
 const modelResetPasswordVisible = ref(false)
 
 // La modale pour l'inscription
 function openRegisterModal() {
-  modelLoginVisible.value = !true
   modelRegisterVisible.value = true
 }
 
 // La modale pour la réinitialisation du mot de passe
 function openResetPasswordModal() {
-  modelLoginVisible.value = false
   modelResetPasswordVisible.value = true
 }
 </script>

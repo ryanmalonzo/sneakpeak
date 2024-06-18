@@ -87,7 +87,7 @@ async function onSubmit() {
   }
 
   try {
-    const response = await axios.post(`${API_URL}/users`, {
+    await axios.post(`${API_URL}/users`, {
       email: email.value,
       password: password.value,
     })

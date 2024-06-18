@@ -8,7 +8,7 @@ const isLoginVisible = ref(false)
 </script>
 
 <template>
-  <AppLogin v-model:loginVisible="isLoginVisible" />
+  <AppLogin v-model:visible="isLoginVisible" />
   <AppHeader v-model:loginVisible="isLoginVisible"/>
 
   <main class="relative flex flex-1 self-stretch">
