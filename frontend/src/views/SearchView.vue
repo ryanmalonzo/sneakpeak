@@ -7,7 +7,7 @@ import SneakerGrid from '@/components/sneakers/SneakerGrid.vue'
 import { SneakerApi } from '@/services/sneakerApi'
 import Divider from 'primevue/divider'
 import Paginator, { type PageState } from 'primevue/paginator'
-import { ref, watchEffect, type Ref } from 'vue'
+import { ref, watch, watchEffect, type Ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
@@ -17,6 +17,8 @@ const filterOptionsOpen = ref(false)
 const sneakers: Ref<SneakerApi.SneakerOut[]> = ref([])
 const totalCount = ref(0)
 const currentPage = ref(1)
+
+const DEFAULT_LIMIT = 25
 
 const searchSneakers = async (pagination: SneakerApi.PaginationIn) => {
   const data = await SneakerApi.getPaginated(pagination)
@@ -45,6 +47,12 @@ const setQueryParams = (query: Record<string, string>) => {
   })
 }
 
+// Set current page back to 1 when filters change
+watch([() => route.query.brand, () => route.query.category, () => route.query.price], () => {
+  currentPage.value = 1
+  setQueryParams({ page: currentPage.value.toString() })
+})
+
 const onCriteriaChange = (criteria: { sort: string; order: string }) => {
   setQueryParams({
     sort: criteria.sort,
@@ -59,6 +67,10 @@ const handlePageChange = (event: PageState) => {
 
 const handleFilterOptionsOpen = (value: boolean) => {
   filterOptionsOpen.value = value
+}
+
+if (route.query.brand || route.query.category || route.query.price) {
+  filterOptionsOpen.value = true
 }
 </script>
 
@@ -98,7 +110,7 @@ const handleFilterOptionsOpen = (value: boolean) => {
 
       <Paginator
         v-if="totalCount"
-        :rows="sneakers.length"
+        :rows="DEFAULT_LIMIT"
         :total-records="totalCount"
         @page="handlePageChange"
       />

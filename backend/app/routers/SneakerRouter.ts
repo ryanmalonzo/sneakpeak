@@ -35,3 +35,18 @@ SneakerRouter.get(
     }
   },
 );
+
+SneakerRouter.get(
+  '/:id',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      return res
+        .status(StatusCodes.OK)
+        .json(await SneakerService.findOneById(id));
+    } catch (error) {
+      next(error);
+    }
+  },
+);

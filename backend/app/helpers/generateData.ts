@@ -33,7 +33,7 @@ async function connect(): Promise<void> {
   }
 
   try {
-    await sequelize.sync();
+    await sequelize.sync({ force: true });
     await generateData(process.argv[2], process.argv[3], process.argv[4]);
     await sequelize.close();
     await mongoose.connection.close();
@@ -227,6 +227,14 @@ async function generateDataModelSneaker(
   }
 }
 
+const base64 = async (url: string) => {
+  const data = await fetch(url);
+  const buffer = await data.arrayBuffer();
+  const base64 = Buffer.from(buffer).toString('base64');
+  const contentType = data.headers.get('content-type');
+  return `data:${contentType};base64,${base64}`;
+};
+
 async function generateDataModelVariant(
   isDelete: boolean = false,
   count: number = 10,
@@ -245,7 +253,7 @@ async function generateDataModelVariant(
   for (let i = 0; i < count; i++) {
     await Variant.create({
       stock: faker.number.int({ min: 0, max: 200 }),
-      image: faker.image.url(),
+      image: await base64(faker.image.urlLoremFlickr({ category: 'sneaker' })),
       sneakerId: (await Sneaker.findOne({ order: sequelize.random() }))!.id,
       sizeId: (await Size.findOne({ order: sequelize.random() }))!.id,
       colorId: (await Color.findOne({ order: sequelize.random() }))!.id,
