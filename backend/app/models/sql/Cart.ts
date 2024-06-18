@@ -16,38 +16,69 @@ import { CartProduct } from './CartProduct';
 import { Operation } from '../../helpers/syncPsqlMongo';
 
 export const SyncCartInMongoDB = async (Cart: Cart, type: Operation) => {
-  const data = Cart.toJSON();
-  const items = await CartProductRepository.findCartProductsByCartId(data.id);
-  const user = await UserRepository.findById(data.user_id);
-  data.user = user!.email;
-  const cartProductPromises = items.map(async (item: CartProduct) => {
-    const variant = await VariantRepository.findVariantById(item.variantId);
-    const sneaker = await SneakerRepository.findSneakerById(variant!.sneakerId);
-    const category = await CategoryRepository.findCategoryById(
-      sneaker!.categoryId,
+  try {
+    const data = Cart.toJSON();
+    const [items, user] = await Promise.all([
+      CartProductRepository.findCartProductsByCartId(data.id),
+      UserRepository.findById(data.user_id),
+    ]);
+
+    data.user = user!.email;
+
+    const cartProductPromises = items.map(async (item: CartProduct) => {
+      const variant = await VariantRepository.findVariantById(item.variantId);
+      if (!variant) {
+        throw new Error(`Variant not found for id ${item.variantId}`);
+      }
+
+      const sneaker = await SneakerRepository.findSneakerById(
+        variant.sneakerId,
+      );
+      if (!sneaker) {
+        throw new Error(`Sneaker not found for id ${variant.sneakerId}`);
+      }
+
+      const [category, brand] = await Promise.all([
+        CategoryRepository.findCategoryById(sneaker.categoryId),
+        BrandRepository.findBrandById(sneaker.brandId),
+      ]);
+
+      if (!category) {
+        throw new Error(`Category not found for id ${sneaker.categoryId}`);
+      }
+
+      if (!brand) {
+        throw new Error(`Brand not found for id ${sneaker.brandId}`);
+      }
+
+      return {
+        id: variant.id,
+        reference: sneaker.name,
+        name: sneaker.name,
+        category: category.name,
+        brand: brand.name,
+        image: variant.image,
+        quantity: item.quantity,
+        unitPrice: sneaker.price,
+        adjustment: 0,
+        total: item.quantity * sneaker.price,
+      };
+    });
+
+    data.cartProduct = await Promise.all(cartProductPromises);
+    data.totalCart = data.cartProduct.reduce(
+      (total: number, product: CartProduct) => total + product.total,
+      0,
     );
-    const brand = await BrandRepository.findBrandById(sneaker!.brandId);
+    data.modifiedAt = new Date();
+    data.expiredAt = new Date(new Date().getTime() + 15 * 60 * 1000); // 15 minutes from now
 
-    return {
-      id: variant!.id,
-      reference: sneaker!.name,
-      name: sneaker!.name,
-      category: category!.name,
-      brand: brand!.name,
-      image: variant!.image,
-      quantity: item!.quantity,
-      unitPrice: sneaker!.price,
-      adjustement: 0,
-      total: item.quantity * sneaker!.price,
-    };
-  });
-
-  data.cartProduct = await Promise.all(cartProductPromises);
-  data.totalCart = 1;
-  data.modifiedAt = new Date();
-  data.expiredAt = new Date(new Date().setDate(new Date().getMinutes() + 15));
-  await syncWithMongoDB(Cart.constructor.name, type, data);
+    await syncWithMongoDB(Cart.constructor.name, type, data);
+  } catch (error) {
+    console.error('Error syncing cart with MongoDB:', error);
+  }
 };
+
 export class Cart extends Model {
   declare id: CreationOptional<number>;
   declare user_id: number;
