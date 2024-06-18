@@ -56,8 +56,8 @@ async function onSubmit() {
     return
   }
   try {
-    await axios.post(`${API_URL}/password-reset`, { email: email.value })
-    
+    await axios.post(`${API_URL}/users/password-reset`, { email: email.value })
+
     // reset les champs
     resetPasswordError.value = ''
     email.value = ''
