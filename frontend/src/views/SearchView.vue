@@ -7,7 +7,7 @@ import SneakerGrid from '@/components/sneakers/SneakerGrid.vue'
 import { SneakerApi } from '@/services/sneakerApi'
 import Divider from 'primevue/divider'
 import Paginator, { type PageState } from 'primevue/paginator'
-import { ref, watchEffect, type Ref } from 'vue'
+import { ref, watch, watchEffect, type Ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
@@ -47,6 +47,12 @@ const setQueryParams = (query: Record<string, string>) => {
   })
 }
 
+// Set current page back to 1 when filters change
+watch([() => route.query.brand, () => route.query.category, () => route.query.price], () => {
+  currentPage.value = 1
+  setQueryParams({ page: currentPage.value.toString() })
+})
+
 const onCriteriaChange = (criteria: { sort: string; order: string }) => {
   setQueryParams({
     sort: criteria.sort,
@@ -55,7 +61,6 @@ const onCriteriaChange = (criteria: { sort: string; order: string }) => {
 }
 
 const handlePageChange = (event: PageState) => {
-  console.log(event.page)
   currentPage.value = event.page + 1
   setQueryParams({ page: currentPage.value.toString() })
 }
