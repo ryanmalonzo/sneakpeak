@@ -60,6 +60,10 @@ const handlePageChange = (event: PageState) => {
 const handleFilterOptionsOpen = (value: boolean) => {
   filterOptionsOpen.value = value
 }
+
+if (route.query.brand || route.query.category || route.query.price) {
+  filterOptionsOpen.value = true
+}
 </script>
 
 <template>
