@@ -42,7 +42,7 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
       },
       total: {
-        type: DataTypes.DECIMAL(10, 2),
+        type: DataTypes.DECIMAL,
         allowNull: false,
       },
       createdAt: {

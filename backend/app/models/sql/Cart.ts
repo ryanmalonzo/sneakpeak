@@ -29,7 +29,7 @@ export const SyncCartInMongoDB = async (Cart: Cart, type: Operation) => {
     const brand = await BrandRepository.findBrandById(sneaker!.brandId);
 
     return {
-      id: sneaker!.id,
+      id: variant!.id,
       reference: sneaker!.name,
       name: sneaker!.name,
       category: category!.name,
