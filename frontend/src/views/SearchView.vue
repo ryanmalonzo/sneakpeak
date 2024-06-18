@@ -18,6 +18,8 @@ const sneakers: Ref<SneakerApi.SneakerOut[]> = ref([])
 const totalCount = ref(0)
 const currentPage = ref(1)
 
+const DEFAULT_LIMIT = 25
+
 const searchSneakers = async (pagination: SneakerApi.PaginationIn) => {
   const data = await SneakerApi.getPaginated(pagination)
   sneakers.value = data.items
@@ -53,6 +55,7 @@ const onCriteriaChange = (criteria: { sort: string; order: string }) => {
 }
 
 const handlePageChange = (event: PageState) => {
+  console.log(event.page)
   currentPage.value = event.page + 1
   setQueryParams({ page: currentPage.value.toString() })
 }
@@ -102,7 +105,7 @@ if (route.query.brand || route.query.category || route.query.price) {
 
       <Paginator
         v-if="totalCount"
-        :rows="sneakers.length"
+        :rows="DEFAULT_LIMIT"
         :total-records="totalCount"
         @page="handlePageChange"
       />
