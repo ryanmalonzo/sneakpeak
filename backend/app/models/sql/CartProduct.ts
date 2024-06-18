@@ -1,5 +1,4 @@
 import { CreationOptional, DataTypes, Model, Sequelize } from 'sequelize';
-import { Cart } from './Cart';
 
 export class CartProduct extends Model {
   declare id: CreationOptional<number>;
@@ -21,6 +20,22 @@ export default (sequelize: Sequelize) => {
       variant_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      total: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
       },
     },
     { sequelize, underscored: true },

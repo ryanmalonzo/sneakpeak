@@ -1,4 +1,5 @@
 import { Cart } from '../../models/sql/Cart';
+import { CartProduct } from '../../models/sql/CartProduct';
 
 export class CartRepository {
   static build(data: Partial<Cart>): Cart {
@@ -21,24 +22,8 @@ export class CartRepository {
     await cart.destroy();
   }
 
-  static async addProductToCart(
-    cart: Cart,
-    productId: number,
-    quantity: number,
-  ): Promise<void> {
-    await cart.addProduct(productId, quantity);
-  }
-
-  static async removeProductFromCart(
-    cart: Cart,
-    productId: number,
-  ): Promise<void> {
-    // TODO: Retirer un produit du panier
-    await cart.removeProduct(productId);
-  }
-
-  static async getCartProducts(cart: Cart): Promise<number[]> {
+  static async getCartProducts(cart: Cart): Promise<CartProduct[]> {
     const products = await cart.getCartProducts();
-    return products.map((product) => product.id);
+    return products;
   }
 }
