@@ -8,7 +8,10 @@ export class CartProductRepository {
     cartId: number,
   ): Promise<CartProduct[]> {
     console.log('cartId', cartId);
-    const cartProducts = await CartProduct.findAll();
+    const cartProducts = await CartProduct.findAll({
+      where: { cart_id: cartId },
+    });
+    console.log('cartProducts', cartProducts);
     return cartProducts;
   }
 

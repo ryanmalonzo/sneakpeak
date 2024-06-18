@@ -1,13 +1,29 @@
-import { CreationOptional, DataTypes, Model, Sequelize } from 'sequelize';
+import {
+  CreationOptional,
+  DataTypes,
+  Model,
+  Sequelize,
+  HasManyGetAssociationsMixin,
+  ForeignKey,
+  Association,
+} from 'sequelize';
+import { Cart } from './Cart';
+import { updateCartInMongoDB } from '../../models/sql/Cart';
 
 export class CartProduct extends Model {
   declare id: CreationOptional<number>;
-  declare cartId: number;
+  declare cartId: ForeignKey<Cart['id']>;
   declare variantId: number;
   declare quantity: number;
   declare total: number;
   declare createdAt: Date;
   declare updatedAt: Date;
+
+  declare getCart: HasManyGetAssociationsMixin<Cart>;
+
+  static associations: {
+    cart: Association<CartProduct, Cart>;
+  };
 }
 
 export default (sequelize: Sequelize) => {
@@ -40,6 +56,30 @@ export default (sequelize: Sequelize) => {
     },
     { sequelize, underscored: true },
   );
+
+  CartProduct.belongsTo(Cart, {
+    foreignKey: 'cartId',
+    as: 'cart',
+  });
+
+  CartProduct.afterCreate(async (cartProduct) => {
+    const data = cartProduct.toJSON();
+    console.log('Creating a new cart product:', data);
+    const cart = await Cart.findByPk(data.cartId);
+    await updateCartInMongoDB(cart!, 'update');
+  });
+
+  CartProduct.afterUpdate(async (cartProduct) => {
+    const data = cartProduct.toJSON();
+    const cart = await Cart.findByPk(data.cartId);
+    await updateCartInMongoDB(cart!, 'update');
+  });
+
+  CartProduct.afterDestroy(async (cartProduct) => {
+    const data = cartProduct.toJSON();
+    const cart = await Cart.findByPk(data.cartId);
+    await updateCartInMongoDB(cart!, 'update');
+  });
 
   return CartProduct;
 };

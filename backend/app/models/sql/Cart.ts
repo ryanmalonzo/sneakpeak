@@ -13,9 +13,9 @@ import { CategoryRepository } from '../../repositories/sql/CategoryRepository';
 import { BrandRepository } from '../../repositories/sql/BrandRepository';
 import { SneakerRepository } from '../../repositories/sql/SneakerRepository';
 import { CartProduct } from './CartProduct';
+import { Operation } from '../../helpers/syncPsqlMongo';
 
-export const updateCartInMongoDB = async (Cart: Cart) => {
-  console.log('Updating a document:', Cart);
+export const updateCartInMongoDB = async (Cart: Cart, type: Operation) => {
   const data = Cart.toJSON();
   const items = await CartProductRepository.findCartProductsByCartId(data.id);
   const user = await UserRepository.findById(data.user_id);
@@ -46,7 +46,7 @@ export const updateCartInMongoDB = async (Cart: Cart) => {
   data.totalCart = 1;
   data.modifiedAt = new Date();
   data.expiredAt = new Date(new Date().setDate(new Date().getMinutes() + 15));
-  await syncWithMongoDB(Cart.constructor.name, 'create', data);
+  await syncWithMongoDB(Cart.constructor.name, type, data);
 };
 export class Cart extends Model {
   declare id: CreationOptional<number>;
@@ -82,11 +82,11 @@ export default (sequelize: Sequelize) => {
   );
 
   Cart.afterCreate(async (cart) => {
-    updateCartInMongoDB(cart);
+    updateCartInMongoDB(cart, 'create');
   });
 
   Cart.afterUpdate(async (cart) => {
-    updateCartInMongoDB(cart);
+    updateCartInMongoDB(cart, 'update');
   });
 
   Cart.afterDestroy(async (cart) => {

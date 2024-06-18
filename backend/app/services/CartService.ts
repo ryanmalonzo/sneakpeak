@@ -19,7 +19,6 @@ export class CartService {
       });
       await CartRepository.createCart(cart);
     }
-
     const products = await CartRepository.getCartProducts(cart);
     products.forEach(async (product) => {
       if (product.variantId === variantId) {

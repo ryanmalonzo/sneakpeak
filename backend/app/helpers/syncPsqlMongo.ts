@@ -5,7 +5,7 @@ import { SneakerModel } from '../models/mongodb/Sneaker';
 import { CartModel } from '../models/mongodb/Cart';
 
 // Operation type
-type Operation = 'create' | 'update' | 'delete';
+export type Operation = 'create' | 'update' | 'delete';
 
 // Sync data with MongoDB database
 async function syncWithMongoDB(
