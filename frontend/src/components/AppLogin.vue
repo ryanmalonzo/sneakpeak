@@ -52,6 +52,7 @@ import { Translation } from '@/helpers/translation'
 import GenericModal from './GenericModal.vue'
 import AppRegister from './AppRegister.vue'
 import ResetPassword from './ResetPassword.vue'
+import { checkAuth } from '@/helpers/auth'
 
 const emailSchema = z
   .string()
@@ -78,6 +79,8 @@ async function onSubmit() {
 
   try {
     await SessionApi.login(email.value, password.value)
+    checkAuth()
+
     email.value = ''
     password.value = ''
     loginError.value = ''
