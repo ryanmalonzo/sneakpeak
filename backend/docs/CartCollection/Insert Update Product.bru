@@ -4,16 +4,16 @@ meta {
   seq: 2
 }
 
-delete {
-  url: http://localhost:3000/carts/12
+post {
+  url: http://localhost:3000/carts
   body: json
   auth: none
 }
 
 body:json {
   {
-    "cartId":12,
-    "variantId": 1,
-    "quantity":1200
+    "cartId":null,
+    "variantId": 3,
+    "quantity":1
   }
 }

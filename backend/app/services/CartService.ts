@@ -21,7 +21,6 @@ export class CartService {
     }
 
     const products = await CartRepository.getCartProducts(cart);
-    console.log('products', products.length);
     products.forEach(async (product) => {
       if (product.variantId === variantId) {
         product.quantity += quantity;
@@ -45,7 +44,7 @@ export class CartService {
         return;
       }
       const newProduct = CartProductRepository.build({
-        cartId: cartId,
+        cartId: cart.id,
         variantId: variantId,
         quantity: quantity,
         total: product!.price * quantity,

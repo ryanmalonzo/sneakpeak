@@ -20,36 +20,33 @@ export const updateCartInMongoDB = async (Cart: Cart) => {
   const items = await CartProductRepository.findCartProductsByCartId(data.id);
   const user = await UserRepository.findById(data.user_id);
   data.user = user!.email;
-  data.cartProduct = await Promise.all(
-    items.map(async (item: CartProduct) => {
-      const variant = await VariantRepository.findVariantById(item.variantId);
-      const sneaker = await SneakerRepository.findSneakerById(
-        variant!.sneakerId,
-      );
-      const category = await CategoryRepository.findCategoryById(
-        sneaker!.categoryId,
-      );
-      const brand = await BrandRepository.findBrandById(sneaker!.brandId);
-      return {
-        id: sneaker!.id,
-        reference: sneaker!.name,
-        name: sneaker!.name,
-        category: category!.name,
-        brand: brand!.name,
-        image: variant!.image,
-        quantity: item!.quantity,
-        unitPrice: sneaker!.price,
-        adjustement: 0,
-        total: item.quantity * sneaker!.price,
-      };
-    }),
-  );
-  data.totalCart = data.items.reduce(
-    (acc: number, item: CartProduct) => acc + item.quantity * item.total,
-  );
+  const cartProductPromises = items.map(async (item: CartProduct) => {
+    const variant = await VariantRepository.findVariantById(item.variantId);
+    const sneaker = await SneakerRepository.findSneakerById(variant!.sneakerId);
+    const category = await CategoryRepository.findCategoryById(
+      sneaker!.categoryId,
+    );
+    const brand = await BrandRepository.findBrandById(sneaker!.brandId);
+
+    return {
+      id: sneaker!.id,
+      reference: sneaker!.name,
+      name: sneaker!.name,
+      category: category!.name,
+      brand: brand!.name,
+      image: variant!.image,
+      quantity: item!.quantity,
+      unitPrice: sneaker!.price,
+      adjustement: 0,
+      total: item.quantity * sneaker!.price,
+    };
+  });
+
+  data.cartProduct = await Promise.all(cartProductPromises);
+  data.totalCart = 1;
   data.modifiedAt = new Date();
   data.expiredAt = new Date(new Date().setDate(new Date().getMinutes() + 15));
-  await syncWithMongoDB(Cart.constructor.name, 'update', data);
+  await syncWithMongoDB(Cart.constructor.name, 'create', data);
 };
 export class Cart extends Model {
   declare id: CreationOptional<number>;
@@ -85,17 +82,12 @@ export default (sequelize: Sequelize) => {
   );
 
   Cart.afterCreate(async (cart) => {
-    const data = cart.toJSON();
-    const user = await UserRepository.findById(data.user_id);
-    data.user = user!.email;
-    data.cartProduct = [];
-    data.totalCart = 0;
-    data.modifiedAt = new Date();
-    data.expiredAt = new Date(new Date().setDate(new Date().getMinutes() + 15));
-    await syncWithMongoDB(Cart.name, 'create', data);
+    updateCartInMongoDB(cart);
   });
 
-  Cart.afterUpdate(updateCartInMongoDB);
+  Cart.afterUpdate(async (cart) => {
+    updateCartInMongoDB(cart);
+  });
 
   Cart.afterDestroy(async (cart) => {
     const data = cart.toJSON();

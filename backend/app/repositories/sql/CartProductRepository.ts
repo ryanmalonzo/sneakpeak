@@ -7,12 +7,9 @@ export class CartProductRepository {
   static async findCartProductsByCartId(
     cartId: number,
   ): Promise<CartProduct[]> {
-    CartProduct.upsert;
-    return await CartProduct.findAll({
-      where: {
-        cartId,
-      },
-    });
+    console.log('cartId', cartId);
+    const cartProducts = await CartProduct.findAll();
+    return cartProducts;
   }
 
   static async AddOrUpdateCartProduct(
