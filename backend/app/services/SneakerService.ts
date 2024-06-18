@@ -2,6 +2,7 @@ import { HydratedDocument } from 'mongoose';
 import { SneakerRepository } from '../repositories/sql/SneakerRepository';
 import { ISneaker, SneakerModel } from '../models/mongodb/Sneaker';
 import { FilterOptions, SortOptions } from '../helpers/interfaces';
+import { SneakerRepository as SneakerRepositoryMongo } from '../repositories/mongodb/SneakerRepository';
 
 interface PaginatedSneakersResponse {
   total: number;
@@ -51,6 +52,12 @@ export class SneakerService {
       limit,
       items: sneakers,
     };
+  }
+
+  public static async findOneById(
+    id: string,
+  ): Promise<HydratedDocument<ISneaker> | null> {
+    return await SneakerRepositoryMongo.findOneById(id);
   }
 
   public static async findSneakers(): Promise<HydratedDocument<ISneaker>[]> {

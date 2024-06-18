@@ -20,6 +20,12 @@ export class SneakerRepository {
     return await SneakerModel.countDocuments();
   }
 
+  static async findOneById(
+    id: string,
+  ): Promise<HydratedDocument<ISneaker> | null> {
+    return await SneakerModel.findOne({ id });
+  }
+
   static async findSneakers(): Promise<HydratedDocument<ISneaker>[]> {
     return await SneakerModel.find();
   }
