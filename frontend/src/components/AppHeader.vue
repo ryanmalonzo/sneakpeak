@@ -108,7 +108,12 @@ const displayMenuProfile = (event: Event) => {
           </div>
         </div>
         <!-- Login -->
-        <div id="user" class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50" @click="modelLoginVisible = true">
+        <div
+          v-else
+          id="user"
+          class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
+          @click="modelLoginVisible = !modelLoginVisible"
+        >
           <i class="pi pi-user"></i>
         </div>
       </div>

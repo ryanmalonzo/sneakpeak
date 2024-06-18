@@ -23,6 +23,7 @@ import axios from 'axios'
 
 const props = defineProps<{ visible: boolean }>()
 const emit = defineEmits(['update:visible'])
+const API_URL = import.meta.env.VITE_API_URL
 
 const email = ref('')
 const resetPasswordError = ref('')
@@ -54,9 +55,8 @@ async function onSubmit() {
   if (emailError.value !== '' || email.value === '') {
     return
   }
-
   try {
-    await axios.post('http://localhost:3000/users/password-reset', { email: email.value })
+    await axios.post(`${API_URL}/password-reset`, { email: email.value })
     
     // reset les champs
     resetPasswordError.value = ''

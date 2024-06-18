@@ -53,6 +53,7 @@ import GenericModal from './GenericModal.vue'
 import AppRegister from './AppRegister.vue'
 import ResetPassword from './ResetPassword.vue'
 import { checkAuth } from '@/helpers/auth'
+import { defineModel } from 'vue'
 
 const emailSchema = z
   .string()
@@ -91,7 +92,7 @@ async function onSubmit() {
 }
 
 // Par défaut les modales sont fermées
-const modelLoginVisible = ref(false)
+const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
 const modelRegisterVisible = ref(false)
 const modelResetPasswordVisible = ref(false)
 

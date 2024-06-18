@@ -57,6 +57,7 @@ const password = ref('')
 const passwordConfirm = ref('')
 const registerError = ref('')
 const localVisible = ref(props.visible)
+const API_URL = import.meta.env.VITE_API_URL
 
 watch(() => props.visible, (newVal) => {
   localVisible.value = newVal
@@ -86,7 +87,7 @@ async function onSubmit() {
   }
 
   try {
-    const response = await axios.post('http://localhost:3000/users', {
+    const response = await axios.post(`${API_URL}/users`, {
       email: email.value,
       password: password.value,
     })
