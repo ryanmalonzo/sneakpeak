@@ -8,7 +8,7 @@ import {
   Association,
 } from 'sequelize';
 import { Cart } from './Cart';
-import { updateCartInMongoDB } from '../../models/sql/Cart';
+import { SyncCartInMongoDB } from '../../models/sql/Cart';
 
 export class CartProduct extends Model {
   declare id: CreationOptional<number>;
@@ -64,21 +64,20 @@ export default (sequelize: Sequelize) => {
 
   CartProduct.afterCreate(async (cartProduct) => {
     const data = cartProduct.toJSON();
-    console.log('Creating a new cart product:', data);
     const cart = await Cart.findByPk(data.cartId);
-    await updateCartInMongoDB(cart!, 'update');
+    await SyncCartInMongoDB(cart!, 'update');
   });
 
   CartProduct.afterUpdate(async (cartProduct) => {
     const data = cartProduct.toJSON();
     const cart = await Cart.findByPk(data.cartId);
-    await updateCartInMongoDB(cart!, 'update');
+    await SyncCartInMongoDB(cart!, 'update');
   });
 
   CartProduct.afterDestroy(async (cartProduct) => {
     const data = cartProduct.toJSON();
     const cart = await Cart.findByPk(data.cartId);
-    await updateCartInMongoDB(cart!, 'update');
+    await SyncCartInMongoDB(cart!, 'update');
   });
 
   return CartProduct;

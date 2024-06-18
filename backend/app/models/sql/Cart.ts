@@ -15,7 +15,7 @@ import { SneakerRepository } from '../../repositories/sql/SneakerRepository';
 import { CartProduct } from './CartProduct';
 import { Operation } from '../../helpers/syncPsqlMongo';
 
-export const updateCartInMongoDB = async (Cart: Cart, type: Operation) => {
+export const SyncCartInMongoDB = async (Cart: Cart, type: Operation) => {
   const data = Cart.toJSON();
   const items = await CartProductRepository.findCartProductsByCartId(data.id);
   const user = await UserRepository.findById(data.user_id);
@@ -82,11 +82,11 @@ export default (sequelize: Sequelize) => {
   );
 
   Cart.afterCreate(async (cart) => {
-    updateCartInMongoDB(cart, 'create');
+    SyncCartInMongoDB(cart, 'create');
   });
 
   Cart.afterUpdate(async (cart) => {
-    updateCartInMongoDB(cart, 'update');
+    SyncCartInMongoDB(cart, 'update');
   });
 
   Cart.afterDestroy(async (cart) => {
