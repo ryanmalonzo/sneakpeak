@@ -1,5 +1,7 @@
 import { CartRepository } from '../repositories/sql/CartRepository';
 import { CartProductRepository } from '../repositories/sql/CartProductRepository';
+import { VariantRepository } from '../repositories/sql/VariantRepository';
+import { SneakerRepository } from '../repositories/sql/SneakerRepository';
 
 export class CartService {
   static async addOrUpdateProductToCart(
@@ -11,7 +13,6 @@ export class CartService {
     let cart = await CartRepository.getCartById(cartId);
     if (!cart) {
       cart = CartRepository.build({
-        id: cartId,
         user_id: userId,
         createdAt: new Date(),
         expiredAt: new Date(new Date().getMinutes() + 15),
@@ -20,26 +21,40 @@ export class CartService {
     }
 
     const products = await CartRepository.getCartProducts(cart);
-
-    products.forEach((product) => {
-      if (product.variant_id === variantId) {
+    console.log('products', products.length);
+    products.forEach(async (product) => {
+      if (product.variantId === variantId) {
         product.quantity += quantity;
         product.total = product.quantity * product.total;
         product.updatedAt = new Date();
         CartProductRepository.AddOrUpdateCartProduct(product);
-      } else {
-        const newProduct = CartProductRepository.build({
-          cart_id: cartId,
-          variant_id: variantId,
-          quantity: quantity,
-          total: quantity,
-          createdAt: new Date(),
-        });
-        CartProductRepository.AddOrUpdateCartProduct(newProduct);
       }
     });
 
-    await CartRepository.updateCart(cart);
+    if (products.length === 0) {
+      const variant = await VariantRepository.findVariantById(variantId);
+      const product = await SneakerRepository.findSneakerById(
+        variant!.sneakerId,
+      );
+      if (!variant) {
+        console.log('variant not found');
+        return;
+      }
+      if (!product) {
+        console.log('product not found');
+        return;
+      }
+      const newProduct = CartProductRepository.build({
+        cartId: cartId,
+        variantId: variantId,
+        quantity: quantity,
+        total: product!.price * quantity,
+        createdAt: new Date(),
+      });
+      return await CartProductRepository.AddOrUpdateCartProduct(newProduct);
+    }
+
+    return await CartRepository.updateCart(cart);
   }
 
   static async getCartProducts(cartId: number) {
@@ -55,6 +70,10 @@ export class CartService {
     if (!cart) {
       return;
     }
+    const products = await CartRepository.getCartProducts(cart);
+    products.forEach((product) => {
+      CartProductRepository.deleteCartProduct(product);
+    });
     await CartRepository.deleteCart(cart);
   }
 
@@ -66,7 +85,7 @@ export class CartService {
 
     const products = await CartRepository.getCartProducts(cart);
     products.forEach((product) => {
-      if (product.variant_id === variantId) {
+      if (product.variantId === variantId) {
         CartProductRepository.deleteCartProduct(product);
       }
     });

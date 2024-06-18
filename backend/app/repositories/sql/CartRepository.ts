@@ -11,7 +11,8 @@ export class CartRepository {
   }
 
   static async getCartById(id: number): Promise<Cart | null> {
-    return await Cart.findByPk(id);
+    const cart = await Cart.findOne({ where: { id } });
+    return cart;
   }
 
   static async updateCart(cart: Cart): Promise<Cart> {

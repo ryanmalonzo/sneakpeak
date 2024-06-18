@@ -30,7 +30,7 @@ export class SneakerRepository {
   }
 
   static async findSneakerById(id: number): Promise<Sneaker | null> {
-    return await SneakerModel.findById(id);
+    return await Sneaker.findByPk(id);
   }
 
   static async delete(id: number): Promise<void> {

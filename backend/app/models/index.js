@@ -7,6 +7,8 @@ import brand, { Brand } from './sql/Brand';
 import color, { Color } from './sql/Color';
 import size, { Size } from './sql/Size';
 import variant, { Variant } from './sql/Variant';
+import cart, { Cart } from './sql/Cart';
+import cartProduct, { CartProduct } from './sql/CartProduct';
 
 export const sequelize = new Sequelize(process.env.DATABASE_URL, {
   logging: process.env.NODE_ENV !== 'test',
@@ -20,6 +22,8 @@ brand(sequelize);
 color(sequelize);
 size(sequelize);
 variant(sequelize);
+cart(sequelize);
+cartProduct(sequelize);
 
 User.hasMany(Challenge);
 
@@ -75,3 +79,15 @@ Variant.belongsTo(Size, {
     allowNull: false,
   },
 });
+
+Cart.hasMany(CartProduct);
+
+CartProduct.belongsTo(Cart, {
+  onDelete: 'CASCADE',
+  foreignKey: {
+    name: 'cartId',
+    allowNull: false,
+  },
+});
+
+export default sequelize;

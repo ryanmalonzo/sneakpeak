@@ -20,9 +20,9 @@ export const updateCartInMongoDB = async (Cart: Cart) => {
   const items = await CartProductRepository.findCartProductsByCartId(data.id);
   const user = await UserRepository.findById(data.user_id);
   data.user = user!.email;
-  data.items = await Promise.all(
+  data.cartProduct = await Promise.all(
     items.map(async (item: CartProduct) => {
-      const variant = await VariantRepository.findVariantById(item.variant_id);
+      const variant = await VariantRepository.findVariantById(item.variantId);
       const sneaker = await SneakerRepository.findSneakerById(
         variant!.sneakerId,
       );
@@ -88,7 +88,7 @@ export default (sequelize: Sequelize) => {
     const data = cart.toJSON();
     const user = await UserRepository.findById(data.user_id);
     data.user = user!.email;
-    data.items = [];
+    data.cartProduct = [];
     data.totalCart = 0;
     data.modifiedAt = new Date();
     data.expiredAt = new Date(new Date().setDate(new Date().getMinutes() + 15));

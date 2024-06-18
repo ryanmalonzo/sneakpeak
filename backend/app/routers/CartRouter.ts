@@ -29,7 +29,7 @@ CartRouter.post(
         .json(
           await CartService.addOrUpdateProductToCart(
             req.body.cartId,
-            req.body.userId,
+            res.locals.user.id,
             req.body.variantId,
             req.body.quantity,
           ),
