@@ -16,6 +16,7 @@
   "dependencies": {
     "@primevue/themes": "^4.0.0-rc.2",
     "@vueuse/core": "^10.10.0",
+    "axios": "^1.7.2",
     "pinia": "^2.1.7",
     "primeicons": "^7.0.0",
     "primevue": "^4.0.0-rc.2",

@@ -11,33 +11,41 @@ import AppLogin from '@/components/AppLogin.vue'
 import { profileStore } from '@/store/profile'
 import { logout } from '@/helpers/auth'
 
+// Utilisation de la route et du routeur
 const router = useRouter()
 const route = useRoute()
 
+// Références et variables réactives
 const showMobileSearchRef = ref(false)
 const searchRef = ref((route.query.q as string) || '')
 const profile = profileStore() //Store profile
 
-const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
+// Synchronisation de la visibilité de la modale de connexion
+const modelLoginVisible = ref(false)
+
+// Éléments de menu
 const items = ref([
   { label: 'Promotions', root: true },
   { label: 'Marques', root: true },
   { label: 'Catégories', root: true }
 ])
 
+// Déclencher la recherche avec un délai
 const goToSearch = debounce(() => {
   router.push({ path: '/search', query: { q: searchRef.value } })
 }, 500)
 
+// Surveiller les modifications de la recherche
 watch(searchRef, () => {
   goToSearch()
 })
 
+// Soumettre la recherche
 const handleSubmit = () => {
   goToSearch()
 }
 
-// Menu Profile
+// Éléments du menu de profil
 const itemsProfile = ref([
   {
     label: ``,
