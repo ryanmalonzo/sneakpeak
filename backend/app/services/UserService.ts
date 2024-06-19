@@ -55,10 +55,7 @@ export class UserService {
     );
 
     if (challenge?.disabled) {
-      throw new RequestError(
-        StatusCodes.UNAUTHORIZED,
-        'email_already_verified',
-      );
+      throw new RequestError(StatusCodes.CONFLICT, 'email_already_verified');
     }
 
     const emailVerificationToken = crypto.randomBytes(32).toString('hex');
@@ -88,10 +85,7 @@ export class UserService {
       throw new RequestError(StatusCodes.INTERNAL_SERVER_ERROR);
     }
     if (challenge.disabled) {
-      throw new RequestError(
-        StatusCodes.UNAUTHORIZED,
-        'email_already_verified',
-      );
+      throw new RequestError(StatusCodes.CONFLICT, 'email_already_verified');
     }
     if (challenge.token !== token) {
       throw new RequestError(StatusCodes.UNAUTHORIZED, 'invalid_token');
