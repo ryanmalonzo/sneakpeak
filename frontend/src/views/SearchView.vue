@@ -16,7 +16,7 @@ const route = useRoute()
 const filterOptionsOpen = ref(false)
 const sneakers: Ref<SneakerApi.SneakerOut[]> = ref([])
 const totalCount = ref(0)
-const currentPage = ref(1)
+const currentPage = ref(route.query.page ? parseInt(route.query.page as string) : 1)
 
 const DEFAULT_LIMIT = 25
 
@@ -54,9 +54,13 @@ watch([() => route.query.brand, () => route.query.category, () => route.query.pr
 })
 
 const onCriteriaChange = (criteria: { sort: string; order: string }) => {
+  // Reset page to 1 when sorting changes
+  currentPage.value = 1
+
   setQueryParams({
     sort: criteria.sort,
-    order: criteria.order
+    order: criteria.order,
+    page: '1'
   })
 }
 
@@ -112,6 +116,7 @@ if (route.query.brand || route.query.category || route.query.price) {
 
       <Paginator
         v-if="totalCount"
+        :first="DEFAULT_LIMIT * (currentPage - 1)"
         :rows="DEFAULT_LIMIT"
         :total-records="totalCount"
         @page="handlePageChange"
