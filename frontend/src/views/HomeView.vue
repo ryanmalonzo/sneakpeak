@@ -38,7 +38,7 @@ const products = [
       </section>
 
       <section>
-        <h1 class="py-10 text-center text-xl font-bold">Nos dernières baskets</h1>
+        <h1 class="py-10 text-center text-xl font-bold uppercase">Nos dernières baskets</h1>
         <div class="hidden flex-wrap justify-center gap-10 md:flex">
           <CardProduct />
           <CardProduct />
@@ -54,7 +54,7 @@ const products = [
           :numVisible="1"
           :numScroll="1"
           orientation="vertical"
-          contentClass="flex align-items-center md:hidden"
+          containerClass="align-items-center flex md:!hidden"
           :autoplayInterval="3000"
           :showNavigators="false"
         >
@@ -94,7 +94,7 @@ const products = [
           :numScroll="1"
           orientation="vertical"
           :autoplayInterval="3000"
-          contentClass="flex align-items-center md:hidden"
+          containerClass="flex align-items-center md:!hidden"
           :showNavigators="false"
           verticalViewPortHeight="230px"
         >
