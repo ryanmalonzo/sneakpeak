@@ -125,6 +125,30 @@ describe('UserRouter', () => {
 
       expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
     });
+
+    it('should return a 409 status code if email is already verified', async () => {
+      const user = await registerUser();
+
+      const challenge = await Challenge.findOne({
+        where: {
+          userId: user.id,
+          type: 'email',
+        },
+      });
+
+      if (challenge) {
+        challenge.disabled = true;
+        await challenge.save();
+      }
+
+      const response = await request(app)
+        .post(`/users/${user.id}/challenge/email`)
+        .send({
+          token: challenge?.token,
+        });
+
+      expect(response.status).to.equal(StatusCodes.CONFLICT);
+    });
   });
 
   describe('POST /users/password-reset', () => {
