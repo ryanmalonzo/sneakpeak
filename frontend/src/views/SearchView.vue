@@ -87,7 +87,9 @@ if (route.query.brand || route.query.category || route.query.price) {
           {{ route.query.q || 'Toutes les sneakers' }} ({{ totalCount }})
         </h1>
 
-        <Divider class="md:hidden" />
+        <div class="md:hidden">
+          <Divider />
+        </div>
 
         <div class="flex justify-between gap-10 md:justify-start">
           <button type="button" @click="filterOptionsOpen = !filterOptionsOpen">

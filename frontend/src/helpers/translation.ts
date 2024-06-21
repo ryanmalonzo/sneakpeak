@@ -23,4 +23,38 @@ export class Translation {
         break
     }
   }
+  
+  /**
+   * @param message Erreur d'inscription en anglais
+   * @returns Erreur d'inscription en français
+   */
+  static registerErrors(message: Error) {
+    switch ((message as IError).error) {
+      case 'email_already_exists':
+        return 'Email déjà utilisé'
+
+      case 'password_too_short':
+        return 'Mot de passe trop court'
+
+      case 'password_mismatch':
+        return 'Les mots de passe renseignés sont différents'
+
+      default:
+        break
+    }
+  }
+
+  /**
+   * @param message Erreur de réinitialisation de mot de passe en anglais
+   * @returns Erreur de réinitialisation de mot de passe en français
+   */
+  static resetPasswordErrors(message: Error) {
+    switch ((message as IError).error) {
+      case 'email_not_found':
+        return 'Cet utilisateur n\'existe pas'
+
+      default:
+        break
+    }
+  }
 }

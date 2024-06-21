@@ -7,8 +7,7 @@ import App from './App.vue'
 import './assets/base.css'
 import 'primeicons/primeicons.css'
 import PrimeVue from 'primevue/config'
-// @ts-ignore
-import Aura from './presets/aura'
+import Aura from '@primevue/themes/aura'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Dialog from 'primevue/dialog'
@@ -20,11 +19,10 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(PrimeVue, {
-  unstyled: true,
-  pt: {
-    ...Aura,
-    inputtext: {
-      root: 'border border-sneakpeak-gray-50 rounded-full px-4 py-2'
+  theme: {
+    preset: Aura,
+    options: {
+      darkModeSelector: '.dark-mode'
     }
   }
 })

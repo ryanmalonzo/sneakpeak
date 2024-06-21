@@ -11,33 +11,41 @@ import AppLogin from '@/components/AppLogin.vue'
 import { profileStore } from '@/store/profile'
 import { logout } from '@/helpers/auth'
 
+// Utilisation de la route et du routeur
 const router = useRouter()
 const route = useRoute()
 
+// Références et variables réactives
 const showMobileSearchRef = ref(false)
 const searchRef = ref((route.query.q as string) || '')
 const profile = profileStore() //Store profile
 
-const modelLoginVisible = defineModel('loginVisible', { type: Boolean })
+// Synchronisation de la visibilité de la modale de connexion
+const modelLoginVisible = ref(false)
+
+// Éléments de menu
 const items = ref([
   { label: 'Promotions', root: true },
   { label: 'Marques', root: true },
   { label: 'Catégories', root: true }
 ])
 
+// Déclencher la recherche avec un délai
 const goToSearch = debounce(() => {
   router.push({ path: '/search', query: { q: searchRef.value } })
 }, 500)
 
+// Surveiller les modifications de la recherche
 watch(searchRef, () => {
   goToSearch()
 })
 
+// Soumettre la recherche
 const handleSubmit = () => {
   goToSearch()
 }
 
-// Menu Profile
+// Éléments du menu de profil
 const itemsProfile = ref([
   {
     label: ``,
@@ -67,7 +75,7 @@ const itemsProfile = ref([
   }
 ])
 
-const menuProfile = ref<Menu>()
+const menuProfile = ref<typeof Menu>()
 const displayMenuProfile = (event: Event) => {
   itemsProfile.value[0].label = `Bienvenue ${profile.profile?.firstName} !`
   menuProfile.value?.toggle(event)
@@ -75,10 +83,10 @@ const displayMenuProfile = (event: Event) => {
 </script>
 
 <template>
-  <MegaMenu :model="items" class="sticky top-0 z-50 rounded-none px-2.5 md:px-5">
+  <MegaMenu :model="items" class="!sticky top-0 z-50 hidden !rounded-none !px-2.5 md:!px-5">
     <template #start>
       <a href="/">
-        <Image :src="logo" alt="Logo SneakPeak" class="pr-2.5" />
+        <Image :src="logo" alt="Logo SneakPeak" class="flex h-[46.5px] items-center pr-2.5" />
       </a>
     </template>
     <template #end>
@@ -96,7 +104,10 @@ const displayMenuProfile = (event: Event) => {
           <i class="pi pi-search cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
         </div>
         <i class="pi pi-bell cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
-        <div id="cart" class="flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50">
+        <div
+          id="cart"
+          class="flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
+        >
           <i class="pi pi-shopping-bag"></i>
         </div>
 
@@ -108,7 +119,12 @@ const displayMenuProfile = (event: Event) => {
           </div>
         </div>
         <!-- Login -->
-        <div id="user" class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50" @click="modelLoginVisible = true">
+        <div
+          v-else
+          id="user"
+          class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
+          @click="modelLoginVisible = true"
+        >
           <i class="pi pi-user"></i>
         </div>
       </div>
