@@ -11,6 +11,7 @@ export namespace VariantApi {
     size?: string
     price?: string
     stock?: string
+    isBest?: boolean
   }
 
   export interface VariantOut {

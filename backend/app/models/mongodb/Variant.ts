@@ -6,6 +6,7 @@ interface IVariant extends Document {
   price: number;
   stock: number;
   image: string;
+  isBest: boolean;
   size: string;
   color: string;
   createdAt: Date;
@@ -19,6 +20,7 @@ const VariantSchema: Schema<IVariant> = new Schema(
     price: { type: Number, required: true },
     stock: { type: Number, required: true },
     image: { type: String, required: true },
+    isBest: { type: Boolean, required: true },
     size: { type: String, required: true },
     color: { type: String, required: true },
   },

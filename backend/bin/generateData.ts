@@ -254,6 +254,7 @@ async function generateDataModelVariant(
       image: await imageUrlToBase64(
         faker.image.urlLoremFlickr({ category: 'sneaker' }),
       ),
+      isBest: faker.datatype.boolean({ probability: 0.1 }),
       sneakerId: (await Sneaker.findOne({ order: sequelize.random() }))!.id,
       sizeId: (await Size.findOne({ order: sequelize.random() }))!.id,
       colorId: (await Color.findOne({ order: sequelize.random() }))!.id,

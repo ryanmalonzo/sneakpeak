@@ -12,6 +12,7 @@ VariantRouter.get(
     size: 'in',
     price: 'range',
     stock: 'range',
+    isBest: 'in',
   }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {

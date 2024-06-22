@@ -14,6 +14,7 @@ export class Variant extends Model {
   declare id: CreationOptional<number>;
   declare stock: number;
   declare image: string;
+  declare isBest: boolean;
   declare sneakerId: ForeignKey<Sneaker['id']>;
   declare sizeId: ForeignKey<Size['id']>;
   declare colorId: ForeignKey<Color['id']>;
@@ -29,6 +30,11 @@ export default (sequelize: Sequelize) => {
       image: {
         type: DataTypes.TEXT,
         allowNull: false,
+      },
+      isBest: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
     },
     { sequelize, underscored: true },

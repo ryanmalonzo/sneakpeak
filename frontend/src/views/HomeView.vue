@@ -10,6 +10,7 @@ import { BrandApi } from '@/services/brandApi'
 
 const latestVariants: VariantApi.VariantOut[] = reactive([])
 const brands: BrandApi.BrandOut[] = reactive([])
+const bestSellingVariants: VariantApi.VariantOut[] = reactive([])
 
 const NB_BRANDS_TO_DISPLAY = 5
 
@@ -19,6 +20,9 @@ onMounted(async () => {
 
   const dataBrands = await BrandApi.getAll()
   brands.push(...dataBrands.slice(0, NB_BRANDS_TO_DISPLAY))
+
+  const dataBestSellingVariants = await VariantApi.getPaginated({ limit: 3, isBest: true })
+  bestSellingVariants.push(...dataBestSellingVariants.items)
 })
 </script>
 
@@ -39,7 +43,7 @@ onMounted(async () => {
         <div class="hidden flex-wrap justify-center gap-10 md:flex">
           <CardProduct
             v-for="variant in latestVariants"
-            :key="variant.name"
+            :key="variant._id"
             :image="variant.image"
             :name="variant.name"
             :price="variant.price"
@@ -98,16 +102,20 @@ onMounted(async () => {
           <h1 class="py-10 text-center text-xl font-bold uppercase">
             Les meilleures ventes du moment
           </h1>
-          <div class="flex justify-between gap-5">
+          <div class="flex justify-between gap-10">
             <img
               src="../assets/images/cover.png"
               alt=""
               class="h-[566px] w-[439px] shrink-0 max-lg:hidden"
             />
-            <div class="flex flex-col justify-between">
-              <CardBestProduct />
-              <CardBestProduct />
-              <CardBestProduct />
+            <div class="flex flex-1 flex-col justify-between gap-5">
+              <CardBestProduct
+                v-for="variant in bestSellingVariants"
+                :key="variant._id"
+                :image="variant.image"
+                :name="variant.name"
+                :price="variant.price"
+              />
             </div>
           </div>
         </section>
