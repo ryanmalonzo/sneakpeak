@@ -104,7 +104,7 @@ async function generateDataModel(
   }
 
   for (let i = 0; i < count; i++) {
-    await model.create(data());
+    await model.create(await data());
   }
 
   console.log(`Created ${count} ${model.name} models`);
@@ -146,9 +146,12 @@ async function generateDataModelBrand(
   await generateDataModel(
     Brand as GenericModel,
     'brands',
-    () => ({
-      name: faker.lorem.word(),
+    async () => ({
+      name: faker.company.name(),
       slug: faker.lorem.slug(),
+      image: await imageUrlToBase64(
+        faker.image.urlLoremFlickr({ category: 'logo' }),
+      ),
     }),
     isDelete,
     count,
