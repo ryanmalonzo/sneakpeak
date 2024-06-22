@@ -12,7 +12,7 @@ sequelize
   .authenticate()
   .then(() => {
     sequelize.sync(
-      { alter: true, }
+      { alter: true }
     );
     console.log('PostgreSQL connected');
   })

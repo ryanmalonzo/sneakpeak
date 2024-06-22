@@ -1,0 +1,18 @@
+meta {
+  name: update Product
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:3000/cart
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "variantId":3,
+    "quantity":20
+  }
+}
