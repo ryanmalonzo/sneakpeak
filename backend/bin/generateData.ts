@@ -165,9 +165,12 @@ async function generateDataModelCategory(
   await generateDataModel(
     Category as GenericModel,
     'categories',
-    () => ({
+    async () => ({
       name: faker.lorem.word(),
       slug: faker.lorem.slug(),
+      image: await imageUrlToBase64(
+        faker.image.urlLoremFlickr({ category: 'sneaker' }),
+      ),
     }),
     isDelete,
     count,

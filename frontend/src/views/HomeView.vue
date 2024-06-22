@@ -4,10 +4,12 @@ import CardProduct from '../components/home/CardProduct.vue'
 import CardBestProduct from '../components/home/CardBestProduct.vue'
 import Carousel from 'primevue/carousel'
 import CardBrand from '../components/home/CardBrand.vue'
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, ref, type Ref } from 'vue'
 import { VariantApi } from '@/services/variantApi'
 import { BrandApi } from '@/services/brandApi'
+import { CategoryApi } from '@/services/categoryApi'
 
+const lastCategory: Ref<CategoryApi.CategoryOut | undefined> = ref()
 const latestVariants: VariantApi.VariantOut[] = reactive([])
 const brands: BrandApi.BrandOut[] = reactive([])
 const bestSellingVariants: VariantApi.VariantOut[] = reactive([])
@@ -15,6 +17,11 @@ const bestSellingVariants: VariantApi.VariantOut[] = reactive([])
 const NB_BRANDS_TO_DISPLAY = 5
 
 onMounted(async () => {
+  const dataCategories = await CategoryApi.getAll()
+  lastCategory.value = dataCategories.reduce((previous, current) =>
+    previous.id > current.id ? previous : current
+  )
+
   const dataVariants = await VariantApi.getPaginated({ limit: 8, sort: 'createdAt', order: 'desc' })
   latestVariants.push(...dataVariants.items)
 
@@ -30,10 +37,14 @@ onMounted(async () => {
   <BasePage>
     <div class="flex-col">
       <section>
-        <a href="#" class="flex w-screen items-end justify-center">
-          <img src="../assets/images/image.png" alt="" class="w-full" />
+        <a href="#" class="flex w-screen items-end justify-center" v-if="lastCategory">
+          <img
+            :src="lastCategory.image"
+            :alt="lastCategory.name"
+            class="max-h-[372px] w-full object-cover"
+          />
           <a class="absolute mb-4 bg-white px-2 py-4 font-bold md:mb-20 md:px-40">
-            Sneakers Puma : Achetez maintenant !
+            Nouvelle collection : {{ lastCategory.name }}
           </a>
         </a>
       </section>
@@ -136,9 +147,3 @@ onMounted(async () => {
     </div>
   </BasePage>
 </template>
-
-<style scoped>
-img {
-  object-fit: cover;
-}
-</style>
