@@ -6,11 +6,14 @@ interface IColor extends Document {
   slug: string;
 }
 
-const ColorSchema: Schema<IColor> = new Schema({
-  id: { type: Number, required: true },
-  name: { type: String, required: true },
-  slug: { type: String, required: true },
-});
+const ColorSchema: Schema<IColor> = new Schema(
+  {
+    id: { type: Number, required: true },
+    name: { type: String, required: true },
+    slug: { type: String, required: true },
+  },
+  { timestamps: true },
+);
 
 const ColorModel: Model<IColor> = model<IColor>('Color', ColorSchema);
 
