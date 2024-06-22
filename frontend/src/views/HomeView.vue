@@ -6,12 +6,19 @@ import Carousel from 'primevue/carousel'
 import CardBrand from '../components/home/CardBrand.vue'
 import { onMounted, reactive } from 'vue'
 import { VariantApi } from '@/services/variantApi'
+import { BrandApi } from '@/services/brandApi'
 
 const latestVariants: VariantApi.VariantOut[] = reactive([])
+const brands: BrandApi.BrandOut[] = reactive([])
+
+const NB_BRANDS_TO_DISPLAY = 5
 
 onMounted(async () => {
-  const data = await VariantApi.getPaginated({ limit: 8, sort: 'createdAt', order: 'desc' })
-  latestVariants.push(...data.items)
+  const dataVariants = await VariantApi.getPaginated({ limit: 8, sort: 'createdAt', order: 'desc' })
+  latestVariants.push(...dataVariants.items)
+
+  const dataBrands = await BrandApi.getAll()
+  brands.push(...dataBrands.slice(0, NB_BRANDS_TO_DISPLAY))
 })
 </script>
 
@@ -48,12 +55,12 @@ onMounted(async () => {
           :autoplayInterval="3000"
           :showNavigators="false"
         >
-          <template #item="slotProps">
+          <template #item="variant">
             <a href="#" class="h-[358px]">
               <div class="border-1 surface-border border-round flex flex-col items-center p-5">
-                <img :src="slotProps.data.image" class="border-round w-full" />
-                <p>{{ slotProps.data.name }}</p>
-                <p class="font-bold">{{ slotProps.data.price }} €</p>
+                <img :src="variant.data.image" class="border-round w-full" />
+                <p>{{ variant.data.name }}</p>
+                <p class="font-bold">{{ variant.data.price }} €</p>
               </div>
             </a>
           </template>
@@ -65,30 +72,22 @@ onMounted(async () => {
         <div
           class="hidden w-full shrink-0 flex-wrap content-start items-start justify-center gap-2.5 px-0 md:flex"
         >
-          <CardBrand />
-          <CardBrand />
-          <CardBrand />
-          <CardBrand />
-          <CardBrand />
+          <CardBrand v-for="brand in brands" :key="brand.slug" :image="brand.image" />
         </div>
         <Carousel
-          :value="products"
+          :value="brands"
           :numVisible="1"
           :numScroll="1"
           orientation="vertical"
+          verticalViewPortHeight="310px"
           :autoplayInterval="3000"
           containerClass="flex align-items-center md:!hidden"
           :showNavigators="false"
-          verticalViewPortHeight="230px"
         >
-          <template #item="">
-            <a href="#">
-              <div class="border-1 surface-border border-round m-2 p-3">
-                <div class="mb-3">
-                  <div class="relative mx-auto">
-                    <img :src="'/src/assets/images/brand.png'" class="border-round w-full" />
-                  </div>
-                </div>
+          <template #item="brand">
+            <a href="#" class="h-[310px]">
+              <div class="border-1 surface-border border-round flex flex-col items-center p-5">
+                <img :src="brand.data.image" class="border-round w-full" />
               </div>
             </a>
           </template>
@@ -129,3 +128,9 @@ onMounted(async () => {
     </div>
   </BasePage>
 </template>
+
+<style scoped>
+img {
+  object-fit: cover;
+}
+</style>
