@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { CartService } from '../services/CartService';
+import { CartRepository } from '../repositories/mongodb/CartRepository';
 import { StatusCodes } from 'http-status-codes';
 import { auth } from '../middlewares/auth';
 
@@ -12,7 +13,7 @@ CartRouter.get(
     try {
       return res
         .status(StatusCodes.OK)
-        .json(await CartService.getCartProducts(req.body.cartId));
+        .json(await CartRepository.findByUserId(res.locals.user.id));
     } catch (error) {
       next(error);
     }
@@ -27,8 +28,27 @@ CartRouter.post(
       return res
         .status(StatusCodes.CREATED)
         .json(
-          await CartService.addOrUpdateProductToCart(
-            req.body.cartId,
+          await CartService.addProductToCart(
+            res.locals.user.id,
+            req.body.variantId,
+            req.body.quantity,
+          ),
+        );
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+CartRouter.put(
+  '/',
+  auth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res
+        .status(StatusCodes.OK)
+        .json(
+          await CartService.updateProductInCart(
             res.locals.user.id,
             req.body.variantId,
             req.body.quantity,
@@ -47,7 +67,12 @@ CartRouter.delete(
     try {
       return res
         .status(StatusCodes.OK)
-        .json(await CartService.deleteCart(parseInt(req.params.id)));
+        .json(
+          await CartService.deleteProductFromCart(
+            res.locals.user.id,
+            parseInt(req.params.id),
+          ),
+        );
     } catch (error) {
       next(error);
     }

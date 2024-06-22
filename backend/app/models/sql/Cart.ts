@@ -23,7 +23,7 @@ export const SyncCartInMongoDB = async (Cart: Cart, type: Operation) => {
       UserRepository.findById(data.user_id),
     ]);
 
-    data.user = user!.email;
+    data.user = user!.id;
 
     const cartProductPromises = items.map(async (item: CartProduct) => {
       const variant = await VariantRepository.findVariantById(item.variantId);

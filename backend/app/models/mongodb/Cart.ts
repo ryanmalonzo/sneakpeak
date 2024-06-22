@@ -2,7 +2,7 @@ import { Document, Model, model, Schema } from 'mongoose';
 
 interface ICart extends Document {
   id: number;
-  user: string;
+  user: number;
   createdAt: Date;
   updatedAt: Date;
   expiredAt: Date;
@@ -24,7 +24,7 @@ interface ICart extends Document {
 
 const CartSchema: Schema<ICart> = new Schema({
   id: { type: Number, required: true },
-  user: { type: String, required: true },
+  user: { type: Number, required: true },
   createdAt: { type: Date, required: true },
   updatedAt: { type: Date },
   expiredAt: { type: Date, required: true },

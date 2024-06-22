@@ -15,9 +15,7 @@ export class CartProductRepository {
     return cartProducts;
   }
 
-  static async AddOrUpdateCartProduct(
-    cartProduct: CartProduct,
-  ): Promise<CartProduct> {
+  static async addCartProduct(cartProduct: CartProduct): Promise<CartProduct> {
     return await cartProduct.save();
   }
 

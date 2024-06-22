@@ -28,7 +28,7 @@ app.use('/session', SessionRouter);
 app.use('/sneakers', SneakerRouter);
 app.use('/brands', BrandRouter);
 app.use('/categories', CategoryRouter);
-app.use('/carts', CartRouter);
+app.use('/cart', CartRouter);
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 app.use((err, req, res, next) => {
