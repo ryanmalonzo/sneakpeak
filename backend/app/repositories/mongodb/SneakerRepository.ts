@@ -16,17 +16,16 @@ export class SneakerRepository {
     return sneakers;
   }
 
-  static async getTotalCount(): Promise<number> {
-    return await SneakerModel.countDocuments();
+  static async getTotalCount(
+    sortOptions: SortOptions,
+    filterOptions: FilterOptions,
+  ): Promise<number> {
+    return await SneakerModel.countDocuments(filterOptions, sortOptions);
   }
 
   static async findOneById(
     id: string,
   ): Promise<HydratedDocument<ISneaker> | null> {
     return await SneakerModel.findOne({ id });
-  }
-
-  static async findSneakers(): Promise<HydratedDocument<ISneaker>[]> {
-    return await SneakerModel.find();
   }
 }
