@@ -1,11 +1,6 @@
 import { Document, Model, model, Schema } from 'mongoose';
+import { IVariant } from './Variant';
 
-interface IVariant extends Document {
-  stock: number;
-  image: string;
-  size: string;
-  color: string;
-}
 interface ISneaker extends Document {
   id: number;
   name: string;

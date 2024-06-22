@@ -9,7 +9,6 @@ import { SneakerRepository } from '../../repositories/sql/SneakerRepository';
 import { CartProduct } from './CartProduct';
 
 export const updateCartInMongoDB = async (Cart: Cart) => {
-  console.log('Updating a document:', Cart);
   const data = Cart.toJSON();
   const items = await CartProductRepository.findCartProductsByCartId(data.id);
   const user = await UserRepository.findById(data.user_id);

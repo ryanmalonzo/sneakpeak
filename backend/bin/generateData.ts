@@ -3,19 +3,20 @@ import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { BuildOptions, Model } from 'sequelize';
-import { Brand } from '../models/sql/Brand';
-import { Category } from '../models/sql/Category';
-import { Challenge } from '../models/sql/Challenge';
-import { Color } from '../models/sql/Color';
-import { Size } from '../models/sql/Size';
-import { Sneaker } from '../models/sql/Sneaker';
-import { User } from '../models/sql/User';
-import { Variant } from '../models/sql/Variant';
-import { SALT_ROUNDS } from '../services/UserService';
+import { Brand } from '../app/models/sql/Brand';
+import { Category } from '../app/models/sql/Category';
+import { Challenge } from '../app/models/sql/Challenge';
+import { Color } from '../app/models/sql/Color';
+import { Size } from '../app/models/sql/Size';
+import { Sneaker } from '../app/models/sql/Sneaker';
+import { User } from '../app/models/sql/User';
+import { Variant } from '../app/models/sql/Variant';
+import { SALT_ROUNDS } from '../app/services/UserService';
+import { imageUrlToBase64 } from '../app/helpers/images';
 
 dotenv.config();
 
-const { sequelize } = require('../models');
+const { sequelize } = require('../app/models');
 sequelize.options.logging = false;
 
 async function connect(): Promise<void> {
@@ -104,8 +105,9 @@ async function generateDataModel(
 
   for (let i = 0; i < count; i++) {
     await model.create(data());
-    console.log(`${model.name} ${i} created`);
   }
+
+  console.log(`Created ${count} ${model.name} models`);
 }
 
 async function generateDataModelUser(
@@ -132,9 +134,9 @@ async function generateDataModelUser(
       disabled: true,
       userId: user.id,
     });
-
-    console.log('User ' + i + ' created');
   }
+
+  console.log(`Created ${count} User models`);
 }
 
 async function generateDataModelBrand(
@@ -177,7 +179,7 @@ async function generateDataModelColor(
     Color as GenericModel,
     'colors',
     () => ({
-      name: faker.lorem.word(),
+      name: faker.color.human(),
       slug: faker.lorem.slug(),
     }),
     isDelete,
@@ -193,7 +195,7 @@ async function generateDataModelSize(
     Size as GenericModel,
     'sizes',
     () => ({
-      name: faker.lorem.word(),
+      name: `${faker.number.int({ min: 35, max: 48 })}`,
       slug: faker.lorem.slug(),
     }),
     isDelete,
@@ -217,23 +219,16 @@ async function generateDataModelSneaker(
 
   for (let i = 0; i < count; i++) {
     await Sneaker.create({
-      name: faker.lorem.word(),
+      name: faker.commerce.productName(),
       description: faker.lorem.sentence(),
       price: faker.number.float({ min: 50, max: 300, multipleOf: 0.1 }),
       categoryId: (await Category.findOne({ order: sequelize.random() }))!.id,
       brandId: (await Brand.findOne({ order: sequelize.random() }))!.id,
     });
-    console.log('Sneaker ' + i + ' created');
   }
-}
 
-const base64 = async (url: string) => {
-  const data = await fetch(url);
-  const buffer = await data.arrayBuffer();
-  const base64 = Buffer.from(buffer).toString('base64');
-  const contentType = data.headers.get('content-type');
-  return `data:${contentType};base64,${base64}`;
-};
+  console.log(`Created ${count} Sneaker models`);
+}
 
 async function generateDataModelVariant(
   isDelete: boolean = false,
@@ -253,11 +248,14 @@ async function generateDataModelVariant(
   for (let i = 0; i < count; i++) {
     await Variant.create({
       stock: faker.number.int({ min: 0, max: 200 }),
-      image: await base64(faker.image.urlLoremFlickr({ category: 'sneaker' })),
+      image: await imageUrlToBase64(
+        faker.image.urlLoremFlickr({ category: 'sneaker' }),
+      ),
       sneakerId: (await Sneaker.findOne({ order: sequelize.random() }))!.id,
       sizeId: (await Size.findOne({ order: sequelize.random() }))!.id,
       colorId: (await Color.findOne({ order: sequelize.random() }))!.id,
     });
-    console.log('Variant ' + i + ' created');
   }
+
+  console.log(`Created ${count} Variant models`);
 }
