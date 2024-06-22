@@ -4,25 +4,15 @@ import CardProduct from '../components/home/CardProduct.vue'
 import CardBestProduct from '../components/home/CardBestProduct.vue'
 import Carousel from 'primevue/carousel'
 import CardBrand from '../components/home/CardBrand.vue'
+import { onMounted, reactive } from 'vue'
+import { VariantApi } from '@/services/variantApi'
 
-const products = [
-  {
-    name: 'Baskets New Balance Unisexe M1906RRA Licorice Moonbeam Castlerock',
-    price: '99,95 €'
-  },
-  {
-    name: 'Baskets New Balance Unisexe M1906RRA Licorice Moonbeam Castlerock',
-    price: '99,95 €'
-  },
-  {
-    name: 'Baskets New Balance Unisexe M1906RRA Licorice Moonbeam Castlerock',
-    price: '99,95 €'
-  },
-  {
-    name: 'Baskets New Balance Unisexe M1906RRA Licorice Moonbeam Castlerock',
-    price: '99,95 €'
-  }
-]
+const latestVariants: VariantApi.VariantOut[] = reactive([])
+
+onMounted(async () => {
+  const data = await VariantApi.getPaginated({ limit: 8, sort: 'createdAt', order: 'desc' })
+  latestVariants.push(...data.items)
+})
 </script>
 
 <template>
@@ -40,37 +30,30 @@ const products = [
       <section>
         <h1 class="py-10 text-center text-xl font-bold uppercase">Nos dernières baskets</h1>
         <div class="hidden flex-wrap justify-center gap-10 md:flex">
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
+          <CardProduct
+            v-for="variant in latestVariants"
+            :key="variant.name"
+            :image="variant.image"
+            :name="variant.name"
+            :price="variant.price"
+          />
         </div>
         <Carousel
-          :value="products"
+          :value="latestVariants"
           :numVisible="1"
           :numScroll="1"
           orientation="vertical"
+          verticalViewPortHeight="358px"
           containerClass="align-items-center flex md:!hidden"
           :autoplayInterval="3000"
           :showNavigators="false"
         >
           <template #item="slotProps">
-            <a href="#">
-              <div class="border-1 surface-border border-round m-2 p-3">
-                <div class="mb-3">
-                  <div class="relative mx-auto">
-                    <img :src="'/src/assets/images/product.png'" class="border-round w-full" />
-                  </div>
-                  <div class="my-3 text-center">
-                    <p>{{ slotProps.data.name }}</p>
-
-                    <p class="font-bold">{{ slotProps.data.price }}</p>
-                  </div>
-                </div>
+            <a href="#" class="h-[358px]">
+              <div class="border-1 surface-border border-round flex flex-col items-center p-5">
+                <img :src="slotProps.data.image" class="border-round w-full" />
+                <p>{{ slotProps.data.name }}</p>
+                <p class="font-bold">{{ slotProps.data.price }} €</p>
               </div>
             </a>
           </template>
