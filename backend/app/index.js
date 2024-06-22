@@ -8,6 +8,7 @@ import { UserRouter } from './routers/UserRouter';
 import cookieParser from 'cookie-parser';
 import { BrandRouter } from './routers/BrandRouter';
 import { CategoryRouter } from './routers/CategoryRouter';
+import { VariantRouter } from './routers/VariantRouter';
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use('/users', UserRouter);
 app.use('/session', SessionRouter);
 app.use('/sneakers', SneakerRouter);
+app.use('/variants', VariantRouter);
 app.use('/brands', BrandRouter);
 app.use('/categories', CategoryRouter);
 
