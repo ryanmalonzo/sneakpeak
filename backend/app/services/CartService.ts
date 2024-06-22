@@ -2,6 +2,8 @@ import { CartRepository } from '../repositories/sql/CartRepository';
 import { CartProductRepository } from '../repositories/sql/CartProductRepository';
 import { VariantRepository } from '../repositories/sql/VariantRepository';
 import { SneakerRepository } from '../repositories/sql/SneakerRepository';
+import { StatusCodes } from 'http-status-codes';
+import { RequestError } from '../helpers/error';
 
 export class CartService {
   static async addProductToCart(
@@ -20,16 +22,21 @@ export class CartService {
       await CartRepository.createCart(cart);
     }
 
+    if (quantity <= 0) {
+      throw new RequestError(
+        StatusCodes.BAD_REQUEST,
+        'Quantity must be positive',
+      );
+    }
+
     const variant = await VariantRepository.findVariantById(variantId);
     if (!variant) {
-      console.error('Variant not found');
-      return;
+      throw new RequestError(StatusCodes.NOT_FOUND, 'Variant not found');
     }
 
     const sneaker = await SneakerRepository.findSneakerById(variant.sneakerId);
     if (!sneaker) {
-      console.error('Sneaker not found');
-      return;
+      throw new RequestError(StatusCodes.NOT_FOUND, 'Sneaker not found');
     }
 
     const products = await CartRepository.getCartProducts(cart);
@@ -37,13 +44,12 @@ export class CartService {
     for (const product of products) {
       if (product.variantId === variantId) {
         if (quantity + product.quantity > variant.stock) {
-          console.error('Not enough stock');
+          throw new RequestError(StatusCodes.BAD_REQUEST, 'Not enough stock');
         }
         return;
       } else {
         if (quantity > variant.stock) {
-          console.error('Not enough stock');
-          return;
+          throw new RequestError(StatusCodes.BAD_REQUEST, 'Not enough stock');
         }
       }
     }
@@ -67,30 +73,38 @@ export class CartService {
   ) {
     const cart = await CartRepository.getCartByUserId(userId);
     if (!cart) {
-      return;
+      throw new RequestError(StatusCodes.NOT_FOUND, 'Cart not found');
     }
 
     const products = await CartRepository.getCartProducts(cart);
+
+    if (quantity <= 0) {
+      throw new RequestError(
+        StatusCodes.BAD_REQUEST,
+        'Quantity must be positive',
+      );
+    }
+
+    if (!products.length) {
+      throw new RequestError(StatusCodes.NOT_FOUND, 'Product not found');
+    }
 
     for (const product of products) {
       if (product.variantId === variantId) {
         const variant = await VariantRepository.findVariantById(variantId);
         if (!variant) {
-          console.error('Variant not found');
-          return;
+          throw new RequestError(StatusCodes.NOT_FOUND, 'Variant not found');
         }
 
         const sneaker = await SneakerRepository.findSneakerById(
           variant.sneakerId,
         );
         if (!sneaker) {
-          console.error('Sneaker not found');
-          return;
+          throw new RequestError(StatusCodes.NOT_FOUND, 'Sneaker not found');
         }
 
         if (quantity > variant.stock) {
-          console.error('Not enough stock');
-          return;
+          throw new RequestError(StatusCodes.BAD_REQUEST, 'Not enough stock');
         }
 
         product.quantity = quantity;
@@ -98,6 +112,8 @@ export class CartService {
         await CartProductRepository.addCartProduct(product);
         await CartRepository.updateCart(cart);
         return;
+      } else {
+        throw new RequestError(StatusCodes.NOT_FOUND, 'Product not found');
       }
     }
   }
@@ -105,14 +121,17 @@ export class CartService {
   static async deleteProductFromCart(userId: number, variantId: number) {
     const cart = await CartRepository.getCartByUserId(userId);
     if (!cart) {
-      return;
+      throw new RequestError(StatusCodes.NOT_FOUND, 'Cart not found');
     }
 
     const products = await CartRepository.getCartProducts(cart);
     for (const product of products) {
       if (product.variantId === variantId) {
         await CartProductRepository.deleteCartProduct(product);
+      } else {
+        throw new RequestError(StatusCodes.NOT_FOUND, 'Product not found');
       }
     }
+    return await CartRepository.updateCart(cart);
   }
 }
