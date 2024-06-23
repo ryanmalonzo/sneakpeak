@@ -2,10 +2,14 @@ import { expect, use } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 import { CartService } from '../../app/services/CartService';
-import { UserRepository } from '../../app/repositories/sql/UserRepository';
 import { VariantRepository } from '../../app/repositories/sql/VariantRepository';
-import { User } from '../../app/models/sql/User';
-import { uniqueEmail } from '../integration/helpers';
+import { Variant } from '../../app/models/sql/Variant';
+import { SneakerRepository } from '../../app/repositories/sql/SneakerRepository';
+import { CartRepository } from '../../app/repositories/sql/CartRepository';
+import { Cart } from '../../app/models/sql/Cart';
+import { CartProductRepository } from '../../app/repositories/sql/CartProductRepository';
+import { Sneaker } from '../../app/models/sql/Sneaker';
+import { CartProduct } from '../../app/models/sql/CartProduct';
 
 use(chaiAsPromised);
 
@@ -14,31 +18,115 @@ afterEach(() => {
 });
 
 describe('CartService', () => {
-  const USER = {
-    email: uniqueEmail(),
-    password: 'DarkraiIsBest123%',
-  } as User;
-  const VARIANT = {
-    stock: 10,
-    image: 'image',
-    sneakerId: 1,
-    sizeId: 1,
-    colorId: 1,
-  };
   describe('addProductToCart', () => {
+    const CartProducts: CartProduct[] = [
+      {
+        cartId: 1,
+        variantId: 1,
+        quantity: 1,
+        total: 200,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as CartProduct,
+    ];
+
+    const Variant: Variant = {
+      id: 1,
+      sneakerId: 1,
+      sizeId: 42,
+      colorId: 1,
+      stock: 5,
+    };
     it('should throw an error when the variant is not found', async () => {
-      const user = await expect(UserRepository.build(USER)).to.be.fulfilled;
-      const variant = await expect(VariantRepository.build(VARIANT)).to.be
-        .fulfilled;
-      await expect(
-        CartService.addProductToCart(user.id, variant.id, 1),
-      ).to.be.rejectedWith('Variants not found');
+      sinon.stub(CartRepository, 'getCartByUserId').resolves(null);
+      sinon.stub(CartRepository, 'build').resolves({} as Cart);
+      sinon.stub(CartRepository, 'createCart').resolves(undefined);
+      sinon.stub(VariantRepository, 'findVariantById').resolves(null);
+      await expect(CartService.addProductToCart(1, 1000, 1)).to.be.rejectedWith(
+        'Variant not found',
+      );
+    });
+
+    it('should throw an error when the sneaker is not found', async () => {
+      sinon.stub(CartRepository, 'getCartByUserId').resolves(null);
+      sinon.stub(CartRepository, 'build').resolves({} as Cart);
+      sinon.stub(CartRepository, 'createCart').resolves(undefined);
+      sinon.stub(VariantRepository, 'findVariantById').resolves({} as Variant);
+      sinon.stub(SneakerRepository, 'findSneakerById').resolves(null);
+
+      await expect(CartService.addProductToCart(1, 1, 1)).to.be.rejectedWith(
+        'Sneaker not found',
+      );
     });
 
     it('should throw an error if the quantity is less than 1', async () => {
+      sinon.stub(CartRepository, 'getCartByUserId').resolves(null);
+      sinon.stub(CartRepository, 'build').resolves({} as Cart);
+      sinon.stub(CartRepository, 'createCart').resolves(undefined);
+
       await expect(CartService.addProductToCart(1, 1, 0)).to.be.rejectedWith(
         'Quantity must be positive',
       );
+    });
+
+    it('should throw an error if the stock is not enough', async () => {
+      sinon.stub(CartRepository, 'getCartByUserId').resolves(null);
+      sinon.stub(CartRepository, 'build').resolves({} as Cart);
+      sinon.stub(CartRepository, 'createCart').resolves(undefined);
+      sinon.stub(VariantRepository, 'findVariantById').resolves(Variant);
+      sinon.stub(SneakerRepository, 'findSneakerById').resolves({} as Sneaker);
+      sinon.stub(CartRepository, 'getCartProducts').resolves(CartProducts);
+
+      await expect(CartService.addProductToCart(1, 1, 6)).to.be.rejectedWith(
+        'Not enough stock',
+      );
+    });
+
+    it('should throw an error if quantity is more than stock', async () => {
+      const CartProducts: CartProduct[] = [
+        {
+          cartId: 1,
+          variantId: 1,
+          quantity: 0,
+          total: 200,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        } as CartProduct,
+      ];
+      sinon.stub(CartRepository, 'getCartByUserId').resolves(null);
+      sinon.stub(CartRepository, 'build').resolves({} as Cart);
+      sinon.stub(CartRepository, 'createCart').resolves(undefined);
+      sinon.stub(VariantRepository, 'findVariantById').resolves(Variant);
+      sinon.stub(SneakerRepository, 'findSneakerById').resolves({} as Sneaker);
+      sinon.stub(CartRepository, 'getCartProducts').resolves(CartProducts);
+
+      await expect(CartService.addProductToCart(1, 1, 6)).to.be.rejectedWith(
+        'Not enough stock',
+      );
+    });
+
+    it('should add a product to the cart', async () => {
+      const CartProducts: CartProduct[] = [
+        {
+          cartId: 1,
+          variantId: 1,
+          quantity: 0,
+          total: 200,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        } as CartProduct,
+      ];
+      sinon.stub(CartRepository, 'getCartByUserId').resolves(null);
+      sinon.stub(CartRepository, 'build').resolves({} as Cart);
+      sinon.stub(CartRepository, 'createCart').resolves(undefined);
+      sinon.stub(VariantRepository, 'findVariantById').resolves(Variant);
+      sinon.stub(SneakerRepository, 'findSneakerById').resolves({} as Sneaker);
+      sinon.stub(CartRepository, 'getCartProducts').resolves(CartProducts);
+      sinon.stub(CartProductRepository, 'build').resolves({} as CartProduct);
+      sinon.stub(CartProductRepository, 'addCartProduct').resolves(undefined);
+      sinon.stub(CartRepository, 'updateCart').resolves(undefined);
+
+      await expect(CartService.addProductToCart(1, 1, 1)).to.be.fulfilled;
     });
   });
 });
