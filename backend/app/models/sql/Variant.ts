@@ -8,11 +8,13 @@ import {
 import { Sneaker, updateSneakerInMongoDB } from './Sneaker';
 import { Size } from './Size';
 import { Color } from './Color';
+import syncWithMongoDB from '../../helpers/syncPsqlMongo';
 
 export class Variant extends Model {
   declare id: CreationOptional<number>;
   declare stock: number;
   declare image: string;
+  declare isBest: boolean;
   declare sneakerId: ForeignKey<Sneaker['id']>;
   declare sizeId: ForeignKey<Size['id']>;
   declare colorId: ForeignKey<Color['id']>;
@@ -29,13 +31,51 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
+      isBest: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     },
     { sequelize, underscored: true },
   );
 
   Variant.afterCreate(async (variant) => {
     const sneaker = await Sneaker.findByPk(variant.sneakerId);
+    const size = await Size.findByPk(variant.sizeId);
+    const color = await Color.findByPk(variant.colorId);
+
     await updateSneakerInMongoDB(sneaker!);
+
+    const data = variant.toJSON();
+    data.name = sneaker!.name;
+    data.price = sneaker!.price;
+    data.size = size!.name;
+    data.color = color!.name;
+    await syncWithMongoDB(Variant.name, 'create', data);
+  });
+
+  Variant.afterUpdate(async (variant) => {
+    const sneaker = await Sneaker.findByPk(variant.sneakerId);
+    const size = await Size.findByPk(variant.sizeId);
+    const color = await Color.findByPk(variant.colorId);
+
+    await updateSneakerInMongoDB(sneaker!);
+
+    const data = variant.toJSON();
+    data.name = sneaker!.name;
+    data.price = sneaker!.price;
+    data.size = size!.name;
+    data.color = color!.name;
+    await syncWithMongoDB(Variant.name, 'update', data);
+  });
+
+  Variant.afterDestroy(async (variant) => {
+    const sneaker = await Sneaker.findByPk(variant.sneakerId);
+    await updateSneakerInMongoDB(sneaker!);
+
+    const data = variant.toJSON();
+    await syncWithMongoDB(Variant.name, 'delete', data);
   });
 
   return Variant;

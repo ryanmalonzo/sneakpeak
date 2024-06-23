@@ -2,8 +2,10 @@ const BASE_URL = import.meta.env.VITE_API_URL
 
 export namespace CategoryApi {
   export interface CategoryOut {
+    id: number
     name: string
     slug: string
+    image: string
   }
 
   export const getAll = async (): Promise<CategoryOut[]> => {

@@ -23,7 +23,9 @@ BrandRouter.post(
     try {
       return res
         .status(StatusCodes.CREATED)
-        .json(await BrandService.save(req.body.name, req.body.slug));
+        .json(
+          await BrandService.save(req.body.name, req.body.slug, req.body.image),
+        );
     } catch (error) {
       next(error);
     }
@@ -42,6 +44,7 @@ BrandRouter.put(
             parseInt(req.params.id),
             req.body.name,
             req.body.slug,
+            req.body.image,
           ),
         );
     } catch (error) {

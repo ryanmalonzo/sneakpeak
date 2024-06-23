@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { BrandModel } from '../models/mongodb/Brand';
 import { CategoryModel } from '../models/mongodb/Category';
 import { SneakerModel } from '../models/mongodb/Sneaker';
+import { VariantModel } from '../models/mongodb/Variant';
 import { CartModel } from '../models/mongodb/Cart';
 
 // Operation type
@@ -33,7 +34,6 @@ async function syncWithMongoDB(
       if (!('id' in data)) {
         throw new Error('The document ID is required to update the document.');
       }
-      console.log('Updating the document:', data);
       await ModelMongo.findOneAndUpdate({ id: data.id }, data);
       break;
     }
@@ -42,7 +42,6 @@ async function syncWithMongoDB(
       if (!('id' in data)) {
         throw new Error('The document ID is required to delete the document.');
       }
-      console.log('Deleting the document:', data);
       await ModelMongo.findOneAndDelete({ id: data.id });
       break;
     }
@@ -62,6 +61,8 @@ function getModel(modelName: string) {
       return CategoryModel;
     case 'Sneaker':
       return SneakerModel;
+    case 'Variant':
+      return VariantModel;
     case 'Cart':
       return CartModel;
     default:

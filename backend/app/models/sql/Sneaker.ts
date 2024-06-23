@@ -24,7 +24,6 @@ export class Sneaker extends Model {
 }
 
 export const updateSneakerInMongoDB = async (sneaker: Sneaker) => {
-  console.log('Updating a document:', sneaker);
   const data = sneaker.toJSON();
   const variants = await VariantRepository.findVariantsBySneakerId(data.id);
   const category = await CategoryRepository.findCategoryById(data.categoryId);
@@ -70,7 +69,6 @@ export default (sequelize: Sequelize) => {
   );
 
   Sneaker.afterCreate(async (sneaker) => {
-    console.log('Creating a new document:', sneaker);
     const data = sneaker.toJSON();
     const category = await CategoryRepository.findCategoryById(data.categoryId);
     const brand = await BrandRepository.findBrandById(data.brandId);
@@ -83,7 +81,6 @@ export default (sequelize: Sequelize) => {
   Sneaker.afterUpdate(updateSneakerInMongoDB);
 
   Sneaker.afterDestroy(async (sneaker) => {
-    console.log('Deleting a document:', sneaker);
     const data = sneaker.toJSON();
     await syncWithMongoDB(sneaker.constructor.name, 'delete', data);
   });
