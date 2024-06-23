@@ -9,7 +9,7 @@ import { Challenge } from '../../app/models/sql/Challenge';
 import {
   generateDataModelSneaker,
   generateDataModelVariant,
-} from '../../app/helpers/generateData';
+} from '../../bin/generateData';
 
 let token = '';
 const noToken = '';
