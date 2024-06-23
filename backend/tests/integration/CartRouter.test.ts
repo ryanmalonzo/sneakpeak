@@ -12,6 +12,7 @@ import {
 } from '../../app/helpers/generateData';
 
 let token = '';
+const noToken = '';
 const PASSWORD = 'DarkraiIsBest123%';
 
 before(async () => {
@@ -47,9 +48,6 @@ before(async () => {
   }
 });
 
-async function logout(): Promise<void> {
-  await request(app).get('/session/logout').set('Cookie', [token]);
-}
 async function testThatInsertProductInCart(): Promise<request.Response> {
   const response = await request(app)
     .post('/cart')
@@ -100,13 +98,13 @@ async function testThatDeleteProductInCart(): Promise<request.Response> {
 async function testThatCantInsertProductInCartWithoutUserId(): Promise<void> {
   const response = await request(app)
     .post('/cart')
-    .set('Cookie', [token])
+    .set('Cookie', [noToken])
     .send({
       variantId: 1,
       quantity: 1,
     });
 
-  expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+  expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
 }
 
 async function testThatCantInsertProductInCartWithoutProductId(): Promise<void> {
@@ -132,12 +130,15 @@ async function testThatCantInsertProductInCartWithoutQuantity(): Promise<void> {
 }
 
 async function testThatCantUpdateProductInCartWithoutUserId(): Promise<void> {
-  const response = await request(app).put('/cart').set('Cookie', [token]).send({
-    variantId: 1,
-    quantity: 2,
-  });
+  const response = await request(app)
+    .put('/cart')
+    .set('Cookie', [noToken])
+    .send({
+      variantId: 1,
+      quantity: 2,
+    });
 
-  expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+  expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
 }
 
 async function testThatCantUpdateProductInCartWithoutProductId(): Promise<void> {
@@ -157,9 +158,11 @@ async function testThatCantUpdateProductInCartWithoutQuantity(): Promise<void> {
 }
 
 async function testThatCantDeleteProductInCartWithoutUserId(): Promise<void> {
-  const response = await request(app).delete('/cart/1').set('Cookie', [token]);
+  const response = await request(app)
+    .delete('/cart/1')
+    .set('Cookie', [noToken]);
 
-  expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+  expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
 }
 
 async function testThatCantDeleteProductInCartWithoutProductId(): Promise<void> {
@@ -169,17 +172,15 @@ async function testThatCantDeleteProductInCartWithoutProductId(): Promise<void> 
 }
 
 async function testThatCantInsertProductInCartWithInvalidUserId(): Promise<void> {
-  await logout();
   const response = await request(app)
     .post('/cart')
-    .set('Cookie', [token])
+    .set('Cookie', [noToken])
     .send({
-      userId: 999,
       variantId: 1,
       quantity: 1,
     });
 
-  expect(response.status).to.equal(StatusCodes.NOT_FOUND);
+  expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
 }
 
 async function testThatCantInsertProductInCartWithInvalidProductId(): Promise<void> {
@@ -187,7 +188,6 @@ async function testThatCantInsertProductInCartWithInvalidProductId(): Promise<vo
     .post('/cart')
     .set('Cookie', [token])
     .send({
-      userId: 1,
       variantId: 999,
       quantity: 1,
     });
@@ -196,19 +196,19 @@ async function testThatCantInsertProductInCartWithInvalidProductId(): Promise<vo
 }
 
 async function testThatCantUpdateProductInCartWithInvalidUserId(): Promise<void> {
-  await logout();
-  const response = await request(app).put('/cart').set('Cookie', [token]).send({
-    userId: 999,
-    variantId: 1,
-    quantity: 2,
-  });
+  const response = await request(app)
+    .put('/cart')
+    .set('Cookie', [noToken])
+    .send({
+      variantId: 1,
+      quantity: 2,
+    });
 
-  expect(response.status).to.equal(StatusCodes.NOT_FOUND);
+  expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
 }
 
 async function testThatCantUpdateProductInCartWithInvalidProductId(): Promise<void> {
   const response = await request(app).put('/cart').set('Cookie', [token]).send({
-    userId: 1,
     variantId: 999,
     quantity: 2,
   });
@@ -217,10 +217,11 @@ async function testThatCantUpdateProductInCartWithInvalidProductId(): Promise<vo
 }
 
 async function testThatCantDeleteProductInCartWithInvalidUserId(): Promise<void> {
-  await logout();
-  const response = await request(app).delete('/cart/1').set('Cookie', [token]);
+  const response = await request(app)
+    .delete('/cart/1')
+    .set('Cookie', [noToken]);
 
-  expect(response.status).to.equal(StatusCodes.NOT_FOUND);
+  expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
 }
 
 async function testThatCantDeleteProductInCartWithInvalidProductId(): Promise<void> {
@@ -259,7 +260,6 @@ describe('DELETE /cart', () => {
 
 describe('POST /cart', () => {
   it('should return a 400 status code when trying to insert a product in the cart without userId', async () => {
-    await logout();
     await testThatCantInsertProductInCartWithoutUserId();
   });
 });
@@ -278,7 +278,6 @@ describe('POST /cart', () => {
 
 describe('PUT /cart', () => {
   it('should return a 400 status code when trying to update a product in the cart without userId', async () => {
-    await logout();
     await testThatCantUpdateProductInCartWithoutUserId();
   });
 });
@@ -297,7 +296,6 @@ describe('PUT /cart', () => {
 
 describe('DELETE /cart', () => {
   it('should return a 400 status code when trying to delete a product in the cart without userId', async () => {
-    await logout();
     await testThatCantDeleteProductInCartWithoutUserId();
   });
 });
