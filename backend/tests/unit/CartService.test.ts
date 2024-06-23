@@ -29,7 +29,7 @@ describe('CartService', () => {
     } as CartProduct,
   ];
   describe('addProductToCart', () => {
-    const Variant: Variant = {
+    const Variant: Partial<Variant> = {
       id: 1,
       sneakerId: 1,
       sizeId: 42,
@@ -72,7 +72,9 @@ describe('CartService', () => {
       sinon.stub(CartRepository, 'getCartByUserId').resolves(null);
       sinon.stub(CartRepository, 'build').resolves({} as Cart);
       sinon.stub(CartRepository, 'createCart').resolves(undefined);
-      sinon.stub(VariantRepository, 'findVariantById').resolves(Variant);
+      sinon
+        .stub(VariantRepository, 'findVariantById')
+        .resolves(Variant as Variant);
       sinon.stub(SneakerRepository, 'findSneakerById').resolves({} as Sneaker);
       sinon.stub(CartRepository, 'getCartProducts').resolves(CartProducts);
 
@@ -95,7 +97,9 @@ describe('CartService', () => {
       sinon.stub(CartRepository, 'getCartByUserId').resolves(null);
       sinon.stub(CartRepository, 'build').resolves({} as Cart);
       sinon.stub(CartRepository, 'createCart').resolves(undefined);
-      sinon.stub(VariantRepository, 'findVariantById').resolves(Variant);
+      sinon
+        .stub(VariantRepository, 'findVariantById')
+        .resolves(Variant as Variant);
       sinon.stub(SneakerRepository, 'findSneakerById').resolves({} as Sneaker);
       sinon.stub(CartRepository, 'getCartProducts').resolves(CartProducts);
 
@@ -118,7 +122,9 @@ describe('CartService', () => {
       sinon.stub(CartRepository, 'getCartByUserId').resolves(null);
       sinon.stub(CartRepository, 'build').resolves({} as Cart);
       sinon.stub(CartRepository, 'createCart').resolves(undefined);
-      sinon.stub(VariantRepository, 'findVariantById').resolves(Variant);
+      sinon
+        .stub(VariantRepository, 'findVariantById')
+        .resolves(Variant as Variant);
       sinon.stub(SneakerRepository, 'findSneakerById').resolves({} as Sneaker);
       sinon.stub(CartRepository, 'getCartProducts').resolves(CartProducts);
       sinon.stub(CartProductRepository, 'build').resolves({} as CartProduct);
