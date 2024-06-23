@@ -1,31 +1,25 @@
 import { HydratedDocument } from 'mongoose';
-import { ISneaker, SneakerModel } from '../../models/mongodb/Sneaker';
+import { IVariant, VariantModel } from '../../models/mongodb/Variant';
 import { FilterOptions, SortOptions } from '../../helpers/interfaces';
 
-export class SneakerRepository {
+export class VariantRepository {
   static async getPaginated(
     page: number,
     limit: number,
     sortOptions: SortOptions,
     filterOptions: FilterOptions,
-  ): Promise<HydratedDocument<ISneaker>[]> {
-    const sneakers = await SneakerModel.find(filterOptions)
+  ): Promise<HydratedDocument<IVariant>[]> {
+    const variants = await VariantModel.find(filterOptions)
       .skip((page - 1) * limit)
       .limit(limit)
       .sort(sortOptions);
-    return sneakers;
+    return variants;
   }
 
   static async getTotalCount(
     sortOptions: SortOptions,
     filterOptions: FilterOptions,
   ): Promise<number> {
-    return await SneakerModel.countDocuments(filterOptions, sortOptions);
-  }
-
-  static async findOneById(
-    id: string,
-  ): Promise<HydratedDocument<ISneaker> | null> {
-    return await SneakerModel.findOne({ id });
+    return await VariantModel.countDocuments(filterOptions, sortOptions);
   }
 }
