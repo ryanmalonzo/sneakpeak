@@ -201,7 +201,7 @@ async function generateDataModelSize(
   );
 }
 
-async function generateDataModelSneaker(
+export async function generateDataModelSneaker(
   isDelete: boolean = false,
   count: number = 10,
 ): Promise<void> {
@@ -235,7 +235,7 @@ const base64 = async (url: string) => {
   return `data:${contentType};base64,${base64}`;
 };
 
-async function generateDataModelVariant(
+export async function generateDataModelVariant(
   isDelete: boolean = false,
   count: number = 10,
 ): Promise<void> {
