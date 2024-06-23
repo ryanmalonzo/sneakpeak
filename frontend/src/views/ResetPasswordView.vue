@@ -14,8 +14,13 @@ const userId = route.query.id as string
 const token = route.query.token as string
 const router = useRouter();
 
-// Validation des champs
-const passwordSchema = z.string().min(8, { message: 'Doit contenir au moins 8 caractères' })
+// Validation des champs avec Zod
+const passwordSchema = z.string()
+  .min(12, { message: 'Doit contenir au moins 12 caractères' })
+  .regex(/[^A-Za-z0-9]/, { message: 'Doit contenir au moins un caractère spécial' })
+  .regex(/[A-Z]/, { message: 'Doit contenir au moins une lettre majuscule' })
+  .regex(/[a-z]/, { message: 'Doit contenir au moins une lettre minuscule' })
+  .regex(/[0-9]/, { message: 'Doit contenir au moins un chiffre' });
 
 // Traitement du formulaire
 async function onSubmit() {
