@@ -1,0 +1,18 @@
+meta {
+  name: Insert Product
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/cart
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "variantId":3,
+    "quantity":10
+  }
+}

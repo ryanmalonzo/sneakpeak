@@ -80,14 +80,6 @@ Variant.belongsTo(Size, {
   },
 });
 
-Cart.belongsTo(User, {
-  onDelete: 'CASCADE',
-  foreignKey: {
-    name: 'userId',
-    allowNull: false,
-  },
-});
-
 Cart.hasMany(CartProduct);
 
 CartProduct.belongsTo(Cart, {
@@ -98,10 +90,4 @@ CartProduct.belongsTo(Cart, {
   },
 });
 
-CartProduct.belongsTo(Variant, {
-  onDelete: 'CASCADE',
-  foreignKey: {
-    name: 'variantId',
-    allowNull: false,
-  },
-});
+export default sequelize;

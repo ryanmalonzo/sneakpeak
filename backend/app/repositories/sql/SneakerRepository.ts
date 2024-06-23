@@ -4,7 +4,8 @@ import { Sneaker } from '../../models/sql/Sneaker';
 
 export class SneakerRepository {
   static async findSneakerById(id: number): Promise<Sneaker | null> {
-    return await Sneaker.findByPk(id);
+    const sneaker = await Sneaker.findByPk(id);
+    return sneaker;
   }
 
   static async delete(id: number): Promise<void> {

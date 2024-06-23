@@ -3,9 +3,10 @@ import { BrandModel } from '../models/mongodb/Brand';
 import { CategoryModel } from '../models/mongodb/Category';
 import { SneakerModel } from '../models/mongodb/Sneaker';
 import { VariantModel } from '../models/mongodb/Variant';
+import { CartModel } from '../models/mongodb/Cart';
 
 // Operation type
-type Operation = 'create' | 'update' | 'delete';
+export type Operation = 'create' | 'update' | 'delete';
 
 // Sync data with MongoDB database
 async function syncWithMongoDB(
@@ -62,6 +63,8 @@ function getModel(modelName: string) {
       return SneakerModel;
     case 'Variant':
       return VariantModel;
+    case 'Cart':
+      return CartModel;
     default:
       throw new Error(`Unsupported model name: ${modelName}`);
   }

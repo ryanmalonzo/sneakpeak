@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import { BrandRouter } from './routers/BrandRouter';
 import { CategoryRouter } from './routers/CategoryRouter';
 import { VariantRouter } from './routers/VariantRouter';
+import { CartRouter } from './routers/CartRouter';
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/sneakers', SneakerRouter);
 app.use('/variants', VariantRouter);
 app.use('/brands', BrandRouter);
 app.use('/categories', CategoryRouter);
+app.use('/cart', CartRouter);
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 app.use((err, req, res, next) => {
