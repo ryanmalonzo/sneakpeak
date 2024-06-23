@@ -4,6 +4,7 @@ interface IBrand extends Document {
   id: number;
   name: string;
   slug: string;
+  image: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -13,6 +14,7 @@ const BrandSchema: Schema<IBrand> = new Schema(
     id: { type: Number, required: true },
     name: { type: String, required: true },
     slug: { type: String, required: true },
+    image: { type: String, required: true },
   },
   { timestamps: true },
 );

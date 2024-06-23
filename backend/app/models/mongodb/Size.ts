@@ -6,11 +6,14 @@ interface ISize extends Document {
   slug: string;
 }
 
-const SizeSchema: Schema<ISize> = new Schema({
-  id: { type: Number, required: true },
-  name: { type: String, required: true },
-  slug: { type: String, required: true },
-});
+const SizeSchema: Schema<ISize> = new Schema(
+  {
+    id: { type: Number, required: true },
+    name: { type: String, required: true },
+    slug: { type: String, required: true },
+  },
+  { timestamps: true },
+);
 
 const SizeModel: Model<ISize> = model<ISize>('Size', SizeSchema);
 

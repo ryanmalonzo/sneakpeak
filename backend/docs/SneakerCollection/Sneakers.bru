@@ -5,21 +5,17 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/sneakers?page=1&limit=10&sort=name&order=desc&price=50,200&brand=excepturi,voldemort&category=running
+  url: http://localhost:3000/sneakers?page=1&limit=8&sort=created_at&order=desc
   body: none
-  auth: bearer
+  auth: none
 }
 
-query {
+params:query {
   page: 1
-  limit: 10
-  sort: name
+  limit: 8
+  sort: created_at
   order: desc
-  price: 50,200
-  brand: excepturi,voldemort
-  category: running
-}
-
-auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQyNjE1M2Q0YzI2MzVmOWEwZWI4OGEiLCJpYXQiOjE3MTY1NTIzMjgsImV4cCI6MTcxNjU1NTkyOH0.QLO2j51cb2BvlvqDkFYGvudYFS9_W3HaRkkNmQnTfSc
+  ~price: 50,200
+  ~brand: excepturi,voldemort
+  ~category: running
 }
