@@ -11,6 +11,7 @@ import Aura from '@primevue/themes/aura'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Dialog from 'primevue/dialog'
+import Checkbox from 'primevue/checkbox'
 // @ts-ignore
 import vClickOutside from 'v-click-outside'
 
@@ -42,5 +43,6 @@ app.directive('click-outside', {
 app.component('Button', Button)
 app.component('InputText', InputText)
 app.component('Dialog', Dialog)
+app.component('Checkbox', Checkbox)
 
 app.mount('#app')

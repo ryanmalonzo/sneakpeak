@@ -5,7 +5,7 @@ import SearchView from '@/views/SearchView.vue'
 import CartView from '@/views/CartView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
 import ResetPasswordSuccess from '@/views/ResetPasswordSuccess.vue'
-import CGUView from '@/views/legal/CGU.vue'
+import CGUView from '@/views/legal/CGUView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

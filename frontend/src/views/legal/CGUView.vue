@@ -115,13 +115,3 @@
     <p class="mb-4">Merci de votre confiance et bonne visite sur SneakPeak !</p>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'CGU'
-}
-</script>
-
-<style scoped>
-/* Si vous souhaitez ajouter des styles spécifiques */
-</style>

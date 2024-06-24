@@ -1,7 +1,7 @@
 <template>
   <GenericModal v-model:visible="localVisible" header="Inscription">
     <form @submit.prevent="onSubmit">
-      <div class="flex flex-col align-items-center gap-2 mb-3">
+      <div class="align-items-center mb-3 flex flex-col gap-2">
         <label for="email" class="w-6rem">Adresse mail</label>
         <InputText
           id="email"
@@ -10,10 +10,10 @@
           v-model="email"
         />
         <p v-if="emailError">
-          <span class="text-red-500 text-sm">{{ emailError }}</span>
+          <span class="text-sm text-red-500">{{ emailError }}</span>
         </p>
       </div>
-      <div class="flex flex-col align-items-center gap-2 mb-3">
+      <div class="align-items-center mb-3 flex flex-col gap-2">
         <label for="password" class="w-6rem">Mot de passe</label>
         <InputText
           type="password"
@@ -23,7 +23,7 @@
           v-model="password"
         />
       </div>
-      <div class="flex flex-col align-items-center gap-2 mb-3">
+      <div class="align-items-center mb-3 flex flex-col gap-2">
         <label for="passwordConfirm" class="w-6rem">Confirmation du mot de passe</label>
         <InputText
           type="password"
@@ -33,10 +33,20 @@
           v-model="passwordConfirm"
         />
         <p v-if="registerError">
-          <span class="text-red-500 text-sm">{{ registerError }}</span>
+          <span class="text-sm text-red-500">{{ registerError }}</span>
         </p>
       </div>
-      <div class="flex flex-col justify-content-end gap-2">
+      <!-- Checkbox -->
+      <div class="mb-3">
+        <Checkbox id="cgu" v-model="cguAccepted" :binary="true" :invalid="cguInvalid" />
+        <label for="cgu" class="ml-2 text-sm" :class="cguInvalid && 'text-red-500'">
+          En cochant cette case, j'accepte les
+          <RouterLink to="/legal/cgu" target="_blank" class="underline"
+            >conditions générales d'utilisation</RouterLink
+          >
+        </label>
+      </div>
+      <div class="justify-content-end flex flex-col gap-2">
         <Button type="submit" label="S'inscrire" rounded></Button>
       </div>
     </form>
@@ -55,16 +65,25 @@ const emit = defineEmits(['update:visible'])
 const email = ref('')
 const password = ref('')
 const passwordConfirm = ref('')
+const cguAccepted = ref(false)
+const cguInvalid = ref(false)
 const registerError = ref('')
 const localVisible = ref(props.visible)
 const API_URL = import.meta.env.VITE_API_URL
 
-watch(() => props.visible, (newVal) => {
-  localVisible.value = newVal
-})
+watch(
+  () => props.visible,
+  (newVal) => {
+    localVisible.value = newVal
+  }
+)
 
 watch(localVisible, (newVal) => {
   emit('update:visible', newVal)
+})
+
+watch(cguAccepted, (newVal) => {
+  cguInvalid.value = !newVal
 })
 
 const emailSchema = z
@@ -82,14 +101,25 @@ const emailError = computed(() => {
 })
 
 async function onSubmit() {
-  if (password.value !== passwordConfirm.value || emailError.value !== '' || email.value === '' || password.value === '' || passwordConfirm.value === '') {
+  if (!cguAccepted.value) {
+    cguInvalid.value = true
+    return
+  }
+
+  if (
+    password.value !== passwordConfirm.value ||
+    emailError.value !== '' ||
+    email.value === '' ||
+    password.value === '' ||
+    passwordConfirm.value === ''
+  ) {
     return
   }
 
   try {
     await axios.post(`${API_URL}/users`, {
       email: email.value,
-      password: password.value,
+      password: password.value
     })
 
     email.value = ''
