@@ -28,4 +28,5 @@ before(async () => {
 after(async () => {
   sinon.restore();
   await sequelize.close();
+  await mongoose.connection.close();
 });
