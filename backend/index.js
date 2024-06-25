@@ -11,9 +11,6 @@ const PORT = process.env.PORT || 3000;
 sequelize
   .authenticate()
   .then(() => {
-    sequelize.sync(
-      { alter: true }
-    );
     console.log('PostgreSQL connected');
   })
   .catch((err) => {

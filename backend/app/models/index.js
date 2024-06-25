@@ -89,5 +89,3 @@ CartProduct.belongsTo(Cart, {
     allowNull: false,
   },
 });
-
-export default sequelize;
