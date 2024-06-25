@@ -209,7 +209,7 @@ async function generateDataModelSize(
   );
 }
 
-export async function generateDataModelSneaker(
+async function generateDataModelSneaker(
   isDelete: boolean = false,
   count: number = 10,
 ): Promise<void> {
@@ -236,7 +236,7 @@ export async function generateDataModelSneaker(
   console.log(`Created ${count} Sneaker models`);
 }
 
-export async function generateDataModelVariant(
+async function generateDataModelVariant(
   isDelete: boolean = false,
   count: number = 10,
 ): Promise<void> {
