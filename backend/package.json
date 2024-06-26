@@ -44,7 +44,8 @@
     "pg": "^8.11.5",
     "postmark": "^4.0.2",
     "sequelize": "^6.37.3",
-    "slugify": "^1.6.6"
+    "slugify": "^1.6.6",
+    "stripe": "^16.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",

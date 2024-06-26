@@ -15,7 +15,8 @@ export class CartProduct extends Model {
   declare cartId: ForeignKey<Cart['id']>;
   declare variantId: number;
   declare quantity: number;
-  declare total: number;
+  declare unitPrice: number;
+  declare name: string;
   declare createdAt: Date;
   declare updatedAt: Date;
 
@@ -37,12 +38,16 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      total: {
-        type: DataTypes.DECIMAL,
+      unitPrice: {
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
       createdAt: {

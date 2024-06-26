@@ -9,6 +9,8 @@ import cookieParser from 'cookie-parser';
 import { BrandRouter } from './routers/BrandRouter';
 import { CategoryRouter } from './routers/CategoryRouter';
 import { CartRouter } from './routers/CartRouter';
+import { StripeRouter } from './routers/StripeRouter';
+import { CheckoutRouter } from './routers/CheckoutRouter';
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.use('/sneakers', SneakerRouter);
 app.use('/brands', BrandRouter);
 app.use('/categories', CategoryRouter);
 app.use('/cart', CartRouter);
+app.use('/webhook', StripeRouter);
+app.use('/checkout', CheckoutRouter);
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 app.use((err, req, res, next) => {
