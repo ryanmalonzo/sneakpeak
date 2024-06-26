@@ -1,7 +1,7 @@
 export interface IError {
-  name: string;
-  message: string;
-  error: string;
+  name: string
+  message: string
+  error: string
 }
 export class Translation {
   /**
@@ -23,7 +23,7 @@ export class Translation {
         break
     }
   }
-  
+
   /**
    * @param message Erreur d'inscription en anglais
    * @returns Erreur d'inscription en français
@@ -31,30 +31,13 @@ export class Translation {
   static registerErrors(message: Error) {
     switch ((message as IError).error) {
       case 'email_already_exists':
-        return 'Email déjà utilisé'
+        return 'Cette adresse mail est déjà utilisée'
 
-      case 'password_too_short':
-        return 'Mot de passe trop court'
-
-      case 'password_mismatch':
-        return 'Les mots de passe renseignés sont différents'
+      case 'invalid_password':
+        return 'Votre mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial'
 
       default:
-        break
-    }
-  }
-
-  /**
-   * @param message Erreur de réinitialisation de mot de passe en anglais
-   * @returns Erreur de réinitialisation de mot de passe en français
-   */
-  static resetPasswordErrors(message: Error) {
-    switch ((message as IError).error) {
-      case 'email_not_found':
-        return 'Cet utilisateur n\'existe pas'
-
-      default:
-        break
+        return 'Une erreur est survenue. Veuillez réessayer'
     }
   }
 }

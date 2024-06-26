@@ -13,6 +13,7 @@ import InputText from 'primevue/inputtext'
 import Dialog from 'primevue/dialog'
 // @ts-ignore
 import vClickOutside from 'v-click-outside'
+import ToastService from 'primevue/toastservice'
 
 const app = createApp(App)
 
@@ -26,6 +27,7 @@ app.use(PrimeVue, {
     }
   }
 })
+app.use(ToastService)
 
 const { bind, unbind } = vClickOutside.directive
 
