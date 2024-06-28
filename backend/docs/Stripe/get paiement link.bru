@@ -1,11 +1,21 @@
 meta {
   name: get paiement link
   type: http
-  seq: 2
+  seq: 3
 }
 
-get {
+post {
   url: http://localhost:3000/checkout
-  body: none
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "billing":"242 Rue du Faubourg Saint-Antoine,7501 2 Paris",
+    "shipping":"242 Rue du Faubourg Saint-Antoine"
+  }
+  
+  
+  
 }
