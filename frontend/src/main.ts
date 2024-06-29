@@ -14,6 +14,7 @@ import Dialog from 'primevue/dialog'
 import Checkbox from 'primevue/checkbox'
 // @ts-ignore
 import vClickOutside from 'v-click-outside'
+import ToastService from 'primevue/toastservice'
 
 const app = createApp(App)
 
@@ -27,6 +28,7 @@ app.use(PrimeVue, {
     }
   }
 })
+app.use(ToastService)
 
 const { bind, unbind } = vClickOutside.directive
 

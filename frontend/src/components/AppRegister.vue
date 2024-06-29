@@ -3,37 +3,38 @@
     <form @submit.prevent="onSubmit">
       <div class="align-items-center mb-3 flex flex-col gap-2">
         <label for="email" class="w-6rem">Adresse mail</label>
-        <InputText
-          id="email"
-          class="flex-auto"
-          placeholder="amine.nairi@gmail.com"
-          v-model="email"
-        />
+        <InputText id="email" class="flex-auto" placeholder="john.doe@gmail.com" v-model="email" />
         <p v-if="emailError">
           <span class="text-sm text-red-500">{{ emailError }}</span>
         </p>
       </div>
       <div class="align-items-center mb-3 flex flex-col gap-2">
         <label for="password" class="w-6rem">Mot de passe</label>
-        <InputText
-          type="password"
-          id="password"
-          class="flex-auto"
-          placeholder="************"
+        <Password
           v-model="password"
+          id="password"
+          toggleMask
+          :feedback="false"
+          inputClass="flex-auto"
+          placeholder="************"
+          :invalid="!!passwordError"
         />
+        <p v-if="passwordError">
+          <span class="text-sm text-red-500">{{ passwordError }}</span>
+        </p>
       </div>
       <div class="align-items-center mb-3 flex flex-col gap-2">
         <label for="passwordConfirm" class="w-6rem">Confirmation du mot de passe</label>
-        <InputText
-          type="password"
-          id="passwordConfirm"
-          class="flex-auto"
-          placeholder="************"
+        <Password
           v-model="passwordConfirm"
+          id="passwordConfirm"
+          toggleMask
+          :feedback="false"
+          inputClass="flex-auto"
+          placeholder="************"
         />
-        <p v-if="registerError">
-          <span class="text-sm text-red-500">{{ registerError }}</span>
+        <p v-if="passwordConfirmError">
+          <span class="text-sm text-red-500">{{ passwordConfirmError }}</span>
         </p>
       </div>
       <!-- Checkbox -->
@@ -56,8 +57,13 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { z } from 'zod'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
+import { useToast } from 'primevue/usetoast'
 import GenericModal from './GenericModal.vue'
+import Password from 'primevue/password'
+import { Translation } from '@/helpers/translation'
+
+const toast = useToast()
 
 const props = defineProps<{ visible: boolean }>()
 const emit = defineEmits(['update:visible'])
@@ -67,7 +73,7 @@ const password = ref('')
 const passwordConfirm = ref('')
 const cguAccepted = ref(false)
 const cguInvalid = ref(false)
-const registerError = ref('')
+const passwordConfirmError = ref('')
 const localVisible = ref(props.visible)
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -86,11 +92,27 @@ watch(cguAccepted, (newVal) => {
   cguInvalid.value = !newVal
 })
 
-const emailSchema = z
+watch(cguAccepted, (newVal) => {
+  cguInvalid.value = !newVal
+})
+
+watch([password, passwordConfirm], () => {
+  if (password.value !== passwordConfirm.value) {
+    passwordConfirmError.value = 'Les mots de passe ne correspondent pas'
+  } else {
+    passwordConfirmError.value = ''
+  }
+})
+
+const emailSchema = z.string().email({ message: 'Adresse mail invalide' })
+const passwordSchema = z
   .string()
-  .min(5, { message: 'Doit contenir au moins 5 caractères' })
-  .max(30, { message: 'Doit contenir au plus 30 caractères' })
-  .email({ message: 'Email invalide' })
+  .min(12, { message: 'Le mot de passe doit contenir au moins 12 caractères' })
+  .max(32, { message: 'Le mot de passe doit contenir au maximum 32 caractères' })
+  .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,32}$/, {
+    message:
+      'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial'
+  })
 
 const emailError = computed(() => {
   const parsedEmail = emailSchema.safeParse(email.value)
@@ -98,6 +120,14 @@ const emailError = computed(() => {
     return ''
   }
   return parsedEmail.error.errors[0].message
+})
+
+const passwordError = computed(() => {
+  const parsedPassword = passwordSchema.safeParse(password.value)
+  if (parsedPassword.success || password.value === '') {
+    return ''
+  }
+  return parsedPassword.error.errors[0].message
 })
 
 async function onSubmit() {
@@ -125,14 +155,23 @@ async function onSubmit() {
     email.value = ''
     password.value = ''
     passwordConfirm.value = ''
-    registerError.value = ''
     localVisible.value = false
 
-    // Pop-up success notification
-  } catch (e: any) {
-    registerError.value = e.response?.data?.message || "L'inscription a échoué"
+    toast.add({
+      severity: 'success',
+      summary: 'Inscription réussie',
+      detail: 'Veuillez vérifier votre boîte mail pour activer votre compte',
+      life: 5000
+    })
+  } catch (e) {
+    if (e instanceof AxiosError) {
+      toast.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: Translation.registerErrors(e.response?.data)!,
+        life: 3000
+      })
+    }
   }
 }
 </script>
-
-<style scoped></style>

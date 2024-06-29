@@ -3,7 +3,7 @@
     <form @submit.prevent="onSubmit">
       <div class="align-items-center mb-3 flex flex-col gap-2">
         <label for="email" class="w-6rem">Adresse mail</label>
-        <InputText id="email" class="flex-auto" placeholder="amine.nairi@gmail.com" v-model="email" />
+        <InputText id="email" class="flex-auto" placeholder="john.doe@gmail.com" v-model="email" />
         <span v-if="emailError" class="error-message">{{ emailError }}</span>
       </div>
       <div class="justify-content-end flex flex-col gap-2">
@@ -17,9 +17,11 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { z } from 'zod'
-import GenericModal from './GenericModal.vue'
-import { Translation } from '@/helpers/translation'
 import axios from 'axios'
+import { useToast } from 'primevue/usetoast'
+import GenericModal from './GenericModal.vue'
+
+const toast = useToast()
 
 const props = defineProps<{ visible: boolean }>()
 const emit = defineEmits(['update:visible'])
@@ -29,19 +31,18 @@ const email = ref('')
 const resetPasswordError = ref('')
 const localVisible = ref(props.visible)
 
-watch(() => props.visible, (newVal) => {
-  localVisible.value = newVal
-})
+watch(
+  () => props.visible,
+  (newVal) => {
+    localVisible.value = newVal
+  }
+)
 
 watch(localVisible, (newVal) => {
   emit('update:visible', newVal)
 })
 
-const emailSchema = z
-  .string()
-  .min(5, { message: 'Doit contenir au moins 5 caractères' })
-  .max(30, { message: 'Doit contenir au plus 30 caractères' })
-  .email({ message: 'Email invalide' })
+const emailSchema = z.string().email({ message: 'Adresse mail invalide' })
 
 const emailError = computed(() => {
   const parsedEmail = emailSchema.safeParse(email.value)
@@ -55,19 +56,22 @@ async function onSubmit() {
   if (emailError.value !== '' || email.value === '') {
     return
   }
-  try {
-    await axios.post(`${API_URL}/users/password-reset`, { email: email.value })
+  await axios.post(`${API_URL}/users/password-reset`, { email: email.value })
 
-    // reset les champs
-    resetPasswordError.value = ''
-    email.value = ''
-    
-    // ferme la modale
-    localVisible.value = false
-     
-  } catch (e) {
-    resetPasswordError.value = Translation.resetPasswordErrors(e as Error)!
-  }
+  toast.add({
+    severity: 'success',
+    summary: 'Succès',
+    detail:
+      "Si l'adresse mail que vous avez entrée est associée à un compte, un lien de réinitialisation de mot de passe vient de vous être envoyé.",
+    life: 5000
+  })
+
+  // reset les champs
+  resetPasswordError.value = ''
+  email.value = ''
+
+  // ferme la modale
+  localVisible.value = false
 }
 </script>
 

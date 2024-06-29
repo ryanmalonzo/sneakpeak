@@ -1,18 +1,45 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import axios from 'axios'
 import { useRoute, useRouter } from 'vue-router'
 import { z } from 'zod'
+import Password from 'primevue/password'
+import { useToast } from 'primevue/usetoast'
+
+const toast = useToast()
 
 // Initialisation des variables
 const password = ref('')
 const passwordConfirm = ref('')
+const passwordConfirmError = ref('')
 const ResetPasswordError = ref('')
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
 const userId = route.query.id as string
 const token = route.query.token as string
 const router = useRouter()
+
+const passwordError = computed(() => {
+  const result = passwordSchema.safeParse(password.value)
+  if (result.success || password.value === '') {
+    return ''
+  }
+  return result.error.issues[0].message
+})
+
+onMounted(() => {
+  if (!userId || !token) {
+    router.push('/')
+  }
+})
+
+watch([password, passwordConfirm], () => {
+  if (password.value !== passwordConfirm.value) {
+    passwordConfirmError.value = 'Les mots de passe ne correspondent pas.'
+  } else {
+    passwordConfirmError.value = ''
+  }
+})
 
 // Validation des champs avec Zod
 const passwordSchema = z
@@ -27,39 +54,31 @@ const passwordSchema = z
 async function onSubmit() {
   // Vérifie que les mots de passe sont identiques
   if (password.value !== passwordConfirm.value) {
-    ResetPasswordError.value = 'Les mots de passe ne correspondent pas.'
     return
   }
 
   // Validation des mots de passe avec Zod
   const result = passwordSchema.safeParse(password.value)
   if (!result.success) {
-    ResetPasswordError.value = result.error.issues[0].message
-    return
-  }
-
-  // Vérifie la présence de l'id et du token
-  if (!userId || !token) {
-    ResetPasswordError.value = 'ID utilisateur ou token manquant.'
     return
   }
 
   // Appel de l'API
   try {
-    await axios.put(
-      `${API_URL}/users/${userId}/password`,
-      {
-        token: token,
-        password: password.value
-      },
-      { withCredentials: true }
-    )
+    await axios.put(`${API_URL}/users/${userId}/password`, {
+      token: token,
+      password: password.value
+    })
 
-    // TODO: afficher un toast avec un message de succès
-    router.replace('/')
+    // Redirection vers la page de succès
+    router.push('/resetPasswordSuccess')
   } catch (e) {
-    ResetPasswordError.value = 'Erreur lors de la modification du mot de passe.'
-    console.error(e)
+    toast.add({
+      severity: 'error',
+      summary: 'Erreur',
+      detail: 'Une erreur est survenue lors de la réinitialisation du mot de passe.',
+      life: 3000
+    })
   }
 }
 </script>
@@ -69,23 +88,29 @@ async function onSubmit() {
     <form @submit.prevent="onSubmit">
       <div class="align-items-center mb-5 flex flex-col gap-2">
         <label for="password" class="w-6rem">Nouveau mot de passe</label>
-        <InputText
-          type="password"
+        <Password
           id="password"
-          class="flex-auto"
+          inputClass="flex-auto"
+          :feedback="false"
           placeholder="************"
           v-model="password"
         />
+        <p v-if="passwordError">
+          <span class="text-sm text-red-500">{{ passwordError }}</span>
+        </p>
       </div>
       <div class="align-items-center mb-5 flex flex-col gap-2">
         <label for="passwordConfirm" class="w-6rem">Confirmation du mot de passe</label>
-        <InputText
-          type="password"
+        <Password
           id="passwordConfirm"
-          class="flex-auto"
+          inputClass="flex-auto"
+          :feedback="false"
           placeholder="************"
           v-model="passwordConfirm"
         />
+        <p v-if="passwordConfirmError">
+          <span class="text-sm text-red-500">{{ passwordConfirmError }}</span>
+        </p>
       </div>
       <p v-if="ResetPasswordError">
         <span class="text-sm text-red-500">{{ ResetPasswordError }}</span>
