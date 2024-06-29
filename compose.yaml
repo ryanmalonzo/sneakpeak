@@ -1,0 +1,67 @@
+services:
+  backend:
+    image: node:lts
+    working_dir: /home/node/app
+    volumes:
+      - ./backend:/home/node/app
+      - /home/node/app/node_modules # exclude node_modules
+    ports:
+      - 3000:3000
+    command: bash -c "npm i && npm run dev"
+    env_file:
+      - .env.local
+
+  frontend:
+    image: node:lts
+    working_dir: /home/node/app
+    volumes:
+      - ./frontend:/home/node/app
+      - /home/node/app/node_modules
+    ports:
+      - 5173:5173
+    command: bash -c "npm i && npm run dev"
+    env_file:
+      - .env.local
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: robin
+      POSTGRES_PASSWORD: batman
+      POSTGRES_DB: sneakpeak
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: robin
+      MONGO_INITDB_ROOT_PASSWORD: batman
+      MONGO_INITDB_DATABASE: sneakpeak
+    volumes:
+      - mongo:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: robin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: batman
+      ME_CONFIG_MONGODB_URL: mongodb://robin:batman@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+    depends_on:
+      - mongo
+
+volumes:
+  postgres:
+  mongo:
