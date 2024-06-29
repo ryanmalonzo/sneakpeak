@@ -37,6 +37,16 @@
           <span class="text-sm text-red-500">{{ passwordConfirmError }}</span>
         </p>
       </div>
+      <!-- Checkbox -->
+      <div class="mb-3">
+        <Checkbox id="cgu" v-model="cguAccepted" :binary="true" :invalid="cguInvalid" />
+        <label for="cgu" class="ml-2 text-sm" :class="cguInvalid && 'text-red-500'">
+          En cochant cette case, j'accepte les
+          <RouterLink to="/legal/cgu" target="_blank" class="underline"
+            >conditions générales d'utilisation</RouterLink
+          >
+        </label>
+      </div>
       <div class="justify-content-end flex flex-col gap-2">
         <Button type="submit" label="S'inscrire" rounded></Button>
       </div>
@@ -61,6 +71,8 @@ const emit = defineEmits(['update:visible'])
 const email = ref('')
 const password = ref('')
 const passwordConfirm = ref('')
+const cguAccepted = ref(false)
+const cguInvalid = ref(false)
 const passwordConfirmError = ref('')
 const localVisible = ref(props.visible)
 const API_URL = import.meta.env.VITE_API_URL
@@ -74,6 +86,14 @@ watch(
 
 watch(localVisible, (newVal) => {
   emit('update:visible', newVal)
+})
+
+watch(cguAccepted, (newVal) => {
+  cguInvalid.value = !newVal
+})
+
+watch(cguAccepted, (newVal) => {
+  cguInvalid.value = !newVal
 })
 
 watch([password, passwordConfirm], () => {
@@ -111,6 +131,11 @@ const passwordError = computed(() => {
 })
 
 async function onSubmit() {
+  if (!cguAccepted.value) {
+    cguInvalid.value = true
+    return
+  }
+
   if (
     password.value !== passwordConfirm.value ||
     emailError.value !== '' ||

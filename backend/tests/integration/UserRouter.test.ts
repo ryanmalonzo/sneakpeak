@@ -212,6 +212,9 @@ describe('UserRouter', () => {
         });
 
       expect(response.status).to.equal(StatusCodes.OK);
+
+      // Ensure cookie is set
+      expect(response.headers['set-cookie']).to.not.be.undefined;
     });
 
     it('should return a 401 status code if token is invalid', async () => {
