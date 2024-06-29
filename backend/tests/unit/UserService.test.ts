@@ -297,6 +297,7 @@ describe('UserService', () => {
       sinon.stub(ChallengeRepository, 'findByUserAndType').resolves(CHALLENGE);
       sinon.stub(ChallengeRepository, 'update').resolves();
       sinon.stub(bcrypt, 'hash').resolves('hashedPassword');
+      sinon.stub(UserService, 'generateAuthToken').returns('authToken');
 
       await expect(UserService.resetPassword(USER, 'token', PASSWORD)).to.be
         .fulfilled;
@@ -340,6 +341,7 @@ describe('UserService', () => {
       sinon.stub(ChallengeRepository, 'findByUserAndType').resolves(CHALLENGE);
       sinon.stub(ChallengeRepository, 'update').resolves();
       sinon.stub(bcrypt, 'hash').resolves('hashedPassword');
+      sinon.stub(UserService, 'generateAuthToken').returns('authToken');
 
       const changePassword = sinon
         .mock(UserService)
@@ -349,6 +351,20 @@ describe('UserService', () => {
       await UserService.resetPassword(USER, 'token', PASSWORD);
 
       changePassword.verify();
+    });
+
+    it('should return a new auth token', async () => {
+      sinon.stub(ChallengeRepository, 'findByUserAndType').resolves(CHALLENGE);
+      sinon.stub(ChallengeRepository, 'update').resolves();
+      sinon.stub(bcrypt, 'hash').resolves('hashedPassword');
+      sinon.stub(UserService, 'generateAuthToken').returns('authToken');
+
+      await expect(UserService.resetPassword(USER, 'token', PASSWORD)).to.be
+        .fulfilled;
+
+      expect(
+        UserService.resetPassword(USER, 'token', PASSWORD),
+      ).to.eventually.deep.equal({ token: 'authToken' });
     });
   });
 });

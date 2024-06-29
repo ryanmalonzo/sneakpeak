@@ -10,16 +10,14 @@
       </div>
       <div class="align-items-center mb-5 flex flex-col gap-2">
         <label for="password" class="w-6rem">Mot de passe</label>
-        <InputText
-          type="password"
+        <Password
           id="password"
-          class="flex-auto"
+          inputClass="flex-auto"
+          toggleMask
           placeholder="************"
           v-model="password"
+          :feedback="false"
         />
-        <p v-if="loginError">
-          <span class="text-sm text-red-500">{{ loginError }}</span>
-        </p>
         <a
           href="#"
           class="text-sm text-gray-500 underline hover:text-sneakpeak-gray-900"
@@ -52,28 +50,30 @@ import GenericModal from './GenericModal.vue'
 import AppRegister from './AppRegister.vue'
 import ResetPassword from './ResetPassword.vue'
 import { checkAuth } from '@/helpers/auth'
+import { useToast } from 'primevue/usetoast'
+import Password from 'primevue/password'
+
+const toast = useToast()
 
 const props = defineProps<{ visible: boolean }>()
 const emit = defineEmits(['update:visible'])
 
 const email = ref('')
 const password = ref('')
-const loginError = ref('')
 const localVisible = ref(props.visible)
 
-watch(() => props.visible, (newVal) => {
-  localVisible.value = newVal
-})
+watch(
+  () => props.visible,
+  (newVal) => {
+    localVisible.value = newVal
+  }
+)
 
 watch(localVisible, (newVal) => {
   emit('update:visible', newVal)
 })
 
-const emailSchema = z
-  .string()
-  .min(5, { message: 'Doit contenir au moins 5 caractères' })
-  .max(30, { message: 'Doit contenir au plus 30 caractères' })
-  .email({ message: 'Email invalide' })
+const emailSchema = z.string().email({ message: 'Adresse mail invalide' })
 
 const emailError = computed(() => {
   const parsedEmail = emailSchema.safeParse(email.value)
@@ -94,12 +94,14 @@ async function onSubmit() {
 
     email.value = ''
     password.value = ''
-    loginError.value = ''
     localVisible.value = false
-
-    // Pop-up success notification
   } catch (e) {
-    loginError.value = Translation.loginErrors(e as Error)!
+    toast.add({
+      severity: 'error',
+      summary: 'Erreur',
+      detail: Translation.loginErrors(e as Error)!,
+      life: 3000
+    })
   }
 }
 

@@ -2,6 +2,7 @@ import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { SessionService } from '../services/SessionService';
 import { auth } from '../middlewares/auth';
+import { setCookie } from '../helpers/cookie';
 
 export const SessionRouter = express.Router();
 
@@ -11,12 +12,7 @@ SessionRouter.post('/', async (req, res, next) => {
     const { token } = await SessionService.login(email, password);
 
     //Creation cookie
-    res.cookie('accessToken', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 60 * 60 * 1000, // 1h
-    });
+    setCookie(res, 'accessToken', token);
 
     return res.sendStatus(StatusCodes.OK);
   } catch (error) {
