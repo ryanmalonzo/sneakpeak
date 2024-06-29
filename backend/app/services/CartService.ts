@@ -15,7 +15,7 @@ export class CartService {
 
     if (!cart) {
       cart = CartRepository.build({
-        user_id: userId,
+        userId: userId,
         createdAt: new Date(),
         expiredAt: new Date(new Date().getTime() + 15 * 60 * 1000), // 15 minutes from now
       });

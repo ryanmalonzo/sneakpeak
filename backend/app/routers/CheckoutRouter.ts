@@ -19,7 +19,6 @@ CheckoutRouter.post(
   auth,
   async (req: Request, res: Response, next: NextFunction) => {
     const cartProducts = await CartService.getCartProducts(res.locals.user.id);
-
     const billing = req.body.billing;
     const shipping = req.body.shipping;
 
@@ -38,11 +37,47 @@ CheckoutRouter.post(
         res.locals.user.id,
       );
 
+      const order = await CheckoutService.createOrder(
+        session.amount_total as number,
+        session.id as string,
+        parseInt(res.locals.user.id),
+      );
+
+      for (const item of cartProducts) {
+        await CheckoutService.createOrderProduct(
+          order.id,
+          item.id,
+          item.quantity,
+          item.name,
+          item.unitPrice,
+        );
+      }
+
+      for (const item of cartProducts) {
+        console.log(item);
+        await CartService.deleteProductFromCart(
+          res.locals.user.id,
+          item.variantId,
+        );
+      }
+
       const data = {
         url: session.url,
         total: session.amount_total,
-        shipping: await CheckoutService.getFormattedAddress(shipping),
-        billing: await CheckoutService.getFormattedAddress(billing),
+        shipping: await CheckoutService.saveAdress(
+          shipping.address,
+          shipping.firstName + ' ' + shipping.lastName,
+          shipping.phone,
+          'shipping',
+          order.id,
+        ),
+        billing: await CheckoutService.saveAdress(
+          billing.address,
+          billing.firstName + ' ' + billing.lastName,
+          billing.phone,
+          'billing',
+          order.id,
+        ),
       };
       res.json(data);
     } catch (error) {
