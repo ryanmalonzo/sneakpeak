@@ -45,11 +45,51 @@ describe('UserService', () => {
       ).to.be.rejectedWith('user_already_exists');
     });
 
-    it('should throw an error when the password is invalid', async () => {
+    it('should throw an error when the password has no number', async () => {
       sinon.stub(UserRepository, 'findByEmail').resolves();
 
       await expect(
         UserService.registerUser(EMAIL, 'invalidPassword'),
+      ).to.be.rejectedWith('invalid_password');
+    });
+
+    it('should throw an error when the password has no uppercase letter', async () => {
+      sinon.stub(UserRepository, 'findByEmail').resolves();
+
+      await expect(
+        UserService.registerUser(EMAIL, 'invalidpassword123!'),
+      ).to.be.rejectedWith('invalid_password');
+    });
+
+    it('should throw an error when the password has no lowercase letter', async () => {
+      sinon.stub(UserRepository, 'findByEmail').resolves();
+
+      await expect(
+        UserService.registerUser(EMAIL, 'INVALIDPASSWORD123!'),
+      ).to.be.rejectedWith('invalid_password');
+    });
+
+    it('should throw an error when the password has no special character', async () => {
+      sinon.stub(UserRepository, 'findByEmail').resolves();
+
+      await expect(
+        UserService.registerUser(EMAIL, 'InvalidPassword123'),
+      ).to.be.rejectedWith('invalid_password');
+    });
+
+    it('should throw an error when the password is too short', async () => {
+      sinon.stub(UserRepository, 'findByEmail').resolves();
+
+      await expect(
+        UserService.registerUser(EMAIL, 'InvP123!'),
+      ).to.be.rejectedWith('invalid_password');
+    });
+
+    it('should throw an error when the password is too long', async () => {
+      sinon.stub(UserRepository, 'findByEmail').resolves();
+
+      await expect(
+        UserService.registerUser(EMAIL, 'InvalidPassword123!'.repeat(10)),
       ).to.be.rejectedWith('invalid_password');
     });
 

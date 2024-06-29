@@ -45,6 +45,7 @@ watch([password, passwordConfirm], () => {
 const passwordSchema = z
   .string()
   .min(12, { message: 'Doit contenir au moins 12 caractères' })
+  .max(32, { message: 'Doit contenir au maximum 32 caractères' })
   .regex(/[^A-Za-z0-9]/, { message: 'Doit contenir au moins un caractère spécial' })
   .regex(/[A-Z]/, { message: 'Doit contenir au moins une lettre majuscule' })
   .regex(/[a-z]/, { message: 'Doit contenir au moins une lettre minuscule' })
