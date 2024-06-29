@@ -143,7 +143,7 @@ export class UserService {
     user: User,
     token: string,
     password: string,
-  ): Promise<void> {
+  ): Promise<{ token: string }> {
     const challenge = await ChallengeRepository.findByUserAndType(
       user,
       'password-reset',
@@ -168,6 +168,10 @@ export class UserService {
 
     await this.changePassword(user.id, password);
     await ChallengeRepository.update(challenge, { expiresAt: new Date() }); // now
+
+    return {
+      token: UserService.generateAuthToken(user),
+    };
   }
 
   static generateAuthToken(user: User): string {

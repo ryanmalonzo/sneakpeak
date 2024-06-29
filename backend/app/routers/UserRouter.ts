@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { UserService } from '../services/UserService';
 import { RequestError } from '../helpers/error';
 import { UserRepository } from '../repositories/sql/UserRepository';
+import { setCookie } from '../helpers/cookie';
 
 export const UserRouter = express.Router();
 
@@ -73,9 +74,15 @@ UserRouter.put(
       const { user } = res.locals;
       const { token, password } = req.body;
 
-      return res
-        .status(StatusCodes.OK)
-        .json(await UserService.resetPassword(user, token, password));
+      const { token: authToken } = await UserService.resetPassword(
+        user,
+        token,
+        password,
+      );
+
+      setCookie(res, 'accessToken', authToken);
+
+      return res.sendStatus(StatusCodes.OK);
     } catch (error) {
       next(error);
     }
