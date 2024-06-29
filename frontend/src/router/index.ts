@@ -4,6 +4,7 @@ import EmailVerificationView from '../views/EmailVerificationView.vue'
 import SearchView from '@/views/SearchView.vue'
 import CartView from '@/views/CartView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
+import CGUView from '@/views/legal/CGUView.vue'
 import { checkAuth } from '@/helpers/auth'
 
 const router = createRouter({
@@ -33,6 +34,10 @@ const router = createRouter({
       path: '/reset-password',
       name: 'reset_password',
       component: ResetPasswordView
+    },
+    {
+      path: '/legal',
+      children: [{ path: 'cgu', component: CGUView }]
     }
   ]
 })
