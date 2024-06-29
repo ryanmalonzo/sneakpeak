@@ -24,7 +24,7 @@ services:
       - .env.local
 
   postgres:
-    image: postgres
+    image: postgres:16
     environment:
       POSTGRES_USER: robin
       POSTGRES_PASSWORD: batman
@@ -40,7 +40,7 @@ services:
       - postgres
 
   mongo:
-    image: mongo
+    image: mongo:7
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: robin
