@@ -14,6 +14,7 @@ export class User extends Model {
   declare firstName: string;
   declare lastName: string;
   declare phone: string;
+  declare roles: string[];
 
   declare getChallenges: HasManyGetAssociationsMixin<Challenge>;
 }
@@ -38,6 +39,10 @@ export default (sequelize: Sequelize) => {
       },
       phone: {
         type: DataTypes.STRING,
+      },
+      roles: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        defaultValue: ['USER'],
       },
     },
     { sequelize, underscored: true },

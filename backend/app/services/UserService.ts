@@ -12,6 +12,7 @@ const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
 const PASSWORD_RESET_TEMPLATE_ID = 35966741;
 const JWT_EXPIRY_TIME = '1h';
 const MIN_PASSWORD_LENGTH = 12;
+const MAX_PASSWORD_LENGTH = 32;
 export const SALT_ROUNDS = 10;
 
 export class UserService {
@@ -143,7 +144,7 @@ export class UserService {
     user: User,
     token: string,
     password: string,
-  ): Promise<void> {
+  ): Promise<{ token: string }> {
     const challenge = await ChallengeRepository.findByUserAndType(
       user,
       'password-reset',
@@ -168,6 +169,10 @@ export class UserService {
 
     await this.changePassword(user.id, password);
     await ChallengeRepository.update(challenge, { expiresAt: new Date() }); // now
+
+    return {
+      token: UserService.generateAuthToken(user),
+    };
   }
 
   static generateAuthToken(user: User): string {
@@ -191,6 +196,7 @@ export class UserService {
   private static _checkPasswordStrength(password: string): boolean {
     return (
       password.length >= MIN_PASSWORD_LENGTH &&
+      password.length <= MAX_PASSWORD_LENGTH &&
       /[^A-Za-z0-9]/.test(password) &&
       /[A-Z]/.test(password) &&
       /[a-z]/.test(password) &&
