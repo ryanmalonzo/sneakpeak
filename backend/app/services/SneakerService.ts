@@ -1,8 +1,9 @@
 import { HydratedDocument } from 'mongoose';
 import { SneakerRepository } from '../repositories/sql/SneakerRepository';
-import { ISneaker, SneakerModel } from '../models/mongodb/Sneaker';
+import { ISneaker } from '../models/mongodb/Sneaker';
 import { FilterOptions, SortOptions } from '../helpers/interfaces';
 import { SneakerRepository as SneakerRepositoryMongo } from '../repositories/mongodb/SneakerRepository';
+import { Sneaker, SneakerDTO } from '../models/sql/Sneaker';
 
 interface PaginatedSneakersResponse {
   total: number;
@@ -59,42 +60,25 @@ export class SneakerService {
     return await SneakerRepositoryMongo.findOneById(id);
   }
 
-  public static async delete(id: number): Promise<void> {
+  public static async delete(id: number): Promise<number> {
     return await SneakerRepository.delete(id);
   }
 
-  public static async create(
-    reference: string,
-    name: string,
-    description: string,
-    price: number,
-    category: string,
-    brand: string,
-    coverImage: string,
-    isBest: boolean,
-    isActive: boolean,
-    colors: {
-      name: string;
-      image: string;
-      sizes: {
-        reference: string;
-        size: number;
-        stock: number;
-      }[];
-    }[],
-  ): Promise<void> {
-    const sneaker = new SneakerModel({
-      reference,
-      name,
-      description,
-      price,
-      category,
-      brand,
-      coverImage,
-      isBest,
-      isActive,
-      colors,
-    });
-    await SneakerRepository.create(sneaker);
+  public static async create(sneaker: SneakerDTO): Promise<Sneaker> {
+    return await SneakerRepository.create(sneaker);
+  }
+
+  public static async fullUpdate(
+    id: string,
+    sneaker: SneakerDTO,
+  ): Promise<{ nbDeleted: number; updatedSneaker: Sneaker }> {
+    return await SneakerRepository.fullUpdate(id, sneaker);
+  }
+
+  public static async partialUpdate(
+    id: number,
+    sneaker: SneakerDTO,
+  ): Promise<Sneaker | null> {
+    return await SneakerRepository.partialUpdate(id, sneaker);
   }
 }

@@ -1,0 +1,18 @@
+meta {
+  name: Delete Variant
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:3000/variants/7
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "image": "data:imgUpdated",
+    "stock": 99
+  }
+}

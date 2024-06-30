@@ -2,6 +2,8 @@ import { HydratedDocument } from 'mongoose';
 import { FilterOptions, SortOptions } from '../helpers/interfaces';
 import { VariantRepository as VariantRepositoryMongo } from '../repositories/mongodb/VariantRepository';
 import { IVariant } from '../models/mongodb/Variant';
+import { Variant, VariantDTO } from '../models/sql/Variant';
+import { VariantRepository } from '../repositories/sql/VariantRepository';
 
 interface PaginatedVariantsResponse {
   total: number;
@@ -48,5 +50,20 @@ export class VariantService {
       limit,
       items: variants,
     };
+  }
+
+  public static async create(variant: VariantDTO): Promise<Variant> {
+    return await VariantRepository.create(variant);
+  }
+
+  public static async partialUpdate(
+    id: number,
+    variant: VariantDTO,
+  ): Promise<Variant | null> {
+    return await VariantRepository.partialUpdate(id, variant);
+  }
+
+  public static async delete(id: number): Promise<number> {
+    return await VariantRepository.delete(id);
   }
 }

@@ -23,10 +23,20 @@ const SneakerSchema: Schema<ISneaker> = new Schema(
     brand: { type: String, required: true },
     variants: [
       {
-        stock: { type: Number, required: true },
+        id: { type: Number, required: true },
+        name: { type: String, required: true },
+        slug: { type: String, required: true },
         image: { type: String, required: true },
-        size: { type: String, required: true },
-        color: { type: String, required: true },
+        isBest: { type: Boolean, required: true },
+        sizes: [
+          {
+            idRef: { type: Number, required: true },
+            id: { type: Number, required: true },
+            name: { type: String, required: true },
+            slug: { type: String, required: true },
+            stock: { type: Number, required: true },
+          },
+        ],
       },
     ],
   },
