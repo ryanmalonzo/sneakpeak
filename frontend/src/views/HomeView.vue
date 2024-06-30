@@ -4,35 +4,47 @@ import CardProduct from '../components/home/CardProduct.vue'
 import CardBestProduct from '../components/home/CardBestProduct.vue'
 import Carousel from 'primevue/carousel'
 import CardBrand from '../components/home/CardBrand.vue'
+import { onMounted, reactive, ref, type Ref } from 'vue'
+import { VariantApi } from '@/services/variantApi'
+import { BrandApi } from '@/services/brandApi'
+import { CategoryApi } from '@/services/categoryApi'
 
-const products = [
-  {
-    name: 'Baskets New Balance Unisexe M1906RRA Licorice Moonbeam Castlerock',
-    price: '99,95 €'
-  },
-  {
-    name: 'Baskets New Balance Unisexe M1906RRA Licorice Moonbeam Castlerock',
-    price: '99,95 €'
-  },
-  {
-    name: 'Baskets New Balance Unisexe M1906RRA Licorice Moonbeam Castlerock',
-    price: '99,95 €'
-  },
-  {
-    name: 'Baskets New Balance Unisexe M1906RRA Licorice Moonbeam Castlerock',
-    price: '99,95 €'
-  }
-]
+const lastCategory: Ref<CategoryApi.CategoryOut | undefined> = ref()
+const latestVariants: VariantApi.VariantOut[] = reactive([])
+const brands: BrandApi.BrandOut[] = reactive([])
+const bestSellingVariants: VariantApi.VariantOut[] = reactive([])
+
+const NB_BRANDS_TO_DISPLAY = 5
+
+onMounted(async () => {
+  const dataCategories = await CategoryApi.getAll()
+  lastCategory.value = dataCategories.reduce((previous, current) =>
+    previous.id > current.id ? previous : current
+  )
+
+  const dataVariants = await VariantApi.getPaginated({ limit: 8, sort: 'createdAt', order: 'desc' })
+  latestVariants.push(...dataVariants.items)
+
+  const dataBrands = await BrandApi.getAll()
+  brands.push(...dataBrands.slice(0, NB_BRANDS_TO_DISPLAY))
+
+  const dataBestSellingVariants = await VariantApi.getPaginated({ limit: 3, isBest: true })
+  bestSellingVariants.push(...dataBestSellingVariants.items)
+})
 </script>
 
 <template>
   <BasePage>
     <div class="flex-col">
       <section>
-        <a href="#" class="flex w-screen items-end justify-center">
-          <img src="../assets/images/image.png" alt="" class="w-full" />
+        <a href="#" class="flex w-screen items-end justify-center" v-if="lastCategory">
+          <img
+            :src="lastCategory.image"
+            :alt="lastCategory.name"
+            class="max-h-[372px] w-full object-cover"
+          />
           <a class="absolute mb-4 bg-white px-2 py-4 font-bold md:mb-20 md:px-40">
-            Sneakers Puma : Achetez maintenant !
+            Nouvelle collection : {{ lastCategory.name }}
           </a>
         </a>
       </section>
@@ -40,37 +52,30 @@ const products = [
       <section>
         <h1 class="py-10 text-center text-xl font-bold uppercase">Nos dernières baskets</h1>
         <div class="hidden flex-wrap justify-center gap-10 md:flex">
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
+          <CardProduct
+            v-for="variant in latestVariants"
+            :key="variant._id"
+            :image="variant.image"
+            :name="variant.name"
+            :price="variant.price"
+          />
         </div>
         <Carousel
-          :value="products"
+          :value="latestVariants"
           :numVisible="1"
           :numScroll="1"
           orientation="vertical"
+          verticalViewPortHeight="358px"
           containerClass="align-items-center flex md:!hidden"
           :autoplayInterval="3000"
           :showNavigators="false"
         >
-          <template #item="slotProps">
-            <a href="#">
-              <div class="border-1 surface-border border-round m-2 p-3">
-                <div class="mb-3">
-                  <div class="relative mx-auto">
-                    <img :src="'/src/assets/images/product.png'" class="border-round w-full" />
-                  </div>
-                  <div class="my-3 text-center">
-                    <p>{{ slotProps.data.name }}</p>
-
-                    <p class="font-bold">{{ slotProps.data.price }}</p>
-                  </div>
-                </div>
+          <template #item="variant">
+            <a href="#" class="h-[358px]">
+              <div class="border-1 surface-border border-round flex flex-col items-center p-5">
+                <img :src="variant.data.image" class="border-round w-full" />
+                <p>{{ variant.data.name }}</p>
+                <p class="font-bold">{{ variant.data.price }} €</p>
               </div>
             </a>
           </template>
@@ -82,30 +87,22 @@ const products = [
         <div
           class="hidden w-full shrink-0 flex-wrap content-start items-start justify-center gap-2.5 px-0 md:flex"
         >
-          <CardBrand />
-          <CardBrand />
-          <CardBrand />
-          <CardBrand />
-          <CardBrand />
+          <CardBrand v-for="brand in brands" :key="brand.slug" :image="brand.image" />
         </div>
         <Carousel
-          :value="products"
+          :value="brands"
           :numVisible="1"
           :numScroll="1"
           orientation="vertical"
+          verticalViewPortHeight="310px"
           :autoplayInterval="3000"
           containerClass="flex align-items-center md:!hidden"
           :showNavigators="false"
-          verticalViewPortHeight="230px"
         >
-          <template #item="">
-            <a href="#">
-              <div class="border-1 surface-border border-round m-2 p-3">
-                <div class="mb-3">
-                  <div class="relative mx-auto">
-                    <img :src="'/src/assets/images/brand.png'" class="border-round w-full" />
-                  </div>
-                </div>
+          <template #item="brand">
+            <a href="#" class="h-[310px]">
+              <div class="border-1 surface-border border-round flex flex-col items-center p-5">
+                <img :src="brand.data.image" class="border-round w-full" />
               </div>
             </a>
           </template>
@@ -116,16 +113,20 @@ const products = [
           <h1 class="py-10 text-center text-xl font-bold uppercase">
             Les meilleures ventes du moment
           </h1>
-          <div class="flex justify-between gap-5">
+          <div class="flex justify-between gap-10">
             <img
               src="../assets/images/cover.png"
               alt=""
               class="h-[566px] w-[439px] shrink-0 max-lg:hidden"
             />
-            <div class="flex flex-col justify-between">
-              <CardBestProduct />
-              <CardBestProduct />
-              <CardBestProduct />
+            <div class="flex flex-1 flex-col justify-between gap-5">
+              <CardBestProduct
+                v-for="variant in bestSellingVariants"
+                :key="variant._id"
+                :image="variant.image"
+                :name="variant.name"
+                :price="variant.price"
+              />
             </div>
           </div>
         </section>

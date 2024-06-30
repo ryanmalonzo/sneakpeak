@@ -1,16 +1,18 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { SneakerService } from '../services/SneakerService';
+import { VariantService } from '../services/VariantService';
 import { StatusCodes } from 'http-status-codes';
 import { pagination } from '../middlewares/pagination';
 
-export const SneakerRouter = Router();
+export const VariantRouter = Router();
 
-SneakerRouter.get(
+VariantRouter.get(
   '/',
   pagination({
-    brand: 'in',
-    category: 'in',
+    color: 'in',
+    size: 'in',
     price: 'range',
+    stock: 'range',
+    isBest: 'in',
   }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -19,7 +21,7 @@ SneakerRouter.get(
       return res
         .status(StatusCodes.OK)
         .json(
-          await SneakerService.getPaginated(
+          await VariantService.getPaginated(
             q,
             page,
             limit,
@@ -27,21 +29,6 @@ SneakerRouter.get(
             filterOptions,
           ),
         );
-    } catch (error) {
-      next(error);
-    }
-  },
-);
-
-SneakerRouter.get(
-  '/:id',
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { id } = req.params;
-
-      return res
-        .status(StatusCodes.OK)
-        .json(await SneakerService.findOneById(id));
     } catch (error) {
       next(error);
     }
