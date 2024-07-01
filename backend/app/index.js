@@ -22,7 +22,14 @@ app.use(
     credentials: true,
   }),
 );
-app.use(express.json());
+app.use((req, res, next) => {
+  if (req.path === '/webhook') {
+    express.raw({ type: 'application/json' })(req, res, next);
+  } else {
+    express.json()(req, res, next);
+  }
+});
+
 app.use(cookieParser());
 
 app.use('/users', UserRouter);

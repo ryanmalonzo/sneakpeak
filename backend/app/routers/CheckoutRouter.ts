@@ -53,14 +53,6 @@ CheckoutRouter.post(
         );
       }
 
-      for (const item of cartProducts) {
-        console.log(item);
-        await CartService.deleteProductFromCart(
-          res.locals.user.id,
-          item.variantId,
-        );
-      }
-
       const data = {
         url: session.url,
         total: session.amount_total,
