@@ -1,65 +1,28 @@
 # SneakPeak
 
-## Frontend (Vue.js 3 + Vite)
+## Prerequisites
 
-### Setup
+Before running the application, ensure you have the following installed:
+- Docker
+- Docker Compose
 
-You need to have the following environment variables set up in your .env.local file:
-| Environment Variable | Description |
-| -------------- | --------------- |
-| VITE_API_URL | The URL to this project's API |
+You also need to create a `.env.local` file at the root of the repository with the following environment variables:
 
-### How to run
+| Environment Variable | Description | Sample Value |
+| -------------- | --------------- | -------------- |
+| MONGODB_URI | The MongoDB connection string to your database | mongodb://robin:batman@mongo:27017 |
+| PORT | The port to run the app on (default: 3000) | 3000 |
+| JWT_SECRET | The secret phrase that will be used to sign JWTs for authentication | <your_secret> |
+| POSTMARK_SERVER_API_TOKEN | The Postmark server API key that will be used to send emails | <your_postmark_server_api_token> |
+| API_URL | The URL to this API | http://localhost:3000 |
+| VITE_API_URL | The URL to this API for the webapp | http://localhost:3000 |
+| WEBAPP_URL | The URL to this project's webapp | http://localhost:5173 |
+| DATABASE_URL | The PostgreSQL connection string | postgres://robin:batman@postgres:5432/sneakpeak |
 
-1. `cd` into the frontend sudirectory
+## Running the application
 
-```sh
-cd ./frontend
-```
-
-2. Install the project dependencies
-
-```sh
-npm install
-```
-
-3. Run the app
+To run the application, execute the following command:
 
 ```sh
-npm run dev
-```
-
-## Backend (Express.js API)
-
-### Setup
-
-You need to have the following environment variables set up in your .env file:
-| Environment Variable | Description |
-| -------------- | --------------- |
-| MONGODB_URI | The MongoDB connection string to your database |
-| PORT | The port to run the app on (default: 3000) |
-| JWT_SECRET | The secret phrase that will be used to sign JWTs for authentication |
-| POSTMARK_SERVER_API | The Postmark server API key that will be used to send emails |
-| API_URL | The URL to this API |
-| WEBAPP_URL | The URL to this project's webapp |
-| DATABASE_URL | The PostgreSQL connection string |
-
-### How to run
-
-1. `cd` into the backend subdirectory
-
-```sh
-cd ./backend
-```
-
-2. Install the project dependencies
-
-```sh
-npm install
-```
-
-3. Run the app
-
-```sh
-npm start
+docker compose up -d
 ```
