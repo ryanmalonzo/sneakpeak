@@ -34,10 +34,11 @@ export class CheckoutService {
     });
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
+      metadata: { userId: userId },
       line_items: products,
       mode: 'payment',
-      cancel_url: 'http://localhost:5173/checkout/cancelled/' + userId,
-      success_url: 'http://localhost:5173/checkout/success/' + userId,
+      cancel_url: 'http://localhost:5173/checkout/cancelled',
+      success_url: 'http://localhost:5173/checkout/success',
     });
     return session;
   }
@@ -56,6 +57,18 @@ export class CheckoutService {
     });
 
     return await OrderRepository.create(new_order);
+  }
+
+  public static async updateOrder(
+    reference: string,
+    status: string,
+    paymentStatus: string,
+  ): Promise<Order> {
+    const order = await OrderRepository.findByReference(reference);
+    if (!order) throw new Error('Order not found');
+    order.status = status;
+    order.payment_status = paymentStatus;
+    return await OrderRepository.update(order);
   }
 
   public static async createOrderProduct(

@@ -22,7 +22,7 @@ export const SyncCartInMongoDB = async (Cart: Cart, type: Operation) => {
     const data = Cart.toJSON();
     const [items, user] = await Promise.all([
       CartProductRepository.findCartProductsByCartId(data.id),
-      UserRepository.findById(data.user_id),
+      UserRepository.findById(data.userId),
     ]);
 
     data.user = user!.id;

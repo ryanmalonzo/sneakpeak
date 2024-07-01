@@ -46,7 +46,7 @@ CheckoutRouter.post(
       for (const item of cartProducts) {
         await CheckoutService.createOrderProduct(
           order.id,
-          item.id,
+          item.variantId,
           item.quantity,
           item.name,
           item.unitPrice,
@@ -86,12 +86,12 @@ CheckoutRouter.post(
   },
 );
 
-CheckoutRouter.get('/success/:id', async (req: Request, res: Response) => {
+CheckoutRouter.get('/success', async (req: Request, res: Response) => {
   const success_url = req.body.success_url;
   res.json(success_url);
 });
 
-CheckoutRouter.get('/cancel/:id', async (req: Request, res: Response) => {
+CheckoutRouter.get('/cancel', async (req: Request, res: Response) => {
   const cancel_url = req.body.cancel_url;
   res.json(cancel_url);
 });

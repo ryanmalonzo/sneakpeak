@@ -1,29 +1,49 @@
 import { CartService } from './CartService';
+import { CheckoutService } from './CheckoutService';
+import Stripe from 'stripe';
 
 export class StripeService {
-  public static async handleWebhookEvent(event: any): Promise<void> {
+  public static async handleWebhookEvent(event: Stripe.Event): Promise<void> {
+    console.log('Received event', event);
     switch (event.type) {
-      case 'payment_intent.succeeded':
-        const paymentIntentSucceeded = event.data.object;
-
-        break;
-      case 'payment_intent.payment_failed':
-        const paymentIntentFailed = event.data.object;
-
-        break;
-      case 'checkout.session.completed':
+      case 'checkout.session.completed': {
         const checkoutSessionCompleted = event.data.object;
 
-        // Mettre à jour la commande dans la base de données
+        if (!checkoutSessionCompleted.metadata) {
+          console.error('User id not found in checkout session');
+          return;
+        }
+
+        if (!checkoutSessionCompleted.metadata.userId) {
+          console.error('User id not found in checkout session');
+          return;
+        }
+        console.log('');
+
+        CheckoutService.updateOrder(
+          'sneakpeak-' + checkoutSessionCompleted.id,
+          'completed',
+          'paid',
+        );
 
         // Empty the cart
-        CartService.emptyCart(paymentIntentSucceeded.metadata.userId);
+        CartService.emptyCart(
+          parseInt(checkoutSessionCompleted.metadata.userId),
+        );
 
         break;
-      case 'checkout.session.cancelled':
+      }
+      case 'checkout.session.expired': {
         const checkoutSessionCancelled = event.data.object;
 
+        CheckoutService.updateOrder(
+          'sneakpeak-' + checkoutSessionCancelled.id,
+          'cancelled',
+          'unpaid',
+        );
+
         break;
+      }
       default:
         console.log(`Unhandled event type ${event.type}`);
     }

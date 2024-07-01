@@ -16,6 +16,10 @@ export class OrderRepository {
     return Order.findByPk(id);
   }
 
+  static async findByReference(reference: string): Promise<Order | null> {
+    return Order.findOne({ where: { reference } });
+  }
+
   static async update(order: Order): Promise<Order> {
     return order.save();
   }
