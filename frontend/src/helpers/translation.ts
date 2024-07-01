@@ -14,10 +14,10 @@ export class Translation {
         return 'Identifiants incorrects'
 
       case 'email_not_verified':
-        return 'Email non vérifié'
+        return 'Adresse mail non vérifiée'
 
-      case 'wrong_password':
-        return 'Mot de passe incorrect'
+      case 'account_locked':
+        return 'Compte bloqué. Veuillez réessayer plus tard'
 
       default:
         break

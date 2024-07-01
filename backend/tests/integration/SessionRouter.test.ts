@@ -68,6 +68,19 @@ describe('SessionRouter', () => {
       'should set a cookie if email is verified',
       testThatCreateAndAuthenticateValidUserWithValidCookie,
     );
+
+    it('should return a 401 status code if account is locked', async () => {
+      const user = await UserService.registerUser(uniqueEmail(), PASSWORD);
+
+      await user.update({ locked: true });
+
+      const response = await request(app).post('/session').send({
+        email: user.email,
+        password: PASSWORD,
+      });
+
+      expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
+    });
   });
 
   describe('GET /session', () => {

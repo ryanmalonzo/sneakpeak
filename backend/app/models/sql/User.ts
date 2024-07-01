@@ -11,6 +11,9 @@ export class User extends Model {
   declare id: CreationOptional<number>;
   declare email: string;
   declare password: string;
+  declare passwordAttempts: number;
+  declare locked: boolean;
+  declare unlockedAt: Date;
   declare firstName: string;
   declare lastName: string;
   declare phone: string;
@@ -30,6 +33,19 @@ export default (sequelize: Sequelize) => {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      passwordAttempts: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      locked: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      unlockedAt: {
+        type: DataTypes.DATE,
       },
       firstName: {
         type: DataTypes.STRING,
