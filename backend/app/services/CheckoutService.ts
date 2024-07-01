@@ -37,7 +37,7 @@ export class CheckoutService {
       metadata: { userId: userId },
       line_items: products,
       mode: 'payment',
-      cancel_url: 'http://localhost:5173/checkout/cancelled',
+      cancel_url: 'http://localhost:5173/checkout/cancel',
       success_url: 'http://localhost:5173/checkout/success',
     });
     return session;

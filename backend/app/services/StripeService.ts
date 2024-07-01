@@ -35,10 +35,9 @@ export class StripeService {
       }
       case 'checkout.session.expired': {
         const checkoutSessionCancelled = event.data.object;
-
         CheckoutService.updateOrder(
           'sneakpeak-' + checkoutSessionCancelled.id,
-          'cancelled',
+          'expired',
           'unpaid',
         );
 

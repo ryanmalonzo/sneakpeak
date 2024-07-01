@@ -62,6 +62,14 @@ services:
     depends_on:
       - mongo
 
+  stripe_cli:
+    image: stripe/stripe-cli
+    depends_on:
+      - backend
+    volumes:
+      - ./stripe:/root/.config/stripe
+    command: listen --forward-to http://backend/webhook --api-key $STRIPE_SECRET_KEY
+
 volumes:
   postgres:
   mongo:
