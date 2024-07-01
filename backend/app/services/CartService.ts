@@ -22,7 +22,7 @@ export class CartService {
       await CartRepository.createCart(cart);
     }
 
-    if (quantity <= 0) {
+    if (quantity <= 0 || !Number.isInteger(quantity)) {
       throw new RequestError(
         StatusCodes.BAD_REQUEST,
         'Quantity must be positive',
@@ -79,7 +79,7 @@ export class CartService {
 
     const products = await CartRepository.getCartProducts(cart);
 
-    if (quantity <= 0) {
+    if (quantity <= 0 || !Number.isInteger(quantity)) {
       throw new RequestError(
         StatusCodes.BAD_REQUEST,
         'Quantity must be positive',
@@ -127,6 +127,9 @@ export class CartService {
     }
 
     const products = await CartRepository.getCartProducts(cart);
+    if (!products.length) {
+      throw new RequestError(StatusCodes.NOT_FOUND, 'Product not found');
+    }
     for (const product of products) {
       if (product.variantId === variantId) {
         await CartProductRepository.deleteCartProduct(product);

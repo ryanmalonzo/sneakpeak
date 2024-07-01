@@ -3,7 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import EmailVerificationView from '../views/EmailVerificationView.vue'
 import SearchView from '@/views/SearchView.vue'
 import CartView from '@/views/CartView.vue'
-import CheckoutView from '@/views/CheckoutView.vue'
+import ResetPasswordView from '@/views/ResetPasswordView.vue'
+import CGUView from '@/views/legal/CGUView.vue'
+import { checkAuth } from '@/helpers/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,11 +31,23 @@ const router = createRouter({
       component: CartView
     },
     {
-      path: '/checkout',
-      name: 'checkout',
-      component: CheckoutView
+      path: '/reset-password',
+      name: 'reset_password',
+      component: ResetPasswordView
+    },
+    {
+      path: '/legal',
+      children: [{ path: 'cgu', component: CGUView }]
     }
   ]
+})
+
+router.afterEach(() => {
+  checkAuth()
+})
+
+router.afterEach(() => {
+  checkAuth()
 })
 
 export default router

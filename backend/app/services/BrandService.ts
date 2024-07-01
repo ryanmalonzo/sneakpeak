@@ -8,16 +8,22 @@ export class BrandService {
     return BrandRepositoryMongo.findAll();
   }
 
-  static async save(name: string, slug: string): Promise<void> {
+  static async save(name: string, slug: string, image: string): Promise<void> {
     const sneaker = BrandRepository.build({
       name,
       slug,
+      image,
     });
     await BrandRepository.save(sneaker);
   }
 
-  static async update(id: number, name: string, slug: string): Promise<void> {
-    const brand = await BrandRepository.update(id, { name, slug });
+  static async update(
+    id: number,
+    name: string,
+    slug: string,
+    image: string,
+  ): Promise<void> {
+    const brand = await BrandRepository.update(id, { name, slug, image });
     if (!brand) {
       throw new Error('Brand not found');
     }

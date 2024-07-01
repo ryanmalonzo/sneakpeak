@@ -4,6 +4,7 @@ export namespace BrandApi {
   export interface BrandOut {
     name: string
     slug: string
+    image: string
   }
 
   export const getAll = async (): Promise<BrandOut[]> => {

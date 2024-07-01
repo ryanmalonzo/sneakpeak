@@ -31,8 +31,7 @@ export class SneakerService {
     }
     allFilterOptions = { ...allFilterOptions, ...filterOptions };
 
-    const sneakers = await SneakerRepository.getPaginated(
-      q,
+    const sneakers = await SneakerRepositoryMongo.getPaginated(
       page,
       limit,
       sortOptions,
@@ -41,7 +40,7 @@ export class SneakerService {
 
     // Pour en déduire le nombre total de pages à afficher sur la web app
     // https://www.reddit.com/r/csharp/comments/uepldu/how_to_get_total_count_of_records_and_pagination/
-    const totalCount = await SneakerRepository.getTotalCount(
+    const totalCount = await SneakerRepositoryMongo.getTotalCount(
       sortOptions,
       allFilterOptions,
     );
@@ -58,10 +57,6 @@ export class SneakerService {
     id: string,
   ): Promise<HydratedDocument<ISneaker> | null> {
     return await SneakerRepositoryMongo.findOneById(id);
-  }
-
-  public static async findSneakers(): Promise<HydratedDocument<ISneaker>[]> {
-    return await SneakerRepository.findSneakers();
   }
 
   public static async delete(id: number): Promise<void> {

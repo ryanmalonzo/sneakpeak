@@ -20,7 +20,7 @@
     "test": "mocha tests/unit/*.test.ts",
     "unit": "mocha tests/unit/*.test.ts",
     "integration": "mocha --file ./tests/integration/setup.ts tests/integration/*.test.ts",
-    "data": "tsx ./app/helpers/generateData.ts $MODEL $IS_DELETE $COUNT"
+    "data": "tsx ./bin/generateData.ts $MODEL $IS_DELETE $COUNT"
   },
   "engines": {
     "node": "20.x",

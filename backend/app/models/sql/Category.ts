@@ -12,6 +12,7 @@ export class Category extends Model {
   declare id: CreationOptional<number>;
   declare name: string;
   declare slug: string;
+  declare image: string;
 
   declare getSneakers: HasManyGetAssociationsMixin<Sneaker>;
 }
@@ -25,6 +26,10 @@ export default (sequelize: Sequelize) => {
       },
       slug: {
         type: DataTypes.STRING,
+        allowNull: false,
+      },
+      image: {
+        type: DataTypes.TEXT,
         allowNull: false,
       },
     },
