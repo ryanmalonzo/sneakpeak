@@ -17,6 +17,7 @@
     "start": "tsx index.js",
     "dev": "tsx watch index.js",
     "build": "tsc",
+    "heroku-postbuild": "tsc && npm run migrate up",
     "test": "mocha tests/unit/*.test.ts",
     "unit": "mocha tests/unit/*.test.ts",
     "integration": "mocha --file ./tests/integration/setup.ts tests/integration/*.test.ts",
