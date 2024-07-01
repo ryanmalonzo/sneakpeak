@@ -9,6 +9,14 @@ import axios from 'axios';
 import { reactive, ref, watch } from 'vue';
 import { CheckoutApi } from '@/services/checkoutApi';
 
+interface GeoapifyFeatureProperties {
+    formatted: string
+
+}
+
+interface GeoapifyFeature {
+    properties: GeoapifyFeatureProperties
+}
 const isBilling = ref(false);
 const filteredShippingAdress = ref([]);
 const shipping = reactive({
@@ -42,7 +50,7 @@ watch(shipping, async (newVal) => {
 
             const response = await axios.get(`https://api.geoapify.com/v1/geocode/autocomplete?text=${newVal.address}&apiKey=ae0f10d502564e4aa6781d24d19593be`);
             console.log(response.data);
-            filteredShippingAdress.value = response.data.features.map((feature) => (
+            filteredShippingAdress.value = response.data.features.map((feature: GeoapifyFeature) => (
                 feature.properties.formatted
             ));
         } catch (error) {
@@ -60,7 +68,7 @@ watch(billing, async (newVal) => {
 
             const response = await axios.get(`https://api.geoapify.com/v1/geocode/autocomplete?text=${newVal.address}&apiKey=ae0f10d502564e4aa6781d24d19593be`);
             console.log(response.data);
-            filteredBillingAdress.value = response.data.features.map((feature) => (
+            filteredBillingAdress.value = response.data.features.map((feature: GeoapifyFeature) => (
                 feature.properties.formatted
             ));
         } catch (error) {
