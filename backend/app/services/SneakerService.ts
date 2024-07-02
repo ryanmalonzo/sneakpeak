@@ -4,6 +4,8 @@ import { ISneaker } from '../models/mongodb/Sneaker';
 import { FilterOptions, SortOptions } from '../helpers/interfaces';
 import { SneakerRepository as SneakerRepositoryMongo } from '../repositories/mongodb/SneakerRepository';
 import { Sneaker, SneakerDTO } from '../models/sql/Sneaker';
+import { RequestError } from '../helpers/error';
+import { StatusCodes } from 'http-status-codes';
 
 interface PaginatedSneakersResponse {
   total: number;
@@ -65,6 +67,13 @@ export class SneakerService {
   }
 
   public static async create(sneaker: SneakerDTO): Promise<Sneaker> {
+    if (await this.isSneakerExists(sneaker)) {
+      throw new RequestError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        'Sneaker name already exists',
+      );
+    }
+
     return await SneakerRepository.create(sneaker);
   }
 
@@ -79,6 +88,20 @@ export class SneakerService {
     id: number,
     sneaker: SneakerDTO,
   ): Promise<Sneaker | null> {
-    return await SneakerRepository.partialUpdate(id, sneaker);
+    const isSneakerExists = await SneakerRepository.partialUpdate(id, sneaker);
+
+    if (!isSneakerExists) {
+      throw new RequestError(StatusCodes.NOT_FOUND, 'Sneaker not found');
+    }
+
+    return isSneakerExists;
+  }
+
+  public static async isSneakerExists(sneaker: SneakerDTO): Promise<boolean> {
+    const isSneakerAlreadyExists = await SneakerRepository.findSnearkerByName(
+      sneaker.name,
+    );
+
+    return !!isSneakerAlreadyExists;
   }
 }

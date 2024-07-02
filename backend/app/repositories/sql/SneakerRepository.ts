@@ -6,6 +6,11 @@ export class SneakerRepository {
     return sneaker;
   }
 
+  static async findSnearkerByName(name: string): Promise<Sneaker | null> {
+    const sneaker = await Sneaker.findOne({ where: { name } });
+    return sneaker;
+  }
+
   static async delete(id: number): Promise<number> {
     return await Sneaker.destroy({ where: { id }, individualHooks: true });
   }

@@ -4,6 +4,8 @@ import { VariantRepository as VariantRepositoryMongo } from '../repositories/mon
 import { IVariant } from '../models/mongodb/Variant';
 import { Variant, VariantDTO } from '../models/sql/Variant';
 import { VariantRepository } from '../repositories/sql/VariantRepository';
+import { RequestError } from '../helpers/error';
+import { StatusCodes } from 'http-status-codes';
 
 interface PaginatedVariantsResponse {
   total: number;
@@ -53,6 +55,13 @@ export class VariantService {
   }
 
   public static async create(variant: VariantDTO): Promise<Variant> {
+    if (await this.isVariantExists(variant)) {
+      throw new RequestError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        'Variant already exists',
+      );
+    }
+
     return await VariantRepository.create(variant);
   }
 
@@ -65,5 +74,16 @@ export class VariantService {
 
   public static async delete(id: number): Promise<number> {
     return await VariantRepository.delete(id);
+  }
+
+  private static async isVariantExists(variant: VariantDTO): Promise<boolean> {
+    const isSneakerAlreadyExists =
+      await VariantRepository.findVariantBySneakerIdAndColorIdAndSizeId(
+        variant.sneakerId,
+        variant.colorId,
+        variant.sizeId,
+      );
+
+    return !!isSneakerAlreadyExists;
   }
 }

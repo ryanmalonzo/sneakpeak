@@ -66,6 +66,10 @@ SneakerRouter.post(
       brandId,
     };
 
+    if (!name || !description || !price || !categoryId || !brandId) {
+      return res.sendStatus(StatusCodes.UNPROCESSABLE_ENTITY);
+    }
+
     try {
       return res
         .status(StatusCodes.CREATED)
@@ -89,6 +93,10 @@ SneakerRouter.put(
         categoryId,
         brandId,
       };
+
+      if (!name || !description || !price || !categoryId || !brandId) {
+        return res.sendStatus(StatusCodes.UNPROCESSABLE_ENTITY);
+      }
 
       const { nbDeleted, updatedSneaker } = await SneakerService.fullUpdate(
         id,
@@ -123,9 +131,6 @@ SneakerRouter.patch(
         sneaker,
       );
 
-      if (!updatedSneaker) {
-        return res.sendStatus(StatusCodes.NOT_FOUND);
-      }
       return res.status(StatusCodes.OK).json(updatedSneaker);
     } catch (error) {
       next(error);

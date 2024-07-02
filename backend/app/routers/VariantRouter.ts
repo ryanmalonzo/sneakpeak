@@ -48,6 +48,9 @@ VariantRouter.post(
       colorId,
       sizeId,
     };
+    if (!stock || !image || !sneakerId || !colorId || !sizeId) {
+      return res.sendStatus(StatusCodes.UNPROCESSABLE_ENTITY);
+    }
 
     try {
       return res
