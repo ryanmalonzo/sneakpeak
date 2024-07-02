@@ -5,7 +5,7 @@
 <template>
     <main class="h-screen flex">
         <!-- sidebar -->
-        <nav class="flex w-[15.625rem] p-[2rem 0.625rem 0.625rem 0.625rem] flex-col items-center gap-[6.25rem] flex-shrink-0 bg-black bg-opacity-95">
+        <sidebar class="flex w-[15.625rem] p-[2rem 0.625rem 0.625rem 0.625rem] flex-col items-center gap-[6.25rem] flex-shrink-0 bg-black bg-opacity-95">
             <div class="mt-8">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M10 0C15.5228 0 20 4.47715 20 10V0H30C35.5228 0 40 4.47715 40 10C40 15.5228 35.5228 20 30 20C35.5228 20 40 24.4772 40 30C40 32.7423 38.8961 35.2268 37.1085 37.0334L37.0711 37.0711L37.0379 37.1041C35.2309 38.8943 32.7446 40 30 40C27.2741 40 24.8029 38.9093 22.999 37.1405C22.9756 37.1175 22.9522 37.0943 22.9289 37.0711C22.907 37.0492 22.8852 37.0272 22.8635 37.0051C21.0924 35.2009 20 32.728 20 30C20 35.5228 15.5228 40 10 40C4.47715 40 0 35.5228 0 30V20H10C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0ZM18 10C18 14.4183 14.4183 18 10 18V2C14.4183 2 18 5.58172 18 10ZM38 30C38 25.5817 34.4183 22 30 22C25.5817 22 22 25.5817 22 30H38ZM2 22V30C2 34.4183 5.58172 38 10 38C14.4183 38 18 34.4183 18 30V22H2ZM22 18V2H30C34.4183 2 38 5.58172 38 10C38 14.4183 34.4183 18 30 18H22Z" fill="#EFEFEF"/>
@@ -56,10 +56,10 @@
                     </li>
                 </ul>
             </div>
-        </nav>
+        </sidebar>
         <div class="p-6 w-full">
             <!-- navbar -->
-            <div class="flex justify-end gap-4 mb-4">           
+            <nav class="flex justify-end gap-4 mb-4">           
                 Cheick
                 <!-- Déconnexion -->
                 <a href="">
@@ -67,7 +67,7 @@
                         <path d="M14 8V6C14 5.46957 13.7893 4.96086 13.4142 4.58579C13.0391 4.21071 12.5304 4 12 4H5C4.46957 4 3.96086 4.21071 3.58579 4.58579C3.21071 4.96086 3 5.46957 3 6V18C3 18.5304 3.21071 19.0391 3.58579 19.4142C3.96086 19.7893 4.46957 20 5 20H12C12.5304 20 13.0391 19.7893 13.4142 19.4142C13.7893 19.0391 14 18.5304 14 18V16M9 12H21M21 12L18 9M21 12L18 15" stroke="#0D2444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </a>   
-            </div><hr>
+            </nav><hr>
             
             <!-- Contenu -->
             <div class="mt-10">
