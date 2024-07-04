@@ -40,7 +40,7 @@ export class SneakerService {
         { name: { $regex: q, $options: 'i' } },
         { category: { $regex: q, $options: 'i' } },
         { brand: { $regex: q, $options: 'i' } },
-        { 'variants.color': { $regex: q, $options: 'i' } },
+        { ' lgvariants.color': { $regex: q, $options: 'i' } },
         { 'variants.size': { $regex: q, $options: 'i' } },
       ];
     }
@@ -149,7 +149,7 @@ export class SneakerService {
   }
 
   public static async isSneakerExists(sneaker: SneakerDTO): Promise<boolean> {
-    const isSneakerAlreadyExists = await SneakerRepository.findSnearkerByName(
+    const isSneakerAlreadyExists = await SneakerRepository.findSneakerByName(
       sneaker.name,
     );
 
