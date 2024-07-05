@@ -15,7 +15,7 @@ export class CartService {
 
     if (!cart) {
       cart = CartRepository.build({
-        user_id: userId,
+        userId: userId,
         createdAt: new Date(),
         expiredAt: new Date(new Date().getTime() + 15 * 60 * 1000), // 15 minutes from now
       });
@@ -58,7 +58,8 @@ export class CartService {
       cartId: cart.id,
       variantId: variantId,
       quantity: quantity,
-      total: sneaker.price * quantity,
+      name: sneaker.name,
+      unitPrice: sneaker.price,
       createdAt: new Date(),
     });
 
@@ -108,7 +109,8 @@ export class CartService {
         }
 
         product.quantity = quantity;
-        product.total = sneaker.price * quantity;
+        product.unitPrice = sneaker.price;
+        product.name = sneaker.name;
         await CartProductRepository.addCartProduct(product);
         await CartRepository.updateCart(cart);
         return;
@@ -136,5 +138,25 @@ export class CartService {
       }
     }
     return await CartRepository.updateCart(cart);
+  }
+
+  static async getCartProducts(userId: number) {
+    const cart = await CartRepository.getCartByUserId(userId);
+    if (!cart) {
+      throw new RequestError(StatusCodes.NOT_FOUND, 'Cart not found');
+    }
+
+    return await CartRepository.getCartProducts(cart);
+  }
+
+  static async emptyCart(userId: number) {
+    const cart = await CartRepository.getCartByUserId(userId);
+    if (!cart) {
+      throw new RequestError(StatusCodes.NOT_FOUND, 'Cart not found');
+    }
+
+    return await CartProductRepository.deleteAllCartProducts(
+      await CartRepository.getCartProducts(cart),
+    );
   }
 }

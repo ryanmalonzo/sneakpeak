@@ -10,6 +10,8 @@ import { BrandRouter } from './routers/BrandRouter';
 import { CategoryRouter } from './routers/CategoryRouter';
 import { VariantRouter } from './routers/VariantRouter';
 import { CartRouter } from './routers/CartRouter';
+import { StripeRouter } from './routers/StripeRouter';
+import { CheckoutRouter } from './routers/CheckoutRouter';
 
 const app = express();
 
@@ -21,7 +23,14 @@ app.use(
     credentials: true,
   }),
 );
-app.use(express.json());
+app.use((req, res, next) => {
+  if (req.path === '/webhook') {
+    express.raw({ type: 'application/json' })(req, res, next);
+  } else {
+    express.json()(req, res, next);
+  }
+});
+
 app.use(cookieParser());
 
 app.use('/users', UserRouter);
@@ -31,6 +40,8 @@ app.use('/variants', VariantRouter);
 app.use('/brands', BrandRouter);
 app.use('/categories', CategoryRouter);
 app.use('/cart', CartRouter);
+app.use('/webhook', StripeRouter);
+app.use('/checkout', CheckoutRouter);
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 app.use((err, req, res, next) => {
