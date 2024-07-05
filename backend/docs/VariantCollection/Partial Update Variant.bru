@@ -1,0 +1,18 @@
+meta {
+  name: Partial Update Variant
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://localhost:3000/variants/7
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "image": "data:imgUpdated",
+    "stock": 99
+  }
+}

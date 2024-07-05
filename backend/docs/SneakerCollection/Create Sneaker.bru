@@ -1,0 +1,21 @@
+meta {
+  name: Create Sneaker
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/sneakers/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "AF1",
+    "description": "desc",
+    "price": 10.99,
+    "categoryId": 1,
+    "brandId": 1
+  }
+}

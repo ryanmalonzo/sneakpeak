@@ -9,6 +9,16 @@ import { Sneaker, updateSneakerInMongoDB } from './Sneaker';
 import { Size } from './Size';
 import { Color } from './Color';
 import syncWithMongoDB from '../../helpers/syncPsqlMongo';
+import { VariantRepository } from '../../repositories/sql/VariantRepository';
+
+export interface VariantDTO {
+  stock: number;
+  image: string;
+  isBest: boolean;
+  sneakerId: number;
+  sizeId: number;
+  colorId: number;
+}
 
 export class Variant extends Model {
   declare id: CreationOptional<number>;
@@ -19,6 +29,46 @@ export class Variant extends Model {
   declare sizeId: ForeignKey<Size['id']>;
   declare colorId: ForeignKey<Color['id']>;
 }
+
+export const updateVariantInMongoDB = async (
+  variant: Variant,
+  sneaker: Sneaker,
+) => {
+  const color = await Color.findByPk(variant.colorId);
+  if (!color) return;
+  const sizes = await VariantRepository.findAllSizesForAColorSneaker(
+    sneaker.id,
+    color.id,
+  );
+  if (!sizes) return;
+
+  await updateSneakerInMongoDB(sneaker!);
+
+  const data = variant.toJSON();
+  data.id = variant.id;
+  data.name = color?.name;
+  data.slug = `${sneaker?.name}-${color?.name}`;
+  data.image = variant.image;
+  data.isBest = variant.isBest;
+  (data.sizes = await Promise.all(
+    sizes.map(async (size) => {
+      const variant =
+        await VariantRepository.findVariantBySneakerIdAndColorIdAndSizeId(
+          data.id,
+          color?.id ? color.id : 0,
+          size.id,
+        );
+
+      return {
+        id: size.id,
+        name: size.name,
+        slug: `${sneaker?.name}-${color?.name}-${size.name}`,
+        stock: variant?.stock,
+      };
+    }),
+  )),
+    await syncWithMongoDB(Variant.name, 'update', data);
+};
 
 export default (sequelize: Sequelize) => {
   Variant.init(
@@ -42,40 +92,23 @@ export default (sequelize: Sequelize) => {
 
   Variant.afterCreate(async (variant) => {
     const sneaker = await Sneaker.findByPk(variant.sneakerId);
-    const size = await Size.findByPk(variant.sizeId);
-    const color = await Color.findByPk(variant.colorId);
+    if (!sneaker) return;
 
-    await updateSneakerInMongoDB(sneaker!);
-
-    const data = variant.toJSON();
-    data.name = sneaker!.name;
-    data.price = sneaker!.price;
-    data.size = size!.name;
-    data.color = color!.name;
-    await syncWithMongoDB(Variant.name, 'create', data);
+    await updateSneakerInMongoDB(sneaker);
   });
 
   Variant.afterUpdate(async (variant) => {
     const sneaker = await Sneaker.findByPk(variant.sneakerId);
-    const size = await Size.findByPk(variant.sizeId);
-    const color = await Color.findByPk(variant.colorId);
+    if (!sneaker) return;
 
-    await updateSneakerInMongoDB(sneaker!);
-
-    const data = variant.toJSON();
-    data.name = sneaker!.name;
-    data.price = sneaker!.price;
-    data.size = size!.name;
-    data.color = color!.name;
-    await syncWithMongoDB(Variant.name, 'update', data);
+    await updateSneakerInMongoDB(sneaker);
   });
 
   Variant.afterDestroy(async (variant) => {
     const sneaker = await Sneaker.findByPk(variant.sneakerId);
-    await updateSneakerInMongoDB(sneaker!);
+    if (!sneaker) return;
 
-    const data = variant.toJSON();
-    await syncWithMongoDB(Variant.name, 'delete', data);
+    await updateSneakerInMongoDB(sneaker!);
   });
 
   return Variant;
