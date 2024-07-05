@@ -80,14 +80,14 @@ describe('SneakerService', () => {
 
   describe('isSneakerExists', () => {
     it('should return true if sneaker exists', async () => {
-      sinon.stub(SneakerRepository, 'findSnearkerByName').resolves(SNEAKER);
+      sinon.stub(SneakerRepository, 'findSneakerByName').resolves(SNEAKER);
 
       await expect(SneakerService.isSneakerExists(SNEAKER_DTO)).to.eventually.be
         .true;
     });
 
     it('should return false if sneaker does not exist', async () => {
-      sinon.stub(SneakerRepository, 'findSnearkerByName').resolves(null);
+      sinon.stub(SneakerRepository, 'findSneakerByName').resolves(null);
 
       await expect(SneakerService.isSneakerExists(SNEAKER_DTO)).to.eventually.be
         .false;

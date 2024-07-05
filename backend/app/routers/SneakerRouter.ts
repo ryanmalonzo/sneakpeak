@@ -34,6 +34,35 @@ SneakerRouter.get(
   },
 );
 
+// GET /sneakers/variants
+// Cette route permet de récupérer les variantes de sneakers directement, sans passer par les sneakers en elles-mêmes
+// Utilisée notamment pour afficher les dernière sorties et tendances sur la page d'accueil
+SneakerRouter.get(
+  '/variants',
+  pagination({
+    'variants.isBest': 'boolean',
+  }),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { q, page, limit, sortOptions, filterOptions } = res.locals;
+
+      return res
+        .status(StatusCodes.OK)
+        .json(
+          await SneakerService.getVariantsPaginated(
+            q,
+            page,
+            limit,
+            sortOptions,
+            filterOptions,
+          ),
+        );
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 SneakerRouter.get(
   '/:id',
   async (req: Request, res: Response, next: NextFunction) => {
