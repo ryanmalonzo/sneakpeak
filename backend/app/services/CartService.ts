@@ -59,6 +59,7 @@ export class CartService {
       variantId: variantId,
       quantity: quantity,
       name: sneaker.name,
+      image: variant.image,
       unitPrice: sneaker.price,
       createdAt: new Date(),
     });
@@ -115,6 +116,7 @@ export class CartService {
         product.quantity = quantity;
         product.unitPrice = sneaker.price;
         product.name = sneaker.name;
+        product.image = variant.image;
         await CartProductRepository.addCartProduct(product);
         if (quantity > product.quantity) {
           await VariantRepository.update(variant.id, {
@@ -125,6 +127,7 @@ export class CartService {
             stock: variant.stock + (product.quantity - quantity),
           });
         }
+        cart.expiredAt = new Date(new Date().getTime() + 15 * 60 * 1000); // 15 minutes from now
         await CartRepository.updateCart(cart);
         return;
       } else {
@@ -159,6 +162,7 @@ export class CartService {
         throw new RequestError(StatusCodes.NOT_FOUND, 'Product not found');
       }
     }
+    cart.expiredAt = new Date(new Date().getTime() + 15 * 60 * 1000); // 15 minutes from now
     return await CartRepository.updateCart(cart);
   }
 

@@ -203,4 +203,8 @@ export class UserService {
       /[0-9]/.test(password)
     );
   }
+
+  static async findAll(): Promise<User[]> {
+    return await UserRepository.findAll();
+  }
 }
