@@ -131,22 +131,6 @@ Order.belongsTo(User, {
   },
 });
 
-Order.belongsTo(OrderAddress, {
-  onDelete: 'CASCADE',
-  foreignKey: {
-    name: 'shippingAddressId',
-    allowNull: true,
-  },
-});
-
-Order.belongsTo(OrderAddress, {
-  onDelete: 'CASCADE',
-  foreignKey: {
-    name: 'billingAddressId',
-    allowNull: true,
-  },
-});
-
 OrderProduct.belongsTo(Order, {
   onDelete: 'CASCADE',
   foreignKey: {

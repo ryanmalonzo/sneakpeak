@@ -117,19 +117,6 @@ export class CheckoutService {
       });
 
       await OrderAddressRepository.save(new_address);
-      if (type === 'billing') {
-        const order = await OrderRepository.findById(orderId);
-        if (!order) throw new Error('Order not found');
-        order.billingAddressId = new_address.id;
-        await OrderRepository.update(order);
-      }
-      if (type === 'shipping') {
-        const order = await OrderRepository.findById(orderId);
-        if (!order) throw new Error('Order not found');
-        order.shippingAddressId = new_address.id;
-        await OrderRepository.update(order);
-      }
-
       return {
         street: formattedAddress.street,
         city: formattedAddress.city,
