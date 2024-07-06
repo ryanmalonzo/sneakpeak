@@ -37,7 +37,7 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
       },
       image: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT('long'),
         allowNull: false,
       },
       quantity: {

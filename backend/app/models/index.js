@@ -12,6 +12,7 @@ import cartProduct, { CartProduct } from './sql/CartProduct';
 import orderAdress, { OrderAddress } from './sql/OrderAddress';
 import order, { Order } from './sql/Order';
 import orderProduct, { OrderProduct } from './sql/OrderProduct';
+import historyCartProduct, { HistoryCartProduct } from './sql/HistoryCartProduct';
 
 
 export const sequelize = new Sequelize(process.env.DATABASE_URL, {
@@ -31,6 +32,7 @@ cartProduct(sequelize);
 order(sequelize);
 orderAdress(sequelize);
 orderProduct(sequelize);
+historyCartProduct(sequelize);
 
 User.hasMany(Challenge);
 
@@ -88,6 +90,7 @@ Variant.belongsTo(Size, {
 });
 
 Cart.hasMany(CartProduct);
+Cart.hasMany(HistoryCartProduct);
 
 Cart.belongsTo(User, {
   onDelete: 'CASCADE',
@@ -106,6 +109,22 @@ CartProduct.belongsTo(Variant, {
 });
 
 CartProduct.belongsTo(Cart, {
+  onDelete: 'CASCADE',
+  foreignKey: {
+    name: 'cartId',
+    allowNull: false,
+  },
+});
+
+HistoryCartProduct.belongsTo(Variant, {
+  onDelete: 'CASCADE',
+  foreignKey: {
+    name: 'variantId',
+    allowNull: false,
+  },
+});
+
+HistoryCartProduct.belongsTo(Cart, {
   onDelete: 'CASCADE',
   foreignKey: {
     name: 'cartId',
