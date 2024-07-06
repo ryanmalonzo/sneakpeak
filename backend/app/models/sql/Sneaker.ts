@@ -11,8 +11,14 @@ import syncWithMongoDB from '../../helpers/syncPsqlMongo';
 import { BrandRepository } from '../../repositories/sql/BrandRepository';
 import { CategoryRepository } from '../../repositories/sql/CategoryRepository';
 import { VariantRepository } from '../../repositories/sql/VariantRepository';
-import { SizeRepository } from '../../repositories/sql/SizeRepository';
-import { ColorRepository } from '../../repositories/sql/ColorRepository';
+
+export interface SneakerDTO {
+  name: string;
+  description: string;
+  price: number;
+  categoryId: number;
+  brandId: number;
+}
 
 export class Sneaker extends Model {
   declare id: CreationOptional<number>;
@@ -25,23 +31,52 @@ export class Sneaker extends Model {
 
 export const updateSneakerInMongoDB = async (sneaker: Sneaker) => {
   const data = sneaker.toJSON();
-  const variants = await VariantRepository.findVariantsBySneakerId(data.id);
   const category = await CategoryRepository.findCategoryById(data.categoryId);
   const brand = await BrandRepository.findBrandById(data.brandId);
-
   data.category = category!.name;
   data.brand = brand!.name;
 
+  // const variants = await VariantRepository.findVariantsBySneakerId(data.id);
+  const colors = await VariantRepository.findAllColorsVariantForOneSneaker(
+    data.id,
+  );
+
   data.variants = await Promise.all(
-    variants.map(async (variant) => {
-      const size = await SizeRepository.findSizeById(variant.sizeId);
-      const color = await ColorRepository.findColorById(variant.colorId);
+    colors.map(async (color) => {
+      const variantColor =
+        await VariantRepository.findVariantBySneakerIdAndColorId(
+          data.id,
+          color.id,
+        );
+      const sizes = await VariantRepository.findAllSizesForAColorSneaker(
+        data.id,
+        color.id,
+      );
 
       return {
-        stock: variant.stock,
-        image: variant.image,
-        size: size!.name,
-        color: color!.name,
+        id: color?.id,
+        name: color.name,
+        slug: `${data.name}-${color.name}`,
+        image: variantColor?.image,
+        isBest: variantColor?.isBest,
+        sizes: await Promise.all(
+          sizes.map(async (size) => {
+            const variant =
+              await VariantRepository.findVariantBySneakerIdAndColorIdAndSizeId(
+                data.id,
+                color.id,
+                size.id,
+              );
+            if (!variant) return;
+            return {
+              idRef: variant.id,
+              id: size.id,
+              name: size.name,
+              slug: `${data.name}-${color.name}-${size.name}`,
+              stock: variant?.stock,
+            };
+          }),
+        ),
       };
     }),
   );

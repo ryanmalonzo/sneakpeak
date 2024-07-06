@@ -5,3 +5,15 @@ export interface SortOptions {
 export interface FilterOptions {
   [key: string]: unknown;
 }
+
+export interface FormattedAddress {
+  street: string;
+  city: string;
+  state: string;
+  country: string;
+  zip: string;
+}
+
+export interface FormattedAddressError {
+  error: string;
+}

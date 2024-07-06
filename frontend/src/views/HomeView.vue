@@ -5,14 +5,14 @@ import CardBestProduct from '../components/home/CardBestProduct.vue'
 import Carousel from 'primevue/carousel'
 import CardBrand from '../components/home/CardBrand.vue'
 import { onMounted, reactive, ref, type Ref } from 'vue'
-import { VariantApi } from '@/services/variantApi'
 import { BrandApi } from '@/services/brandApi'
 import { CategoryApi } from '@/services/categoryApi'
+import { SneakerApi } from '@/services/sneakerApi'
 
 const lastCategory: Ref<CategoryApi.CategoryOut | undefined> = ref()
-const latestVariants: VariantApi.VariantOut[] = reactive([])
+const latestVariants: SneakerApi.FlattenedVariantOut[] = reactive([])
 const brands: BrandApi.BrandOut[] = reactive([])
-const bestSellingVariants: VariantApi.VariantOut[] = reactive([])
+const bestSellingVariants: SneakerApi.FlattenedVariantOut[] = reactive([])
 
 const NB_BRANDS_TO_DISPLAY = 5
 
@@ -22,13 +22,20 @@ onMounted(async () => {
     previous.id > current.id ? previous : current
   )
 
-  const dataVariants = await VariantApi.getPaginated({ limit: 8, sort: 'createdAt', order: 'desc' })
+  const dataVariants = await SneakerApi.getVariantsPaginated({
+    limit: 8,
+    sort: 'createdAt',
+    order: 'desc'
+  })
   latestVariants.push(...dataVariants.items)
 
   const dataBrands = await BrandApi.getAll()
   brands.push(...dataBrands.slice(0, NB_BRANDS_TO_DISPLAY))
 
-  const dataBestSellingVariants = await VariantApi.getPaginated({ limit: 3, isBest: true })
+  const dataBestSellingVariants = await SneakerApi.getVariantsPaginated({
+    limit: 3,
+    'variants.isBest': true
+  })
   bestSellingVariants.push(...dataBestSellingVariants.items)
 })
 </script>
@@ -43,6 +50,7 @@ onMounted(async () => {
             :alt="lastCategory.name"
             class="max-h-[372px] w-full object-cover"
           />
+
           <a class="absolute mb-4 bg-white px-2 py-4 font-bold md:mb-20 md:px-40">
             Nouvelle collection : {{ lastCategory.name }}
           </a>
@@ -57,7 +65,7 @@ onMounted(async () => {
             :key="variant._id"
             :image="variant.image"
             :name="variant.name"
-            :price="variant.price"
+            :price="variant.sneakerPrice"
           />
         </div>
         <Carousel
@@ -75,7 +83,7 @@ onMounted(async () => {
               <div class="border-1 surface-border border-round flex flex-col items-center p-5">
                 <img :src="variant.data.image" class="border-round w-full" />
                 <p>{{ variant.data.name }}</p>
-                <p class="font-bold">{{ variant.data.price }} €</p>
+                <p class="font-bold">{{ variant.data.sneakerPrice }} €</p>
               </div>
             </a>
           </template>
@@ -125,7 +133,7 @@ onMounted(async () => {
                 :key="variant._id"
                 :image="variant.image"
                 :name="variant.name"
-                :price="variant.price"
+                :price="variant.sneakerPrice"
               />
             </div>
           </div>

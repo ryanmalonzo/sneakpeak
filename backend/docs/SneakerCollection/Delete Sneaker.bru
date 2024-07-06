@@ -1,0 +1,17 @@
+meta {
+  name: Delete Sneaker
+  type: http
+  seq: 7
+}
+
+delete {
+  url: http://localhost:3000/sneakers/6
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "description": "testdad"
+  }
+}

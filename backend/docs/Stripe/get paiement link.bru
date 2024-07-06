@@ -1,0 +1,31 @@
+meta {
+  name: get paiement link
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/checkout
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "billing": {
+      "firstName": "Fayssal",
+      "lastName": "Mechmeche",
+      "address": "242 Rue du Faubourg, 01120 La Boisse, France",
+      "phone": "0123456789"
+    },
+    "shipping":{
+      "firstName": "Fayssal",
+      "lastName": "Mechmeche",
+      "address": "242 Rue du Faubourg, 01120 La Boisse, France",
+      "phone": "0123456789"
+    }
+  }
+  
+  
+  
+}
