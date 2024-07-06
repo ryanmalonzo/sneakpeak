@@ -3,15 +3,13 @@ import {
   DataTypes,
   Model,
   Sequelize,
-  HasManyGetAssociationsMixin,
   ForeignKey,
-  Association,
 } from 'sequelize';
+
 import { Cart } from './Cart';
-import { SyncCartInMongoDB } from '../../models/sql/Cart';
 import { Variant } from './Variant';
 
-export class CartProduct extends Model {
+export class HistoryCartProduct extends Model {
   declare id: CreationOptional<number>;
   declare cartId: ForeignKey<Cart['id']>;
   declare variantId: ForeignKey<Variant['id']>;
@@ -21,16 +19,10 @@ export class CartProduct extends Model {
   declare image: string;
   declare createdAt: Date;
   declare updatedAt: Date;
-
-  declare getCart: HasManyGetAssociationsMixin<Cart>;
-
-  static associations: {
-    cart: Association<CartProduct, Cart>;
-  };
 }
 
 export default (sequelize: Sequelize) => {
-  CartProduct.init(
+  HistoryCartProduct.init(
     {
       name: {
         type: DataTypes.STRING,
@@ -59,24 +51,4 @@ export default (sequelize: Sequelize) => {
     },
     { sequelize, underscored: true },
   );
-
-  CartProduct.afterCreate(async (cartProduct) => {
-    const data = cartProduct.toJSON();
-    const cart = await Cart.findByPk(data.cartId);
-    await SyncCartInMongoDB(cart!, 'update');
-  });
-
-  CartProduct.afterUpdate(async (cartProduct) => {
-    const data = cartProduct.toJSON();
-    const cart = await Cart.findByPk(data.cartId);
-    await SyncCartInMongoDB(cart!, 'update');
-  });
-
-  CartProduct.afterDestroy(async (cartProduct) => {
-    const data = cartProduct.toJSON();
-    const cart = await Cart.findByPk(data.cartId);
-    await SyncCartInMongoDB(cart!, 'update');
-  });
-
-  return CartProduct;
 };
