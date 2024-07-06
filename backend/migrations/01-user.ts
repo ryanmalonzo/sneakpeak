@@ -37,11 +37,11 @@ export const up: Migration = async ({
     },
     created_at: {
       type: DataTypes.DATE,
-      defaultValue: new Date(),
+      defaultValue: DataTypes.NOW,
     },
     updated_at: {
       type: DataTypes.DATE,
-      defaultValue: new Date(),
+      defaultValue: DataTypes.NOW,
     },
   });
 };
