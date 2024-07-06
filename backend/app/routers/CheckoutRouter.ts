@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { CheckoutService } from '../services/CheckoutService';
 import { CartService } from '../services/CartService';
+import { VariantRepository } from '../repositories/sql/VariantRepository';
 import { auth } from '../middlewares/auth';
 
 dotenv.config();
@@ -30,6 +31,24 @@ CheckoutRouter.post(
 
     if (cartProducts.length === 0) {
       return res.status(400).json({ error: 'Cart is empty' });
+    }
+
+    for (const item of cartProducts) {
+      const cart = await CartService.getCart(res.locals.user.id);
+      if (!cart) {
+        return res.status(400).json({ error: 'Cart not found' });
+      }
+      if (cart.expiredAt < new Date()) {
+        const variant = await VariantRepository.findVariantById(item.variantId);
+        if (!variant) {
+          return res.status(400).json({ error: 'Variant not found' });
+        }
+        if (item.quantity > variant.stock) {
+          return res.status(400).json({
+            error: `Not enough stock for ${item.id}`,
+          });
+        }
+      }
     }
     try {
       const session = await CheckoutService.getCheckoutSession(
