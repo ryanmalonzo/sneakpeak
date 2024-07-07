@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import app from './app/index.js';
 import { sequelize } from './app/models/index.js';
-import { checkCartExpired } from './bin/checkCart.ts';
+import { checkCartExpired } from './cron/checkCart';
 
 dotenv.config();
 
