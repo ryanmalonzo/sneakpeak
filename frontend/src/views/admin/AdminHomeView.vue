@@ -1,16 +1,41 @@
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
 
-<script setup lang="setup">
+const isNavbarOpen = ref(false);
+const isMobile = ref(window.innerWidth <= 768);
+
+const toggleNavbar = () => {
+  isNavbarOpen.value = !isNavbarOpen.value;
+};
+
+const handleResize = () => {
+  isMobile.value = window.innerWidth <= 768;
+};
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+});
 </script>
-
+  
 <template>
-    <main class="h-screen flex">
+    <section class="flex h-screen">
         <!-- sidebar -->
-        <sidebar class="flex w-[15.625rem] p-[2rem 0.625rem 0.625rem 0.625rem] flex-col items-center gap-[6.25rem] flex-shrink-0 bg-black bg-opacity-95">
+        <nav :class="{'flex': isNavbarOpen, 'hidden': !isNavbarOpen, 'fixed left-0 top-0 h-screen': isNavbarOpen && isMobile}" class="md:flex md:w-[15.625rem] p-5 flex-col items-center gap-[6.25rem] flex-shrink-0 bg-black bg-opacity-95">
+            <!-- Logo ou fermeture de la sidebar-->
             <div class="mt-8">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <svg v-if="!isMobile" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M10 0C15.5228 0 20 4.47715 20 10V0H30C35.5228 0 40 4.47715 40 10C40 15.5228 35.5228 20 30 20C35.5228 20 40 24.4772 40 30C40 32.7423 38.8961 35.2268 37.1085 37.0334L37.0711 37.0711L37.0379 37.1041C35.2309 38.8943 32.7446 40 30 40C27.2741 40 24.8029 38.9093 22.999 37.1405C22.9756 37.1175 22.9522 37.0943 22.9289 37.0711C22.907 37.0492 22.8852 37.0272 22.8635 37.0051C21.0924 35.2009 20 32.728 20 30C20 35.5228 15.5228 40 10 40C4.47715 40 0 35.5228 0 30V20H10C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0ZM18 10C18 14.4183 14.4183 18 10 18V2C14.4183 2 18 5.58172 18 10ZM38 30C38 25.5817 34.4183 22 30 22C25.5817 22 22 25.5817 22 30H38ZM2 22V30C2 34.4183 5.58172 38 10 38C14.4183 38 18 34.4183 18 30V22H2ZM22 18V2H30C34.4183 2 38 5.58172 38 10C38 14.4183 34.4183 18 30 18H22Z" fill="#EFEFEF"/>
                 </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 14 14" fill="none" @click="toggleNavbar">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7 1.16667C3.77834 1.16667 1.16667 3.77834 1.16667 7C1.16667 10.2217 3.77834 12.8333 7 12.8333C10.2217 12.8333 12.8333 10.2217 12.8333 7C12.8333 3.77834 10.2217 1.16667 7 1.16667ZM0 7C0 3.13401 3.13401 0 7 0C10.866 0 14 3.13401 14 7C14 10.866 10.866 14 7 14C3.13401 14 0 10.866 0 7ZM9.74581 4.25419C9.97362 4.48199 9.97362 4.85134 9.74581 5.07915L7.82496 7L9.74581 8.92085C9.97362 9.14866 9.97362 9.51801 9.74581 9.74581C9.51801 9.97362 9.14866 9.97362 8.92085 9.74581L7 7.82496L5.07915 9.74581C4.85134 9.97362 4.48199 9.97362 4.25419 9.74581C4.02638 9.51801 4.02638 9.14866 4.25419 8.92085L6.17504 7L4.25419 5.07915C4.02638 4.85134 4.02638 4.48199 4.25419 4.25419C4.48199 4.02638 4.85134 4.02638 5.07915 4.25419L7 6.17504L8.92085 4.25419C9.14866 4.02638 9.51801 4.02638 9.74581 4.25419Z" fill="white"/>
+                </svg>
             </div>
+            
+            <!-- Items -->
             <div class="w-full font-['Be Vietnam Pro'] flex-col text-zinc-100 px-6">
                 <ul>
                     <li>
@@ -56,10 +81,17 @@
                     </li>
                 </ul>
             </div>
-        </sidebar>
-        <div class="p-6 w-full">
+        </nav>
+        <section class="flex-grow p-6">
             <!-- navbar -->
-            <nav class="flex justify-end gap-4 mb-4">           
+            <nav class="flex justify-end gap-4 mb-2">
+                <!-- Ouvre le menu -->
+                <div class="md:hidden fixed top-4 left-2 p-4">
+                    <svg v-if="isMobile && !isNavbarOpen" @click="toggleNavbar" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none" class="cursor-pointer">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0.935476C0 0.561348 0.303291 0.258057 0.677419 0.258057H13.3226C13.6967 0.258057 14 0.561348 14 0.935476C14 1.3096 13.6967 1.6129 13.3226 1.6129H0.677419C0.303291 1.6129 0 1.3096 0 0.935476ZM0 4.99999C0 4.62586 0.303291 4.32257 0.677419 4.32257H13.3226C13.6967 4.32257 14 4.62586 14 4.99999C14 5.37412 13.6967 5.67741 13.3226 5.67741H0.677419C0.303291 5.67741 0 5.37412 0 4.99999ZM0.677419 8.38709C0.303291 8.38709 0 8.69038 0 9.06451C0 9.43864 0.303291 9.74193 0.677419 9.74193H13.3226C13.6967 9.74193 14 9.43864 14 9.06451C14 8.69038 13.6967 8.38709 13.3226 8.38709H0.677419Z" fill="black"/>
+                    </svg>
+                </div>
+
                 Cheick
                 <!-- Déconnexion -->
                 <a href="">
@@ -70,14 +102,9 @@
             </nav><hr>
             
             <!-- Contenu -->
-            <div class="mt-10">
-                <!-- Ecrire ici -->
-                <!-- Ecrire ici -->
-                <!-- Ecrire ici -->
-                <!-- Ecrireici -->
-                <!-- Ecrireici -->
-                <!-- LEcrire ici -->
-            </div>  
-        </div>
-    </main>
+            <main class="h-screen mt-6">
+                <!-- Ecrire ici..-->
+            </main>
+        </section>
+    </section>
 </template>
