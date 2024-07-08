@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import app from './app/index.js';
 import { sequelize } from './app/models/index.js';
 import { checkCartExpired } from './cron/checkCart';
+import { alertResetPassword } from './bin/alertResetPassword.js';
 
 dotenv.config();
 
@@ -26,6 +27,8 @@ mongoose
   .catch((err) => {
     console.error(err);
   });
+
+alertResetPassword.start();
 
 app.listen(PORT, () => {
   console.log(`SneakPeak API listening on port ${PORT}`);
