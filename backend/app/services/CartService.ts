@@ -59,11 +59,16 @@ export class CartService {
       variantId: variantId,
       quantity: quantity,
       name: sneaker.name,
+      image: variant.image,
       unitPrice: sneaker.price,
       createdAt: new Date(),
     });
 
     await CartProductRepository.addCartProduct(newProduct);
+    await VariantRepository.update(variant.id, {
+      stock: variant.stock - quantity,
+    });
+    cart.expiredAt = new Date(new Date().getTime() + 15 * 60 * 1000); // 15 minutes from now
     await CartRepository.updateCart(cart);
   }
 
@@ -111,7 +116,18 @@ export class CartService {
         product.quantity = quantity;
         product.unitPrice = sneaker.price;
         product.name = sneaker.name;
+        product.image = variant.image;
         await CartProductRepository.addCartProduct(product);
+        if (quantity > product.quantity) {
+          await VariantRepository.update(variant.id, {
+            stock: variant.stock - (quantity - product.quantity),
+          });
+        } else {
+          await VariantRepository.update(variant.id, {
+            stock: variant.stock + (product.quantity - quantity),
+          });
+        }
+        cart.expiredAt = new Date(new Date().getTime() + 15 * 60 * 1000); // 15 minutes from now
         await CartRepository.updateCart(cart);
         return;
       } else {
@@ -133,10 +149,20 @@ export class CartService {
     for (const product of products) {
       if (product.variantId === variantId) {
         await CartProductRepository.deleteCartProduct(product);
+        const variant = await VariantRepository.findVariantById(
+          product.variantId,
+        );
+        if (!variant) {
+          throw new RequestError(StatusCodes.NOT_FOUND, 'Variant not found');
+        }
+        await VariantRepository.update(product.variantId, {
+          stock: product.quantity + variant.stock,
+        });
       } else {
         throw new RequestError(StatusCodes.NOT_FOUND, 'Product not found');
       }
     }
+    cart.expiredAt = new Date(new Date().getTime() + 15 * 60 * 1000); // 15 minutes from now
     return await CartRepository.updateCart(cart);
   }
 
@@ -154,9 +180,24 @@ export class CartService {
     if (!cart) {
       throw new RequestError(StatusCodes.NOT_FOUND, 'Cart not found');
     }
+    for (const product of await CartRepository.getCartProducts(cart)) {
+      const variant = await VariantRepository.findVariantById(
+        product.variantId,
+      );
+      if (!variant) {
+        throw new RequestError(StatusCodes.NOT_FOUND, 'Variant not found');
+      }
+      await VariantRepository.update(product.variantId, {
+        stock: product.quantity + variant.stock,
+      });
+    }
 
     return await CartProductRepository.deleteAllCartProducts(
       await CartRepository.getCartProducts(cart),
     );
+  }
+
+  static async getCart(userId: number) {
+    return await CartRepository.getCartByUserId(userId);
   }
 }

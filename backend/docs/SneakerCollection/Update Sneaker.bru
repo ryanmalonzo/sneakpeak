@@ -1,0 +1,21 @@
+meta {
+  name: Update Sneaker
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:3000/sneakers/6
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "nameFullUpdate",
+    "description": "DescFullUpdated",
+    "price": 34.89,
+    "categoryId": 1,
+    "brandId": 1
+  }
+}

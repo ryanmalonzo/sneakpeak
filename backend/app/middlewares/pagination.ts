@@ -6,7 +6,7 @@ import { FilterOptions, SortOptions } from '../helpers/interfaces';
 const MAX_LIMIT = 100;
 
 interface AuthorizedFilters {
-  [key: string]: 'in' | 'range';
+  [key: string]: 'in' | 'range' | 'boolean';
 }
 
 export const pagination = (authorizedFilters?: AuthorizedFilters) => {
@@ -76,6 +76,11 @@ export const pagination = (authorizedFilters?: AuthorizedFilters) => {
             $gte: Number(min),
             $lte: Number(max),
           };
+          continue;
+        }
+
+        if (operator === 'boolean') {
+          filterOptions[key] = value === 'true';
           continue;
         }
       }

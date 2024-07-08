@@ -1,0 +1,22 @@
+meta {
+  name: Create Variant
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/variants
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "stock": 33,
+    "image": "Data:imgCreated",
+    "isBest": false,
+    "sneakerId": 1,
+    "sizeId": 1,
+    "colorId": 4
+  }
+}

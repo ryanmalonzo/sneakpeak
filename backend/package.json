@@ -17,10 +17,13 @@
     "start": "tsx index.js",
     "dev": "tsx watch index.js",
     "build": "tsc",
+    "heroku-postbuild": "tsc && npm run migrate up",
     "test": "mocha tests/unit/*.test.ts",
     "unit": "mocha tests/unit/*.test.ts",
     "integration": "mocha --file ./tests/integration/setup.ts tests/integration/*.test.ts",
-    "data": "tsx ./bin/generateData.ts $MODEL $IS_DELETE $COUNT"
+    "data": "tsx ./bin/generateData.ts $MODEL $IS_DELETE $COUNT",
+    "sync": "tsx ./bin/sync.js",
+    "migrate": "tsx ./bin/migrate.ts"
   },
   "engines": {
     "node": "20.x",
@@ -46,6 +49,7 @@
     "postmark": "^4.0.2",
     "sequelize": "^6.37.3",
     "slugify": "^1.6.6",
+    "umzug": "^3.8.1",
     "stripe": "^16.0.0"
   },
   "devDependencies": {

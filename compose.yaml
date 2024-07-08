@@ -9,7 +9,7 @@ services:
       - 3000:3000
     command: bash -c "npm i && npm run dev"
     env_file:
-      - .env.local
+      - .env
 
   frontend:
     image: node:lts
@@ -21,7 +21,7 @@ services:
       - 5173:5173
     command: bash -c "npm i && npm run dev"
     env_file:
-      - .env.local
+      - .env
 
   postgres:
     image: postgres:16

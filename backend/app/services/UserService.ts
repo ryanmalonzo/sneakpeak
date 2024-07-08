@@ -244,6 +244,6 @@ export class UserService {
   }
 
   static async findAll(): Promise<User[]> {
-    return UserRepository.findAll();
+    return await UserRepository.findAll();
   }
 }
