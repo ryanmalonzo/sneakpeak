@@ -12,8 +12,11 @@ const umzug = new Umzug({
 });
 
 if (require.main === module) {
-  // npm run migrate up/down
-  umzug.runAsCLI();
+  if (process.argv[2] === 'down') {
+    umzug.down().then(() => process.exit(0));
+  } else {
+    umzug.up().then(() => process.exit(0));
+  }
 }
 
 export type Migration = typeof umzug._types.migration;

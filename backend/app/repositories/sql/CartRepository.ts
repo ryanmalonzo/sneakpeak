@@ -11,7 +11,7 @@ export class CartRepository {
   }
 
   static async getCartByUserId(userId: number): Promise<Cart | null> {
-    const cart = await Cart.findOne({ where: { user_id: userId } });
+    const cart = await Cart.findOne({ where: { userId: userId } });
     return cart;
   }
 

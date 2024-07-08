@@ -16,6 +16,12 @@ export const up: Migration = async ({
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     },
     updated_at: {
       type: DataTypes.DATE,

@@ -1,0 +1,17 @@
+meta {
+  name: Partial Update Sneaker
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://localhost:3000/sneakers/6
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "description": "DescPartialUpdated"
+  }
+}

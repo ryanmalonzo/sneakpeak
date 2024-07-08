@@ -1,4 +1,6 @@
-import { Variant } from '../../models/sql/Variant';
+import { Color } from '../../models/sql/Color';
+import { Size } from '../../models/sql/Size';
+import { Variant, VariantDTO } from '../../models/sql/Variant';
 
 export class VariantRepository {
   static build(data: Partial<Variant>): Variant {
@@ -8,6 +10,10 @@ export class VariantRepository {
   static async save(variant: Variant): Promise<Variant> {
     await variant.save();
     return variant;
+  }
+
+  static async create(variant: Partial<Variant>): Promise<Variant> {
+    return await Variant.create(variant);
   }
 
   static async update(
@@ -21,13 +27,21 @@ export class VariantRepository {
     return await variant.update(data);
   }
 
-  static async delete(variantId: number): Promise<Variant | null> {
-    const variant = await Variant.findByPk(variantId);
-    if (!variant) {
-      return null;
-    }
-    await variant.destroy();
-    return variant;
+  static async partialUpdate(
+    id: number,
+    variant: VariantDTO,
+  ): Promise<Variant | null> {
+    const [_nbUpdated, updatedVariant] = await Variant.update(variant, {
+      where: { id },
+      individualHooks: true,
+      returning: true,
+    });
+
+    return updatedVariant[0];
+  }
+
+  static async delete(id: number): Promise<number> {
+    return await Variant.destroy({ where: { id }, individualHooks: true });
   }
 
   static async findVariantById(variantId: number): Promise<Variant | null> {
@@ -36,5 +50,41 @@ export class VariantRepository {
 
   static async findVariantsBySneakerId(sneakerId: number): Promise<Variant[]> {
     return await Variant.findAll({ where: { sneakerId } });
+  }
+
+  static async findVariantBySneakerIdAndColorId(
+    sneakerId: number,
+    colorId: number,
+  ): Promise<Variant | null> {
+    return await Variant.findOne({ where: { sneakerId, colorId } });
+  }
+
+  static async findVariantBySneakerIdAndColorIdAndSizeId(
+    sneakerId: number,
+    colorId: number,
+    sizeId: number,
+  ): Promise<Variant | null> {
+    return await Variant.findOne({ where: { sneakerId, colorId, sizeId } });
+  }
+
+  static async findAllColorsVariantForOneSneaker(
+    sneakerId: number,
+  ): Promise<Color[]> {
+    return await Color.findAll({
+      // attributes: ['id'],
+      include: [{ model: Variant, required: true, where: { sneakerId } }],
+    });
+  }
+
+  static async findAllSizesForAColorSneaker(
+    sneakerId: number,
+    colorId: number,
+  ): Promise<Size[]> {
+    return await Size.findAll({
+      // attributes: ['sizeId'],
+      include: [
+        { model: Variant, required: true, where: { sneakerId, colorId } },
+      ],
+    });
   }
 }

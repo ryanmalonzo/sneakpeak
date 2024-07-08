@@ -1,52 +1,39 @@
-import { HydratedDocument } from 'mongoose';
-import { FilterOptions, SortOptions } from '../helpers/interfaces';
-import { VariantRepository as VariantRepositoryMongo } from '../repositories/mongodb/VariantRepository';
-import { IVariant } from '../models/mongodb/Variant';
-
-interface PaginatedVariantsResponse {
-  total: number;
-  page: number;
-  limit: number;
-  items: HydratedDocument<IVariant>[];
-}
+import { Variant, VariantDTO } from '../models/sql/Variant';
+import { VariantRepository } from '../repositories/sql/VariantRepository';
+import { RequestError } from '../helpers/error';
+import { StatusCodes } from 'http-status-codes';
 
 export class VariantService {
-  public static async getPaginated(
-    q: string,
-    page: number,
-    limit: number,
-    sortOptions: SortOptions,
-    filterOptions: FilterOptions,
-  ): Promise<PaginatedVariantsResponse> {
-    let allFilterOptions: Record<string, unknown> = {};
-    if (q) {
-      allFilterOptions['$or'] = [
-        { name: { $regex: q, $options: 'i' } },
-        { size: { $regex: q, $options: 'i' } },
-        { color: { $regex: q, $options: 'i' } },
-      ];
+  public static async create(variant: VariantDTO): Promise<Variant> {
+    if (await this.isVariantExists(variant)) {
+      throw new RequestError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        'Variant already exists',
+      );
     }
-    allFilterOptions = { ...allFilterOptions, ...filterOptions };
 
-    const variants = await VariantRepositoryMongo.getPaginated(
-      page,
-      limit,
-      sortOptions,
-      allFilterOptions,
-    );
+    return await VariantRepository.create(variant);
+  }
 
-    // Pour en déduire le nombre total de pages à afficher sur la web app
-    // https://www.reddit.com/r/csharp/comments/uepldu/how_to_get_total_count_of_records_and_pagination/
-    const totalCount = await VariantRepositoryMongo.getTotalCount(
-      sortOptions,
-      allFilterOptions,
-    );
+  public static async partialUpdate(
+    id: number,
+    variant: VariantDTO,
+  ): Promise<Variant | null> {
+    return await VariantRepository.partialUpdate(id, variant);
+  }
 
-    return {
-      total: totalCount,
-      page,
-      limit,
-      items: variants,
-    };
+  public static async delete(id: number): Promise<number> {
+    return await VariantRepository.delete(id);
+  }
+
+  private static async isVariantExists(variant: VariantDTO): Promise<boolean> {
+    const isSneakerAlreadyExists =
+      await VariantRepository.findVariantBySneakerIdAndColorIdAndSizeId(
+        variant.sneakerId,
+        variant.colorId,
+        variant.sizeId,
+      );
+
+    return !!isSneakerAlreadyExists;
   }
 }
