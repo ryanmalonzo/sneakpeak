@@ -28,4 +28,8 @@ export class UserRepository {
   static async findByEmail(email: string): Promise<User | null> {
     return User.findOne({ where: { email } });
   }
+
+  static async findAll(): Promise<User[]> {
+    return User.findAll();
+  }
 }

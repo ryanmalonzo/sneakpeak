@@ -4,6 +4,7 @@ import {
   Model,
   Sequelize,
   HasManyGetAssociationsMixin,
+  ForeignKey,
 } from 'sequelize';
 import syncWithMongoDB from '../../helpers/syncPsqlMongo';
 import { CartProductRepository } from '../../repositories/sql/CartProductRepository';
@@ -14,13 +15,14 @@ import { BrandRepository } from '../../repositories/sql/BrandRepository';
 import { SneakerRepository } from '../../repositories/sql/SneakerRepository';
 import { CartProduct } from './CartProduct';
 import { Operation } from '../../helpers/syncPsqlMongo';
+import { User } from './User';
 
 export const SyncCartInMongoDB = async (Cart: Cart, type: Operation) => {
   try {
     const data = Cart.toJSON();
     const [items, user] = await Promise.all([
       CartProductRepository.findCartProductsByCartId(data.id),
-      UserRepository.findById(data.user_id),
+      UserRepository.findById(data.userId),
     ]);
 
     data.user = user!.id;
@@ -66,10 +68,7 @@ export const SyncCartInMongoDB = async (Cart: Cart, type: Operation) => {
     });
 
     data.cartProduct = await Promise.all(cartProductPromises);
-    data.totalCart = data.cartProduct.reduce(
-      (total: number, product: CartProduct) => total + product.total,
-      0,
-    );
+    data.totalCart = data.cartProduct.reduce((total: number) => total, 0);
     data.modifiedAt = new Date();
     data.expiredAt = new Date(new Date().getTime() + 15 * 60 * 1000); // 15 minutes from now
 
@@ -81,7 +80,7 @@ export const SyncCartInMongoDB = async (Cart: Cart, type: Operation) => {
 
 export class Cart extends Model {
   declare id: CreationOptional<number>;
-  declare user_id: number;
+  declare userId: ForeignKey<User['id']>;
   declare createdAt: Date;
   declare updatedAt: Date;
   declare expiredAt: Date;
@@ -92,10 +91,6 @@ export class Cart extends Model {
 export default (sequelize: Sequelize) => {
   Cart.init(
     {
-      user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: true,

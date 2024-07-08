@@ -16,6 +16,10 @@ module.exports = tseslint.config(
     },
     rules: {
       '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { varsIgnorePattern: '^_' },
+      ],
     },
     ignores: ['build'],
   },

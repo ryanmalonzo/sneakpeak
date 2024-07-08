@@ -9,13 +9,16 @@ import {
 } from 'sequelize';
 import { Cart } from './Cart';
 import { SyncCartInMongoDB } from '../../models/sql/Cart';
+import { Variant } from './Variant';
 
 export class CartProduct extends Model {
   declare id: CreationOptional<number>;
   declare cartId: ForeignKey<Cart['id']>;
-  declare variantId: number;
+  declare variantId: ForeignKey<Variant['id']>;
   declare quantity: number;
-  declare total: number;
+  declare unitPrice: number;
+  declare name: string;
+  declare image: string;
   declare createdAt: Date;
   declare updatedAt: Date;
 
@@ -29,20 +32,20 @@ export class CartProduct extends Model {
 export default (sequelize: Sequelize) => {
   CartProduct.init(
     {
-      cartId: {
-        type: DataTypes.INTEGER,
+      name: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
-      variantId: {
-        type: DataTypes.INTEGER,
+      image: {
+        type: DataTypes.TEXT('long'),
         allowNull: false,
       },
       quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      total: {
-        type: DataTypes.DECIMAL,
+      unitPrice: {
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
       createdAt: {
@@ -56,11 +59,6 @@ export default (sequelize: Sequelize) => {
     },
     { sequelize, underscored: true },
   );
-
-  CartProduct.belongsTo(Cart, {
-    foreignKey: 'cartId',
-    as: 'cart',
-  });
 
   CartProduct.afterCreate(async (cartProduct) => {
     const data = cartProduct.toJSON();
