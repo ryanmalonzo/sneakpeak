@@ -152,8 +152,6 @@ export class CartService {
         await VariantRepository.update(product.variantId, {
           stock: product.quantity + variant.stock,
         });
-      } else {
-        throw new RequestError(StatusCodes.NOT_FOUND, 'Product not found');
       }
     }
     cart.expiredAt = new Date(new Date().getTime() + 15 * 60 * 1000); // 15 minutes from now
