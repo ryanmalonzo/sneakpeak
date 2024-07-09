@@ -1,28 +1,60 @@
 <script setup lang="ts">
+import Image from 'primevue/image';
+import { CartApi } from '@/services/cartApi'
+
+const { id } = defineProps({
+    id: Number,
+    image: String,
+    name: String,
+    color: String,
+    size: String,
+    price: Number,
+    quantity: Number
+})
+const eventUpdateCart = defineEmits(['updateCart'])
+const removeProduct = async () => {
+    if (id) {
+        await CartApi.removeProduct(id);
+        console.log("Product removed with ID:" + id);
+        eventUpdateCart('updateCart', id)
+
+    }
+}
+
+const updateProduct = async (quantity: number) => {
+    console.log(quantity)
+    if (id && quantity > 0) {
+        await CartApi.updateProduct(id, quantity);
+        console.log("Product updated with ID:" + id);
+        eventUpdateCart('updateCart', id)
+    }
+}
+
 
 </script>
 
 <template>
     <div class="flex flex-col items-start gap-8 self-stretch rounded-2xl">
         <div class="flex h-auto justify-between items-start self-stretch rounded-xl md:border-black md:border">
-            <img src="../../assets/images/cartProduct.png" alt="" class="md:rounded-l-xl max-md:w-36" />
+            <Image :src="image" alt="" class="md:rounded-l-xl max-md:w-36 object-cover" :height="233" :width="244" />
             <div class="flex md:p-5 flex-col items-start gap-3 flex-1 self-stretch max-md:text-xs max-md:pl-4">
 
                 <div class="flex items-start gap-2 self-stretch">
-                    <p class="flex-1">Sandale Altaventure Sport Swim</p>
-                    <p>40.00 €</p>
+                    <p class="flex-1">{{ name }}</p>
+                    <p>{{ price }} €</p>
                 </div>
-                <p class="self-stretch">Couleur: Rouge</p>
-                <p class="self-stretch flex-1">Taille: 29</p>
+                <p class="self-stretch">Couleur: {{ color }}</p>
+                <p class="self-stretch flex-1">Taille: {{ size }}</p>
                 <div class="flex justify-between items-center self-stretch">
                     <div class="border-black border flex items-center justify-between gap-2 p-2 w-16">
-                        <select name="quantity" id="" class="pr-4">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                        <select name="quantity" class="pr-2"
+                            @change="(event) => updateProduct(parseInt((event.target as HTMLSelectElement).value))">
+                            <option v-for="i in (quantity ?? 1) * 2" :key="i" :value="i" :selected="i === quantity">{{ i
+                                }}
+                            </option>
                         </select>
                     </div>
-                    <button> 
+                    <button :onclick="removeProduct">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                             <g clip-path="url(#clip0_283_468)">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -37,12 +69,7 @@
                         </svg>
                     </button>
                 </div>
-
-
             </div>
-
-
-
         </div>
     </div>
 </template>

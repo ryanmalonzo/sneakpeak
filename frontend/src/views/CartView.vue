@@ -1,7 +1,60 @@
 <script setup lang="ts">
-import BasePage from '@/components/BasePage.vue'
-import CardProduct from '../components/cart/CartProduct.vue'
+import BasePage from '@/components/BasePage.vue';
+import CardProduct from '../components/cart/CartProduct.vue';
+import { CartApi } from '@/services/cartApi';
+import { onMounted, onBeforeUnmount, ref, type Ref } from 'vue';
+
+// Reactive references
+const cartProducts: Ref<CartApi.CartProduct[] | undefined> = ref([]);
+const cartTotal: Ref<number> = ref(0);
+const cartTotalItems: Ref<number> = ref(0);
+const expirationTime: Ref<Date | null> = ref(null);
+const expirationText: Ref<string> = ref('');
+
+// Helper functions
+const formatTime = (time: number): string => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+const updateExpirationText = () => {
+    if (!expirationTime.value) return;
+    const now = Date.now();
+    const timeLeft = Math.max(0, Math.floor((expirationTime.value.getTime() - now) / 1000)); // Calculate time left in seconds
+    expirationText.value = formatTime(timeLeft);
+    if (timeLeft <= 0) {
+        clearInterval(intervalId);
+    }
+}
+
+// Interval management
+let intervalId: number;
+const startExpirationTimer = () => {
+    updateExpirationText();
+    intervalId = setInterval(updateExpirationText, 1000);
+}
+
+const updateCart = async () => {
+    console.log('updateCart');
+    const data = await CartApi.getAll();
+    cartProducts.value = data.cartProduct;
+    cartTotal.value = cartProducts.value.reduce((total, product) => total + product.total, 0);
+    cartTotalItems.value = cartProducts.value.length;
+    expirationTime.value = new Date(data.expiredAt);
+    startExpirationTimer();
+}
+
+onMounted(async () => {
+    await updateCart();
+    console.log(cartProducts.value);
+});
+
+onBeforeUnmount(() => {
+    if (intervalId) clearInterval(intervalId);
+});
 </script>
+
 
 <template>
     <BasePage>
@@ -13,17 +66,20 @@ import CardProduct from '../components/cart/CartProduct.vue'
                 <div class="flex flex-col items-start gap-4">
                     <h1 class="self-stretch text-3xl font-bold">Mon panier</h1>
                     <div class="flex items-start gap-1 self-stretch">
-                        <p>TOTAL (2 produits)</p>
-                        <p class="font-bold">80,00 €</p>
+                        <p>TOTAL ({{ cartTotalItems }} articles)</p>
+                        <p class="font-bold"> {{ cartTotal.toFixed(2) }} €</p>
                     </div>
                     <p>Les articles de votre panier sont réservés pendant 15 minutes</p>
                     <div class="flex items-start gap-1 self-stretch">
                         <p>Temps restant :</p>
-                        <p class="font-bold">14:59</p>
+                        <p class="font-bold" id="countdown"> {{ expirationText }} minutes</p>
                     </div>
                 </div>
-                <CardProduct />
-                <CardProduct />
+                <CardProduct v-for="cartProduct in cartProducts" :key="cartProduct.id" :image="cartProduct.image"
+                    :name="cartProduct.name" :color="cartProduct.color" :size="cartProduct.size"
+                    :price="cartProduct.unitPrice" :quantity="cartProduct.quantity" :id="cartProduct.id"
+                    @updateCart="async () => await updateCart()" />
+
             </div>
 
             <div class="flex flex-col items-start gap-5 max-md:self-center"> <!-- right -->
@@ -43,8 +99,8 @@ import CardProduct from '../components/cart/CartProduct.vue'
                         <p class="font-bold text-base">RÉSUMÉ DE LA COMMANDE</p>
 
                         <div class="flex items-start gap-12 self-stretch">
-                            <p class="flex flex-1"> 2 produits</p>
-                            <p class="flex flex-1">80.00 €</p>
+                            <p class="flex flex-1"> {{ cartTotalItems }} article{{ cartTotalItems > 1 ? "s" : "s" }}</p>
+                            <p class="flex flex-1">{{ cartTotal.toFixed(2) }} €</p>
 
                         </div>
                         <div class="flex items-start gap-12 self-stretch">
@@ -53,7 +109,7 @@ import CardProduct from '../components/cart/CartProduct.vue'
                         </div>
                         <div class="flex items-start gap-12 self-stretch">
                             <p class="flex flex-1 font-bold">Total</p>
-                            <p class="flex flex-1">80.00 €</p>
+                            <p class="flex flex-1">{{ cartTotal.toFixed(2) }} €</p>
                         </div>
 
                     </div>

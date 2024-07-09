@@ -11,6 +11,8 @@ interface ICart extends Document {
       id: number;
       reference: string;
       name: string;
+      color: string;
+      size: string;
       category: string;
       brand: string;
       image: string;
@@ -32,6 +34,8 @@ const CartSchema: Schema<ICart> = new Schema({
     {
       id: { type: Number, required: true },
       reference: { type: String, required: true },
+      color: { type: String, required: true },
+      size: { type: String, required: true },
       name: { type: String, required: true },
       category: { type: String, required: true },
       brand: { type: String, required: true },

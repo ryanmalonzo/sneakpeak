@@ -96,6 +96,8 @@ export class CartService {
     }
 
     for (const product of products) {
+      console.log(product.variantId);
+      console.log(variantId);
       if (product.variantId === variantId) {
         const variant = await VariantRepository.findVariantById(variantId);
         if (!variant) {
