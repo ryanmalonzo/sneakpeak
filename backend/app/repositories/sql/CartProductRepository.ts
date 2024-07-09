@@ -22,4 +22,12 @@ export class CartProductRepository {
   static async deleteCartProduct(cartProduct: CartProduct): Promise<void> {
     await cartProduct.destroy();
   }
+
+  static async deleteAllCartProducts(
+    cartProducts: CartProduct[],
+  ): Promise<void> {
+    for (const cartProduct of cartProducts) {
+      await cartProduct.destroy();
+    }
+  }
 }

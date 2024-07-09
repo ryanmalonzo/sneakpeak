@@ -52,4 +52,8 @@ router.afterEach(() => {
   checkAuth()
 })
 
+router.afterEach(() => {
+  checkAuth()
+})
+
 export default router

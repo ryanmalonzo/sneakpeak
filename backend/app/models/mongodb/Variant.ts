@@ -1,14 +1,13 @@
 import { Document, Model, model, Schema } from 'mongoose';
+import { ISize } from './Size';
 
 interface IVariant extends Document {
   id: number;
-  name: string;
-  price: number;
-  stock: number;
+  name: string; // a color
+  slug: string;
   image: string;
   isBest: boolean;
-  size: string;
-  color: string;
+  sizes: ISize[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -17,12 +16,18 @@ const VariantSchema: Schema<IVariant> = new Schema(
   {
     id: { type: Number, required: true },
     name: { type: String, required: true },
-    price: { type: Number, required: true },
-    stock: { type: Number, required: true },
+    slug: { type: String },
     image: { type: String, required: true },
     isBest: { type: Boolean, required: true },
-    size: { type: String, required: true },
-    color: { type: String, required: true },
+    sizes: [
+      {
+        idRef: { type: Number, required: true },
+        id: { type: Number, required: true },
+        name: { type: String, required: true },
+        slug: { type: String, required: true },
+        stock: { type: Number, required: true },
+      },
+    ],
   },
   { timestamps: true },
 );

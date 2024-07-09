@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import app from './app/index.js';
 import { sequelize } from './app/models/index.js';
+import { checkCartExpired } from './cron/checkCart';
+import { alertResetPassword } from './cron/alertResetPassword';
 
 dotenv.config();
 
@@ -11,9 +13,6 @@ const PORT = process.env.PORT || 3000;
 sequelize
   .authenticate()
   .then(() => {
-    sequelize.sync(
-      { alter: true }
-    );
     console.log('PostgreSQL connected');
   })
   .catch((err) => {
@@ -28,9 +27,12 @@ mongoose
   .catch((err) => {
     console.error(err);
   });
+checkCartExpired.start();
+alertResetPassword.start();
 
 app.listen(PORT, () => {
   console.log(`SneakPeak API listening on port ${PORT}`);
 });
 
+checkCartExpired.start();
 export default app;

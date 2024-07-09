@@ -13,7 +13,9 @@ before(async () => {
   sinon.stub(PostmarkClient, 'sendEmail').resolves();
 
   await sequelize.authenticate();
-  await sequelize.sync({ force: true });
+  if (process.env.NODE_ENV === 'test') {
+    await sequelize.sync({ force: true });
+  }
 
   await mongoose
     .connect(MONGODB_URI, { dbName: 'sneakpeak' })

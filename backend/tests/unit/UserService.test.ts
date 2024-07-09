@@ -99,10 +99,14 @@ describe('UserService', () => {
       sinon.stub(UserService, 'sendVerificationEmail').resolves();
 
       sinon.stub(bcrypt, 'hash').resolves('hashedPassword');
-      const build = sinon.mock(UserRepository).expects('build').withExactArgs({
-        email: EMAIL,
-        password: 'hashedPassword',
-      });
+      const build = sinon
+        .mock(UserRepository)
+        .expects('build')
+        .withExactArgs({
+          email: EMAIL,
+          password: 'hashedPassword',
+          resetPasswordAt: sinon.match.instanceOf(Date),
+        });
 
       await UserService.registerUser(EMAIL, PASSWORD);
 
