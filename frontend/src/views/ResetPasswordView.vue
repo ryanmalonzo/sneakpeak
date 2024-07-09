@@ -66,13 +66,25 @@ async function onSubmit() {
 
   // Appel de l'API
   try {
-    await axios.put(`${API_URL}/users/${userId}/password`, {
-      token: token,
-      password: password.value
-    })
+    await axios.put(
+      `${API_URL}/users/${userId}/password`,
+      {
+        token: token,
+        password: password.value
+      },
+      {
+        withCredentials: true
+      }
+    )
 
-    // Redirection vers la page de succès
-    router.push('/resetPasswordSuccess')
+    router.replace('/')
+
+    toast.add({
+      severity: 'success',
+      summary: 'Succès',
+      detail: 'Votre mot de passe a été modifié avec succès.',
+      life: 3000
+    })
   } catch (e) {
     toast.add({
       severity: 'error',
