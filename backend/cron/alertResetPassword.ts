@@ -11,8 +11,9 @@ export const alertResetPassword = new CronJob(
     for (const user of users) {
       const isVerified = await UserService.verifyAuthToken(user.email);
       if (
-        user.resetPassowordAt &&
-        user.resetPassowordAt < new Date(Date.now() - 60 * 24 * 60 * 60 * 1000) &&
+        user.resetPasswordAt &&
+        user.resetPasswordAt <
+          new Date(Date.now() - 60 * 24 * 60 * 60 * 1000) &&
         typeof isVerified === 'object'
       ) {
         await UserService.sendAlertPasswordResetEmail(user.email);

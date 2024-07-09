@@ -105,7 +105,7 @@ describe('UserService', () => {
         .withExactArgs({
           email: EMAIL,
           password: 'hashedPassword',
-          resetPassowordAt: sinon.match.instanceOf(Date),
+          resetPasswordAt: sinon.match.instanceOf(Date),
         });
 
       await UserService.registerUser(EMAIL, PASSWORD);

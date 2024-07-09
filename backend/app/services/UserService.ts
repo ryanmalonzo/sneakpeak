@@ -41,7 +41,7 @@ export class UserService {
     const user = UserRepository.build({
       email,
       password: hash,
-      resetPassowordAt: new Date(),
+      resetPasswordAt: new Date(),
     });
     await UserRepository.save(user);
 
@@ -131,7 +131,7 @@ export class UserService {
       userId: user.id,
     });
 
-    await UserRepository.update(user.id, { resetPassowordAt: new Date() });
+    await UserRepository.update(user.id, { resetPasswordAt: new Date() });
 
     await PostmarkClient.sendEmail(email, PASSWORD_RESET_TEMPLATE_ID, {
       email,
@@ -171,7 +171,7 @@ export class UserService {
       userId: user.id,
     });
 
-    await UserRepository.update(user.id, { resetPassowordAt: new Date() });
+    await UserRepository.update(user.id, { resetPasswordAt: new Date() });
 
     await PostmarkClient.sendEmail(email, ALERT_PASSWORD_RESET_TEMPLATE_ID, {
       email,
