@@ -124,8 +124,6 @@ export class CartService {
         cart.expiredAt = new Date(new Date().getTime() + 15 * 60 * 1000); // 15 minutes from now
         await CartRepository.updateCart(cart);
         return;
-      } else {
-        throw new RequestError(StatusCodes.NOT_FOUND, 'Product not found');
       }
     }
   }
