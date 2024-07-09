@@ -18,7 +18,7 @@ export class User extends Model {
   declare lastName: string;
   declare phone: string;
   declare roles: string[];
-  declare resetPassowordAt: Date | null;
+  declare resetPasswordAt: Date;
 
   declare getChallenges: HasManyGetAssociationsMixin<Challenge>;
 }
@@ -61,9 +61,10 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.ARRAY(DataTypes.STRING),
         defaultValue: ['USER'],
       },
-      resetPassowordAt: {
+      resetPasswordAt: {
         type: DataTypes.DATE,
-        allowNull: true,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
       },
     },
     { sequelize, underscored: true },
