@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { useToast } from 'primevue/usetoast'
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
 const router = useRouter()
+
+const toast = useToast()
 
 const invalidLink = ref(false)
 
@@ -18,15 +21,18 @@ onMounted(async () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ token: emailToken })
+      body: JSON.stringify({ token: emailToken }),
+      credentials: 'include'
     })
 
     if (response.ok) {
-      const { token: authToken } = await response.json()
-      localStorage.setItem('token', authToken)
-
-      // Go to store
       router.replace('/')
+
+      toast.add({
+        severity: 'success',
+        summary: 'Adresse mail vérifiée',
+        detail: 'Votre adresse mail a été vérifiée avec succès.'
+      })
     } else {
       invalidLink.value = true
     }

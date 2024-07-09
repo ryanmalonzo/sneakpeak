@@ -43,9 +43,11 @@ UserRouter.post(
       const { user } = res.locals;
       const { token } = req.body;
 
-      return res
-        .status(StatusCodes.OK)
-        .json(await UserService.verifyEmail(user, token));
+      const { token: authToken } = await UserService.verifyEmail(user, token);
+
+      setCookie(res, 'accessToken', authToken);
+
+      return res.sendStatus(StatusCodes.OK);
     } catch (error) {
       next(error);
     }
