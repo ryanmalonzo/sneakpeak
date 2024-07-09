@@ -72,8 +72,9 @@ onBeforeUnmount(() => {
                         <p>TOTAL ({{ cartTotalItems }} articles)</p>
                         <p class="font-bold"> {{ cartTotal.toFixed(2) }} €</p>
                     </div>
-                    <div v-if="cartTotalItems > 0" class="flex items-start gap-1 self-stretch">
+                    <div v-if="cartTotalItems > 0" class="flex items-start gap-1 self-stretch flex-col">
                         <p>Les articles de votre panier sont réservés pendant 15 minutes</p>
+
                         <div class="flex items-start gap-1 self-stretch">
                             <p>Temps restant :</p>
                             <p class="font-bold" id="countdown"> {{ expirationText }} minutes</p>
