@@ -77,6 +77,7 @@ export const SyncCartInMongoDB = async (Cart: Cart, type: Operation) => {
         brand: brand.name,
         image: variant.image,
         quantity: item.quantity,
+        stock: variant.stock,
         unitPrice: sneaker.price,
         adjustment: 0,
         total: item.quantity * sneaker.price,

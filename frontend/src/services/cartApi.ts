@@ -19,6 +19,7 @@ export namespace CartApi {
     category: string
     brand: string
     image: string
+    stock: number
     quantity: number
     unitPrice: number
     total: number

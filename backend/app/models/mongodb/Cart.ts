@@ -16,6 +16,7 @@ interface ICart extends Document {
       category: string;
       brand: string;
       image: string;
+      stock: number;
       quantity: number;
       unitPrice: number;
       adjustement: number;
@@ -40,6 +41,7 @@ const CartSchema: Schema<ICart> = new Schema({
       category: { type: String, required: true },
       brand: { type: String, required: true },
       image: { type: String, required: true },
+      stock: { type: Number, required: true },
       quantity: { type: Number, required: true },
       unitPrice: { type: Number, required: true },
       adjustement: { type: Number, required: true },

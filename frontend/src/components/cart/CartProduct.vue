@@ -2,13 +2,14 @@
 import Image from 'primevue/image';
 import { CartApi } from '@/services/cartApi'
 
-const { id } = defineProps({
+const { id, stock } = defineProps({
     id: Number,
     image: String,
     name: String,
     color: String,
     size: String,
     price: Number,
+    stock: Number,
     quantity: Number
 })
 const eventUpdateCart = defineEmits(['updateCart'])
@@ -22,10 +23,8 @@ const removeProduct = async () => {
 }
 
 const updateProduct = async (quantity: number) => {
-    console.log(quantity)
     if (id && quantity > 0) {
         await CartApi.updateProduct(id, quantity);
-        console.log("Product updated with ID:" + id);
         eventUpdateCart('updateCart', id)
     }
 }
@@ -49,7 +48,8 @@ const updateProduct = async (quantity: number) => {
                     <div class="border-black border flex items-center justify-between gap-2 p-2 w-16">
                         <select name="quantity" class="pr-2"
                             @change="(event) => updateProduct(parseInt((event.target as HTMLSelectElement).value))">
-                            <option v-for="i in (quantity ?? 1) * 2" :key="i" :value="i" :selected="i === quantity">{{ i
+                            <option v-for="i in (stock ?? 1) < 20 ? (stock ?? 1) : 20" :key="i" :value="i"
+                                :selected="i === quantity">{{ i
                                 }}
                             </option>
                         </select>

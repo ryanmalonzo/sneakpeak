@@ -96,8 +96,6 @@ export class CartService {
     }
 
     for (const product of products) {
-      console.log(product.variantId);
-      console.log(variantId);
       if (product.variantId === variantId) {
         const variant = await VariantRepository.findVariantById(variantId);
         if (!variant) {
@@ -115,20 +113,14 @@ export class CartService {
           throw new RequestError(StatusCodes.BAD_REQUEST, 'Not enough stock');
         }
 
+        const difference = product.quantity - quantity;
+        await VariantRepository.update(variant.id, {
+          stock: variant.stock + difference,
+        });
         product.quantity = quantity;
-        product.unitPrice = sneaker.price;
-        product.name = sneaker.name;
-        product.image = variant.image;
-        await CartProductRepository.addCartProduct(product);
-        if (quantity > product.quantity) {
-          await VariantRepository.update(variant.id, {
-            stock: variant.stock - (quantity - product.quantity),
-          });
-        } else {
-          await VariantRepository.update(variant.id, {
-            stock: variant.stock + (product.quantity - quantity),
-          });
-        }
+        await CartProductRepository.updateCartProduct(product, {
+          quantity: quantity,
+        });
         cart.expiredAt = new Date(new Date().getTime() + 15 * 60 * 1000); // 15 minutes from now
         await CartRepository.updateCart(cart);
         return;

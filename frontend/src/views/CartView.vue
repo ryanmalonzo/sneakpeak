@@ -78,7 +78,7 @@ onBeforeUnmount(() => {
                 <CardProduct v-for="cartProduct in cartProducts" :key="cartProduct.id" :image="cartProduct.image"
                     :name="cartProduct.name" :color="cartProduct.color" :size="cartProduct.size"
                     :price="cartProduct.unitPrice" :quantity="cartProduct.quantity" :id="cartProduct.id"
-                    @updateCart="async () => await updateCart()" />
+                    :stock="cartProduct.stock" @updateCart="async () => await updateCart()" />
 
             </div>
 
