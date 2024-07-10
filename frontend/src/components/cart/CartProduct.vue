@@ -12,7 +12,8 @@ const { id, stock } = defineProps({
     stock: Number,
     quantity: Number
 })
-const eventUpdateCart = defineEmits(['updateCart'])
+const eventUpdateCart = defineEmits(['updateCart', 'updatePrice'])
+
 const removeProduct = async () => {
     if (id) {
         await CartApi.removeProduct(id);
@@ -24,6 +25,7 @@ const removeProduct = async () => {
 
 const updateProduct = async (quantity: number) => {
     if (id && quantity > 0) {
+        eventUpdateCart('updatePrice', quantity)
         await CartApi.updateProduct(id, quantity);
         eventUpdateCart('updateCart', id)
     }

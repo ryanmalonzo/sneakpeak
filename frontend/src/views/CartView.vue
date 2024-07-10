@@ -7,7 +7,7 @@ import { RouterLink } from 'vue-router';
 import { cartStore } from '@/store/cart';
 
 // Reactive references
-const cartProducts: Ref<CartApi.CartProduct[] | undefined> = ref([]);
+const cartProducts: Ref<CartApi.CartProduct[]> = ref([]);
 const cartTotal: Ref<number> = ref(0);
 const cartTotalItems: Ref<number> = ref(0);
 const expirationTime: Ref<Date | null> = ref(null);
@@ -40,7 +40,7 @@ const startExpirationTimer = () => {
 const updateCart = async () => {
     console.log('updateCart');
     const data = await CartApi.getAll();
-    cartProducts.value = data.cartProduct;
+    cartProducts.value = data.cartProduct.sort((a, b) => a.id - b.id);
     cartTotal.value = cartProducts.value.reduce((total, product) => total + product.total, 0);
     cartTotalItems.value = cartProducts.value.length;
     expirationTime.value = new Date(data.expiredAt);
@@ -56,6 +56,10 @@ onMounted(async () => {
 onBeforeUnmount(() => {
     if (intervalId) clearInterval(intervalId);
 });
+
+const updateTotal = async () => {
+    cartTotal.value = cartProducts.value.reduce((total, product) => total + product.total, 0);
+}
 </script>
 
 
@@ -92,7 +96,8 @@ onBeforeUnmount(() => {
                 <CardProduct v-for="cartProduct in cartProducts" :key="cartProduct.id" :image="cartProduct.image"
                     :name="cartProduct.name" :color="cartProduct.color" :size="cartProduct.size"
                     :price="cartProduct.unitPrice" :quantity="cartProduct.quantity" :id="cartProduct.id"
-                    :stock="cartProduct.stock" @updateCart="async () => await updateCart()" />
+                    :stock="cartProduct.stock" @updateCart="async () => await updateCart()"
+                    @updatePrice="() => updateTotal()" />
 
             </div>
 
