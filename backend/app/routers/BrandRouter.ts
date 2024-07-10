@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { BrandService } from '../services/BrandService';
 import { StatusCodes } from 'http-status-codes';
 import { auth } from '../middlewares/auth';
+import { admin } from '../middlewares/admin';
 
 export const BrandRouter = Router();
 
@@ -19,6 +20,7 @@ BrandRouter.get(
 BrandRouter.post(
   '/',
   auth,
+  admin,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       return res
@@ -35,6 +37,7 @@ BrandRouter.post(
 BrandRouter.put(
   '/:id',
   auth,
+  admin,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       return res
@@ -56,6 +59,7 @@ BrandRouter.put(
 BrandRouter.delete(
   '/:id',
   auth,
+  admin,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       return res
