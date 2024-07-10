@@ -2,7 +2,6 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { logout } from '@/helpers/auth'
 import { profileStore } from '@/store/profile'
-import Image from 'primevue/image'
 
 const isSidebarOpen = ref(false)
 const isMobile = ref(window.innerWidth <= 768)
@@ -58,68 +57,54 @@ onUnmounted(() => {
             fill="#EFEFEF"
           />
         </svg>
-        <svg
+        <i
           v-else
-          xmlns="http://www.w3.org/2000/svg"
-          width="25"
-          height="25"
-          viewBox="0 0 14 14"
-          fill="none"
+          class="pi pi-times-circle"
+          style="color: #ffff; font-size: 1.3rem"
           @click="toggleSidebar"
         >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M7 1.16667C3.77834 1.16667 1.16667 3.77834 1.16667 7C1.16667 10.2217 3.77834 12.8333 7 12.8333C10.2217 12.8333 12.8333 10.2217 12.8333 7C12.8333 3.77834 10.2217 1.16667 7 1.16667ZM0 7C0 3.13401 3.13401 0 7 0C10.866 0 14 3.13401 14 7C14 10.866 10.866 14 7 14C3.13401 14 0 10.866 0 7ZM9.74581 4.25419C9.97362 4.48199 9.97362 4.85134 9.74581 5.07915L7.82496 7L9.74581 8.92085C9.97362 9.14866 9.97362 9.51801 9.74581 9.74581C9.51801 9.97362 9.14866 9.97362 8.92085 9.74581L7 7.82496L5.07915 9.74581C4.85134 9.97362 4.48199 9.97362 4.25419 9.74581C4.02638 9.51801 4.02638 9.14866 4.25419 8.92085L6.17504 7L4.25419 5.07915C4.02638 4.85134 4.02638 4.48199 4.25419 4.25419C4.48199 4.02638 4.85134 4.02638 5.07915 4.25419L7 6.17504L8.92085 4.25419C9.14866 4.02638 9.51801 4.02638 9.74581 4.25419Z"
-            fill="white"
-          />
-        </svg>
+        </i>
       </div>
 
       <!-- Items -->
       <div class="font-['Be Vietnam Pro'] w-full flex-col px-6 text-zinc-100">
         <ul>
           <li>
-            <a href="" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
-              <i class="pi pi-home" style="color: #FFFF; font-size: 1.3rem"></i>
+            <RouterLink to="/admin" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+              <i class="pi pi-home" style="color: #ffff; font-size: 1.3rem"></i>
               Accueil
-            </a>
+            </RouterLink>
           </li>
           <li>
-            <a href="" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
-              <i class="pi pi-users" style="color: #FFFF; font-size: 1.3rem"></i>
+            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+              <i class="pi pi-users" style="color: #ffff; font-size: 1.3rem"></i>
               Clients
-            </a>
+            </RouterLink>
           </li>
           <li>
-            <a href="" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
-              <i class="pi pi-cart-arrow-down" style="color: #FFFF; font-size: 1.3rem"></i>
+            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+              <i class="pi pi-cart-arrow-down" style="color: #ffff; font-size: 1.3rem"></i>
               Commandes
-            </a>
+            </RouterLink>
           </li>
           <li>
-            <a href="" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
-              <i class="pi pi-tags" style="color: #FFFF; font-size: 1.3rem"></i>
+            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+              <i class="pi pi-tags" style="color: #ffff; font-size: 1.3rem"></i>
               Chaussures
-            </a>
+            </RouterLink>
           </li>
           <li>
-            <a href="" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
-              <i class="pi pi-objects-column" style="color: #FFFF; font-size: 1.3rem"></i>
+            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+              <i class="pi pi-objects-column" style="color: #ffff; font-size: 1.3rem"></i>
               Catégories
-            </a>
+            </RouterLink>
           </li>
+
           <li>
-            <a href="" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
-              <i class="pi pi-crown" style="color: #FFFF; font-size: 1.3rem"></i>
-              Marques
-            </a>
-          </li>
-          <li>
-            <a href="" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
-              <i class="pi pi-spin pi-cog" style="color: #FFFF; font-size: 1.3rem"></i>
+            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+              <i class="pi pi-spin pi-cog" style="color: #ffff; font-size: 1.3rem"></i>
               Paramètres
-            </a>
+            </RouterLink>
           </li>
         </ul>
       </div>
@@ -128,15 +113,19 @@ onUnmounted(() => {
       <!-- navbar -->
       <nav class="mb-2 flex justify-end gap-4">
         <!-- Ouvre le menu -->
-        <div class="fixed left-2 top-4 p-4 md:hidden">
-          <i class="pi pi-home" style="color: #FFFF; font-size: 1.3rem"></i>
+        <div
+          v-if="isMobile && !isSidebarOpen"
+          class="fixed left-2 top-2.5 p-4 md:hidden"
+          @click="toggleSidebar"
+        >
+          <i class="pi pi-bars" style="color: black; font-size: 1.3rem"></i>
         </div>
 
         <!-- déconnexion -->
         {{ firstName }}
 
         <button @click="Logout">
-          <i class="pi pi-sign-out" style="color:black"></i>
+          <i class="pi pi-sign-out" style="color: black"></i>
         </button>
       </nav>
       <hr />
