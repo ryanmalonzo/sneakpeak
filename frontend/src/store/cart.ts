@@ -1,4 +1,4 @@
-import { ref, type Ref } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { CartApi } from '@/services/cartApi'
 export const cartStore = defineStore('cart', () => {
