@@ -246,4 +246,15 @@ export class UserService {
   static async findAll(): Promise<User[]> {
     return await UserRepository.findAll();
   }
+
+  static async findByEmail(email: string): Promise<User | null> {
+    return await UserRepository.findByEmail(email);
+  }
+
+  static async update(
+    userId: number,
+    data: Partial<User>,
+  ): Promise<User | null> {
+    return await UserRepository.update(userId, data);
+  }
 }
