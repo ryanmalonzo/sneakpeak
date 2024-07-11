@@ -2,7 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { logout } from '@/helpers/auth'
 import { profileStore } from '@/store/profile'
-import logo from '@/assets/images/logo.svg'
+import logoWhite from '@/assets/images/logoWhite.svg'
 import Image from 'primevue/image'
 
 const isSidebarOpen = ref(false)
@@ -45,7 +45,11 @@ onUnmounted(() => {
       <!-- Logo ou fermeture de la sidebar-->
       <div class="mt-8">
         <RouterLink v-if="!isMobile" to="/admin">
-          <Image :src="logo" alt="Logo SneakPeak" class="flex h-[46.5px] items-center pr-2.5" />
+          <Image
+            :src="logoWhite"
+            alt="Logo SneakPeak"
+            class="flex h-[46.5px] items-center pr-2.5"
+          />
         </RouterLink>
         <i
           v-else
