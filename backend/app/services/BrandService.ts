@@ -1,38 +1,42 @@
-import { BrandRepository as BrandRepositoryMongo } from '../repositories/mongodb/BrandRepository';
 import { BrandRepository } from '../repositories/sql/BrandRepository';
-import { IBrand } from '../models/mongodb/Brand';
-import { HydratedDocument } from 'mongoose';
+import { Brand } from '../models/sql/Brand';
+import { RequestError } from '../helpers/error';
+import { StatusCodes } from 'http-status-codes';
 
 export class BrandService {
-  static async findAll(): Promise<HydratedDocument<IBrand>[]> {
-    return BrandRepositoryMongo.findAll();
+  static async findAll(): Promise<Brand[]> {
+    return BrandRepository.findAll();
   }
 
-  static async save(name: string, slug: string, image: string): Promise<void> {
-    const sneaker = BrandRepository.build({
+  static async save(name: string, slug: string, image: string): Promise<Brand> {
+    const brand = BrandRepository.build({
       name,
       slug,
       image,
     });
-    await BrandRepository.save(sneaker);
+    await BrandRepository.save(brand);
+    return brand;
   }
 
-  static async update(
+  static async createOrUpdate(
     id: number,
     name: string,
     slug: string,
     image: string,
-  ): Promise<void> {
-    const brand = await BrandRepository.update(id, { name, slug, image });
-    if (!brand) {
-      throw new Error('Brand not found');
-    }
+  ): Promise<{ created: boolean; brand: Brand }> {
+    const { created, brand } = await BrandRepository.updateOrCreate(id, {
+      name,
+      slug,
+      image,
+    });
+    return { created, brand };
   }
 
-  static async delete(id: number): Promise<void> {
+  static async delete(id: number): Promise<Brand> {
     const brand = await BrandRepository.delete(id);
     if (!brand) {
-      throw new Error('Brand not found');
+      throw new RequestError(StatusCodes.NOT_FOUND);
     }
+    return brand;
   }
 }

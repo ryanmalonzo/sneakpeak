@@ -40,16 +40,16 @@ BrandRouter.put(
   admin,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const { brand, created } = await BrandService.createOrUpdate(
+        parseInt(req.params.id),
+        req.body.name,
+        req.body.slug,
+        req.body.image,
+      );
+
       return res
-        .status(StatusCodes.OK)
-        .json(
-          await BrandService.update(
-            parseInt(req.params.id),
-            req.body.name,
-            req.body.slug,
-            req.body.image,
-          ),
-        );
+        .status(created ? StatusCodes.CREATED : StatusCodes.OK)
+        .json(brand);
     } catch (error) {
       next(error);
     }
