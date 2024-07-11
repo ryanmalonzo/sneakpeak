@@ -213,9 +213,20 @@ describe('CartService', () => {
 
     it('should throw an error if the product is not found in the cart', async () => {
       sinon.stub(CartRepository, 'getCartByUserId').resolves({} as Cart);
-      sinon.stub(CartRepository, 'getCartProducts').resolves(CartProducts);
+      sinon.stub(CartRepository, 'getCartProducts').resolves([]);
       await expect(CartService.deleteProductFromCart(1, 2)).to.be.rejectedWith(
         'Product not found',
+      );
+    });
+    it('should throw an error if the variant is not found in the cart', async () => {
+      sinon.stub(CartRepository, 'getCartByUserId').resolves({} as Cart);
+      sinon.stub(CartRepository, 'getCartProducts').resolves(CartProducts);
+      sinon.stub(VariantRepository, 'findVariantById').resolves(null);
+      sinon
+        .stub(CartProductRepository, 'deleteCartProduct')
+        .resolves(undefined);
+      await expect(CartService.deleteProductFromCart(1, 1)).to.be.rejectedWith(
+        'Variant not found',
       );
     });
   });
