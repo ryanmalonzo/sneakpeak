@@ -13,6 +13,8 @@ import { VariantRepository } from '../../repositories/sql/VariantRepository';
 import { CategoryRepository } from '../../repositories/sql/CategoryRepository';
 import { BrandRepository } from '../../repositories/sql/BrandRepository';
 import { SneakerRepository } from '../../repositories/sql/SneakerRepository';
+import { ColorRepository } from '../../repositories/sql/ColorRepository';
+import { SizeRepository } from '../../repositories/sql/SizeRepository';
 import { CartProduct } from './CartProduct';
 import { Operation } from '../../helpers/syncPsqlMongo';
 import { User } from './User';
@@ -45,6 +47,18 @@ export const SyncCartInMongoDB = async (Cart: Cart, type: Operation) => {
         BrandRepository.findBrandById(sneaker.brandId),
       ]);
 
+      const [color, size] = await Promise.all([
+        ColorRepository.findColorById(variant.colorId),
+        SizeRepository.findSizeById(variant.sizeId),
+      ]);
+
+      if (!color) {
+        throw new Error(`Color not found for id ${variant.colorId}`);
+      }
+      if (!size) {
+        throw new Error(`Size not found for id ${variant.sizeId}`);
+      }
+
       if (!category) {
         throw new Error(`Category not found for id ${sneaker.categoryId}`);
       }
@@ -57,10 +71,13 @@ export const SyncCartInMongoDB = async (Cart: Cart, type: Operation) => {
         id: variant.id,
         reference: sneaker.name,
         name: sneaker.name,
+        color: color.name,
+        size: size.name,
         category: category.name,
         brand: brand.name,
         image: variant.image,
         quantity: item.quantity,
+        stock: variant.stock,
         unitPrice: sneaker.price,
         adjustment: 0,
         total: item.quantity * sneaker.price,

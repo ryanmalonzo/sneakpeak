@@ -63,6 +63,7 @@ export default (sequelize: Sequelize) => {
   CartProduct.afterCreate(async (cartProduct) => {
     const data = cartProduct.toJSON();
     const cart = await Cart.findByPk(data.cartId);
+    console.log('cartProduct.afterCreate', cart);
     await SyncCartInMongoDB(cart!, 'update');
   });
 
