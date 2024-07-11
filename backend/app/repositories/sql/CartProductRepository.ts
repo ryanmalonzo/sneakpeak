@@ -19,6 +19,13 @@ export class CartProductRepository {
     return await cartProduct.save();
   }
 
+  static async updateCartProduct(
+    cartProduct: CartProduct,
+    data: Partial<CartProduct>,
+  ): Promise<CartProduct> {
+    return await cartProduct.update(data);
+  }
+
   static async deleteCartProduct(cartProduct: CartProduct): Promise<void> {
     await cartProduct.destroy();
   }
