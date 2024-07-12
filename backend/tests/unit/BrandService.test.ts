@@ -3,7 +3,10 @@ import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 import { BrandService } from '../../app/services/BrandService';
 import { BrandRepository } from '../../app/repositories/sql/BrandRepository';
+import { BrandRepository as BrandRepositoryMongoDB } from '../../app/repositories/mongodb/BrandRepository';
 import { Brand } from '../../app/models/sql/Brand';
+import { HydratedDocument } from 'mongoose';
+import { IBrand } from '../../app/models/mongodb/Brand';
 
 use(chaiAsPromised);
 
@@ -17,8 +20,8 @@ describe('BrandService', () => {
       const brands = [
         { id: 1, name: 'Nike', slug: 'nike', image: '' },
         { id: 2, name: 'Adidas', slug: 'adidas', image: '' },
-      ] as Brand[];
-      sinon.stub(BrandRepository, 'findAll').resolves(brands);
+      ] as HydratedDocument<IBrand>[];
+      sinon.stub(BrandRepositoryMongoDB, 'findAll').resolves(brands);
 
       const result = await BrandService.findAll();
 

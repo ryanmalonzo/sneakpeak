@@ -1,11 +1,14 @@
 import { BrandRepository } from '../repositories/sql/BrandRepository';
+import { BrandRepository as BrandRepositoryMongoDB } from '../repositories/mongodb/BrandRepository';
 import { Brand } from '../models/sql/Brand';
 import { RequestError } from '../helpers/error';
 import { StatusCodes } from 'http-status-codes';
+import { HydratedDocument } from 'mongoose';
+import { IBrand } from '../models/mongodb/Brand';
 
 export class BrandService {
-  static async findAll(): Promise<Brand[]> {
-    return BrandRepository.findAll();
+  static async findAll(): Promise<HydratedDocument<IBrand>[]> {
+    return BrandRepositoryMongoDB.findAll();
   }
 
   static async save(name: string, slug: string, image: string): Promise<Brand> {

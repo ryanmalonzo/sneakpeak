@@ -51,7 +51,6 @@ export default (sequelize: Sequelize) => {
 
     await Promise.all(
       sneakers.map(async (sneaker) => {
-        console.log('Updating sneaker', sneaker.id);
         await updateSneakerInMongoDB(sneaker);
       }),
     );
