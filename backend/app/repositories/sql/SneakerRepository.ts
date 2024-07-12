@@ -46,4 +46,8 @@ export class SneakerRepository {
 
     return updatedSneaker[0];
   }
+
+  static async findAllSneakersByBrandId(brandId: number): Promise<Sneaker[]> {
+    return await Sneaker.findAll({ where: { brandId } });
+  }
 }

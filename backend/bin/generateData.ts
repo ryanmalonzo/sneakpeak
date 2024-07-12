@@ -34,7 +34,7 @@ async function connect(): Promise<void> {
   }
 
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ alter: true });
     await generateData(process.argv[2], process.argv[3], process.argv[4]);
     await sequelize.close();
     await mongoose.connection.close();
