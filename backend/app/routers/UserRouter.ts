@@ -5,6 +5,7 @@ import { RequestError } from '../helpers/error';
 import { UserRepository } from '../repositories/sql/UserRepository';
 import { setCookie } from '../helpers/cookie';
 import { auth } from '../middlewares/auth';
+import { permissions } from '../middlewares/permissions';
 
 export const UserRouter = express.Router();
 
@@ -94,7 +95,9 @@ UserRouter.put(
 
 UserRouter.patch(
   '/:id',
+  findUser,
   auth,
+  permissions(['user']),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
