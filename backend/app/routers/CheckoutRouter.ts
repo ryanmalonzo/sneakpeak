@@ -1,11 +1,14 @@
 import { Router } from 'express';
 import { NextFunction, Request, Response } from 'express';
+import uniqid from 'uniqid';
 import dotenv from 'dotenv';
 import { CheckoutService } from '../services/CheckoutService';
 import { CartService } from '../services/CartService';
 import { CartRepository } from '../repositories/mongodb/CartRepository';
 import { VariantRepository } from '../repositories/sql/VariantRepository';
 import { auth } from '../middlewares/auth';
+import { OrderRepository } from '../repositories/sql/OrderRepository';
+import { OrderProductRepository } from '../repositories/sql/OrderProductRepository';
 
 dotenv.config();
 
@@ -52,15 +55,19 @@ CheckoutRouter.post(
       }
     }
     try {
+      const reference = 'sneakpeak' + '-' + uniqid();
+
       const session = await CheckoutService.getCheckoutSession(
         cartProducts,
         res.locals.user.id,
+        reference,
       );
-
+      console.log(session);
       const order = await CheckoutService.createOrder(
         session.amount_total as number,
-        session.id as string,
-        parseInt(res.locals.user.id),
+        reference,
+        session.id,
+        res.locals.user.id,
       );
 
       for (const item of cartProducts) {
@@ -98,12 +105,51 @@ CheckoutRouter.post(
   },
 );
 
-CheckoutRouter.get('/success', async (req: Request, res: Response) => {
-  const success_url = req.body.success_url;
-  res.json(success_url);
-});
+CheckoutRouter.get(
+  '/success/:reference',
+  auth,
+  async (req: Request, res: Response) => {
+    const order = await OrderRepository.findByReference(req.params.reference);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    if (order.status === 'pending') {
+      res.redirect('/checkout/cancel/' + req.params.reference);
+    }
+    res.json(order);
+  },
+);
 
-CheckoutRouter.get('/cancel', async (req: Request, res: Response) => {
-  const cancel_url = req.body.cancel_url;
-  res.json(cancel_url);
-});
+CheckoutRouter.get(
+  '/cancel/:reference',
+  auth,
+  async (req: Request, res: Response) => {
+    console.log(req.params.reference);
+    const order = await OrderRepository.findByReference(req.params.reference);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    const orderProducts = await OrderProductRepository.findByOrderId(order.id);
+    const sessionid = order.session_id;
+    let linkPaiement = await CheckoutService.getCheckoutSessionById(sessionid);
+    console.log(linkPaiement);
+    if (!linkPaiement) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+
+    if (linkPaiement.payment_status === 'paid') {
+      return res.status(400).json({ error: 'Order already paid' });
+    }
+
+    if (linkPaiement.status === 'expired') {
+      linkPaiement = await CheckoutService.getCheckoutSession(
+        orderProducts,
+        res.locals.user.id,
+        order.reference,
+      );
+      order.session_id = linkPaiement.id;
+      OrderRepository.update(order);
+    }
+    res.json(linkPaiement);
+  },
+);

@@ -9,7 +9,6 @@ import { onMounted, onBeforeUnmount, reactive, ref, type Ref, watch } from 'vue'
 import { CheckoutApi } from '@/services/checkoutApi';
 import { CartStore } from '@/store/cart';
 import { CartApi } from '@/services/cartApi';
-import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 
 
@@ -171,13 +170,23 @@ onBeforeUnmount(() => {
 <template>
     <BasePage>
         <div
-            class="max-md:p-3 md:p-20 gap-24 flex max-md:flex-col md:flex-row self-stretch items-start md:w-full justify-around">
-            <div class="flex-col flex md:gap-16  items-start text-wrap">
+            class="max-md:p-3 max-md:gap-12 md:p-20 md:gap-24 flex max-md:flex-col md:flex-row self-stretch items-start md:w-full justify-around">
+            <div class="flex-col flex md:gap-8  items-start text-wrap">
                 <!-- Adresse de livraison -->
-                <div class="bg-white p-6">
-                    <div class="flex items-start gap-1 self-stretch">
-                        <p>Temps restant :</p>
-                        <p class="font-bold" id="countdown"> {{ expirationText }} minutes</p>
+                <div class="bg-white">
+                    <div class="flex flex-1 w-fit flex-col">
+                        <button type="button" class="bg-black text-white p-3 px-5 flex items-center self-stretch gap-3">
+
+                            <RouterLink to="/cart">
+                                <p class="flex-1 flex">Retour au panier</p>
+                            </RouterLink>
+
+                        </button>
+                        <div class="flex items-start gap-1 self-stretch py-10">
+
+                            <p>Temps restant :</p>
+                            <p class="font-bold" id="countdown"> {{ expirationText }} minutes</p>
+                        </div>
                     </div>
                     <h2 class="text-2xl font-bold mb-8">Adresse de livraison</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
@@ -217,7 +226,7 @@ onBeforeUnmount(() => {
                         </div>
                     </div>
                 </div>
-                <div class="bg-white p-6 " v-if="isBilling === false">
+                <div class="bg-white" v-if="isBilling === false">
                     <h2 class="text-2xl font-bold mb-8">Adresse de facturation</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                         <FloatLabel>

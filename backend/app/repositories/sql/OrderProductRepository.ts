@@ -16,6 +16,10 @@ export class OrderProductRepository {
     return OrderProduct.findByPk(id);
   }
 
+  static async findByOrderId(orderId: number): Promise<OrderProduct[]> {
+    return OrderProduct.findAll({ where: { orderId } });
+  }
+
   static async update(orderProduct: OrderProduct): Promise<OrderProduct> {
     return orderProduct.save();
   }

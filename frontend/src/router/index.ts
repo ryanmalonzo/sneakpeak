@@ -4,6 +4,8 @@ import EmailVerificationView from '../views/EmailVerificationView.vue'
 import SearchView from '@/views/SearchView.vue'
 import CartView from '@/views/CartView.vue'
 import CheckoutView from '@/views/CheckoutView.vue'
+import CheckoutSuccessView from '@/views/CheckoutSuccessView.vue'
+import CheckoutCancelView from '@/views/CheckoutCancelView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
 import CGUView from '@/views/legal/CGUView.vue'
 import { checkAuth } from '@/helpers/auth'
@@ -36,6 +38,16 @@ const router = createRouter({
       path: '/checkout',
       name: 'checkout',
       component: CheckoutView
+    },
+    {
+      path: '/checkout/success/:reference',
+      name: 'success',
+      component: CheckoutSuccessView
+    },
+    {
+      path: '/checkout/cancel/:reference',
+      name: 'cancel',
+      component: CheckoutCancelView
     },
     {
       path: '/reset-password',
