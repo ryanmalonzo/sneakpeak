@@ -65,7 +65,8 @@ export default (sequelize: Sequelize) => {
 
     await Promise.all(
       sneakers.map(async (sneaker) => {
-        await sneaker.destroy();
+        const data = sneaker.toJSON();
+        await syncWithMongoDB(Sneaker.name, 'delete', data);
       }),
     );
   });
