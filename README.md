@@ -6,7 +6,7 @@ Before running the application, ensure you have the following installed:
 - Docker
 - Docker Compose
 
-You also need to create a `.env.local` file at the root of the repository with the following environment variables:
+You also need to create a `.env` file at the root of the repository with the following environment variables:
 
 | Environment Variable | Description | Sample Value |
 | -------------- | --------------- | -------------- |

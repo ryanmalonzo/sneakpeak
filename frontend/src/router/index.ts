@@ -7,6 +7,7 @@ import CartView from '@/views/CartView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
 import CGUView from '@/views/legal/CGUView.vue'
 import { checkAuth } from '@/helpers/auth'
+import BasePageAdminView from '@/views/admin/BasePageAdminView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,7 +45,12 @@ const router = createRouter({
     {
       path: '/legal',
       children: [{ path: 'cgu', component: CGUView }]
-    }
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: BasePageAdminView
+    },
   ]
 })
 

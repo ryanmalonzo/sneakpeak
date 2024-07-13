@@ -5,8 +5,9 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import { Sneaker } from './Sneaker';
+import { Sneaker, updateSneakerInMongoDB } from './Sneaker';
 import syncWithMongoDB from '../../helpers/syncPsqlMongo';
+import { SneakerRepository } from '../../repositories/sql/SneakerRepository';
 
 export class Brand extends Model {
   declare id: CreationOptional<number>;
@@ -44,11 +45,30 @@ export default (sequelize: Sequelize) => {
   Brand.afterUpdate(async (brand) => {
     const data = brand.toJSON();
     await syncWithMongoDB(Brand.name, 'update', data);
+
+    // Find all sneakers that belong to this brand and update them
+    const sneakers = await SneakerRepository.findAllSneakersByBrandId(data.id);
+
+    await Promise.all(
+      sneakers.map(async (sneaker) => {
+        await updateSneakerInMongoDB(sneaker);
+      }),
+    );
   });
 
   Brand.afterDestroy(async (brand) => {
     const data = brand.toJSON();
     await syncWithMongoDB(Brand.name, 'delete', data);
+
+    // Find all sneakers that belong to this brand and delete them
+    const sneakers = await SneakerRepository.findAllSneakersByBrandId(data.id);
+
+    await Promise.all(
+      sneakers.map(async (sneaker) => {
+        const data = sneaker.toJSON();
+        await syncWithMongoDB(Sneaker.name, 'delete', data);
+      }),
+    );
   });
 
   return Brand;

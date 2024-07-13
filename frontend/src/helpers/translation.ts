@@ -14,10 +14,10 @@ export class Translation {
         return 'Identifiants incorrects'
 
       case 'email_not_verified':
-        return 'Email non vérifié'
+        return 'Adresse mail non vérifiée'
 
-      case 'wrong_password':
-        return 'Mot de passe incorrect'
+      case 'account_locked':
+        return 'Compte bloqué. Veuillez réessayer plus tard'
 
       default:
         break
@@ -30,7 +30,7 @@ export class Translation {
    */
   static registerErrors(message: Error) {
     switch ((message as IError).error) {
-      case 'email_already_exists':
+      case 'user_already_exists':
         return 'Cette adresse mail est déjà utilisée'
 
       case 'invalid_password':

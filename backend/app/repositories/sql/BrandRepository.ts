@@ -10,15 +10,19 @@ export class BrandRepository {
     return brand;
   }
 
-  static async update(
+  static async updateOrCreate(
     brandId: number,
     data: Partial<Brand>,
-  ): Promise<Brand | null> {
-    const brand = await Brand.findByPk(brandId);
+  ): Promise<{ created: boolean; brand: Brand }> {
+    let brand = await Brand.findByPk(brandId);
+
     if (!brand) {
-      return null;
+      brand = await Brand.create(data);
+      return { created: true, brand };
     }
-    return await brand.update(data);
+
+    brand = await brand.update(data);
+    return { created: false, brand };
   }
 
   static async delete(brandId: number): Promise<Brand | null> {

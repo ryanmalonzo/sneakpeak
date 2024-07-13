@@ -10,6 +10,7 @@ import { ChallengeRepository } from '../repositories/sql/ChallengeRepository';
 
 const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
 const PASSWORD_RESET_TEMPLATE_ID = 35966741;
+const ALERT_PASSWORD_RESET_TEMPLATE_ID = 36484703;
 const JWT_EXPIRY_TIME = '1h';
 const MIN_PASSWORD_LENGTH = 12;
 const MAX_PASSWORD_LENGTH = 32;
@@ -37,7 +38,11 @@ export class UserService {
     }
 
     const hash = await bcrypt.hash(password, SALT_ROUNDS);
-    const user = UserRepository.build({ email, password: hash });
+    const user = UserRepository.build({
+      email,
+      password: hash,
+      resetPasswordAt: new Date(),
+    });
     await UserRepository.save(user);
 
     await UserService.sendVerificationEmail(user, email);
@@ -126,6 +131,8 @@ export class UserService {
       userId: user.id,
     });
 
+    await UserRepository.update(user.id, { resetPasswordAt: new Date() });
+
     await PostmarkClient.sendEmail(email, PASSWORD_RESET_TEMPLATE_ID, {
       email,
       password_reset_url: `${process.env.WEBAPP_URL}/reset-password?id=${user.id}&token=${passwordResetToken}`,
@@ -138,6 +145,38 @@ export class UserService {
   ): Promise<User | null> {
     const hash = await bcrypt.hash(newPassword, SALT_ROUNDS);
     return await UserRepository.update(userId, { password: hash });
+  }
+
+  static async sendAlertPasswordResetEmail(email: string): Promise<void> {
+    if (!UserService._isValidEmail(email)) {
+      throw new RequestError(StatusCodes.UNPROCESSABLE_ENTITY, 'invalid_email');
+    }
+
+    const user = await UserRepository.findByEmail(email);
+    if (!user) {
+      // Let the endpoint return a 200 status code to avoid user enumeration
+      return;
+    }
+
+    const passwordResetToken = crypto.randomBytes(32).toString('hex');
+
+    const challenge = await ChallengeRepository.findByUserAndType(
+      user,
+      'password-reset',
+    );
+    await ChallengeRepository.saveOrUpdate(challenge, {
+      type: 'password-reset',
+      token: passwordResetToken,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1d
+      userId: user.id,
+    });
+
+    await UserRepository.update(user.id, { resetPasswordAt: new Date() });
+
+    await PostmarkClient.sendEmail(email, ALERT_PASSWORD_RESET_TEMPLATE_ID, {
+      email,
+      password_reset_url: `${process.env.WEBAPP_URL}/reset-password?id=${user.id}&token=${passwordResetToken}`,
+    });
   }
 
   static async resetPassword(
@@ -202,5 +241,20 @@ export class UserService {
       /[a-z]/.test(password) &&
       /[0-9]/.test(password)
     );
+  }
+
+  static async findAll(): Promise<User[]> {
+    return await UserRepository.findAll();
+  }
+
+  static async findByEmail(email: string): Promise<User | null> {
+    return await UserRepository.findByEmail(email);
+  }
+
+  static async update(
+    userId: number,
+    data: Partial<User>,
+  ): Promise<User | null> {
+    return await UserRepository.update(userId, data);
   }
 }
