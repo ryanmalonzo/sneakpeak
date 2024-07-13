@@ -17,8 +17,9 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
 
 export class CheckoutService {
   public static async getCheckoutSession(
-    cartProducts: CartProduct[],
+    cartProducts: CartProduct[] | OrderProduct[],
     userId: string,
+    reference: string,
   ): Promise<Stripe.Checkout.Session> {
     const products = cartProducts.map((product) => {
       return {
@@ -27,7 +28,7 @@ export class CheckoutService {
           product_data: {
             name: product.name,
           },
-          unit_amount: product.unitPrice * 100,
+          unit_amount: parseInt((product.unitPrice * 100).toFixed(0)),
         },
         quantity: product.quantity,
       };
@@ -37,14 +38,29 @@ export class CheckoutService {
       metadata: { userId: userId },
       line_items: products,
       mode: 'payment',
-      cancel_url: 'http://localhost:5173/checkout/cancel',
-      success_url: 'http://localhost:5173/checkout/success',
+      cancel_url: 'http://localhost:5173/checkout/cancel/' + reference,
+      success_url: 'http://localhost:5173/checkout/success/' + reference,
     });
     return session;
+  }
+
+  public static async getCheckoutSessionByOrderId(
+    orderId: number,
+  ): Promise<Stripe.Checkout.Session> {
+    const order = await OrderRepository.findById(orderId);
+    if (!order) throw new Error('Order not found');
+    return await stripe.checkout.sessions.retrieve(order.session_id);
+  }
+
+  public static async getCheckoutSessionById(
+    sessionId: string,
+  ): Promise<Stripe.Checkout.Session> {
+    return await stripe.checkout.sessions.retrieve(sessionId);
   }
   public static async createOrder(
     total: number,
     reference: string,
+    session_id: string,
     userId: number,
   ): Promise<Order> {
     console.log(total, reference, userId);
@@ -52,8 +68,9 @@ export class CheckoutService {
       total: total / 100,
       status: 'pending',
       payment_status: 'pending',
-      reference: 'sneakpeak' + '-' + reference,
+      reference: reference,
       userId: userId,
+      session_id: session_id,
     });
 
     return await OrderRepository.create(new_order);

@@ -13,6 +13,7 @@ export class Order extends Model {
   declare status: string;
   declare payment_status: string;
   declare reference: string;
+  declare session_id: string;
   declare userId: ForeignKey<User['id']>;
 }
 
@@ -33,6 +34,10 @@ export default (sequelize: Sequelize) => {
       },
       reference: {
         type: DataTypes.STRING,
+        allowNull: false,
+      },
+      session_id: {
+        type: DataTypes.TEXT,
         allowNull: false,
       },
     },

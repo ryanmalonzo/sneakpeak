@@ -66,7 +66,7 @@ services:
     image: stripe/stripe-cli
     depends_on:
       - backend
-    command: listen --forward-to http://backend/webhook --api-key $STRIPE_SECRET_KEY
+    command: listen --forward-to http://backend:3000/webhook --api-key $STRIPE_SECRET_KEY
 
 volumes:
   postgres:

@@ -11,7 +11,7 @@ import AppLogin from '@/components/AppLogin.vue'
 import { profileStore } from '@/store/profile'
 import { logout } from '@/helpers/auth'
 import { RouterLink } from 'vue-router'
-import { cartStore } from '@/store/cart'
+import { CartStore } from '@/store/cart'
 
 // Utilisation de la route et du routeur
 const router = useRouter()
@@ -84,10 +84,10 @@ const displayMenuProfile = (event: Event) => {
 }
 
 // Compter les éléments du panier
-const cart = cartStore() //Store cart
+const cart = CartStore() //Store cart
 const cartItemCount = ref(0)
 watch(cart, async () => {
-  cartItemCount.value = await cart.getCart()
+  cartItemCount.value = cart.getCart().cartProduct.length
 })
 </script>
 
