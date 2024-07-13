@@ -1,31 +1,26 @@
 <script setup lang="ts">
 import BasePage from '@/components/BasePage.vue';
-import { RouterLink, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 import { ref, onMounted } from 'vue';
 const route = useRoute();
 const reference = route.params.reference;
 const linkPaiement = ref('');
-const error = ref('');
 const BASE_URL = import.meta.env.VITE_API_URL
 onMounted(async () => {
-    try {
-        const response = await fetch(`${BASE_URL}/checkout/cancel/${reference}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        console.log(data);
-        linkPaiement.value = data.url;
-    } catch (err) {
-        error.value = err.message;
+
+    const response = await fetch(`${BASE_URL}/checkout/cancel/${reference}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    });
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
     }
+    const data = await response.json();
+    linkPaiement.value = data.url;
 });
 </script>
 
