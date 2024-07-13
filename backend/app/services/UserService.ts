@@ -255,6 +255,10 @@ export class UserService {
     userId: number,
     data: Partial<User>,
   ): Promise<User | null> {
+    if (data.email && !UserService._isValidEmail(data.email)) {
+      throw new RequestError(StatusCodes.UNPROCESSABLE_ENTITY, 'invalid_email');
+    }
+
     if (data.password) {
       if (!UserService._checkPasswordStrength(data.password)) {
         throw new RequestError(
