@@ -8,9 +8,11 @@ export async function checkAuth(): Promise<boolean> {
   try {
     const user = await SessionApi.getProfile()
     profile.setProfile(user!)
+    localStorage.setItem('profile', JSON.stringify(user))
     return true
   } catch (e) {
     profile.clearProfile()
+    localStorage.removeItem('profile')
     return false
   }
 }

@@ -40,4 +40,17 @@ export class Translation {
         return 'Une erreur est survenue. Veuillez réessayer'
     }
   }
+
+  static profileErrors(message: Error) {
+    switch ((message as IError).error) {
+      case 'user_not_found':
+        return 'Utilisateur non trouvé'
+
+      case 'invalid_password':
+        return 'Votre mot de passe doit contenir au moins 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial'
+
+      default:
+        return 'Une erreur est survenue. Veuillez réessayer'
+    }
+  }
 }
