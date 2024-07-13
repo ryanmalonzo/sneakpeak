@@ -250,5 +250,37 @@ describe('UserRouter', () => {
 
       expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
     });
+
+    it('should return a 200 status code if user is patched', async () => {
+      const user = await registerUser();
+
+      const challenge = await Challenge.findOne({
+        where: {
+          userId: user.id,
+          type: 'email',
+        },
+      });
+
+      if (challenge) {
+        challenge.disabled = true;
+        await challenge.save();
+      }
+
+      const login = await request(app).post('/session').send({
+        email: user.email,
+        password: PASSWORD,
+      });
+
+      const response = await request(app)
+        .patch(`/users/${user.id}`)
+        .send({
+          firstName: 'Eren',
+          lastName: 'Yeager',
+          email: 'no@idontwant.that',
+        })
+        .set('Cookie', login.headers['set-cookie']);
+
+      expect(response.status).to.equal(StatusCodes.OK);
+    });
   });
 });

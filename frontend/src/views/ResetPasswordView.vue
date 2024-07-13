@@ -66,7 +66,7 @@ async function onSubmit({ password }: typeof initialData) {
       severity: 'success',
       summary: 'Succès',
       detail: 'Votre mot de passe a été modifié avec succès.',
-      life: 3000
+      life: 5000
     })
   } catch (e) {
     toast.add({

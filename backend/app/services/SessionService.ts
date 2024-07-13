@@ -73,6 +73,11 @@ export class SessionService {
 
     const token = UserService.generateAuthToken(user);
 
+    // Reset password attempts
+    await UserRepository.update(user.id, {
+      passwordAttempts: 0,
+    });
+
     return { token: token };
   }
 }

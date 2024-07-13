@@ -102,7 +102,7 @@ const validationSchema = {
 async function onSubmit({ email, password }: typeof initialData) {
   try {
     await SessionApi.login(email, password)
-    checkAuth()
+    await checkAuth()
 
     localVisible.value = false
   } catch (e) {
