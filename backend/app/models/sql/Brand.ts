@@ -59,6 +59,15 @@ export default (sequelize: Sequelize) => {
   Brand.afterDestroy(async (brand) => {
     const data = brand.toJSON();
     await syncWithMongoDB(Brand.name, 'delete', data);
+
+    // Find all sneakers that belong to this brand and delete them
+    const sneakers = await SneakerRepository.findAllSneakersByBrandId(data.id);
+
+    await Promise.all(
+      sneakers.map(async (sneaker) => {
+        await sneaker.destroy();
+      }),
+    );
   });
 
   return Brand;
