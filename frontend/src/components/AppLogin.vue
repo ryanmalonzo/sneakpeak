@@ -90,7 +90,7 @@ async function onSubmit() {
 
   try {
     await SessionApi.login(email.value, password.value)
-    checkAuth()
+    await checkAuth()
 
     email.value = ''
     password.value = ''

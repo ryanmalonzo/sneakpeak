@@ -38,22 +38,31 @@ const router = createRouter({
     },
     {
       path: '/legal',
-      children: [{ path: 'cgu', component: CGUView }]
+      children: [{ path: 'cgu', name: 'cgu', component: CGUView }]
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/views/ProfileView.vue')
     },
     {
       path: '/admin',
       name: 'admin',
       component: BasePageAdminView
-    },
+    }
   ]
 })
 
-router.afterEach(() => {
-  checkAuth()
-})
+const publicRoutes = ['home', 'email_verification', 'search', 'cart', 'reset_password', 'cgu']
 
-router.afterEach(() => {
-  checkAuth()
+router.afterEach(async (to) => {
+  const isAuthenticated = await checkAuth()
+
+  if (!publicRoutes.includes(to.name as string) && !isAuthenticated) {
+    router.push('/')
+  }
+
+  // TODO check admin permission for admin routes
 })
 
 export default router
