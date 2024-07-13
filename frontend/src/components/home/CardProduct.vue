@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 defineProps<{
   slug: string
@@ -23,7 +23,7 @@ const redirectToSneakerView = (slug: string) => {
 <template>
   <div class="flex justify-center align-middle">
     <div
-      class="flex h-auto w-[264px] shrink-0 cursor-pointer flex-col justify-center gap-2 rounded-md p-5 text-center transition-transform duration-300 ease-in-out hover:scale-105 hover:bg-gray-50 hover:shadow-lg"
+      class="flex h-auto w-[264px] shrink-0 cursor-pointer flex-col justify-center gap-2 text-center transition-transform duration-200 ease-in-out hover:scale-105"
       @click="redirectToSneakerView(slug)"
     >
       <img :src="image" :alt="name" />

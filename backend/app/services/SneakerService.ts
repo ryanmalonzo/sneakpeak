@@ -107,12 +107,6 @@ export class SneakerService {
     };
   }
 
-  public static async findOneById(
-    id: string,
-  ): Promise<HydratedDocument<ISneaker> | null> {
-    return await SneakerRepositoryMongo.findOneById(id);
-  }
-
   public static async findOneBySlug(
     slug: string,
   ): Promise<HydratedDocument<ISneaker> | null> {

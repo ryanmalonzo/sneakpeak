@@ -111,6 +111,7 @@ if (route.query.brand || route.query.category || route.query.price) {
           :image="sneaker.variants[0]?.image"
           :name="sneaker.name"
           :price="sneaker.price"
+          :slug="sneaker.slug"
         />
       </SneakerGrid>
 

@@ -74,9 +74,7 @@ SneakerRouter.get(
       if (!sneaker) {
         return res.sendStatus(StatusCodes.NOT_FOUND);
       }
-      return res
-        .status(StatusCodes.OK)
-        .json(await SneakerService.findOneBySlug(slug));
+      return res.status(StatusCodes.OK).json(sneaker);
     } catch (error) {
       next(error);
     }
