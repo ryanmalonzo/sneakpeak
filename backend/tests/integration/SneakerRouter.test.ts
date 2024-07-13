@@ -22,9 +22,19 @@ describe('SneakerRouter', () => {
     });
   });
 
-  describe('GET /sneakers/:id', () => {
+  describe('GET /sneakers/:slug', () => {
     it('should return a 200 status code and a sneaker', async () => {
-      const response = await request(app).get('/sneakers/1');
+      const sneaker = {
+        name: 'AF1',
+        description: 'desc',
+        price: 10.99,
+        categoryId: 1,
+        brandId: 1,
+      };
+      const res = await request(app).post('/sneakers').send(sneaker);
+      const response = await request(app).get(
+        `/sneakers/${res.body.name.toLowerCase()}`,
+      );
 
       expect(response.status).to.equal(StatusCodes.OK);
     });
@@ -38,7 +48,7 @@ describe('SneakerRouter', () => {
 
   describe('POST /sneakers', () => {
     const sneaker = {
-      name: 'AF1',
+      name: 'AF12',
       description: 'desc',
       price: 10.99,
       categoryId: 1,

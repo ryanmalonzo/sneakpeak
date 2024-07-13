@@ -113,6 +113,12 @@ export class SneakerService {
     return await SneakerRepositoryMongo.findOneById(id);
   }
 
+  public static async findOneBySlug(
+    slug: string,
+  ): Promise<HydratedDocument<ISneaker> | null> {
+    return await SneakerRepositoryMongo.findOneBySlug(slug);
+  }
+
   public static async delete(id: number): Promise<number> {
     return await SneakerRepository.delete(id);
   }

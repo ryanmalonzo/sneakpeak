@@ -115,4 +115,10 @@ export class SneakerRepository {
   ): Promise<HydratedDocument<ISneaker> | null> {
     return await SneakerModel.findOne({ id });
   }
+
+  static async findOneBySlug(
+    slug: string,
+  ): Promise<HydratedDocument<ISneaker> | null> {
+    return await SneakerModel.findOne({ slug: slug });
+  }
 }
