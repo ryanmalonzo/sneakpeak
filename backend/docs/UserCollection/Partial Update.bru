@@ -1,0 +1,22 @@
+meta {
+  name: Partial Update
+  type: http
+  seq: 1
+}
+
+patch {
+  url: http://localhost:3000/users/{{user_id}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "lastName": "Malonzo",
+    "firstName": "Ryan"
+  }
+}
+
+vars:pre-request {
+  user_id: 18
+}
