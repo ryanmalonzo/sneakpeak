@@ -166,5 +166,4 @@ OrderProduct.belongsTo(Variant, {
   },
 });
 
-
 export default sequelize;

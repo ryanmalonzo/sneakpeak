@@ -4,6 +4,8 @@ import { UserService } from '../services/UserService';
 import { RequestError } from '../helpers/error';
 import { UserRepository } from '../repositories/sql/UserRepository';
 import { setCookie } from '../helpers/cookie';
+import { auth } from '../middlewares/auth';
+import { permissions } from '../middlewares/permissions';
 
 export const UserRouter = express.Router();
 
@@ -85,6 +87,31 @@ UserRouter.put(
       setCookie(res, 'accessToken', authToken);
 
       return res.sendStatus(StatusCodes.OK);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+UserRouter.patch(
+  '/:id',
+  findUser,
+  auth,
+  permissions(['user']),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const { firstName, lastName, phone, email, password } = req.body;
+
+      return res.status(StatusCodes.OK).json(
+        await UserService.update(Number(id), {
+          firstName,
+          lastName,
+          phone,
+          email,
+          password,
+        }),
+      );
     } catch (error) {
       next(error);
     }

@@ -11,7 +11,7 @@ import AppLogin from '@/components/AppLogin.vue'
 import { profileStore } from '@/store/profile'
 import { logout } from '@/helpers/auth'
 import { RouterLink } from 'vue-router'
-import { cartStore } from '@/store/cart'
+import { CartStore } from '@/store/cart'
 
 // Utilisation de la route et du routeur
 const router = useRouter()
@@ -56,7 +56,7 @@ const itemsProfile = ref([
         label: 'Mon profil',
         icon: 'pi pi-spin pi-cog',
         command: () => {
-          router.push('/search') //TODO change path
+          router.push('/profile')
         }
       },
       {
@@ -84,10 +84,10 @@ const displayMenuProfile = (event: Event) => {
 }
 
 // Compter les éléments du panier
-const cart = cartStore() //Store cart
+const cart = CartStore() //Store cart
 const cartItemCount = ref(0)
 watch(cart, async () => {
-  cartItemCount.value = await cart.getCart()
+  cartItemCount.value = cart.getCart().cartProduct.length
 })
 </script>
 
@@ -101,8 +101,11 @@ watch(cart, async () => {
     <template #end>
       <div class="flex items-center gap-2.5">
         <SearchInput class="hidden md:block" :submit="handleSubmit" v-model="searchRef" />
-        <div class="absolute left-0 top-0 flex w-full flex-1 items-center gap-2.5 bg-white p-2.5 md:hidden"
-          id="search-mobile" v-if="showMobileSearchRef">
+        <div
+          class="absolute left-0 top-0 flex w-full flex-1 items-center gap-2.5 bg-white p-2.5 md:hidden"
+          id="search-mobile"
+          v-if="showMobileSearchRef"
+        >
           <SearchInput :submit="handleSubmit" v-model="searchRef" />
           <button type="button" @click="showMobileSearchRef = false">Annuler</button>
         </div>
@@ -110,12 +113,16 @@ watch(cart, async () => {
           <i class="pi pi-search cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
         </div>
         <i class="pi pi-bell cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
-        <div id="cart"
-          class="relative flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50">
+        <div
+          id="cart"
+          class="relative flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
+        >
           <RouterLink to="/cart">
             <i class="pi pi-shopping-bag"></i>
-            <span v-if="cartItemCount > 0"
-              class="absolute top-0 right-0 inline-flex items-center justify-center h-4 w-4 rounded-full bg-[#10b981] text-white text-xs">
+            <span
+              v-if="cartItemCount > 0"
+              class="absolute right-0 top-0 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#10b981] text-xs text-white"
+            >
               {{ cartItemCount }}
             </span>
           </RouterLink>
@@ -129,8 +136,12 @@ watch(cart, async () => {
           </div>
         </div>
         <!-- Login -->
-        <div v-else id="user" class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
-          @click="modelLoginVisible = true">
+        <div
+          v-else
+          id="user"
+          class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
+          @click="modelLoginVisible = true"
+        >
           <i class="pi pi-user"></i>
         </div>
       </div>

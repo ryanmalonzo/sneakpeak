@@ -4,6 +4,9 @@ import SneakerView from '@/views/SneakerView.vue'
 import EmailVerificationView from '../views/EmailVerificationView.vue'
 import SearchView from '@/views/SearchView.vue'
 import CartView from '@/views/CartView.vue'
+import CheckoutView from '@/views/CheckoutView.vue'
+import CheckoutSuccessView from '@/views/CheckoutSuccessView.vue'
+import CheckoutCancelView from '@/views/CheckoutCancelView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
 import CGUView from '@/views/legal/CGUView.vue'
 import { checkAuth } from '@/helpers/auth'
@@ -38,28 +41,57 @@ const router = createRouter({
       component: CartView
     },
     {
+      path: '/checkout',
+      children: [
+        {
+          path: '',
+          name: 'checkout',
+          component: CheckoutView
+        },
+        {
+          path: 'success/:reference',
+          name: 'success',
+          component: CheckoutSuccessView
+        },
+        {
+          path: 'cancel/:reference',
+          name: 'cancel',
+          component: CheckoutCancelView
+        }
+      ]
+    },
+    {
       path: '/reset-password',
       name: 'reset_password',
       component: ResetPasswordView
     },
     {
       path: '/legal',
-      children: [{ path: 'cgu', component: CGUView }]
+      children: [{ path: 'cgu', name: 'cgu', component: CGUView }]
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/views/ProfileView.vue')
     },
     {
       path: '/admin',
       name: 'admin',
       component: BasePageAdminView
-    },
+    }
   ]
 })
 
-router.afterEach(() => {
-  checkAuth()
-})
+const publicRoutes = ['home', 'email_verification', 'search', 'cart', 'reset_password', 'cgu']
 
-router.afterEach(() => {
-  checkAuth()
+router.afterEach(async (to) => {
+  const isAuthenticated = await checkAuth()
+
+  if (!publicRoutes.includes(to.name as string) && !isAuthenticated) {
+    router.push('/')
+  }
+
+  // TODO check admin permission for admin routes
 })
 
 export default router
