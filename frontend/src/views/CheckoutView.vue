@@ -5,10 +5,13 @@ import AutoComplete from 'primevue/autocomplete';
 import InputText from 'primevue/inputtext';
 import FloatLabel from 'primevue/floatlabel';
 import axios from 'axios';
-import { reactive, ref, watch } from 'vue';
+import { onMounted, onBeforeUnmount, reactive, ref, type Ref, watch } from 'vue';
 import { CheckoutApi } from '@/services/checkoutApi';
 import { CartStore } from '@/store/cart';
-import type { CartApi } from '@/services/cartApi';
+import { CartApi } from '@/services/cartApi';
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
+
 
 interface GeoapifyFeatureProperties {
     formatted: string
@@ -18,6 +21,7 @@ interface GeoapifyFeatureProperties {
 interface GeoapifyFeature {
     properties: GeoapifyFeatureProperties
 }
+const GEOAPIFY_API_KEY = import.meta.env.VITE_GEOAPIFY_API_KEY
 const isBilling = ref(false);
 const filteredShippingAdress = ref([]);
 const shipping = reactive({
@@ -49,7 +53,7 @@ watch(shipping, async (newVal) => {
         console.log(newVal.address);
         try {
 
-            const response = await axios.get(`https://api.geoapify.com/v1/geocode/autocomplete?text=${newVal.address}&apiKey=ae0f10d502564e4aa6781d24d19593be`);
+            const response = await axios.get(`https://api.geoapify.com/v1/geocode/autocomplete?text=${newVal.address}&apiKey=${GEOAPIFY_API_KEY}`);
             console.log(response.data);
             filteredShippingAdress.value = response.data.features.map((feature: GeoapifyFeature) => (
                 feature.properties.formatted
@@ -67,7 +71,7 @@ watch(billing, async (newVal) => {
         console.log(newVal.address);
         try {
 
-            const response = await axios.get(`https://api.geoapify.com/v1/geocode/autocomplete?text=${newVal.address}&apiKey=ae0f10d502564e4aa6781d24d19593be`);
+            const response = await axios.get(`https://api.geoapify.com/v1/geocode/autocomplete?text=${newVal.address}&apiKey=${GEOAPIFY_API_KEY}`);
             console.log(response.data);
             filteredBillingAdress.value = response.data.features.map((feature: GeoapifyFeature) => (
                 feature.properties.formatted
@@ -80,7 +84,18 @@ watch(billing, async (newVal) => {
     }
 });
 
+
+const toast = useToast();
 const onSubmit = async () => {
+    if (!shipping.firstName || !shipping.lastName || !shipping.address || !shipping.phone) {
+        toast.add({ severity: 'error', summary: 'Erreur', detail: 'Veuillez remplir tous les champs de l\'adresse de livraison' });
+        return;
+    }
+
+    if (!isBilling.value && (!billing.firstName || !billing.lastName || !billing.address || !billing.phone)) {
+        toast.add({ severity: 'error', summary: 'Erreur', detail: 'Veuillez remplir tous les champs de l\'adresse de facturation' });
+        return;
+    }
     if (isBilling.value) {
         billing.address = shipping.address;
         billing.firstName = shipping.firstName;
@@ -88,20 +103,67 @@ const onSubmit = async () => {
         billing.phone = shipping.phone;
 
     }
-    const data = await CheckoutApi.create({
+    const data: CheckoutApi.CheckoutOut = await CheckoutApi.create({
         shipping,
         billing,
     });
+
+    if (data.url !== undefined) window.location.href = data.url;
 
     console.log(data);
 };
 
 
-const cart: CartApi.CartApiOut = CartStore().cart;
-const cartProducts = cart.cartProduct.sort((a, b) => a.id - b.id);
-const cartTotal = cartProducts.reduce((total, product) => total + product.total, 0);
-const cartTotalItems = cartProducts.length;
-const expirationTime = new Date(cart.expiredAt);
+// Reactive references
+const cartProducts: Ref<CartApi.CartProduct[]> = ref([]);
+const cartTotal: Ref<number> = ref(0);
+const cartTotalItems: Ref<number> = ref(0);
+const expirationTime: Ref<Date | null> = ref(null);
+const expirationText: Ref<string> = ref('');
+
+// Helper functions
+const formatTime = (time: number): string => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+const updateExpirationText = () => {
+    if (!expirationTime.value) return;
+    const now = Date.now();
+    const timeLeft = Math.max(0, Math.floor((expirationTime.value.getTime() - now) / 1000)); // Calculate time left in seconds
+    expirationText.value = formatTime(timeLeft);
+    if (timeLeft <= 0) {
+        clearInterval(intervalId);
+    }
+}
+
+// Interval management
+let intervalId: number;
+const startExpirationTimer = () => {
+    updateExpirationText();
+    intervalId = setInterval(updateExpirationText, 1000);
+}
+
+const updateCart = async () => {
+    console.log('updateCart');
+    const data = await CheckoutApi.getCheckoutProduct();
+    cartProducts.value = data.cartProduct.sort((a, b) => a.id - b.id);
+    cartTotal.value = cartProducts.value.reduce((total, product) => total + product.total, 0);
+    cartTotalItems.value = cartProducts.value.length;
+    expirationTime.value = new Date(data.expiredAt);
+    startExpirationTimer();
+    CartStore().setCart(data);
+}
+
+onMounted(async () => {
+    await updateCart();
+    console.log(cartProducts.value);
+});
+
+onBeforeUnmount(() => {
+    if (intervalId) clearInterval(intervalId);
+});
 
 
 </script>
@@ -113,6 +175,10 @@ const expirationTime = new Date(cart.expiredAt);
             <div class="flex-col flex md:gap-16  items-start text-wrap">
                 <!-- Adresse de livraison -->
                 <div class="bg-white p-6">
+                    <div class="flex items-start gap-1 self-stretch">
+                        <p>Temps restant :</p>
+                        <p class="font-bold" id="countdown"> {{ expirationText }} minutes</p>
+                    </div>
                     <h2 class="text-2xl font-bold mb-8">Adresse de livraison</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
 
@@ -189,10 +255,9 @@ const expirationTime = new Date(cart.expiredAt);
                 <div v-if="cartTotalItems > 0"
                     class="flex gap-5 flex-col self-stretch items-center border border-black rounded-lg">
                     <!-- right top -->
-                    <router-link to="/checkout"
-                        class="bg-black text-white p-3 px-5 flex items-center self-stretch gap-3">
+                    <button @click="onSubmit" class="bg-black text-white p-3 px-5 flex items-center self-stretch gap-3">
 
-                        <p class="flex-1 flex">Commander</p>
+                        <p class="flex-1 flex">PAYER</p>
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="15" viewBox="0 0 14 15" fill="none">
                             <path fill-rule="evenodd" clip-rule="evenodd"
                                 d="M8.38223 1.60173C8.11769 1.33718 7.68877 1.33718 7.42422 1.60173C7.15967 1.86628 7.15967 2.2952 7.42422 2.55975L11.6871 6.82267H0.677419C0.303291 6.82267 0 7.12597 0 7.50009C0 7.87422 0.303291 8.17751 0.677419 8.17751H11.6871L7.42422 12.4404C7.15967 12.705 7.15967 13.1339 7.42422 13.3985C7.68877 13.663 8.11769 13.663 8.38223 13.3985L13.8016 7.9791C14.0661 7.71455 14.0661 7.28564 13.8016 7.02109L8.38223 1.60173Z"
@@ -200,7 +265,7 @@ const expirationTime = new Date(cart.expiredAt);
                         </svg>
 
 
-                    </router-link>
+                    </button>
 
                     <div class="flex gap-5 flex-col items-start self-stretch p-5">
                         <p class="font-bold text-base">RÉSUMÉ DE LA COMMANDE</p>
@@ -218,8 +283,20 @@ const expirationTime = new Date(cart.expiredAt);
                             <p class="flex flex-1 font-bold">Total</p>
                             <p class="flex flex-1">{{ cartTotal.toFixed(2) }} €</p>
                         </div>
-
+                        <p class="font-bold text-base">VOTRE COMMANDE </p>
+                        <div class="flex flex-col gap-5 self-stretch items-start p-5">
+                            <div v-for="product in cartProducts" :key="product.id"
+                                class="flex gap-5 self-stretch items-start">
+                                <img :src="product.image" alt="" class="w-20 h-20 object-cover" />
+                                <div class="flex flex-col gap-5 self-stretch items-start">
+                                    <p class="font-bold">{{ product.name }}</p>
+                                    <p>{{ product.quantity }} x {{ product.unitPrice.toFixed(2) }} €</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+
 
 
                 </div>

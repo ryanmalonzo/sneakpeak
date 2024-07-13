@@ -27,7 +27,7 @@ export class CheckoutService {
           product_data: {
             name: product.name,
           },
-          unit_amount: product.unitPrice * 100,
+          unit_amount: (product.unitPrice * 100).toFixed(0),
         },
         quantity: product.quantity,
       };

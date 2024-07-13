@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { CheckoutService } from '../services/CheckoutService';
 import { CartService } from '../services/CartService';
+import { CartRepository } from '../repositories/mongodb/CartRepository';
 import { VariantRepository } from '../repositories/sql/VariantRepository';
 import { auth } from '../middlewares/auth';
 
@@ -11,7 +12,7 @@ dotenv.config();
 export const CheckoutRouter = Router();
 
 CheckoutRouter.get('/', auth, async (req: Request, res: Response) => {
-  const cartProducts = await CartService.getCartProducts(res.locals.user.id);
+  const cartProducts = await CartRepository.findByUserId(res.locals.user.id);
   res.json(cartProducts);
 });
 
