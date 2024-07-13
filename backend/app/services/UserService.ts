@@ -255,6 +255,16 @@ export class UserService {
     userId: number,
     data: Partial<User>,
   ): Promise<User | null> {
+    if (data.password) {
+      if (!UserService._checkPasswordStrength(data.password)) {
+        throw new RequestError(
+          StatusCodes.UNPROCESSABLE_ENTITY,
+          'invalid_password',
+        );
+      }
+      data.password = await bcrypt.hash(data.password, SALT_ROUNDS);
+    }
+
     return await UserRepository.update(userId, data);
   }
 }
