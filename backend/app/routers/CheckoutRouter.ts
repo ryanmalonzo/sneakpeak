@@ -40,12 +40,12 @@ CheckoutRouter.post(
     for (const item of cartProducts) {
       const cart = await CartService.getCart(res.locals.user.id);
       if (!cart) {
-        return res.status(400).json({ error: 'Cart not found' });
+        return res.status(400).json();
       }
       if (cart.expiredAt < new Date()) {
         const variant = await VariantRepository.findVariantById(item.variantId);
         if (!variant) {
-          return res.status(400).json({ error: 'Variant not found' });
+          return res.status(400).json();
         }
         if (item.quantity > variant.stock) {
           return res.status(400).json({
@@ -62,7 +62,6 @@ CheckoutRouter.post(
         res.locals.user.id,
         reference,
       );
-      console.log(session);
       const order = await CheckoutService.createOrder(
         session.amount_total as number,
         reference,
@@ -111,7 +110,7 @@ CheckoutRouter.get(
   async (req: Request, res: Response) => {
     const order = await OrderRepository.findByReference(req.params.reference);
     if (!order) {
-      return res.status(404).json({ error: 'Order not found' });
+      return res.status(404).json();
     }
     if (order.status === 'pending') {
       res.redirect('/checkout/cancel/' + req.params.reference);
@@ -124,21 +123,19 @@ CheckoutRouter.get(
   '/cancel/:reference',
   auth,
   async (req: Request, res: Response) => {
-    console.log(req.params.reference);
     const order = await OrderRepository.findByReference(req.params.reference);
     if (!order) {
-      return res.status(404).json({ error: 'Order not found' });
+      return res.status(404).json();
     }
     const orderProducts = await OrderProductRepository.findByOrderId(order.id);
     const sessionid = order.session_id;
     let linkPaiement = await CheckoutService.getCheckoutSessionById(sessionid);
-    console.log(linkPaiement);
     if (!linkPaiement) {
-      return res.status(404).json({ error: 'Session not found' });
+      return res.status(404).json();
     }
 
     if (linkPaiement.payment_status === 'paid') {
-      return res.status(400).json({ error: 'Order already paid' });
+      return res.status(400).json();
     }
 
     if (linkPaiement.status === 'expired') {

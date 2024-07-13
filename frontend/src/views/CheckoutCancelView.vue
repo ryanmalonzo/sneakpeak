@@ -26,20 +26,22 @@ onMounted(async () => {
 
 <template>
     <BasePage>
-        <div class="text-center h-full w-full my-auto">
-            <h1 class="text-2xl font-semibold">Votre paiement a échoué</h1>
+        <router-view>
+            <div class="text-center h-full w-full my-auto">
+                <h1 class="text-2xl font-semibold">Votre paiement a échoué</h1>
 
-            <p class="mt-4">Votre paiement a échoué. Veuillez réessayer.</p>
-
-
-
-            <button type="button" class="bg-black text-white p-3 px-5  my-4">
-
-                <a :href="linkPaiement">Retourner à la page de paiement</a>
+                <p class="mt-4">Votre paiement a échoué. Veuillez réessayer.</p>
 
 
-            </button>
-        </div>
+
+                <button type="button" class="bg-black text-white p-3 px-5  my-4">
+
+                    <a :href="linkPaiement">Retourner à la page de paiement</a>
+
+
+                </button>
+            </div>
+        </router-view>
     </BasePage>
 </template>
 

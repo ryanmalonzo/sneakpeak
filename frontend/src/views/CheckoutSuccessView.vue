@@ -16,23 +16,25 @@ onMounted(async () => {
 
 <template>
     <BasePage>
-        <div class="text-center h-full w-full my-auto">
-            <h1 class="text-2xl font-semibold">Merci pour votre commande</h1>
+        <router-view>
+            <div class="text-center h-full w-full my-auto">
+                <h1 class="text-2xl font-semibold">Merci pour votre commande</h1>
 
-            <p class="mt-4">Votre commande a été traitée avec succès.</p>
-
-
-
-            <button type="button" class="bg-black text-white p-3 px-5  my-4">
-
-                <RouterLink :to="'/order/' + reference">
-                    Voir les détails de la commande
-                </RouterLink>
+                <p class="mt-4">Votre commande a été traitée avec succès.</p>
 
 
 
-            </button>
-        </div>
+                <button type="button" class="bg-black text-white p-3 px-5  my-4">
+
+                    <RouterLink :to="'/order/' + reference">
+                        Voir les détails de la commande
+                    </RouterLink>
+
+
+
+                </button>
+            </div>
+        </router-view>
     </BasePage>
 </template>
 

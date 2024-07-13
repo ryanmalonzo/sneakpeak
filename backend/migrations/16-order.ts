@@ -8,7 +8,7 @@ export const up: Migration = async ({
   context: Sequelize;
 }) => {
   await sequelize.getQueryInterface().addColumn('orders', 'session_id', {
-    type: DataTypes.TEXT('long'),
+    type: DataTypes.TEXT,
     allowNull: false,
   });
 };

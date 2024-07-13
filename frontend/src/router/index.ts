@@ -36,18 +36,23 @@ const router = createRouter({
     },
     {
       path: '/checkout',
-      name: 'checkout',
-      component: CheckoutView
-    },
-    {
-      path: '/checkout/success/:reference',
-      name: 'success',
-      component: CheckoutSuccessView
-    },
-    {
-      path: '/checkout/cancel/:reference',
-      name: 'cancel',
-      component: CheckoutCancelView
+      children: [
+        {
+          path: '',
+          name: 'checkout',
+          component: CheckoutView
+        },
+        {
+          path: 'success/:reference',
+          name: 'success',
+          component: CheckoutSuccessView
+        },
+        {
+          path: 'cancel/:reference',
+          name: 'cancel',
+          component: CheckoutCancelView
+        }
+      ]
     },
     {
       path: '/reset-password',

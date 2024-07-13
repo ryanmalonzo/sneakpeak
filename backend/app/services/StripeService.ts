@@ -23,7 +23,6 @@ export class StripeService {
           checkoutSessionCompleted.id,
         );
         if (!order) {
-          console.error('Order not found');
           break;
         }
         CheckoutService.updateOrder(order.reference, 'completed', 'paid');
