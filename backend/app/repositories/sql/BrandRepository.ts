@@ -10,10 +10,6 @@ export class BrandRepository {
     return brand;
   }
 
-  static async findAll(): Promise<Brand[]> {
-    return Brand.findAll();
-  }
-
   static async updateOrCreate(
     brandId: number,
     data: Partial<Brand>,

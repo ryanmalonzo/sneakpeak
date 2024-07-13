@@ -33,4 +33,19 @@ export class CategoryRepository {
   static async findCategoryById(categoryId: number): Promise<Category | null> {
     return await Category.findByPk(categoryId);
   }
+
+  static async updateOrCreate(
+    categoryId: number,
+    data: Partial<Category>,
+  ): Promise<{ created: boolean; category: Category }> {
+    let category = await Category.findByPk(categoryId);
+
+    if (!category) {
+      category = await Category.create(data);
+      return { created: true, category };
+    }
+
+    category = await category.update(data);
+    return { created: false, category };
+  }
 }
