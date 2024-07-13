@@ -30,7 +30,7 @@ export class Translation {
    */
   static registerErrors(message: Error) {
     switch ((message as IError).error) {
-      case 'email_already_exists':
+      case 'user_already_exists':
         return 'Cette adresse mail est déjà utilisée'
 
       case 'invalid_password':

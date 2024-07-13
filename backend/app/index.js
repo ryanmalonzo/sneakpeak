@@ -50,7 +50,6 @@ app.use((err, req, res, next) => {
   }
 
   if (err instanceof RequestError) {
-    // TODO DEPRECATED: Supprimer tous les messages d'erreur (les codes HTTP suffisent)
     if (err.message) {
       return res.status(err.status).json({ error: err.message });
     }
