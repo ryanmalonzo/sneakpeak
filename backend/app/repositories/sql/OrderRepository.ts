@@ -20,6 +20,10 @@ export class OrderRepository {
     return Order.findOne({ where: { reference } });
   }
 
+  static async findBySessionId(session_id: string): Promise<Order | null> {
+    return Order.findOne({ where: { session_id } });
+  }
+
   static async update(order: Order): Promise<Order> {
     return order.save();
   }

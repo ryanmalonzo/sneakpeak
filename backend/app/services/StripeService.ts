@@ -1,3 +1,4 @@
+import { OrderRepository } from '../repositories/sql/OrderRepository';
 import { CartService } from './CartService';
 import { CheckoutService } from './CheckoutService';
 import Stripe from 'stripe';
@@ -18,13 +19,14 @@ export class StripeService {
           console.error('User id not found in checkout session');
           return;
         }
-        console.log('');
-
-        CheckoutService.updateOrder(
-          'sneakpeak-' + checkoutSessionCompleted.id,
-          'completed',
-          'paid',
+        const order = await OrderRepository.findBySessionId(
+          checkoutSessionCompleted.id,
         );
+        if (!order) {
+          console.error('Order not found');
+          break;
+        }
+        CheckoutService.updateOrder(order.reference, 'completed', 'paid');
 
         // Empty the cart
         CartService.emptyCart(
