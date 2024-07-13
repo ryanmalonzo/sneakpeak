@@ -1,25 +1,39 @@
 <template>
   <GenericModal v-model:visible="localVisible" header="Mot de passe oublié">
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="submitForm">
       <div class="align-items-center mb-3 flex flex-col gap-2">
         <label for="email" class="w-6rem">Adresse mail</label>
-        <InputText id="email" class="flex-auto" placeholder="john.doe@gmail.com" v-model="email" />
-        <span v-if="emailError" class="error-message">{{ emailError }}</span>
+        <InputText
+          id="email"
+          class="flex-auto"
+          placeholder="john.doe@gmail.com"
+          v-model="formData.email"
+          @input="updateField('email', $event.target.value)"
+        />
+        <span v-if="validationErrors.email" class="error-message">{{
+          validationErrors.email
+        }}</span>
       </div>
       <div class="justify-content-end flex flex-col gap-2">
-        <Button type="submit" label="Recevoir le lien" rounded></Button>
+        <Button
+          type="submit"
+          label="Recevoir le lien"
+          rounded
+          :loading="isSubmitting"
+          :disabled="!isValid"
+        ></Button>
       </div>
-      <div v-if="resetPasswordError" class="error-message">{{ resetPasswordError }}</div>
     </form>
   </GenericModal>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { z } from 'zod'
 import axios from 'axios'
 import { useToast } from 'primevue/usetoast'
 import GenericModal from './GenericModal.vue'
+import { useForm } from '@/helpers/useForm'
 
 const toast = useToast()
 
@@ -27,8 +41,6 @@ const props = defineProps<{ visible: boolean }>()
 const emit = defineEmits(['update:visible'])
 const API_URL = import.meta.env.VITE_API_URL
 
-const email = ref('')
-const resetPasswordError = ref('')
 const localVisible = ref(props.visible)
 
 watch(
@@ -42,21 +54,20 @@ watch(localVisible, (newVal) => {
   emit('update:visible', newVal)
 })
 
-const emailSchema = z.string().email({ message: 'Adresse mail invalide' })
+const initialData = {
+  email: ''
+}
 
-const emailError = computed(() => {
-  const parsedEmail = emailSchema.safeParse(email.value)
-  if (parsedEmail.success || email.value === '') {
-    return ''
-  }
-  return parsedEmail.error.errors[0].message
-})
+const transformFunctions = {
+  email: (value: string) => value.trim()
+}
 
-async function onSubmit() {
-  if (emailError.value !== '' || email.value === '') {
-    return
-  }
-  await axios.post(`${API_URL}/users/password-reset`, { email: email.value })
+const validationSchema = {
+  email: z.string().email('Adresse mail invalide')
+}
+
+async function onSubmit({ email }: typeof initialData) {
+  await axios.post(`${API_URL}/users/password-reset`, { email })
 
   toast.add({
     severity: 'success',
@@ -66,13 +77,16 @@ async function onSubmit() {
     life: 5000
   })
 
-  // reset les champs
-  resetPasswordError.value = ''
-  email.value = ''
-
   // ferme la modale
   localVisible.value = false
 }
+
+const { formData, updateField, submitForm, isSubmitting, validationErrors, isValid } = useForm(
+  initialData,
+  transformFunctions,
+  validationSchema,
+  onSubmit
+)
 </script>
 
 <style scoped>
