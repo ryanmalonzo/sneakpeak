@@ -84,9 +84,9 @@ const tdClasses = 'border border-gray-300 p-2.5'
     </div>
 
     <!-- Table -->
-    <div class="w-full overflow-x-auto">
+    <div class="w-full overflow-x-auto rounded-md">
       <table class="w-full table-auto">
-        <thead class="bg-black">
+        <thead class="rounded-t-md bg-black outline outline-offset-[-1px] outline-black">
           <tr>
             <DataHeader
               v-for="column in columns"
@@ -100,7 +100,7 @@ const tdClasses = 'border border-gray-300 p-2.5'
             <th :class="thClasses">Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="rounded-b-md outline outline-offset-[-1px] outline-gray-300">
           <tr v-for="row in rows" :key="row.id" class="bg-white hover:bg-gray-200">
             <td v-for="column in columns" :key="column.key" :class="tdClasses">
               {{ row[column.key] }}
