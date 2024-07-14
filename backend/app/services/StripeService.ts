@@ -36,11 +36,13 @@ export class StripeService {
       }
       case 'checkout.session.expired': {
         const checkoutSessionCancelled = event.data.object;
-        CheckoutService.updateOrder(
-          'sneakpeak-' + checkoutSessionCancelled.id,
-          'expired',
-          'unpaid',
+        const order = await OrderRepository.findBySessionId(
+          checkoutSessionCancelled.id,
         );
+        if (!order) {
+          break;
+        }
+        CheckoutService.updateOrder(order.reference, 'expired', 'unpaid');
 
         break;
       }
