@@ -9,9 +9,10 @@ import { downloadCSV } from './utils/csv'
 const API_URL = import.meta.env.VITE_API_URL
 const DEFAULT_LIMIT = 25
 
-const { resource, headerTitle } = defineProps<{
+const { resource, headerTitle, uniqueKey } = defineProps<{
   columns: { key: string; label: string }[]
   resource: string
+  uniqueKey: string
   headerTitle: string
 }>()
 
@@ -22,6 +23,8 @@ const limit = ref(DEFAULT_LIMIT)
 const searchQuery = ref('')
 const sortKeyRef = ref('')
 const orderRef = ref<'asc' | 'desc' | null>(null)
+
+const selectedRows = ref<Record<string, unknown>[]>([])
 
 watch(
   searchQuery,
@@ -79,11 +82,28 @@ const handleOrderChange = ({ sortKey, order }: { sortKey: string; order: 'asc' |
 }
 
 const exportToCSV = () => {
-  downloadCSV(rows.value, `${new Date().toISOString()}-${resource}.csv`)
+  downloadCSV(
+    selectedRows.value.length ? selectedRows.value : rows.value,
+    `${new Date().toISOString()}-${resource}.csv`
+  )
 }
 
-const thClasses = 'border border-black p-2.5 text-left font-semibold text-white'
-const tdClasses = 'border border-gray-300 p-2.5'
+const handleSelectRow = (row: Record<string, string>, event: Event) => {
+  const checkbox = event.target as HTMLInputElement
+
+  if (checkbox.checked) {
+    selectedRows.value.push(row)
+  } else {
+    selectedRows.value = selectedRows.value.filter((r) => r[uniqueKey] !== row[uniqueKey])
+  }
+}
+
+const isRowSelected = (row: Record<string, string>) => {
+  return !!selectedRows.value.find((r) => r.id === row.id)
+}
+
+const thClasses = 'border border-black px-2.5 py-1 text-left font-semibold text-white'
+const tdClasses = 'border border-gray-300 px-2.5 py-1'
 </script>
 
 <template>
@@ -93,7 +113,20 @@ const tdClasses = 'border border-gray-300 p-2.5'
       <div class="flex items-center gap-2.5">
         <h2 class="text-2xl font-semibold">{{ headerTitle }}</h2>
         <Button icon="pi pi-plus" label="Ajouter" />
-        <Button icon="pi pi-download" severity="secondary" label="Exporter" @click="exportToCSV" />
+        <Button
+          icon="pi pi-download"
+          severity="secondary"
+          :label="selectedRows.length ? `Exporter (${selectedRows.length})` : 'Exporter'"
+          @click="exportToCSV"
+        />
+        <Button
+          v-if="selectedRows.length"
+          icon="pi pi-times"
+          severity="secondary"
+          label="Tout déselectionner"
+          outlined
+          @click="selectedRows = []"
+        />
       </div>
 
       <div class="flex items-center gap-2.5">
@@ -112,6 +145,7 @@ const tdClasses = 'border border-gray-300 p-2.5'
       <table class="w-full table-auto">
         <thead class="rounded-t-md bg-black outline outline-offset-[-1px] outline-black">
           <tr>
+            <th :class="thClasses"></th>
             <DataHeaderCell
               v-for="column in columns"
               :key="column.key"
@@ -125,14 +159,26 @@ const tdClasses = 'border border-gray-300 p-2.5'
           </tr>
         </thead>
         <tbody class="rounded-b-md outline outline-offset-[-1px] outline-gray-300">
-          <tr v-for="row in rows" :key="row.id" class="bg-white hover:bg-gray-200">
+          <tr
+            v-for="row in rows"
+            :key="row[uniqueKey]"
+            :class="isRowSelected(row) ? 'bg-[#12b9813b]' : 'bg-white'"
+          >
+            <td class="text-center" :class="tdClasses">
+              <input
+                type="checkbox"
+                class="h-4 w-4"
+                :checked="isRowSelected(row)"
+                @change="(event: Event) => handleSelectRow(row, event)"
+              />
+            </td>
             <td v-for="column in columns" :key="column.key" :class="tdClasses">
               {{ row[column.key] }}
             </td>
             <td :class="tdClasses">
               <div class="flex justify-center gap-2.5 self-stretch">
                 <Button icon="pi pi-pen-to-square" severity="contrast" aria-label="Modifier" />
-                <Button icon="pi pi-trash" severity="contrast" outlined aria-label="Supprimer" />
+                <Button icon="pi pi-trash" severity="secondary" aria-label="Supprimer" />
               </div>
             </td>
           </tr>
