@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import Select, { type SelectChangeEvent } from 'primevue/select'
 import DataPagination from './DataPagination.vue'
-import DataHeader from './DataHeader.vue'
+import DataHeaderCell from './DataHeaderCell.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 const DEFAULT_LIMIT = 25
@@ -88,7 +88,7 @@ const tdClasses = 'border border-gray-300 p-2.5'
       <table class="w-full table-auto">
         <thead class="rounded-t-md bg-black outline outline-offset-[-1px] outline-black">
           <tr>
-            <DataHeader
+            <DataHeaderCell
               v-for="column in columns"
               :key="column.key"
               :sortKey="column.key"
