@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import Select, { type SelectChangeEvent } from 'primevue/select'
+import { debounce } from 'underscore'
 import DataPagination from './DataPagination.vue'
 import DataHeaderCell from './DataHeaderCell.vue'
 
@@ -17,8 +18,18 @@ const rows = ref<Record<string, string>[]>([])
 const currentPage = ref(1)
 const maxPage = ref(1)
 const limit = ref(DEFAULT_LIMIT)
+const searchQuery = ref('')
 const sortKeyRef = ref('')
 const orderRef = ref<'asc' | 'desc' | null>(null)
+
+watch(
+  searchQuery,
+  // Déclenche la recherche 500 ms après fin de saisie
+  debounce(() => {
+    currentPage.value = 1
+    fetchData()
+  }, 500)
+)
 
 const getUrl = () => {
   const url = new URL(`${API_URL}/${resource}`)
@@ -28,6 +39,10 @@ const getUrl = () => {
   if (sortKeyRef.value && orderRef.value) {
     url.searchParams.append('sort', sortKeyRef.value)
     url.searchParams.append('order', orderRef.value)
+  }
+
+  if (searchQuery.value) {
+    url.searchParams.append('q', searchQuery.value)
   }
 
   return url
@@ -75,12 +90,15 @@ const tdClasses = 'border border-gray-300 p-2.5'
         <Button icon="pi pi-plus" label="Ajouter" />
       </div>
 
-      <Select
-        v-model="limit"
-        :options="[10, 25, 50, 75, 100]"
-        aria-label="Nombre d'éléments par page"
-        @change="handleLimitChange"
-      />
+      <div class="flex items-center gap-2.5">
+        <InputText placeholder="Rechercher" icon="pi pi-search" v-model="searchQuery" />
+        <Select
+          v-model="limit"
+          :options="[10, 25, 50, 75, 100]"
+          aria-label="Nombre d'éléments par page"
+          @change="handleLimitChange"
+        />
+      </div>
     </div>
 
     <!-- Table -->
@@ -106,7 +124,7 @@ const tdClasses = 'border border-gray-300 p-2.5'
               {{ row[column.key] }}
             </td>
             <td :class="tdClasses">
-              <div class="flex justify-between gap-2.5 self-stretch">
+              <div class="flex justify-center gap-2.5 self-stretch">
                 <Button icon="pi pi-pen-to-square" severity="contrast" aria-label="Modifier" />
                 <Button icon="pi pi-trash" severity="contrast" outlined aria-label="Supprimer" />
               </div>
