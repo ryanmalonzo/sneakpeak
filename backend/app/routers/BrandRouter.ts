@@ -21,11 +21,13 @@ BrandRouter.get(
 
 BrandRouter.post(
   '/',
-  schema({
-    name: z.string(),
-    slug: z.string(),
-    image: z.string(),
-  }),
+  schema(
+    z.object({
+      name: z.string(),
+      slug: z.string(),
+      image: z.string(),
+    }),
+  ),
   auth,
   admin,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -43,11 +45,13 @@ BrandRouter.post(
 
 BrandRouter.put(
   '/:id',
-  schema({
-    name: z.string(),
-    slug: z.string(),
-    image: z.string(),
-  }),
+  schema(
+    z.object({
+      name: z.string(),
+      slug: z.string(),
+      image: z.string(),
+    }),
+  ),
   auth,
   admin,
   async (req: Request, res: Response, next: NextFunction) => {

@@ -11,14 +11,16 @@ export const VariantRouter = Router();
 
 VariantRouter.post(
   '/',
-  schema({
-    stock: z.number(),
-    image: z.string(),
-    isBest: z.boolean(),
-    sneakerId: z.number(),
-    colorId: z.number(),
-    sizeId: z.number(),
-  }),
+  schema(
+    z.object({
+      stock: z.number(),
+      image: z.string(),
+      isBest: z.boolean(),
+      sneakerId: z.number(),
+      colorId: z.number(),
+      sizeId: z.number(),
+    }),
+  ),
   auth,
   admin,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -47,14 +49,16 @@ VariantRouter.post(
 
 VariantRouter.patch(
   '/:id',
-  schema({
-    stock: z.number().optional(),
-    image: z.string().optional(),
-    isBest: z.boolean().optional(),
-    sneakerId: z.number().optional(),
-    colorId: z.number().optional(),
-    sizeId: z.number().optional(),
-  }),
+  schema(
+    z.object({
+      stock: z.number().optional(),
+      image: z.string().optional(),
+      isBest: z.boolean().optional(),
+      sneakerId: z.number().optional(),
+      colorId: z.number().optional(),
+      sizeId: z.number().optional(),
+    }),
+  ),
   auth,
   admin,
   async (req: Request, res: Response, next: NextFunction) => {

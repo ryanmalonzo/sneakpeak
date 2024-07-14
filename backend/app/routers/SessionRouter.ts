@@ -10,10 +10,12 @@ export const SessionRouter = express.Router();
 
 SessionRouter.post(
   '/',
-  schema({
-    email: z.string().email(),
-    password: z.string(),
-  }),
+  schema(
+    z.object({
+      email: z.string().email(),
+      password: z.string(),
+    }),
+  ),
   async (req, res, next) => {
     try {
       const { email, password } = req.body;

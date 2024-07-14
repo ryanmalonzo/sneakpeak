@@ -89,13 +89,15 @@ SneakerRouter.get(
 
 SneakerRouter.post(
   '/',
-  schema({
-    name: z.string(),
-    description: z.string(),
-    price: z.number(),
-    categoryId: z.number(),
-    brandId: z.number(),
-  }),
+  schema(
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      price: z.number(),
+      categoryId: z.number(),
+      brandId: z.number(),
+    }),
+  ),
   auth,
   admin,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -124,13 +126,15 @@ SneakerRouter.post(
 
 SneakerRouter.put(
   '/:id',
-  schema({
-    name: z.string(),
-    description: z.string(),
-    price: z.number(),
-    categoryId: z.number(),
-    brandId: z.number(),
-  }),
+  schema(
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      price: z.number(),
+      categoryId: z.number(),
+      brandId: z.number(),
+    }),
+  ),
   auth,
   admin,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -167,13 +171,15 @@ SneakerRouter.patch(
   '/:id',
   auth,
   admin,
-  schema({
-    name: z.string().optional(),
-    description: z.string().optional(),
-    price: z.number().optional(),
-    categoryId: z.number().optional(),
-    brandId: z.number().optional(),
-  }),
+  schema(
+    z.object({
+      name: z.string().optional(),
+      description: z.string().optional(),
+      price: z.number().optional(),
+      categoryId: z.number().optional(),
+      brandId: z.number().optional(),
+    }),
+  ),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;

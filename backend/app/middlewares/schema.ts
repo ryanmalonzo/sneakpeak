@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import z from 'zod';
+import { AnyZodObject } from 'zod';
 import { RequestError } from '../helpers/error';
 
 /**
@@ -8,12 +8,9 @@ import { RequestError } from '../helpers/error';
  * @throws 422 if the payload is not valid
  */
 
-export const schema = (zodSchema: Record<string, unknown>) => {
+export const schema = (zodSchema: AnyZodObject) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const schema = z.object(
-      zodSchema as unknown as Record<string, z.ZodTypeAny>,
-    );
-    const { error } = schema.safeParse(req.body);
+    const { error } = zodSchema.safeParse(req.body);
 
     if (error) {
       next(new RequestError(StatusCodes.UNPROCESSABLE_ENTITY));
