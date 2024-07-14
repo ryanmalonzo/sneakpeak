@@ -4,6 +4,7 @@ import Select, { type SelectChangeEvent } from 'primevue/select'
 import { debounce } from 'underscore'
 import DataPagination from './DataPagination.vue'
 import DataHeaderCell from './DataHeaderCell.vue'
+import { downloadCSV } from './utils/csv'
 
 const API_URL = import.meta.env.VITE_API_URL
 const DEFAULT_LIMIT = 25
@@ -77,6 +78,10 @@ const handleOrderChange = ({ sortKey, order }: { sortKey: string; order: 'asc' |
   fetchData()
 }
 
+const exportToCSV = () => {
+  downloadCSV(rows.value, `${new Date().toISOString()}-${resource}.csv`)
+}
+
 const thClasses = 'border border-black p-2.5 text-left font-semibold text-white'
 const tdClasses = 'border border-gray-300 p-2.5'
 </script>
@@ -88,6 +93,7 @@ const tdClasses = 'border border-gray-300 p-2.5'
       <div class="flex items-center gap-2.5">
         <h2 class="text-2xl font-semibold">{{ headerTitle }}</h2>
         <Button icon="pi pi-plus" label="Ajouter" />
+        <Button icon="pi pi-download" severity="secondary" label="Exporter" @click="exportToCSV" />
       </div>
 
       <div class="flex items-center gap-2.5">

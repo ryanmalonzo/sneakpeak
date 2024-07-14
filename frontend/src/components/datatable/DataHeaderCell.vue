@@ -40,14 +40,14 @@ const getOrder = (): 'asc' | 'desc' => {
 </script>
 
 <template>
-  <th :class="classes">
+  <th
+    class="cursor-pointer"
+    :class="classes"
+    @click="emit('orderChange', { sortKey, order: getOrder() })"
+  >
     <div class="flex items-center justify-between gap-2.5">
       <p>{{ label }}</p>
-      <i
-        class="cursor-pointer"
-        :class="icons[currentOrder]"
-        @click="emit('orderChange', { sortKey, order: getOrder() })"
-      ></i>
+      <i :class="icons[currentOrder]"></i>
     </div>
   </th>
 </template>
