@@ -1,7 +1,11 @@
 import { NextFunction, Request, Response, Router } from 'express';
+import z from 'zod';
 import { SneakerService } from '../services/SneakerService';
 import { StatusCodes } from 'http-status-codes';
 import { pagination } from '../middlewares/pagination';
+import { auth } from '../middlewares/auth';
+import { admin } from '../middlewares/admin';
+import { schema } from '../middlewares/schema';
 import { SneakerDTO } from '../models/sql/Sneaker';
 
 export const SneakerRouter = Router();
@@ -85,6 +89,15 @@ SneakerRouter.get(
 
 SneakerRouter.post(
   '/',
+  schema({
+    name: z.string(),
+    description: z.string(),
+    price: z.number(),
+    categoryId: z.number(),
+    brandId: z.number(),
+  }),
+  auth,
+  admin,
   async (req: Request, res: Response, next: NextFunction) => {
     const { name, description, price, categoryId, brandId } = req.body;
     const sneaker: SneakerDTO = {
@@ -111,6 +124,15 @@ SneakerRouter.post(
 
 SneakerRouter.put(
   '/:id',
+  schema({
+    name: z.string(),
+    description: z.string(),
+    price: z.number(),
+    categoryId: z.number(),
+    brandId: z.number(),
+  }),
+  auth,
+  admin,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
@@ -143,6 +165,15 @@ SneakerRouter.put(
 
 SneakerRouter.patch(
   '/:id',
+  auth,
+  admin,
+  schema({
+    name: z.string().optional(),
+    description: z.string().optional(),
+    price: z.number().optional(),
+    categoryId: z.number().optional(),
+    brandId: z.number().optional(),
+  }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
@@ -169,6 +200,8 @@ SneakerRouter.patch(
 
 SneakerRouter.delete(
   '/:id',
+  auth,
+  admin,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;

@@ -1,11 +1,13 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import z from 'zod';
 import { UserService } from '../services/UserService';
 import { RequestError } from '../helpers/error';
 import { UserRepository } from '../repositories/sql/UserRepository';
 import { setCookie } from '../helpers/cookie';
 import { auth } from '../middlewares/auth';
 import { permissions } from '../middlewares/permissions';
+import { schema } from '../middlewares/schema';
 
 export const UserRouter = express.Router();
 
@@ -24,6 +26,10 @@ const findUser = async (req: Request, res: Response, next: NextFunction) => {
 // Register a new user
 UserRouter.post(
   '/',
+  schema({
+    email: z.string().email(),
+    password: z.string(),
+  }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password } = req.body;
@@ -40,6 +46,9 @@ UserRouter.post(
 UserRouter.use('/:id/challenge/email', findUser);
 UserRouter.post(
   '/:id/challenge/email',
+  schema({
+    token: z.string(),
+  }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { user } = res.locals;
@@ -58,6 +67,9 @@ UserRouter.post(
 
 UserRouter.post(
   '/password-reset',
+  schema({
+    email: z.string().email(),
+  }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email } = req.body;
@@ -73,6 +85,10 @@ UserRouter.post(
 UserRouter.use('/:id/password', findUser);
 UserRouter.put(
   '/:id/password',
+  schema({
+    token: z.string(),
+    password: z.string(),
+  }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { user } = res.locals;
@@ -95,6 +111,13 @@ UserRouter.put(
 
 UserRouter.patch(
   '/:id',
+  schema({
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    phone: z.string().optional(),
+    email: z.string().email().optional(),
+    password: z.string().optional(),
+  }),
   findUser,
   auth,
   permissions(['user']),

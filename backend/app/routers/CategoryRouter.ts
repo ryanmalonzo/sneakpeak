@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { CategoryService } from '../services/CategoryService';
 import { StatusCodes } from 'http-status-codes';
+import z from 'zod';
 import { auth } from '../middlewares/auth';
 import { admin } from '../middlewares/admin';
+import { schema } from '../middlewares/schema';
 
 export const CategoryRouter = Router();
 
@@ -19,6 +21,11 @@ CategoryRouter.get(
 
 CategoryRouter.post(
   '/',
+  schema({
+    name: z.string(),
+    slug: z.string(),
+    image: z.string(),
+  }),
   auth,
   admin,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -40,6 +47,11 @@ CategoryRouter.post(
 
 CategoryRouter.put(
   '/:id',
+  schema({
+    name: z.string(),
+    slug: z.string(),
+    image: z.string(),
+  }),
   auth,
   admin,
   async (req: Request, res: Response, next: NextFunction) => {
