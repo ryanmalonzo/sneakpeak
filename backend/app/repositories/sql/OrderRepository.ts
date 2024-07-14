@@ -12,6 +12,10 @@ export class OrderRepository {
     return Order.findAll();
   }
 
+  static async findAllByUserId(userId: number): Promise<Order[]> {
+    return Order.findAll({ where: { user_id: userId } });
+  }
+
   static async findById(id: number): Promise<Order | null> {
     return Order.findByPk(id);
   }
