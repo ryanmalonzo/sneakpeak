@@ -46,7 +46,7 @@ describe('SessionRouter', () => {
   describe('POST /session', () => {
     it('should return a 401 status code if user does not exist', async () => {
       const response = await request(app).post('/session').send({
-        email: 'email',
+        email: 'email@email.com',
         password: 'impossible',
       });
 
