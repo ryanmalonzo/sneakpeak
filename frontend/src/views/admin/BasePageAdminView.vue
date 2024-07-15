@@ -125,9 +125,9 @@ const toggleSidebar = () => {
   </section>
 </template>
 
-<style scoped>
-#content {
-  height: calc(100svh - 114px);
-  overflow: auto;
-}
-</style>
+<!-- <style scoped> -->
+<!-- #content { -->
+<!--   height: calc(100svh - 114px); -->
+<!--   overflow: auto; -->
+<!-- } -->
+<!-- </style> -->
