@@ -47,7 +47,11 @@ describe('SneakerRouter', () => {
         categoryId: 1,
         brandId: 1,
       };
-      const res = await request(app).post('/sneakers').send(sneaker);
+      const res = await request(app)
+        .post('/sneakers')
+        .send(sneaker)
+        .set('Cookie', `accessToken=${accessToken}`);
+
       const response = await request(app).get(
         `/sneakers/${res.body.name.toLowerCase()}`,
       );
