@@ -1,31 +1,85 @@
 <script setup lang="ts">
 import BasePage from '@/components/BasePage.vue'
 import MenuProfil from '@/components/profile/MenuProfil.vue'
-import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { onMounted, ref } from 'vue'
 
-const order = ref({
-    id: 2,
-    placed: 'June 3, 2023',
-    total: '$57.99',
-    shipTo: 'Irakli Lolashvili',
-    orderNumber: '112-0822160-5390024',
-    items: [
-        {
-            id: 1,
-            image: 'https://placekitten.com/200/200',
-            name: 'ORICO M.2 NVMe SSD Enclosure, USB 3.1 Gen 2 (10 Gbps) to NVMe PCI-E M.2 SSD Case Support UASP for NVMe',
-            deliveryStatus: 'Delivered June 7',
-            eligibleUntil: 'July 7, 2023'
+interface Order {
+    createdAt: string;
+    total: number;
+    status: string;
+    payment_status: string;
+    reference: string;
+    shipping: {
+        name: string;
+        city: string;
+        street: string;
+        phone: string;
+        postal_code: string;
+    };
+    billing: {
+        name: string;
+        city: string;
+        street: string;
+        phone: string;
+        postal_code: string;
+    };
+    products: {
+        id: string;
+        image: string;
+        name: string;
+        quantity: number;
+        unit_price: number;
+    }[];
+}
+/*
+ const data = {
+      order: {
+        total: order.total,
+        status: order.status,
+        payment_status: order.payment_status,
+        reference: order.reference,
+      },
+      shipping: {
+        name: shipping.name,
+        city: shipping.city,
+        street: shipping.street,
+        phone: shipping.phone,
+        postal_code: shipping.postal_code,
+      },
+      billing: {
+        name: billing.name,
+        city: billing.city,
+        street: billing.street,
+        phone: billing.phone,
+        postal_code: billing.postal_code,
+      },
+      products: products.map((product) => ({
+        image: 'https://via.placeholder.com/150',
+        name: product.name,
+        quantity: product.quantity,
+        unit_price: product.unitPrice,
+      })),
+    };
+*/
+const route = useRoute()
+const order = ref(null)
+const BASE_URL = import.meta.env.VITE_API_URL
+const loadOrder = async () => {
+    const response = await fetch(`${BASE_URL}/profile/orders/${route.params.reference}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
         },
-        {
-            id: 1,
-            image: 'https://placekitten.com/200/200',
-            name: 'ORICO M.2 NVMe SSD Enclosure, USB 3.1 Gen 2 (10 Gbps) to NVMe PCI-E M.2 SSD Case Support UASP for NVMe',
-            deliveryStatus: 'Delivered June 7',
-            eligibleUntil: 'July 7, 2023'
-        }
-    ]
-})
+        credentials: 'include'
+    })
+    const data = await response.json()
+    console.log(data)
+    order.value = data
+}
+
+loadOrder()
+console.log(order.value)
 </script>
 
 <template>
@@ -41,21 +95,25 @@ const order = ref({
                         <div class="flex gap-8">
                             <p class="flex flex-col">
                                 <span class="font-light">Commandé le :</span>
-                                {{ order.placed }}
+                                {{ new Date(order.order.createdAt).toLocaleDateString() }}
                             </p>
 
                             <p class="flex flex-col">
                                 <span class="font-light">Total:</span>
-                                {{ order.total }}
+                                {{ order.order.total }} €
                             </p>
 
                             <p class="flex flex-col">
                                 <span class="font-light">Livré à :</span>
-                                {{ order.shipTo }}
+                                {{ order.shipping.name }} {{ order.shipping.city }} {{ order.shipping.street }} {{
+                                    order.shipping.postal_code }}
+
                             </p>
                             <p class="flex flex-col">
                                 <span class="font-light">Facturé à :</span>
-                                {{ order.shipTo }}
+                                {{ order.billing.name }} {{ order.billing.city }} {{ order.billing.street }} {{
+                                    order.billing.postal_code }}
+
                             </p>
 
 
@@ -64,7 +122,7 @@ const order = ref({
                         <div>
                             <p class="flex flex-col">
                                 <span class="font-light">Commande : </span>
-                                {{ order.orderNumber }}
+                                {{ order.order.reference }}
                             </p>
                             <div class="flex gap-4 mt-4">
                                 <button class="text-black underline">Voir la facture</button>
@@ -74,11 +132,11 @@ const order = ref({
                         </div>
                     </div>
 
-                    <div v-for="item in order.items" :key="item.id" class="flex mb-4 p-4">
+                    <div v-for="item in order.products" :key="item.id" class="flex mb-4 p-4">
                         <img :src="item.image" alt="" class="w-20 h-20 object-cover mr-4">
                         <div class="flex-1">
                             <p class="font-medium">{{ item.name }}</p>
-                            <p class="text-gray-600">{{ item.deliveryStatus }}</p>
+                            <p class="text-gray-600">{{ item.quantity }} x {{ item.unit_price }} €</p>
                             <div class="flex gap-4 mt-4">
                                 <button class="text-black underline">Retourner un article</button>
                             </div>

@@ -15,6 +15,7 @@ export class Order extends Model {
   declare reference: string;
   declare session_id: string;
   declare userId: ForeignKey<User['id']>;
+  declare createdAt: Date;
 }
 
 export default (sequelize: Sequelize) => {

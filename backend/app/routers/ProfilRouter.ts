@@ -16,8 +16,52 @@ ProfilRouter.get('/orders', auth, async (req, res, next) => {
 
 ProfilRouter.get('/orders/:reference', auth, async (req, res, next) => {
   try {
-    const order = await OrderService.findOrderByReference(req.params.reference);
-    return res.status(StatusCodes.OK).json({ order });
+    const order = await OrderService.findOrderByReference(
+      req.params.reference,
+      res.locals.user.id,
+    );
+    if (!order) {
+      return res.status(StatusCodes.NOT_FOUND).send();
+    }
+    const shipping = await OrderService.findAddressByType(order.id, 'shipping');
+
+    const billing = await OrderService.findAddressByType(order.id, 'billing');
+    const products = await OrderService.findProductsByOrderId(order.id);
+
+    if (!shipping || !billing || !products) {
+      return res.status(StatusCodes.NOT_FOUND).send();
+    }
+    const data = {
+      order: {
+        createdAt: order.createdAt,
+        total: order.total,
+        status: order.status,
+        payment_status: order.payment_status,
+        reference: order.reference,
+      },
+      shipping: {
+        name: shipping.name,
+        city: shipping.city,
+        street: shipping.street,
+        phone: shipping.phone,
+        postal_code: shipping.postal_code,
+      },
+      billing: {
+        name: billing.name,
+        city: billing.city,
+        street: billing.street,
+        phone: billing.phone,
+        postal_code: billing.postal_code,
+      },
+      products: products.map((product) => ({
+        id: product.id,
+        image: 'https://via.placeholder.com/150',
+        name: product.name,
+        quantity: product.quantity,
+        unit_price: product.unitPrice,
+      })),
+    };
+    return res.status(StatusCodes.OK).json(data);
   } catch (error) {
     next(error);
   }

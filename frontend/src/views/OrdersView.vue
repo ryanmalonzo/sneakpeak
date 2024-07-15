@@ -43,11 +43,11 @@ const getSeverity = (status: string) => {
             return 'text-green-500 bg-green-100 border-green-500 text-center rounded-full px-3 py-1 font-semibold text-sm';
     }
 }
-
+const BASE_URL = import.meta.env.VITE_API_URL
 onMounted(async () => {
     // Load orders
     const loadOrders = async () => {
-        const response = await fetch('http://localhost:3000/profile/orders', {
+        const response = await fetch(`${BASE_URL}/profile/orders`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
