@@ -6,8 +6,7 @@ import Image from 'primevue/image'
 import type { IProfile } from '@/services/sessionApi'
 
 const isSidebarOpen = ref(false)
-const localProfile = localStorage.getItem('profile')
-const profile: IProfile = JSON.parse(localProfile!)
+const profile: IProfile = JSON.parse(localStorage.getItem('profile')!)
 const greeting = 'Hello, ' + (profile.firstName || profile.email)
 
 const toggleSidebar = () => {
