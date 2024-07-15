@@ -7,7 +7,6 @@ import { computed, onBeforeMount, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Button from 'primevue/button'
 import Select from 'primevue/select'
-import { CartApi } from '@/services/cartApi'
 import { useToast } from 'primevue/usetoast'
 import { Translation } from '@/helpers/translation'
 import { CartStore } from '@/store/cart'
@@ -110,7 +109,14 @@ const onSubmit = async () => {
   }
 
   try {
-    await CartApi.addProduct(selectedSize.value.idRef, selectedQuantity.value.quantity)
+    await cart.addProduct(selectedSize.value.idRef, selectedQuantity.value.quantity)
+    toast.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Produit ajouté au panier !',
+      life: 3000
+    })
+    resetSelectedSize()
   } catch (error) {
     toast.add({
       severity: 'error',
@@ -123,6 +129,7 @@ const onSubmit = async () => {
 </script>
 
 <template>
+  {{ selectedSize }}
   <BasePage>
     <div v-if="sneaker" class="flex w-full flex-col justify-around gap-20 p-8">
       <!-- Haut page produit -->
