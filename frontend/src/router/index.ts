@@ -74,6 +74,11 @@ const router = createRouter({
       component: () => import('@/views/OrdersView.vue')
     },
     {
+      path: '/profile/orders/:reference',
+      name: 'order',
+      component: () => import('@/views/DetailOrderView.vue')
+    },
+    {
       path: '/admin',
       name: 'admin',
       component: BasePageAdminView

@@ -7,8 +7,8 @@ import FormRow from '@/components/profile/FormRow.vue'
 import InputWithLabel from '@/components/profile/InputWithLabel.vue'
 import PasswordWithLabel from '@/components/profile/PasswordWithLabel.vue'
 import type { IProfile } from '@/services/sessionApi'
-import { logout } from '@/helpers/auth'
 import { useForm } from '@/helpers/useForm'
+import MenuProfil from '@/components/profile/MenuProfil.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -139,86 +139,39 @@ watch(
             <h2 class="text-2xl font-medium uppercase">Mes informations</h2>
 
             <FormRow>
-              <InputWithLabel
-                id="firstName"
-                label="Prénom"
-                placeholder="John"
-                :value="formData.firstName"
+              <InputWithLabel id="firstName" label="Prénom" placeholder="John" :value="formData.firstName"
                 @input="updateField('firstName', ($event.target as HTMLInputElement).value)"
-                :helperText="validationErrors.firstName"
-              />
-              <InputWithLabel
-                id="lastName"
-                label="Nom"
-                placeholder="Doe"
-                :value="formData.lastName"
+                :helperText="validationErrors.firstName" />
+              <InputWithLabel id="lastName" label="Nom" placeholder="Doe" :value="formData.lastName"
                 @input="updateField('lastName', ($event.target as HTMLInputElement).value)"
-                :helperText="validationErrors.lastName"
-              />
+                :helperText="validationErrors.lastName" />
             </FormRow>
 
             <FormRow>
-              <InputWithLabel
-                id="phone"
-                label="Téléphone"
-                placeholder="06 01 02 03 04"
-                :value="formData.phone"
+              <InputWithLabel id="phone" label="Téléphone" placeholder="06 01 02 03 04" :value="formData.phone"
                 @input="updateField('phone', ($event.target as HTMLInputElement).value)"
-                :helperText="validationErrors.phone"
-              />
-              <InputWithLabel
-                id="email"
-                label="Adresse mail"
-                placeholder="john.doe@gmail.com"
-                :value="formData.email"
+                :helperText="validationErrors.phone" />
+              <InputWithLabel id="email" label="Adresse mail" placeholder="john.doe@gmail.com" :value="formData.email"
                 @input="updateField('email', ($event.target as HTMLInputElement).value)"
-                :helperText="validationErrors.email"
-              />
+                :helperText="validationErrors.email" />
             </FormRow>
 
             <FormRow>
-              <PasswordWithLabel
-                id="password"
-                label="Mot de passe"
-                :value="formData.password"
-                @input="updateField('password', $event)"
-                :helperText="validationErrors.password"
-                :invalid="!!validationErrors.password"
-              />
-              <PasswordWithLabel
-                id="passwordConfirm"
-                label="Confirmation du mot de passe"
-                :value="formData.passwordConfirm"
-                @input="updateField('passwordConfirm', $event)"
-                helperText="Les mots de passe ne correspondent pas"
-                :invalid="passwordMismatch"
-              />
+              <PasswordWithLabel id="password" label="Mot de passe" :value="formData.password"
+                @input="updateField('password', $event)" :helperText="validationErrors.password"
+                :invalid="!!validationErrors.password" />
+              <PasswordWithLabel id="passwordConfirm" label="Confirmation du mot de passe"
+                :value="formData.passwordConfirm" @input="updateField('passwordConfirm', $event)"
+                helperText="Les mots de passe ne correspondent pas" :invalid="passwordMismatch" />
             </FormRow>
 
-            <Button
-              type="submit"
-              label="Sauvegarder"
-              severity="contrast"
-              class="self-start !rounded-none !px-5 uppercase"
-              :loading="isSubmitting"
-              :disabled="!isValid"
-            />
+            <Button type="submit" label="Sauvegarder" severity="contrast"
+              class="self-start !rounded-none !px-5 uppercase" :loading="isSubmitting" :disabled="!isValid" />
           </form>
         </div>
 
         <!-- Right -->
-        <div class="order-1 flex flex-col gap-5 md:order-2">
-          <p class="text-2xl font-medium">Menu</p>
-
-          <div class="flex flex-col gap-5 border border-black p-5">
-            <RouterLink to="/profile" class="font-medium underline"
-              >Mes informations personnelles</RouterLink
-            >
-            <RouterLink to="/profile" class="font-medium underline">Mes adresses</RouterLink>
-            <RouterLink to="/profile" class="font-medium underline">Mes commandes</RouterLink>
-            <p class="cursor-pointer font-medium underline" @click="logout()">Se déconnecter</p>
-          </div>
-        </div>
+        <MenuProfil />
       </div>
     </div>
   </BasePage>
