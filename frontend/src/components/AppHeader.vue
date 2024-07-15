@@ -32,7 +32,7 @@ const items = ref([
   { label: 'Catégories', root: true }
 ])
 
-// Déclencher la recherche avec un délai
+// Déclenche la recherche 500 ms après fin de saisie
 const goToSearch = debounce(() => {
   router.push({ path: '/search', query: { q: searchRef.value } })
 }, 500)
