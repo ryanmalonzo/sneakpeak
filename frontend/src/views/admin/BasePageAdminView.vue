@@ -46,7 +46,7 @@ const toggleSidebar = () => {
       <div class="font-['Be Vietnam Pro'] w-full flex-col px-6 text-zinc-100">
         <ul>
           <li>
-            <RouterLink to="/admin" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+            <RouterLink to="dashboard" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
               <i class="pi pi-home" style="color: #ffff; font-size: 1.3rem"></i>
               Accueil
             </RouterLink>
@@ -70,7 +70,7 @@ const toggleSidebar = () => {
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+            <RouterLink to="categories" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
               <i class="pi pi-objects-column" style="color: #ffff; font-size: 1.3rem"></i>
               Catégories
             </RouterLink>

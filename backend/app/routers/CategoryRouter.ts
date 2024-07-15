@@ -5,14 +5,31 @@ import z from 'zod';
 import { auth } from '../middlewares/auth';
 import { admin } from '../middlewares/admin';
 import { schema } from '../middlewares/schema';
+import { pagination } from '../middlewares/pagination';
 
 export const CategoryRouter = Router();
 
 CategoryRouter.get(
   '/',
+  pagination({
+    name: 'in',
+    slug: 'in',
+  }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      return res.status(StatusCodes.OK).json(await CategoryService.findAll());
+      const { q, page, limit, sortOptions, filterOptions } = res.locals;
+
+      return res
+        .status(StatusCodes.OK)
+        .json(
+          await CategoryService.getPaginated(
+            q,
+            page,
+            limit,
+            sortOptions,
+            filterOptions,
+          ),
+        );
     } catch (error) {
       next(error);
     }
