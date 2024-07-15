@@ -40,7 +40,8 @@ export class SneakerService {
         { name: { $regex: q, $options: 'i' } },
         { category: { $regex: q, $options: 'i' } },
         { brand: { $regex: q, $options: 'i' } },
-        { ' lgvariants.color': { $regex: q, $options: 'i' } },
+        { description: { $regex: q, $options: 'i' } },
+        { 'variants.color': { $regex: q, $options: 'i' } },
         { 'variants.size': { $regex: q, $options: 'i' } },
       ];
     }
