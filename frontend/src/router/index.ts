@@ -77,6 +77,16 @@ const router = createRouter({
           path: 'dashboard',
           name: 'admin_dashboard',
           component: BasePageAdminView
+        },
+        {
+          path: 'sneakers',
+          name: 'admin_sneakers',
+          component: () => import('@/views/admin/SneakersAdminView.vue')
+        },
+        {
+          path: 'categories',
+          name: 'admin_categories',
+          component: () => import('@/views/admin/CategoriesAdminView.vue')
         }
       ]
     }
@@ -84,7 +94,7 @@ const router = createRouter({
 })
 
 const publicRoutes = ['home', 'email_verification', 'search', 'cart', 'reset_password', 'cgu']
-const adminRoutes = ['admin_dashboard']
+const adminRoutes = ['admin_dashboard', 'admin_sneakers', 'admin_categories']
 
 router.afterEach(async (to) => {
   const { isAuthenticated, roles } = await checkAuth()

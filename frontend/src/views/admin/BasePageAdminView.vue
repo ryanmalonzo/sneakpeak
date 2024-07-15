@@ -23,7 +23,7 @@ const toggleSidebar = () => {
         hidden: !isSidebarOpen,
         'fixed left-0 top-0 h-screen md:hidden': isSidebarOpen
       }"
-      class="flex-shrink-0 flex-col items-center gap-[6.25rem] bg-black bg-opacity-95 p-5 md:flex md:w-[15.625rem]"
+      class="z-50 flex-shrink-0 flex-col items-center gap-[6.25rem] bg-black bg-opacity-95 p-5 md:flex md:w-[15.625rem]"
     >
       <!-- Logo ou fermeture de la sidebar-->
       <div class="mt-8">
@@ -64,7 +64,7 @@ const toggleSidebar = () => {
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+            <RouterLink to="sneakers" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
               <i class="pi pi-tags" style="color: #ffff; font-size: 1.3rem"></i>
               Chaussures
             </RouterLink>
@@ -112,9 +112,16 @@ const toggleSidebar = () => {
       <hr />
 
       <!-- Contenu -->
-      <main class="mt-6">
+      <main class="mt-6" id="content">
         <slot></slot>
       </main>
     </section>
   </section>
 </template>
+
+<style scoped>
+#content {
+  height: calc(100svh - 114px);
+  overflow: auto;
+}
+</style>
