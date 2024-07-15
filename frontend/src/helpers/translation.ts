@@ -53,4 +53,18 @@ export class Translation {
         return 'Une erreur est survenue. Veuillez réessayer'
     }
   }
+
+  /**
+   * @param message Erreur de connexion en anglais
+   * @returns Erreur de connexion en français
+   */
+  static sessionErrors(message: Error) {
+    switch ((message as IError).error) {
+      case 'not_logged_in':
+        return "Vous n'êtes pas connecté"
+
+      default:
+        return 'Une erreur est survenue. Veuillez réessayer'
+    }
+  }
 }

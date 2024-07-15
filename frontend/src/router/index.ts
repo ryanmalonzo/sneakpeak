@@ -82,7 +82,16 @@ const router = createRouter({
   ]
 })
 
-const publicRoutes = ['home', 'email_verification', 'search', 'cart', 'reset_password', 'cgu']
+const publicRoutes = [
+  'home',
+  'email_verification',
+  'search',
+  'sneakers',
+  'cart',
+  'reset_password',
+  'cgu',
+  'legal'
+]
 
 router.afterEach(async (to) => {
   const isAuthenticated = await checkAuth()

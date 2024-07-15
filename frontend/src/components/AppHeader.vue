@@ -94,7 +94,7 @@ watch(cart, async () => {
 <template>
   <MegaMenu :model="items" class="!sticky top-0 z-50 hidden !rounded-none !px-2.5 md:!px-5">
     <template #start>
-      <a href="/">
+      <a @click="router.push('/')" class="cursor-pointer">
         <Image :src="logo" alt="Logo SneakPeak" class="flex h-[46.5px] items-center pr-2.5" />
       </a>
     </template>

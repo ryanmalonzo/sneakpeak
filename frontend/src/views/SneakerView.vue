@@ -7,11 +7,17 @@ import { computed, onBeforeMount, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Button from 'primevue/button'
 import Select from 'primevue/select'
+import { CartApi } from '@/services/cartApi'
+import { useToast } from 'primevue/usetoast'
+import { Translation } from '@/helpers/translation'
+import { CartStore } from '@/store/cart'
 
 const MAX_QUANTITY_DISPLAYED = 5
 
 const router = useRouter()
 const route = useRoute()
+const cart = CartStore() //Store cart
+const toast = useToast()
 
 let sneaker = ref<SneakerApi.SneakerOut | undefined>(undefined)
 const selectedColor = ref<string>(route.query.color as string)
@@ -93,11 +99,26 @@ const newSizeList = computed(() => {
   return sizeList.value
 })
 
-const onSubmit = () => {
+const onSubmit = async () => {
   console.log('Ajout au panier', {
     variantId: selectedSize.value?.idRef,
     quantity: selectedQuantity.value?.quantity
   })
+
+  if (selectedSize.value === undefined || selectedQuantity.value === undefined) {
+    return
+  }
+
+  try {
+    await CartApi.addProduct(selectedSize.value.idRef, selectedQuantity.value.quantity)
+  } catch (error) {
+    toast.add({
+      severity: 'error',
+      summary: 'Erreur',
+      detail: Translation.sessionErrors(error as Error)!,
+      life: 3000
+    })
+  }
 }
 </script>
 
