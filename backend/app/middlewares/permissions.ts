@@ -15,6 +15,7 @@ export const permissions = (resources: string[]) => {
       // Admin has access to everything
       if (res.locals.user.roles.includes('ADMIN')) {
         next();
+        return;
       }
 
       // ***
