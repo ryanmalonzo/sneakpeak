@@ -56,7 +56,7 @@ export class OrderRepository {
     orderId: number,
   ): Promise<OrderProduct[] | null> {
     return OrderProduct.findAll({
-      where: { id: orderId },
+      where: { orderId: orderId },
     });
   }
 }

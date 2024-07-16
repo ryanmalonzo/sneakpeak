@@ -26,7 +26,7 @@ onMounted(async () => {
 
                 <button type="button" class="bg-black text-white p-3 px-5  my-4">
 
-                    <RouterLink :to="'/order/' + reference">
+                    <RouterLink :to="'profile/orders/' + reference">
                         Voir les détails de la commande
                     </RouterLink>
 

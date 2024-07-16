@@ -11,6 +11,7 @@ interface Order {
         payment_status: string;
         reference: string;
         createdAt: string;
+        invoice_url: string;
     };
     shipping: {
         name: string;
@@ -111,13 +112,13 @@ console.log(order.value)
 
                             <div class="flex flex-col">
                                 <span class="font-light">Livré à :</span>
-                                <p class="md:p-2">{{ order.shipping.name }} {{ order.shipping.city }} {{
+                                <p class="">{{ order.shipping.name }} {{ order.shipping.city }} {{
                                     order.shipping.street }} {{ order.shipping.postal_code }}</p>
                             </div>
 
                             <div class="flex flex-col">
                                 <span class="font-light">Facturé à :</span>
-                                <p class="md:p-2">{{ order.billing.name }} {{ order.billing.city }} {{
+                                <p class="">{{ order.billing.name }} {{ order.billing.city }} {{
                                     order.billing.street }} {{ order.billing.postal_code }}</p>
                             </div>
                         </div>
@@ -127,7 +128,11 @@ console.log(order.value)
                                 <span class="font-light">Ref : {{ order.order.reference }}</span>
                             </p>
                             <div class="flex flex-wrap gap-4 mt-4">
-                                <button class="text-black underline">Voir la facture</button>
+                                <button class="text-black underline">
+                                    <a :href="order.order.invoice_url" target="_blank">
+                                        Voir la facture
+                                    </a>
+                                </button>
                                 <button class="text-black underline">Commander à nouveau</button>
                             </div>
                         </div>
