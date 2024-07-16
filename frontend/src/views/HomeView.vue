@@ -144,6 +144,7 @@ onMounted(async () => {
               <CardBestProduct
                 v-for="variant in bestSellingVariants"
                 :key="variant._id"
+                :slug="variant.slug"
                 :image="variant.image"
                 :name="variant.sneakerName"
                 :price="variant.sneakerPrice"
