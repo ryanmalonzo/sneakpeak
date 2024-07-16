@@ -4,6 +4,7 @@ import { IVariant } from './Variant';
 interface ISneaker extends Document {
   id: number;
   name: string;
+  slug: string;
   description: string;
   price: number;
   category: string;
@@ -17,6 +18,7 @@ const SneakerSchema: Schema<ISneaker> = new Schema(
   {
     id: { type: Number, required: true },
     name: { type: String, required: true },
+    slug: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
     category: { type: String, required: true },

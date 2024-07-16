@@ -68,19 +68,17 @@ SneakerRouter.get(
 );
 
 SneakerRouter.get(
-  '/:id',
+  '/:slug',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
+      const { slug } = req.params;
 
-      const sneaker = await SneakerService.findOneById(id);
+      const sneaker = await SneakerService.findOneBySlug(slug);
 
       if (!sneaker) {
         return res.sendStatus(StatusCodes.NOT_FOUND);
       }
-      return res
-        .status(StatusCodes.OK)
-        .json(await SneakerService.findOneById(id));
+      return res.status(StatusCodes.OK).json(sneaker);
     } catch (error) {
       next(error);
     }

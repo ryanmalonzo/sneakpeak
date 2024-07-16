@@ -59,4 +59,25 @@ export namespace CartApi {
       body: JSON.stringify({ quantity, variantId: id })
     })
   }
+
+  export const addProduct = async (variantId: number, quantity: number): Promise<void> => {
+    try {
+      const response = await fetch(`${BASE_URL}/cart`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({ quantity, variantId })
+      })
+
+      if (response.ok) {
+        return
+      } else {
+        throw response as Response
+      }
+    } catch (error) {
+      throw await (error as Response).json() // Renvoie le message d'erreur au composant
+    }
+  }
 }

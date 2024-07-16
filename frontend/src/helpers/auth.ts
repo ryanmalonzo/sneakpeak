@@ -7,7 +7,7 @@ export async function checkAuth(): Promise<{ isAuthenticated: boolean; roles: st
   const profile = profileStore()
   try {
     const user = await SessionApi.getProfile()
-    profile.setProfile(user!)
+    profile.setProfile(user)
     localStorage.setItem('profile', JSON.stringify(user))
     return { isAuthenticated: true, roles: user!.roles }
   } catch (e) {

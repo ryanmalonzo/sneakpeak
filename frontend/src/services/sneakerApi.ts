@@ -14,18 +14,32 @@ export namespace SneakerApi {
     price?: string
   }
 
+  export interface SizeOut {
+    _id: string
+    idRef: number
+    id: number
+    name: string
+    slug: string
+    stock: number
+  }
+
   export interface VariantOut {
     _id: string
-    stock: number
+    name: string // a color
+    slug: string
     image: string
-    size: number
-    color: string
+    isBest: boolean
+    sizes: SizeOut[]
   }
 
   export interface SneakerOut {
     _id: string
     name: string
+    slug: string
+    description: string
     price: number
+    category: string
+    brand: string
     variants: VariantOut[]
   }
 
@@ -90,6 +104,12 @@ export namespace SneakerApi {
     })
 
     const response = await fetch(`${BASE_URL}/sneakers/variants?${params.toString()}`)
+    const data = await response.json()
+    return data
+  }
+
+  export const getOne = async (slug: string): Promise<SneakerOut> => {
+    const response = await fetch(`${BASE_URL}/sneakers/${slug}`)
     const data = await response.json()
     return data
   }
