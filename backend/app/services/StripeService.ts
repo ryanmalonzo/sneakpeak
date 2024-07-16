@@ -28,7 +28,7 @@ export class StripeService {
         CheckoutService.updateOrder(
           order.reference,
           order.userId,
-          'completed',
+          'isDelivered',
           'paid',
         );
 

@@ -16,7 +16,6 @@ const translateStatus = (status: string) => {
         pending: 'En attente de paiement',
         isDelivered: 'En cours de livraison',
         completed: 'Livré',
-        // Add other status translations here
     }
     return translations[status] || status;
 }

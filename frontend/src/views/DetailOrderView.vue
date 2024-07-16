@@ -88,77 +88,71 @@ console.log(order.value)
 
 <template>
     <BasePage>
-        <div class="flex p-4 md:px-20 md:py-10 justify-between gap-[45px]">
-            <div class="">
-                <h2 class="text-3xl font-medium mb-6">Ma commande</h2>
-
-
+        <div class="flex flex-col lg:flex-row p-4 md:p-6 lg:p-10 justify-between gap-6 lg:gap-[45px]">
+            <div class="w-full lg:w-3/4">
+                <h2 class="text-2xl md:text-3xl font-medium mb-6">Ma commande</h2>
 
                 <div class="mb-6 bg-white shadow rounded-lg">
-                    <div class="flex mb-2 bg-gray-100 p-5 rounded-t-lg justify-between px-16">
-                        <div class="flex gap-8">
+                    <div class="flex flex-col md:flex-row bg-gray-100 p-4 md:p-5 rounded-t-lg justify-between">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full mb-4 md:mb-0">
                             <div class="flex flex-col">
-                                <span class="font-light w-max">Commandé le :</span>
-                                <p>
+                                <span class="font-light">Commandé le :</span>
+                                <p class="truncate">
                                     {{ new Date(order.order.createdAt).toLocaleDateString() }}
                                 </p>
                             </div>
 
-                            <div class="flex flex-col w-max">
+                            <div class="flex flex-col">
                                 <span class="font-light">Total:</span>
-                                <p class="w-max">
+                                <p class="truncate">
                                     {{ order.order.total }} €
                                 </p>
                             </div>
 
                             <div class="flex flex-col">
                                 <span class="font-light">Livré à :</span>
-                                <p> {{ order.shipping.name }} {{ order.shipping.city }} {{ order.shipping.street }} {{
-                                    order.shipping.postal_code }}</p>
-
+                                <p class="md:p-2">{{ order.shipping.name }} {{ order.shipping.city }} {{
+                                    order.shipping.street }} {{ order.shipping.postal_code }}</p>
                             </div>
+
                             <div class="flex flex-col">
                                 <span class="font-light">Facturé à :</span>
-                                <p>{{ order.billing.name }} {{ order.billing.city }} {{ order.billing.street }} {{
-                                    order.billing.postal_code }}</p>
-
+                                <p class="md:p-2">{{ order.billing.name }} {{ order.billing.city }} {{
+                                    order.billing.street }} {{ order.billing.postal_code }}</p>
                             </div>
-
-
-
                         </div>
-                        <div class="flex flex-col justify-between">
-                            <p>
-                                <span class="font-light w-max">Ref : {{ order.order.reference }}</span>
 
-
+                        <div class="flex flex-col justify-between mt-4 md:mt-0">
+                            <p class="truncate">
+                                <span class="font-light">Ref : {{ order.order.reference }}</span>
                             </p>
-                            <div class="flex gap-4 mt-4 w-max">
+                            <div class="flex flex-wrap gap-4 mt-4">
                                 <button class="text-black underline">Voir la facture</button>
                                 <button class="text-black underline">Commander à nouveau</button>
-
                             </div>
                         </div>
                     </div>
 
-                    <div v-for="item in order.products" :key="item.id" class="flex mb-4 p-4">
-                        <img :src="item.image" alt="" class="w-[130px] h-[130px] object-cover mr-4">
-                        <div class="flex justify-between w-full">
-                            <div class="flex justify-between flex-col">
+                    <div v-for="item in order.products" :key="item.id" class="flex flex-col sm:flex-row mb-4 p-4">
+                        <img :src="item.image" alt=""
+                            class="w-full sm:w-[130px] h-[130px] object-cover mb-4 sm:mb-0 sm:mr-4">
+                        <div class="flex flex-col sm:flex-row justify-between w-full">
+                            <div class="flex justify-between flex-col mb-4 sm:mb-0">
                                 <p class="font-medium">{{ item.name }}</p>
                                 <p class="text-gray-600">Couleur : {{ item.color }}</p>
                                 <p class="text-gray-600">Taille : {{ item.size }}</p>
                                 <p class="text-gray-600">{{ item.quantity }} x {{ item.unit_price }} €</p>
                             </div>
-                            <div class="">
+                            <div class="self-end sm:self-center">
                                 <button class="text-black underline">Retourner un article</button>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-            <MenuProfil />
+            <div class="w-full lg:w-1/4">
+                <MenuProfil />
+            </div>
         </div>
     </BasePage>
 </template>
