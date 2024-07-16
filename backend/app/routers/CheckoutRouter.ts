@@ -75,6 +75,7 @@ CheckoutRouter.post(
           item.variantId,
           item.quantity,
           item.name,
+          item.image,
           item.unitPrice,
         );
       }
@@ -108,7 +109,10 @@ CheckoutRouter.get(
   '/success/:reference',
   auth,
   async (req: Request, res: Response) => {
-    const order = await OrderRepository.findByReference(req.params.reference);
+    const order = await OrderRepository.findByReference(
+      req.params.reference,
+      res.locals.user.id,
+    );
     if (!order) {
       return res.status(404).json();
     }
@@ -123,7 +127,10 @@ CheckoutRouter.get(
   '/cancel/:reference',
   auth,
   async (req: Request, res: Response) => {
-    const order = await OrderRepository.findByReference(req.params.reference);
+    const order = await OrderRepository.findByReference(
+      req.params.reference,
+      res.locals.user.id,
+    );
     if (!order) {
       return res.status(404).json();
     }

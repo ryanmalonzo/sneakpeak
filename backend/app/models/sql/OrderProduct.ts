@@ -13,6 +13,7 @@ export class OrderProduct extends Model {
   declare orderId: ForeignKey<Order['id']>;
   declare variantId: ForeignKey<Variant['id']>;
   declare name: string;
+  declare image: string;
   declare unitPrice: number;
   declare quantity: number;
 }
@@ -33,6 +34,10 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
       },
       name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      image: {
         type: DataTypes.STRING,
         allowNull: false,
       },

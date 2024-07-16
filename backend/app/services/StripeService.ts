@@ -25,7 +25,12 @@ export class StripeService {
         if (!order) {
           break;
         }
-        CheckoutService.updateOrder(order.reference, 'completed', 'paid');
+        CheckoutService.updateOrder(
+          order.reference,
+          order.userId,
+          'completed',
+          'paid',
+        );
 
         // Empty the cart
         CartService.emptyCart(
@@ -42,7 +47,12 @@ export class StripeService {
         if (!order) {
           break;
         }
-        CheckoutService.updateOrder(order.reference, 'expired', 'unpaid');
+        CheckoutService.updateOrder(
+          order.reference,
+          order.userId,
+          'expired',
+          'unpaid',
+        );
 
         break;
       }

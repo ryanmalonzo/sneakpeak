@@ -78,10 +78,11 @@ export class CheckoutService {
 
   public static async updateOrder(
     reference: string,
+    userId: number,
     status: string,
     paymentStatus: string,
   ): Promise<Order> {
-    const order = await OrderRepository.findByReference(reference);
+    const order = await OrderRepository.findByReference(reference, userId);
     if (!order) throw new Error('Order not found');
     order.status = status;
     order.payment_status = paymentStatus;
@@ -93,6 +94,7 @@ export class CheckoutService {
     variantId: number,
     quantity: number,
     name: string,
+    image: string,
     unitPrice: number,
   ): Promise<OrderProduct> {
     const new_order_product = OrderProductRepository.build({
@@ -100,6 +102,7 @@ export class CheckoutService {
       variantId: variantId,
       quantity: quantity,
       name: name,
+      image: image,
       unitPrice: unitPrice,
     });
     await OrderProductRepository.create(new_order_product);
