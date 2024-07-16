@@ -10,7 +10,7 @@ import { logout } from '../../helpers/auth'
             <RouterLink to="/profile" class="font-medium underline">Mes informations personnelles
             </RouterLink>
             <RouterLink to="/profile" class="font-medium underline">Mes adresses</RouterLink>
-            <RouterLink to="/profile" class="font-medium underline">Mes commandes</RouterLink>
+            <RouterLink to="/profile/orders" class="font-medium underline">Mes commandes</RouterLink>
             <p class="cursor-pointer font-medium underline" @click="logout()">Se déconnecter</p>
         </div>
     </div>
