@@ -14,7 +14,9 @@ export class Order extends Model {
   declare payment_status: string;
   declare reference: string;
   declare session_id: string;
+  declare invoice_link: string;
   declare userId: ForeignKey<User['id']>;
+  declare createdAt: Date;
 }
 
 export default (sequelize: Sequelize) => {
@@ -39,6 +41,10 @@ export default (sequelize: Sequelize) => {
       session_id: {
         type: DataTypes.TEXT,
         allowNull: false,
+      },
+      invoice_link: {
+        type: DataTypes.TEXT,
+        allowNull: true,
       },
     },
     { sequelize, underscored: true },

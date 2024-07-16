@@ -8,10 +8,14 @@ import CheckoutView from '@/views/CheckoutView.vue'
 import CheckoutSuccessView from '@/views/CheckoutSuccessView.vue'
 import CheckoutCancelView from '@/views/CheckoutCancelView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
+import BaseProfilView from '@/views/BaseProfilView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 import CGUView from '@/views/legal/CGUView.vue'
 import { checkAuth } from '@/helpers/auth'
 import BasePageAdminView from '@/views/admin/BasePageAdminView.vue'
 import CGVView from '@/views/legal/CGVView.vue'
+import OrdersView from '@/views/OrdersView.vue'
+import DetailOrderView from '@/views/DetailOrderView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -76,7 +80,24 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('@/views/ProfileView.vue')
+      component: () => BaseProfilView,
+      children: [
+        {
+          path: '',
+          name: 'profil',
+          component: () => ProfileView
+        },
+        {
+          path: 'orders/',
+          name: 'orders',
+          component: () => OrdersView
+        },
+        {
+          path: 'orders/:reference',
+          name: 'order',
+          component: () => DetailOrderView
+        }
+      ]
     },
     {
       path: '/admin',
@@ -113,14 +134,13 @@ const publicRoutes = [
   'email_verification',
   'search',
   'sneakers',
-  'cart',
   'reset_password',
   'cgu',
   'cgv'
 ]
 const adminRoutes = ['admin_dashboard', 'admin_sneakers', 'admin_categories', 'admin_brands']
 
-router.afterEach(async (to) => {
+router.beforeEach(async (to) => {
   const { isAuthenticated, roles } = await checkAuth()
 
   if (!publicRoutes.includes(to.name as string) && !isAuthenticated) {

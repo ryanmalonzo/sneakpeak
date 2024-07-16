@@ -35,6 +35,9 @@ export class CheckoutService {
     });
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
+      invoice_creation: {
+        enabled: true,
+      },
       metadata: { userId: userId },
       line_items: products,
       mode: 'payment',
@@ -78,13 +81,16 @@ export class CheckoutService {
 
   public static async updateOrder(
     reference: string,
+    userId: number,
     status: string,
     paymentStatus: string,
+    invoice_link: string | null = null,
   ): Promise<Order> {
-    const order = await OrderRepository.findByReference(reference);
+    const order = await OrderRepository.findByReference(reference, userId);
     if (!order) throw new Error('Order not found');
     order.status = status;
     order.payment_status = paymentStatus;
+    invoice_link ? (order.invoice_link = invoice_link) : null;
     return await OrderRepository.update(order);
   }
 
@@ -93,6 +99,7 @@ export class CheckoutService {
     variantId: number,
     quantity: number,
     name: string,
+    image: string,
     unitPrice: number,
   ): Promise<OrderProduct> {
     const new_order_product = OrderProductRepository.build({
@@ -100,6 +107,7 @@ export class CheckoutService {
       variantId: variantId,
       quantity: quantity,
       name: name,
+      image: image,
       unitPrice: unitPrice,
     });
     await OrderProductRepository.create(new_order_product);
@@ -156,7 +164,7 @@ export class CheckoutService {
         'https://api.geoapify.com/v1/geocode/search?text=' +
         encodeURIComponent(address) +
         '&apiKey=' +
-        process.env.GEOAPIFY_API_KEY,
+        process.env.VITE_GEOAPIFY_API_KEY,
       headers: {},
     };
 
