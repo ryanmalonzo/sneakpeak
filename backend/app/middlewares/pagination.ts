@@ -88,7 +88,7 @@ export const pagination = (authorizedFilters?: AuthorizedFilters) => {
 
     res.locals.q = q;
     res.locals.page = pageInt;
-    res.locals.limit = limitInt;
+    res.locals.limit = Math.min(limitInt, MAX_LIMIT);
     res.locals.sortOptions = sortOptions;
     res.locals.filterOptions = filterOptions;
 
