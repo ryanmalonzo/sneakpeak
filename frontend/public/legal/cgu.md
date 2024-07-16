@@ -5,7 +5,7 @@ Version du 15/07/2024
 
 ## Préambule
 
-Le site web [https://sneakpeak.store](https://sneakpeak.store) (ci-après « le Site ») est édité par la société Sneakpeak, société par actions simplifiée, immatriculée au Registre du commerce et des sociétés de Paris sous le numéro 123 456 789, ayant son siège social 242 rue du Faubourg Saint-Antoine, 75012 Paris, France (ci-après « le Vendeur »).
+Le site web [https://sneakpeak.store](https://sneakpeak.store) (ci-après « le Site » ou « la Plateforme ») est édité par la société Sneakpeak, société par actions simplifiée, immatriculée au Registre du commerce et des sociétés de Paris sous le numéro 123 456 789, ayant son siège social 242 rue du Faubourg Saint-Antoine, 75012 Paris, France (ci-après « le Vendeur »).
 
 Les présentes Conditions Générales d’Utilisation (ci-après « CGU ») ont pour objet de fixer les dispositions contractuelles relatives aux droits et obligations respectifs des Parties dans le cadre de l’utilisation du Site.
 

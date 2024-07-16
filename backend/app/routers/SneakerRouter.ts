@@ -137,28 +137,18 @@ SneakerRouter.put(
   admin,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
-      const { name, description, price, categoryId, brandId } = req.body;
-      const sneaker: SneakerDTO = {
-        name,
-        description,
-        price,
-        categoryId,
-        brandId,
-      };
-
-      if (!name || !description || !price || !categoryId || !brandId) {
-        return res.sendStatus(StatusCodes.UNPROCESSABLE_ENTITY);
-      }
-
-      const { nbDeleted, updatedSneaker } = await SneakerService.fullUpdate(
-        id,
-        sneaker,
+      const { sneaker, created } = await SneakerService.createOrUpdate(
+        parseInt(req.params.id),
+        req.body.name,
+        req.body.description,
+        req.body.price,
+        req.body.categoryId,
+        req.body.brandId,
       );
 
       return res
-        .status(nbDeleted ? StatusCodes.OK : StatusCodes.CREATED)
-        .json(updatedSneaker);
+        .status(created ? StatusCodes.CREATED : StatusCodes.OK)
+        .json(sneaker);
     } catch (error) {
       next(error);
     }

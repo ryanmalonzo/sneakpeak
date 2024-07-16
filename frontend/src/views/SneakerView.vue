@@ -129,7 +129,6 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  {{ selectedSize }}
   <BasePage>
     <div v-if="sneaker" class="flex w-full flex-col justify-around gap-20 p-8">
       <!-- Haut page produit -->
