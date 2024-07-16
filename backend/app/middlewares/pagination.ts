@@ -25,25 +25,25 @@ export const pagination = (authorizedFilters?: AuthorizedFilters) => {
 
     if (page !== undefined) {
       if (Number.isNaN(pageInt) || pageInt < 1) {
-        next(new RequestError(StatusCodes.BAD_REQUEST, 'invalid_page'));
+        next(new RequestError(StatusCodes.UNPROCESSABLE_ENTITY));
         return;
       }
     }
 
     if (limit !== undefined) {
-      if (Number.isNaN(limitInt) || limitInt < 1 || limitInt > MAX_LIMIT) {
-        next(new RequestError(StatusCodes.BAD_REQUEST, 'invalid_limit'));
+      if (Number.isNaN(limitInt) || limitInt < 1) {
+        next(new RequestError(StatusCodes.UNPROCESSABLE_ENTITY));
         return;
       }
     }
 
     if (sort && typeof sort !== 'string') {
-      next(new RequestError(StatusCodes.BAD_REQUEST, 'invalid_sort'));
+      next(new RequestError(StatusCodes.UNPROCESSABLE_ENTITY));
       return;
     }
 
     if (order && typeof order !== 'string') {
-      next(new RequestError(StatusCodes.BAD_REQUEST, 'invalid_order'));
+      next(new RequestError(StatusCodes.UNPROCESSABLE_ENTITY));
       return;
     }
 
