@@ -96,7 +96,12 @@ onMounted(async () => {
         <div
           class="hidden w-full shrink-0 flex-wrap content-start items-start justify-center gap-2.5 px-0 md:flex"
         >
-          <CardBrand v-for="brand in brands" :key="brand.slug" :image="brand.image" />
+          <CardBrand
+            v-for="brand in brands"
+            :key="brand.slug"
+            :name="brand.name"
+            :image="brand.image"
+          />
         </div>
         <Carousel
           :value="brands"
