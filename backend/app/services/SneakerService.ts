@@ -119,11 +119,22 @@ export class SneakerService {
     return await SneakerRepository.create(sneaker);
   }
 
-  public static async fullUpdate(
-    id: string,
-    sneaker: SneakerDTO,
-  ): Promise<{ nbDeleted: number; updatedSneaker: Sneaker }> {
-    return await SneakerRepository.fullUpdate(id, sneaker);
+  static async createOrUpdate(
+    id: number,
+    name: string,
+    description: string,
+    price: number,
+    categoryId: number,
+    brandId: number,
+  ): Promise<{ created: boolean; sneaker: Sneaker }> {
+    const { created, sneaker } = await SneakerRepository.updateOrCreate(id, {
+      name,
+      description,
+      price,
+      categoryId,
+      brandId,
+    });
+    return { created, sneaker };
   }
 
   public static async partialUpdate(

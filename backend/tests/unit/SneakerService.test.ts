@@ -20,6 +20,7 @@ const SNEAKER_DTO = {
 } as SneakerDTO;
 
 const SNEAKER = {
+  id: 1,
   name: 'TestUnit',
   description: 'desc',
   price: 10.99,
@@ -43,23 +44,41 @@ describe('SneakerService', () => {
     });
   });
 
-  describe('fullUpdate', () => {
+  describe('createOrUpdate', () => {
     it('should update a sneaker if it exists', async () => {
-      sinon.stub(SneakerRepository, 'fullUpdate').resolves({
-        nbDeleted: 1,
-        updatedSneaker: SNEAKER,
+      sinon.stub(SneakerRepository, 'updateOrCreate').resolves({
+        created: false,
+        sneaker: SNEAKER,
       });
 
-      await expect(SneakerService.fullUpdate('1', SNEAKER_DTO)).to.be.fulfilled;
+      const result = await SneakerService.createOrUpdate(
+        SNEAKER.id,
+        SNEAKER.name,
+        SNEAKER.description,
+        SNEAKER.price,
+        SNEAKER.categoryId,
+        SNEAKER.brandId,
+      );
+
+      expect(result).to.deep.equal({ created: false, sneaker: SNEAKER });
     });
 
     it('should create a new sneaker if it does not exist', async () => {
-      sinon.stub(SneakerRepository, 'fullUpdate').resolves({
-        nbDeleted: 0,
-        updatedSneaker: SNEAKER,
+      sinon.stub(SneakerRepository, 'updateOrCreate').resolves({
+        created: true,
+        sneaker: SNEAKER,
       });
 
-      await expect(SneakerService.fullUpdate('1', SNEAKER_DTO)).to.be.fulfilled;
+      const result = await SneakerService.createOrUpdate(
+        SNEAKER.id,
+        SNEAKER.name,
+        SNEAKER.description,
+        SNEAKER.price,
+        SNEAKER.categoryId,
+        SNEAKER.brandId,
+      );
+
+      expect(result).to.deep.equal({ created: true, sneaker: SNEAKER });
     });
   });
 

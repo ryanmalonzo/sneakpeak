@@ -142,13 +142,11 @@ describe('SneakerRouter', () => {
   describe('PATCH /sneakers/:id', () => {
     it('should return a 200 status code and the updated sneaker', async () => {
       const response = await request(app)
-        .patch('/sneakers/88888')
+        .patch('/sneakers/1')
         .send({
           name: 'AF1',
           description: 'descUpdated',
-          price: 10.99,
-          categoryId: 1,
-          brandId: 1,
+          price: 999.99,
         })
         .set('Cookie', `accessToken=${accessToken}`);
 
