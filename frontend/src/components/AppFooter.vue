@@ -1,12 +1,73 @@
 <script setup lang="ts">
 const footerLinks = [
-  { title: 'Produits', links: ['Homme', 'Femme', 'Enfant'] },
-  { title: 'A propos', links: ['Notre histoire', 'Nos valeurs', 'Nos engagements'] },
+  {
+    title: 'Produits',
+    links: [
+      {
+        title: 'Promotions',
+        link: '#'
+      },
+      {
+        title: 'Marques',
+        link: '#'
+      },
+      {
+        title: 'Catégories',
+        link: '#'
+      }
+    ]
+  },
+  {
+    title: 'A propos',
+    links: [
+      {
+        title: 'Notre histoire',
+        link: '#'
+      },
+      {
+        title: 'Nos valeurs',
+        link: '#'
+      },
+      {
+        title: 'Nos engagements',
+        link: '#'
+      }
+    ]
+  },
   {
     title: 'Informations légales',
-    links: ['Mentions légales', 'Conditions générales de vente', 'Politique de confidentialité']
+    links: [
+      {
+        title: "Conditions générales d'utilisation",
+        link: '/legal/cgu'
+      },
+      {
+        title: 'Conditions générales de vente',
+        link: '/legal/cgv'
+      },
+      {
+        title: 'Politique de confidentialité',
+        link: '#'
+      }
+    ]
   },
-  { title: 'Service client', links: ['Contactez-nous', 'FAQ', 'Livraison et retours'] }
+  {
+    title: 'Service client',
+    links: [
+      {
+        title: 'Contactez-nous',
+        link: '#'
+      },
+      {
+        title: 'FAQ',
+        link: '#'
+      },
+      {
+        title: 'Livraison et retours',
+        link: '/legal/cgv'
+      }
+    ]
+  }
 ]
 </script>
 
@@ -28,8 +89,8 @@ const footerLinks = [
           <div class="flex flex-col items-start gap-2.5 self-stretch">
             <p class="font-medium text-white">{{ link.title }}</p>
             <template v-for="sublink in link.links" :key="sublink">
-              <router-link :to="'#'" class="text-sneakpeak-gray-500 hover:text-white">{{
-                sublink
+              <router-link :to="sublink.link" class="text-sneakpeak-gray-500 hover:text-white">{{
+                sublink.title
               }}</router-link>
             </template>
           </div>
