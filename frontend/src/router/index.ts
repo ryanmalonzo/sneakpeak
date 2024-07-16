@@ -120,7 +120,7 @@ const publicRoutes = [
 ]
 const adminRoutes = ['admin_dashboard', 'admin_sneakers', 'admin_categories', 'admin_brands']
 
-router.afterEach(async (to) => {
+router.beforeEach(async (to) => {
   const { isAuthenticated, roles } = await checkAuth()
 
   if (!publicRoutes.includes(to.name as string) && !isAuthenticated) {

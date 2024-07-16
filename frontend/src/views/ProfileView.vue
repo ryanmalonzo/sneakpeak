@@ -6,7 +6,7 @@ import BasePage from '@/components/BasePage.vue'
 import FormRow from '@/components/profile/FormRow.vue'
 import InputWithLabel from '@/components/profile/InputWithLabel.vue'
 import PasswordWithLabel from '@/components/profile/PasswordWithLabel.vue'
-import type { IProfile } from '@/services/sessionApi'
+import { profileStore } from '@/store/profile'
 import { logout } from '@/helpers/auth'
 import { useForm } from '@/helpers/useForm'
 
@@ -14,19 +14,19 @@ const API_URL = import.meta.env.VITE_API_URL
 
 const toast = useToast()
 
-const profile: IProfile = JSON.parse(localStorage.getItem('profile')!)
+const profile = profileStore() //Store profile
 
 const passwordMismatch = ref(false)
 
 const name = computed(() => {
-  return profile.firstName || profile.email
+  return profile.profile?.firstName || profile.profile?.email
 })
 
 const initialData = {
-  firstName: profile.firstName || '',
-  lastName: profile.lastName || '',
-  phone: profile.phone || '',
-  email: profile.email,
+  firstName: profile.profile?.firstName || '',
+  lastName: profile.profile?.lastName || '',
+  phone: profile.profile?.phone || '',
+  email: profile.profile?.email,
   password: '',
   passwordConfirm: ''
 }
@@ -75,7 +75,7 @@ const onSubmit = async () => {
 
   // Update profile
   try {
-    const response = await fetch(`${API_URL}/users/${profile.id}`, {
+    const response = await fetch(`${API_URL}/users/${profile.profile?.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
