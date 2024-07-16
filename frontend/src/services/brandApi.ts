@@ -7,9 +7,9 @@ export namespace BrandApi {
     image: string
   }
 
-  export const getAll = async (): Promise<BrandOut[]> => {
+  export const getPaginated = async (): Promise<BrandOut[]> => {
     const response = await fetch(`${BASE_URL}/brands`)
     const data = await response.json()
-    return data
+    return data.items
   }
 }

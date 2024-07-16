@@ -47,10 +47,12 @@ if (route.query.price) {
   price.value = (route.query.price as string).split(',').map(Number)
 }
 
-Promise.all([BrandApi.getAll(), CategoryApi.getAll()]).then(([brandsData, categoriesData]) => {
-  brands.value = brandsData
-  categories.value = categoriesData
-})
+Promise.all([BrandApi.getPaginated(), CategoryApi.getPaginated()]).then(
+  ([brandsData, categoriesData]) => {
+    brands.value = brandsData
+    categories.value = categoriesData
+  }
+)
 
 watchEffect(() => {
   const query = {

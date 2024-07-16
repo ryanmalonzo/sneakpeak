@@ -17,7 +17,7 @@ const bestSellingVariants: SneakerApi.FlattenedVariantOut[] = reactive([])
 const NB_BRANDS_TO_DISPLAY = 5
 
 onMounted(async () => {
-  const dataCategories = await CategoryApi.getAll()
+  const dataCategories = await CategoryApi.getPaginated()
   lastCategory.value = dataCategories.reduce((previous, current) =>
     previous.id > current.id ? previous : current
   )
@@ -29,7 +29,7 @@ onMounted(async () => {
   })
   latestVariants.push(...dataVariants.items)
 
-  const dataBrands = await BrandApi.getAll()
+  const dataBrands = await BrandApi.getPaginated()
   brands.push(...dataBrands.slice(0, NB_BRANDS_TO_DISPLAY))
 
   const dataBestSellingVariants = await SneakerApi.getVariantsPaginated({

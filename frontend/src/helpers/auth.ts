@@ -2,18 +2,18 @@ import router from '@/router'
 import { SessionApi } from '@/services/sessionApi'
 import { profileStore } from '@/store/profile'
 
-export async function checkAuth(): Promise<boolean> {
+export async function checkAuth(): Promise<{ isAuthenticated: boolean; roles: string[] }> {
   // Verif si l'utilisateur est connecté
   const profile = profileStore()
   try {
     const user = await SessionApi.getProfile()
     profile.setProfile(user)
     localStorage.setItem('profile', JSON.stringify(user))
-    return true
+    return { isAuthenticated: true, roles: user!.roles }
   } catch (e) {
     profile.clearProfile()
     localStorage.removeItem('profile')
-    return false
+    return { isAuthenticated: false, roles: [] }
   }
 }
 

@@ -141,9 +141,11 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
     </div>
 
     <!-- Table -->
-    <div class="w-full overflow-x-auto rounded-md">
+    <div id="wrapper" class="w-full overflow-x-auto overflow-y-scroll rounded-md">
       <table class="w-full table-auto">
-        <thead class="rounded-t-md bg-black outline outline-offset-[-1px] outline-black">
+        <thead
+          class="sticky top-0 z-10 rounded-t-md bg-black outline outline-offset-[-1px] outline-black"
+        >
           <tr>
             <th :class="thClasses"></th>
             <DataHeaderCell
@@ -190,3 +192,10 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
     <DataPagination :currentPage="currentPage" :maxPage="maxPage" @pageChange="handlePageChange" />
   </div>
 </template>
+
+<style scoped>
+#wrapper {
+  /* Ajusté spécifiquement pour scroller dans le back office */
+  height: calc(100vh - 248px);
+}
+</style>
