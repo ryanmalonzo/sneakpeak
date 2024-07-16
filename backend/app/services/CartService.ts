@@ -4,6 +4,7 @@ import { VariantRepository } from '../repositories/sql/VariantRepository';
 import { SneakerRepository } from '../repositories/sql/SneakerRepository';
 import { StatusCodes } from 'http-status-codes';
 import { RequestError } from '../helpers/error';
+import { HistoryCartProductRepository } from '../repositories/sql/HistoryCartProductRepository';
 
 export class CartService {
   static async addProductToCart(
@@ -163,6 +164,17 @@ export class CartService {
     }
 
     return await CartRepository.getCartProducts(cart);
+  }
+
+  static async getHistoryCartProducts(userId: number) {
+    const cart = await CartRepository.getCartByUserId(userId);
+    if (!cart) {
+      throw new RequestError(StatusCodes.NOT_FOUND, 'Cart not found');
+    }
+
+    return await HistoryCartProductRepository.findHistoryCartProductsByCartId(
+      cart.id,
+    );
   }
 
   static async emptyCart(userId: number) {

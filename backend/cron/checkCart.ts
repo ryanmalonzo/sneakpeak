@@ -15,7 +15,13 @@ export const checkCartExpired = new CronJob(
       const cart = await CartService.getCart(user.id);
       if (cart && cart.expiredAt < new Date()) {
         const cartProducts = await CartService.getCartProducts(user.id);
-
+        const historyCartProducts =
+          await HistoryCartProductRepository.findHistoryCartProductsByCartId(
+            cart.id,
+          );
+        await HistoryCartProductRepository.deleteAllHistoryCartProducts(
+          historyCartProducts,
+        );
         for (const item of cartProducts) {
           const variant = await VariantRepository.findVariantById(
             item.variantId,
