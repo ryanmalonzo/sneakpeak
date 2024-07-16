@@ -65,7 +65,7 @@ onMounted(async () => {
             :key="variant._id"
             :slug="variant.slug"
             :image="variant.image"
-            :name="variant.name"
+            :name="variant.sneakerName"
             :price="variant.sneakerPrice"
           />
         </div>
@@ -133,7 +133,7 @@ onMounted(async () => {
                 v-for="variant in bestSellingVariants"
                 :key="variant._id"
                 :image="variant.image"
-                :name="variant.name"
+                :name="variant.sneakerName"
                 :price="variant.sneakerPrice"
               />
             </div>
