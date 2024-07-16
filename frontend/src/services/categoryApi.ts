@@ -8,9 +8,9 @@ export namespace CategoryApi {
     image: string
   }
 
-  export const getAll = async (): Promise<CategoryOut[]> => {
+  export const getPaginated = async (): Promise<CategoryOut[]> => {
     const response = await fetch(`${BASE_URL}/categories`)
     const data = await response.json()
-    return data
+    return data.items
   }
 }

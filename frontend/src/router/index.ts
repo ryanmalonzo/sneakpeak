@@ -71,21 +71,46 @@ const router = createRouter({
     {
       path: '/admin',
       name: 'admin',
-      component: BasePageAdminView
+      redirect: '/admin/dashboard',
+      children: [
+        {
+          path: 'dashboard',
+          name: 'admin_dashboard',
+          component: BasePageAdminView
+        },
+        {
+          path: 'sneakers',
+          name: 'admin_sneakers',
+          component: () => import('@/views/admin/SneakersAdminView.vue')
+        },
+        {
+          path: 'categories',
+          name: 'admin_categories',
+          component: () => import('@/views/admin/CategoriesAdminView.vue')
+        },
+        {
+          path: 'brands',
+          name: 'admin_brands',
+          component: () => import('@/views/admin/BrandsAdminView.vue')
+        }
+      ]
     }
   ]
 })
 
 const publicRoutes = ['home', 'email_verification', 'search', 'cart', 'reset_password', 'cgu']
+const adminRoutes = ['admin_dashboard', 'admin_sneakers', 'admin_categories', 'admin_brands']
 
 router.afterEach(async (to) => {
-  const isAuthenticated = await checkAuth()
+  const { isAuthenticated, roles } = await checkAuth()
 
   if (!publicRoutes.includes(to.name as string) && !isAuthenticated) {
     router.push('/')
   }
 
-  // TODO check admin permission for admin routes
+  if (adminRoutes.includes(to.name as string) && !roles.includes('ADMIN')) {
+    router.push('/')
+  }
 })
 
 export default router

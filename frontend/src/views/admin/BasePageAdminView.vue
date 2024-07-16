@@ -1,34 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import { logout } from '@/helpers/auth'
-import { profileStore } from '@/store/profile'
 import logoWhite from '@/assets/images/logoWhite.svg'
 import Image from 'primevue/image'
+import type { IProfile } from '@/services/sessionApi'
 
 const isSidebarOpen = ref(false)
-const isMobile = ref(window.innerWidth <= 768)
-const profile = profileStore()
-const firstName = profile.profile?.firstName ?? 'Hello,'
+const profile: IProfile = JSON.parse(localStorage.getItem('profile')!)
+const greeting = 'Hello, ' + (profile.firstName || profile.email)
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value
 }
-
-const handleResize = () => {
-  isMobile.value = window.innerWidth <= 768
-}
-
-const Logout = () => {
-  logout()
-}
-
-onMounted(() => {
-  window.addEventListener('resize', handleResize)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', handleResize)
-})
 </script>
 
 <template>
@@ -38,13 +21,13 @@ onUnmounted(() => {
       :class="{
         flex: isSidebarOpen,
         hidden: !isSidebarOpen,
-        'fixed left-0 top-0 h-screen': isSidebarOpen && isMobile
+        'fixed left-0 top-0 h-screen md:hidden': isSidebarOpen
       }"
-      class="flex-shrink-0 flex-col items-center gap-[6.25rem] bg-black bg-opacity-95 p-5 md:flex md:w-[15.625rem]"
+      class="z-50 flex-shrink-0 flex-col items-center gap-[6.25rem] bg-black bg-opacity-95 p-5 md:flex md:w-[15.625rem]"
     >
       <!-- Logo ou fermeture de la sidebar-->
       <div class="mt-8">
-        <RouterLink v-if="!isMobile" to="/admin">
+        <RouterLink class="hidden md:block" to="/admin">
           <Image
             :src="logoWhite"
             alt="Logo SneakPeak"
@@ -52,8 +35,7 @@ onUnmounted(() => {
           />
         </RouterLink>
         <i
-          v-else
-          class="pi pi-times-circle"
+          class="pi pi-times-circle cursor-pointer md:!hidden"
           style="color: #ffff; font-size: 1.3rem"
           @click="toggleSidebar"
         >
@@ -64,39 +46,45 @@ onUnmounted(() => {
       <div class="font-['Be Vietnam Pro'] w-full flex-col px-6 text-zinc-100">
         <ul>
           <li>
-            <RouterLink to="/admin" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+            <RouterLink to="dashboard" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
               <i class="pi pi-home" style="color: #ffff; font-size: 1.3rem"></i>
               Accueil
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
               <i class="pi pi-users" style="color: #ffff; font-size: 1.3rem"></i>
               Clients
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
               <i class="pi pi-cart-arrow-down" style="color: #ffff; font-size: 1.3rem"></i>
               Commandes
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+            <RouterLink to="sneakers" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
               <i class="pi pi-tags" style="color: #ffff; font-size: 1.3rem"></i>
               Chaussures
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
+            <RouterLink to="categories" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
               <i class="pi pi-objects-column" style="color: #ffff; font-size: 1.3rem"></i>
               Catégories
             </RouterLink>
           </li>
+          <li>
+            <RouterLink to="brands" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+              <i class="pi pi-list" style="color: #ffff; font-size: 1.3rem"></i>
+              Marques
+            </RouterLink>
+          </li>
 
           <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-sky-700">
-              <i class="pi pi-spin pi-cog" style="color: #ffff; font-size: 1.3rem"></i>
+            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+              <i class="pi pi-cog" style="color: #ffff; font-size: 1.3rem"></i>
               Paramètres
             </RouterLink>
           </li>
@@ -108,26 +96,38 @@ onUnmounted(() => {
       <nav class="mb-2 flex justify-end gap-4">
         <!-- Ouvre le menu -->
         <div
-          v-if="isMobile && !isSidebarOpen"
-          class="fixed left-2 top-2.5 p-4 md:hidden"
+          v-if="!isSidebarOpen"
+          class="fixed left-2 top-2.5 cursor-pointer p-4 md:hidden"
           @click="toggleSidebar"
         >
           <i class="pi pi-bars" style="color: black; font-size: 1.3rem"></i>
         </div>
 
-        <!-- déconnexion -->
-        {{ firstName }}
+        <div class="flex items-center gap-5">
+          {{ greeting }}
 
-        <button @click="Logout">
-          <i class="pi pi-sign-out" style="color: black"></i>
-        </button>
+          <RouterLink to="/">
+            <Button icon="pi pi-arrow-left" label="Retour à la boutique" />
+          </RouterLink>
+
+          <button @click="logout">
+            <i class="pi pi-sign-out" style="color: black"></i>
+          </button>
+        </div>
       </nav>
       <hr />
 
       <!-- Contenu -->
-      <main class="mt-6 h-screen">
+      <main class="mt-6" id="content">
         <slot></slot>
       </main>
     </section>
   </section>
 </template>
+
+<!-- <style scoped> -->
+<!-- #content { -->
+<!--   height: calc(100svh - 114px); -->
+<!--   overflow: auto; -->
+<!-- } -->
+<!-- </style> -->
