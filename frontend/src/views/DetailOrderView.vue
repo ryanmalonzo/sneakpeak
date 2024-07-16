@@ -11,7 +11,7 @@ interface Order {
         payment_status: string;
         reference: string;
         createdAt: string;
-        invoice_url: string;
+        invoice_link: string;
     };
     shipping: {
         name: string;
@@ -129,7 +129,7 @@ console.log(order.value)
                             </p>
                             <div class="flex flex-wrap gap-4 mt-4">
                                 <button class="text-black underline">
-                                    <a :href="order.order.invoice_url" target="_blank">
+                                    <a :href="order.order.invoice_link" target="_blank">
                                         Voir la facture
                                     </a>
                                 </button>
