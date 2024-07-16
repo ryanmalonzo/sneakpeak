@@ -113,7 +113,6 @@ const publicRoutes = [
   'email_verification',
   'search',
   'sneakers',
-  'cart',
   'reset_password',
   'cgu',
   'cgv'
