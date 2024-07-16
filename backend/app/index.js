@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
+import rateLimit from 'express-rate-limit';
 import { RequestError } from './helpers/error';
 import { SessionRouter } from './routers/SessionRouter';
 import { SneakerRouter } from './routers/SneakerRouter';
@@ -15,14 +16,22 @@ import { CheckoutRouter } from './routers/CheckoutRouter';
 
 const app = express();
 
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  limit: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+});
+
 app.use(
   cors({
     origin: ['http://localhost:5173', 'https://sneakpeak.store'],
     methods: 'GET,POST,PUT,PATCH,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
+    allowedHeaders: 'Content-Type',
     credentials: true,
   }),
 );
+
 app.use((req, res, next) => {
   if (req.path === '/webhook') {
     express.raw({ type: 'application/json' })(req, res, next);
@@ -32,6 +41,8 @@ app.use((req, res, next) => {
 });
 
 app.use(cookieParser());
+
+app.use(limiter);
 
 app.use('/users', UserRouter);
 app.use('/session', SessionRouter);
