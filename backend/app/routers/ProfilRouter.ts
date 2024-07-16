@@ -35,9 +35,8 @@ ProfilRouter.get('/orders/:reference', auth, async (req, res, next) => {
       return res.status(StatusCodes.NOT_FOUND).send();
     }
     const products = [];
-    console.log('orderProducts');
+
     for (const orderProduct of orderProducts) {
-      console.log(orderProduct);
       const variant = await VariantRepository.findVariantById(
         orderProduct.variantId,
       );

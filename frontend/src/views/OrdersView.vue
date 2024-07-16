@@ -54,7 +54,6 @@ onMounted(async () => {
             credentials: 'include'
         })
         const data = await response.json()
-        console.log(data)
         orders.value = data.orders
         loading.value = false;
     }

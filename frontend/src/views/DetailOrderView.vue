@@ -37,36 +37,6 @@ interface Order {
         unit_price: number;
     }[];
 }
-/*
- const data = {
-      order: {
-        total: order.total,
-        status: order.status,
-        payment_status: order.payment_status,
-        reference: order.reference,
-      },
-      shipping: {
-        name: shipping.name,
-        city: shipping.city,
-        street: shipping.street,
-        phone: shipping.phone,
-        postal_code: shipping.postal_code,
-      },
-      billing: {
-        name: billing.name,
-        city: billing.city,
-        street: billing.street,
-        phone: billing.phone,
-        postal_code: billing.postal_code,
-      },
-      products: products.map((product) => ({
-        image: 'https://via.placeholder.com/150',
-        name: product.name,
-        quantity: product.quantity,
-        unit_price: product.unitPrice,
-      })),
-    };
-*/
 const route = useRoute()
 const order = ref({} as Order)
 const BASE_URL = import.meta.env.VITE_API_URL
@@ -79,12 +49,10 @@ const loadOrder = async () => {
         credentials: 'include'
     })
     const data = await response.json()
-    console.log(data)
     order.value = data
 }
 
 loadOrder()
-console.log(order.value)
 </script>
 
 <template>
@@ -164,6 +132,4 @@ console.log(order.value)
 
 
 
-<style>
-/* Add any additional styling here */
-</style>
+<style></style>
