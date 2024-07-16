@@ -19,19 +19,19 @@ export class SneakerRepository {
     return await Sneaker.create({ ...sneaker });
   }
 
-  static async fullUpdate(
-    id: string,
-    sneaker: SneakerDTO,
-  ): Promise<{ nbDeleted: number; updatedSneaker: Sneaker }> {
-    const nbDeleted = await Sneaker.destroy({
-      where: {
-        id: parseInt(id, 10),
-      },
-      individualHooks: true,
-    });
+  static async updateOrCreate(
+    sneakerId: number,
+    data: Partial<SneakerDTO>,
+  ): Promise<{ created: boolean; sneaker: Sneaker }> {
+    let sneaker = await Sneaker.findByPk(sneakerId);
 
-    const updatedSneaker = await Sneaker.create({ id, ...sneaker });
-    return { nbDeleted, updatedSneaker };
+    if (!sneaker) {
+      sneaker = await Sneaker.create(data);
+      return { created: true, sneaker };
+    }
+
+    sneaker = await sneaker.update(data);
+    return { created: false, sneaker };
   }
 
   static async partialUpdate(
