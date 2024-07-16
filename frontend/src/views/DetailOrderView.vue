@@ -12,6 +12,7 @@ interface Order {
         reference: string;
         createdAt: string;
         invoice_link: string;
+        linkPaiement: string;
     };
     shipping: {
         name: string;
@@ -96,12 +97,22 @@ loadOrder()
                                 <span class="font-light">Ref : {{ order.order.reference }}</span>
                             </p>
                             <div class="flex flex-wrap gap-4 mt-4">
-                                <button class="text-black underline">
+
+                                <button class="text-black underline" v-if="order.order.payment_status == 'paid'">
                                     <a :href="order.order.invoice_link" target="_blank">
                                         Voir la facture
                                     </a>
                                 </button>
-                                <button class="text-black underline">Commander à nouveau</button>
+                                <button class="text-black underline" v-else>
+                                    <a :href="order.order.linkPaiement" target="_blank">
+                                        Payer la commande
+                                    </a>
+                                </button>
+                                <button class="text-black underline" v-if="order.order.payment_status == 'paid'">
+
+                                    Commander à nouveau
+
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -127,6 +138,7 @@ loadOrder()
                 <MenuProfil />
             </div>
         </div>
+
     </BasePage>
 </template>
 

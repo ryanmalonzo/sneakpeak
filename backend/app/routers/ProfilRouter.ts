@@ -5,6 +5,8 @@ import { OrderService } from '../services/OrderService';
 import { VariantRepository } from '../repositories/sql/VariantRepository';
 import { ColorRepository } from '../repositories/sql/ColorRepository';
 import { SizeRepository } from '../repositories/sql/SizeRepository';
+import { CheckoutService } from '../services/CheckoutService';
+import { OrderRepository } from '../repositories/sql/OrderRepository';
 
 export const ProfilRouter = express.Router();
 
@@ -65,6 +67,27 @@ ProfilRouter.get('/orders/:reference', auth, async (req, res, next) => {
     if (!shipping || !billing || !products) {
       return res.status(StatusCodes.NOT_FOUND).send();
     }
+    let linkPaiement = null;
+    if (
+      order.payment_status === 'pending' ||
+      order.payment_status === 'unpaid'
+    ) {
+      linkPaiement = await CheckoutService.getCheckoutSessionById(
+        order.session_id,
+      );
+      if (linkPaiement.status === 'expired') {
+        linkPaiement = await CheckoutService.getCheckoutSession(
+          orderProducts,
+          res.locals.user.id,
+          order.reference,
+        );
+        order.session_id = linkPaiement.id;
+
+        OrderRepository.update(order);
+      }
+      linkPaiement = linkPaiement.url;
+    }
+
     const data = {
       order: {
         createdAt: order.createdAt,
@@ -73,6 +96,7 @@ ProfilRouter.get('/orders/:reference', auth, async (req, res, next) => {
         payment_status: order.payment_status,
         reference: order.reference,
         invoice_link: order.invoice_link,
+        linkPaiement,
       },
       shipping: {
         name: shipping.name,
