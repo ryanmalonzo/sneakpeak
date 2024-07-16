@@ -7,6 +7,7 @@ export interface IProfile {
   lastName: string
   password: string
   phone: string
+  roles: string[]
   createdAt: string
   updatedAt: string
 }

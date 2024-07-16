@@ -14,8 +14,7 @@ const API_URL = import.meta.env.VITE_API_URL
 
 const toast = useToast()
 
-const localProfile = localStorage.getItem('profile')
-const profile: IProfile = JSON.parse(localProfile!)
+const profile: IProfile = JSON.parse(localStorage.getItem('profile')!)
 
 const passwordMismatch = ref(false)
 

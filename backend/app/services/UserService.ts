@@ -11,7 +11,7 @@ import { ChallengeRepository } from '../repositories/sql/ChallengeRepository';
 const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
 const PASSWORD_RESET_TEMPLATE_ID = 35966741;
 const ALERT_PASSWORD_RESET_TEMPLATE_ID = 36484703;
-const JWT_EXPIRY_TIME = '1h';
+const JWT_EXPIRY_TIME = '3d';
 const MIN_PASSWORD_LENGTH = 12;
 const MAX_PASSWORD_LENGTH = 32;
 export const SALT_ROUNDS = 10;

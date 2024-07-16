@@ -17,3 +17,10 @@ export interface FormattedAddress {
 export interface FormattedAddressError {
   error: string;
 }
+
+export interface PaginatedResponse<T> {
+  total: number;
+  page: number;
+  limit: number;
+  items: T[];
+}

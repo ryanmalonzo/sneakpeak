@@ -16,7 +16,7 @@ const findUser = async (req: Request, res: Response, next: NextFunction) => {
 
   const user = await UserRepository.findById(Number(id));
   if (!user) {
-    next(new RequestError(StatusCodes.NOT_FOUND, 'user_not_found'));
+    next(new RequestError(StatusCodes.NOT_FOUND));
   }
 
   res.locals.user = user;

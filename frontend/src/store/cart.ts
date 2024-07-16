@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { CartApi } from '@/services/cartApi'
+import { CartApi } from '@/services/cartApi'
 
 export const CartStore = defineStore('cart', () => {
   const cart = ref<CartApi.CartApiOut>({
@@ -20,5 +20,13 @@ export const CartStore = defineStore('cart', () => {
     cart.value = value
   }
 
-  return { cart, getCart, setCart }
+  const addProduct = async (variantId: number, quantity: number) => {
+    try {
+      await CartApi.addProduct(variantId, quantity)
+    } catch (error) {
+      throw await (error as Response) // Renvoie le message d'erreur au composant
+    }
+  }
+
+  return { cart, getCart, setCart, addProduct }
 })

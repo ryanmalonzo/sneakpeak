@@ -1,7 +1,11 @@
 import { HydratedDocument } from 'mongoose';
 import { SneakerRepository } from '../repositories/sql/SneakerRepository';
 import { ISneaker } from '../models/mongodb/Sneaker';
-import { FilterOptions, SortOptions } from '../helpers/interfaces';
+import {
+  FilterOptions,
+  PaginatedResponse,
+  SortOptions,
+} from '../helpers/interfaces';
 import {
   FlattenedSneakerVariant,
   SneakerRepository as SneakerRepositoryMongo,
@@ -10,20 +14,6 @@ import { Sneaker, SneakerDTO } from '../models/sql/Sneaker';
 import { RequestError } from '../helpers/error';
 import { StatusCodes } from 'http-status-codes';
 
-interface PaginatedSneakersResponse {
-  total: number;
-  page: number;
-  limit: number;
-  items: HydratedDocument<ISneaker>[];
-}
-
-interface PaginatedVariantsResponse {
-  total: number;
-  page: number;
-  limit: number;
-  items: FlattenedSneakerVariant[];
-}
-
 export class SneakerService {
   public static async getPaginated(
     q: string,
@@ -31,7 +21,7 @@ export class SneakerService {
     limit: number,
     sortOptions: SortOptions,
     filterOptions: FilterOptions,
-  ): Promise<PaginatedSneakersResponse> {
+  ): Promise<PaginatedResponse<HydratedDocument<ISneaker>>> {
     let allFilterOptions: Record<string, unknown> = {};
     // S'il s'agit d'une recherche (barre de recherche), on cherche une correspondance large selon les champs suivants
     // Exemple : si l'utilisateur tape "nike", on veut que la recherche retourne tous les sneakers dont l'un des champs suivants contient "nike"
@@ -75,7 +65,7 @@ export class SneakerService {
     limit: number,
     sortOptions: SortOptions,
     filterOptions: FilterOptions,
-  ): Promise<PaginatedVariantsResponse> {
+  ): Promise<PaginatedResponse<FlattenedSneakerVariant>> {
     let allFilterOptions: Record<string, unknown> = {};
     if (q) {
       allFilterOptions['$or'] = [
@@ -108,10 +98,10 @@ export class SneakerService {
     };
   }
 
-  public static async findOneById(
-    id: string,
+  public static async findOneBySlug(
+    slug: string,
   ): Promise<HydratedDocument<ISneaker> | null> {
-    return await SneakerRepositoryMongo.findOneById(id);
+    return await SneakerRepositoryMongo.findOneBySlug(slug);
   }
 
   public static async delete(id: number): Promise<number> {

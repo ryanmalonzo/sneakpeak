@@ -4,14 +4,14 @@ import logo from '@/assets/images/logo.svg'
 import SearchInput from '@/components/search/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
 import Menu from 'primevue/menu'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { debounce } from 'underscore'
 import AppLogin from '@/components/AppLogin.vue'
-import { profileStore } from '@/store/profile'
 import { logout } from '@/helpers/auth'
 import { RouterLink } from 'vue-router'
 import { CartStore } from '@/store/cart'
+import { profileStore } from '@/store/profile'
 
 // Utilisation de la route et du routeur
 const router = useRouter()
@@ -54,7 +54,7 @@ const itemsProfile = ref([
     items: [
       {
         label: 'Mon profil',
-        icon: 'pi pi-spin pi-cog',
+        icon: 'pi pi-user',
         command: () => {
           router.push('/profile')
         }
@@ -67,7 +67,7 @@ const itemsProfile = ref([
         }
       },
       {
-        label: 'Se déconnecter',
+        label: 'Déconnexion',
         icon: 'pi pi-sign-out',
         command: () => {
           logout()
@@ -77,9 +77,20 @@ const itemsProfile = ref([
   }
 ])
 
+onMounted(() => {
+  if (profile.profile && profile.profile.roles.includes('ADMIN')) {
+    itemsProfile.value.push({
+      label: 'Administration',
+      items: [
+        { label: 'Back office', icon: 'pi pi-database', command: () => router.push('/admin') }
+      ]
+    })
+  }
+})
+
 const menuProfile = ref<typeof Menu>()
 const displayMenuProfile = (event: Event) => {
-  itemsProfile.value[0].label = `Bienvenue ${profile.profile?.firstName} !`
+  itemsProfile.value[0].label = `Bienvenue ${profile.profile?.firstName || profile.profile?.email} !`
   menuProfile.value?.toggle(event)
 }
 
@@ -94,7 +105,7 @@ watch(cart, async () => {
 <template>
   <MegaMenu :model="items" class="!sticky top-0 z-50 hidden !rounded-none !px-2.5 md:!px-5">
     <template #start>
-      <a href="/">
+      <a @click="router.push('/')" class="cursor-pointer">
         <Image :src="logo" alt="Logo SneakPeak" class="flex h-[46.5px] items-center pr-2.5" />
       </a>
     </template>
@@ -120,7 +131,7 @@ watch(cart, async () => {
           <RouterLink to="/cart">
             <i class="pi pi-shopping-bag"></i>
             <span
-              v-if="cartItemCount > 0"
+              v-if="cartItemCount"
               class="absolute right-0 top-0 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#10b981] text-xs text-white"
             >
               {{ cartItemCount }}

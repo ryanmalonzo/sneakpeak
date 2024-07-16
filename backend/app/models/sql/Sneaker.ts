@@ -36,6 +36,9 @@ export const updateSneakerInMongoDB = async (sneaker: Sneaker) => {
   data.category = category!.name;
   data.brand = brand!.name;
 
+  const sneakerSlug = data.name.replace(/\s/g, '-').toLowerCase();
+  data.slug = `${sneakerSlug}`;
+
   // const variants = await VariantRepository.findVariantsBySneakerId(data.id);
   const colors = await VariantRepository.findAllColorsVariantForOneSneaker(
     data.id,
@@ -52,11 +55,12 @@ export const updateSneakerInMongoDB = async (sneaker: Sneaker) => {
         data.id,
         color.id,
       );
+      const colorSlug = color.name.replace(/\s/g, '-').toLowerCase();
 
       return {
         id: color?.id,
         name: color.name,
-        slug: `${data.name}-${color.name}`,
+        slug: `${sneakerSlug}|${colorSlug}`,
         image: variantColor?.image,
         isBest: variantColor?.isBest,
         sizes: await Promise.all(
@@ -68,11 +72,12 @@ export const updateSneakerInMongoDB = async (sneaker: Sneaker) => {
                 size.id,
               );
             if (!variant) return;
+            const sizeSlug = size.name.replace(/\s/g, '-').toLowerCase();
             return {
               idRef: variant.id,
               id: size.id,
               name: size.name,
-              slug: `${data.name}-${color.name}-${size.name}`,
+              slug: `${sneakerSlug}|${colorSlug}|${sizeSlug}`,
               stock: variant?.stock,
             };
           }),
@@ -109,6 +114,8 @@ export default (sequelize: Sequelize) => {
     const brand = await BrandRepository.findBrandById(data.brandId);
     data.category = category!.name;
     data.brand = brand!.name;
+    const sneakerSlug = data.name.replace(/\s/g, '-').toLowerCase();
+    data.slug = `${sneakerSlug}`;
     data.variants = [];
     await syncWithMongoDB(sneaker.constructor.name, 'create', data);
   });

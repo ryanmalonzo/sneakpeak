@@ -1,18 +1,17 @@
 meta {
   name: Partial Update Variant
   type: http
-  seq: 4
+  seq: 1
 }
 
 patch {
-  url: http://localhost:3000/variants/7
+  url: http://localhost:3000/variants/6
   body: json
   auth: none
 }
 
 body:json {
   {
-    "image": "data:imgUpdated",
-    "stock": 99
+    "colorId": 2
   }
 }
