@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import BasePage from '@/components/BasePage.vue'
-import CardProduct from '../components/home/CardProduct.vue'
-import CardBestProduct from '../components/home/CardBestProduct.vue'
-import Carousel from 'primevue/carousel'
-import CardBrand from '../components/home/CardBrand.vue'
 import { onMounted, reactive, ref, type Ref } from 'vue'
+import Carousel from 'primevue/carousel'
+import { useRouter } from 'vue-router'
 import { BrandApi } from '@/services/brandApi'
 import { CategoryApi } from '@/services/categoryApi'
 import { SneakerApi } from '@/services/sneakerApi'
+import BasePage from '@/components/BasePage.vue'
+import CardBestProduct from '../components/home/CardBestProduct.vue'
+import CardBrand from '../components/home/CardBrand.vue'
+import CardProduct from '../components/home/CardProduct.vue'
+
+const router = useRouter()
 
 const lastCategory: Ref<CategoryApi.CategoryOut | undefined> = ref()
 const latestVariants: SneakerApi.FlattenedVariantOut[] = reactive([])
@@ -44,7 +47,11 @@ onMounted(async () => {
   <BasePage>
     <div class="flex-col">
       <section>
-        <a href="#" class="flex w-screen items-end justify-center" v-if="lastCategory">
+        <div
+          @click="router.push(`/search?category=${lastCategory.name}`)"
+          class="flex w-screen cursor-pointer items-end justify-center"
+          v-if="lastCategory"
+        >
           <img
             :src="lastCategory.image"
             :alt="lastCategory.name"
@@ -54,7 +61,7 @@ onMounted(async () => {
           <a class="absolute mb-4 bg-white px-2 py-4 font-bold md:mb-20 md:px-40">
             Nouvelle collection : {{ lastCategory.name }}
           </a>
-        </a>
+        </div>
       </section>
 
       <section>
@@ -65,7 +72,7 @@ onMounted(async () => {
             :key="variant._id"
             :slug="variant.slug"
             :image="variant.image"
-            :name="variant.name"
+            :name="variant.sneakerName"
             :price="variant.sneakerPrice"
           />
         </div>
@@ -96,7 +103,12 @@ onMounted(async () => {
         <div
           class="hidden w-full shrink-0 flex-wrap content-start items-start justify-center gap-2.5 px-0 md:flex"
         >
-          <CardBrand v-for="brand in brands" :key="brand.slug" :image="brand.image" />
+          <CardBrand
+            v-for="brand in brands"
+            :key="brand.slug"
+            :name="brand.name"
+            :image="brand.image"
+          />
         </div>
         <Carousel
           :value="brands"
@@ -132,8 +144,9 @@ onMounted(async () => {
               <CardBestProduct
                 v-for="variant in bestSellingVariants"
                 :key="variant._id"
+                :slug="variant.slug"
                 :image="variant.image"
-                :name="variant.name"
+                :name="variant.sneakerName"
                 :price="variant.sneakerPrice"
               />
             </div>
