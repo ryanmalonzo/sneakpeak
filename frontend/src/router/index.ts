@@ -8,10 +8,13 @@ import CheckoutView from '@/views/CheckoutView.vue'
 import CheckoutSuccessView from '@/views/CheckoutSuccessView.vue'
 import CheckoutCancelView from '@/views/CheckoutCancelView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 import CGUView from '@/views/legal/CGUView.vue'
 import { checkAuth } from '@/helpers/auth'
 import BasePageAdminView from '@/views/admin/BasePageAdminView.vue'
 import CGVView from '@/views/legal/CGVView.vue'
+import OrdersView from '@/views/OrdersView.vue'
+import DetailOrderView from '@/views/DetailOrderView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -76,7 +79,23 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('@/views/ProfileView.vue')
+      children: [
+        {
+          path: '',
+          name: 'profil',
+          component: () => ProfileView
+        },
+        {
+          path: 'orders/',
+          name: 'orders',
+          component: () => OrdersView
+        },
+        {
+          path: 'orders/:reference',
+          name: 'order',
+          component: () => DetailOrderView
+        }
+      ]
     },
     {
       path: '/admin',
@@ -95,15 +114,50 @@ const router = createRouter({
         },
         {
           path: 'categories',
-          name: 'admin_categories',
-          component: () => import('@/views/admin/CategoriesAdminView.vue')
+          children: [
+            {
+              path: '',
+              name: 'admin_categories',
+              component: () => import('@/views/admin/CategoriesAdminView.vue')
+            },
+            {
+              path: 'add',
+              name: 'admin_categories_add',
+              component: () => import('@/views/admin/forms/CategoryForm.vue')
+            },
+            {
+              path: ':id',
+              name: 'admin_categories_edit',
+              component: () => import('@/views/admin/forms/CategoryForm.vue')
+            }
+          ]
         },
         {
           path: 'brands',
-          name: 'admin_brands',
-          component: () => import('@/views/admin/BrandsAdminView.vue')
+          children: [
+            {
+              path: '',
+              name: 'admin_brands',
+              component: () => import('@/views/admin/BrandsAdminView.vue')
+            },
+            {
+              path: 'add',
+              name: 'admin_brands_add',
+              component: () => import('@/views/admin/forms/BrandForm.vue')
+            },
+            {
+              path: ':id',
+              name: 'admin_brands_edit',
+              component: () => import('@/views/admin/forms/BrandForm.vue')
+            }
+          ]
         }
       ]
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not_found',
+      component: () => import('@/views/NotFoundView.vue')
     }
   ]
 })
@@ -113,14 +167,21 @@ const publicRoutes = [
   'email_verification',
   'search',
   'sneakers',
-  'cart',
   'reset_password',
   'cgu',
   'cgv'
 ]
-const adminRoutes = ['admin_dashboard', 'admin_sneakers', 'admin_categories', 'admin_brands']
+const adminRoutes = [
+  'admin_dashboard',
+  'admin_sneakers',
+  'admin_categories',
+  'admin_brands_add',
+  'admin_brands_edit',
+  'admin_categories_add',
+  'admin_categories_edit'
+]
 
-router.afterEach(async (to) => {
+router.beforeEach(async (to) => {
   const { isAuthenticated, roles } = await checkAuth()
 
   if (!publicRoutes.includes(to.name as string) && !isAuthenticated) {

@@ -36,6 +36,19 @@ CategoryRouter.get(
   },
 );
 
+CategoryRouter.get(
+  '/:id',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res
+        .status(StatusCodes.OK)
+        .json(await CategoryService.find({ id: parseInt(req.params.id) }));
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 CategoryRouter.post(
   '/',
   schema(

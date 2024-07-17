@@ -8,11 +8,9 @@ export async function checkAuth(): Promise<{ isAuthenticated: boolean; roles: st
   try {
     const user = await SessionApi.getProfile()
     profile.setProfile(user)
-    localStorage.setItem('profile', JSON.stringify(user))
     return { isAuthenticated: true, roles: user!.roles }
   } catch (e) {
     profile.clearProfile()
-    localStorage.removeItem('profile')
     return { isAuthenticated: false, roles: [] }
   }
 }

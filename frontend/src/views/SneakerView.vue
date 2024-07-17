@@ -26,12 +26,17 @@ const sizeList = ref<SneakerApi.SizeOut[]>([])
 const selectedQuantity = ref<{ quantity: number }>()
 
 onBeforeMount(async () => {
-  console.log(route.params.slugSneaker)
   sneaker.value = await SneakerApi.getOne(route.params.slugSneaker as string)
-  console.log(sneaker.value)
 
   if (!selectedColor.value) {
     selectedColor.value = sneaker.value?.variants[0].name
+  }
+  // preselectionner la bonne taille parmis les tailles de la variante
+  if (selectedColor.value) {
+    const querySizeName = route.query.size as string
+    selectedSize.value = sneaker.value?.variants.find((variant) => variant.name === selectedColor.value)?.sizes.find(
+      (size) => size.name === querySizeName
+    )
   }
 })
 
@@ -51,15 +56,14 @@ const resetSelectedQuantity = () => {
   selectedQuantity.value = undefined
 }
 
-const changeRouteColor = (color: string | undefined) => {
+const changeRouteColor = (color: string | undefined, size: string | undefined) => {
   if (color === undefined) return
-  router.push({ query: { color } })
+  router.push({ query: { color, size } })
 }
 
 const selectedVariant = computed(() => {
-  resetSelectedSize()
   resetSelectedQuantity()
-  changeRouteColor(selectedColor.value)
+  changeRouteColor(selectedColor.value, selectedSize.value?.name)
   return sneaker.value?.variants.find((variant) => variant.name === selectedColor.value)
 })
 
@@ -67,6 +71,10 @@ const selectedVariant = computed(() => {
 // m'enlever si un jour le back renvoie toutes les tailles même avec un stock à zéro
 const resetSizeList = () => {
   sizeList.value = [
+    { idRef: 0, _id: '', id: 0, name: '34', slug: '', stock: 0 },
+    { idRef: 0, _id: '', id: 0, name: '35', slug: '', stock: 0 },
+    { idRef: 0, _id: '', id: 0, name: '36', slug: '', stock: 0 },
+    { idRef: 0, _id: '', id: 0, name: '37', slug: '', stock: 0 },
     { idRef: 0, _id: '', id: 0, name: '38', slug: '', stock: 0 },
     { idRef: 0, _id: '', id: 0, name: '39', slug: '', stock: 0 },
     { idRef: 0, _id: '', id: 0, name: '40', slug: '', stock: 0 },
@@ -85,9 +93,8 @@ const resetSizeList = () => {
 // m'enlever si un jour le back renvoie toutes les tailles même avec un stock à zéro
 const newSizeList = computed(() => {
   resetSizeList()
-  resetSelectedSize()
-  sizeList.value.map((size) => {
-    if (selectedVariant?.value?.sizes) {
+  sizeList.value.forEach((size) => {
+    if (selectedVariant.value?.sizes) {
       for (const taille of selectedVariant.value.sizes) {
         if (size.name === taille.name) {
           Object.assign(size, taille)
@@ -99,11 +106,6 @@ const newSizeList = computed(() => {
 })
 
 const onSubmit = async () => {
-  console.log('Ajout au panier', {
-    variantId: selectedSize.value?.idRef,
-    quantity: selectedQuantity.value?.quantity
-  })
-
   if (selectedSize.value === undefined || selectedQuantity.value === undefined) {
     return
   }
@@ -136,11 +138,7 @@ const onSubmit = async () => {
         <!-- Image produit -->
         <section class="border--100 flex-1 rounded-2xl border p-2">
           <div class="flex h-full items-center rounded-xl bg-zinc-100 p-2">
-            <img
-              :src="selectedVariant?.image"
-              :alt="selectedVariant?.slug"
-              class="h-full w-full object-cover"
-            />
+            <img :src="selectedVariant?.image" :alt="selectedVariant?.slug" class="h-full w-full object-cover" />
           </div>
         </section>
 
@@ -156,9 +154,7 @@ const onSubmit = async () => {
 
           <!-- Marque + note + nombre de ventes -->
           <div class="flex flex-wrap items-center gap-2">
-            <div
-              class="flex h-8 min-h-8 w-8 min-w-8 items-center rounded-full border border-slate-400 bg-white p-1"
-            >
+            <div class="flex h-8 min-h-8 w-8 min-w-8 items-center rounded-full border border-slate-400 bg-white p-1">
               <img src="../assets/images/logo_nike.png" alt="logo marque" class="" />
             </div>
             <p class="font-medium">{{ sneaker.brand }}</p>
@@ -184,11 +180,8 @@ const onSubmit = async () => {
             <h2 class="text-title">Couleurs disponibles :</h2>
             <div class="flex gap-2">
               <div v-for="color in sneaker.variants" :key="color.name">
-                <ColorButton
-                  :variant="color"
-                  :isColorSelected="color.name === selectedVariant?.name"
-                  @color-emittion="(color) => selectColor(color)"
-                />
+                <ColorButton :variant="color" :isColorSelected="color.name === selectedVariant?.name"
+                  @color-emittion="(color) => selectColor(color)" />
               </div>
             </div>
           </div>
@@ -199,12 +192,8 @@ const onSubmit = async () => {
             <div class="flex flex-wrap gap-2">
               <div v-for="size in newSizeList" :key="size?.name">
                 <!-- {{ size }} -->
-                <SizeCard
-                  :size="size"
-                  :isSizeSelected="size?.name === selectedSize?.name"
-                  :isEnoughStock="size.stock > 0"
-                  @size-emittion="(size) => selectSize(size)"
-                />
+                <SizeCard :size="size" :isSizeSelected="size?.name === selectedSize?.name"
+                  :isEnoughStock="size.stock > 0" @size-emittion="(size) => selectSize(size)" />
               </div>
             </div>
           </div>
@@ -212,39 +201,25 @@ const onSubmit = async () => {
           <!-- Quantité -->
           <div class="card mb-4 flex flex-col">
             <label for="quantity" class="text-title">Quantité :</label>
-            <Select
-              v-model="selectedQuantity"
-              :options="
-                selectedSize?.stock
-                  ? Array.from(
-                      { length: Math.min(selectedSize.stock, MAX_QUANTITY_DISPLAYED) },
-                      (_, i) => ({
-                        quantity: i + 1
-                      })
-                    )
-                  : null
-              "
-              optionLabel="quantity"
-              placeholder="Selectionnez une quantité"
-              class="w-full"
-            />
+            <Select v-model="selectedQuantity" :options="selectedSize?.stock
+              ? Array.from(
+                { length: Math.min(selectedSize.stock, MAX_QUANTITY_DISPLAYED) },
+                (_, i) => ({
+                  quantity: i + 1
+                })
+              )
+              : null
+              " optionLabel="quantity" placeholder="Selectionnez une quantité" class="w-full" />
           </div>
 
           <!-- Boutton CTA -->
           <div class="flex justify-center gap-3">
-            <Button
-              label="Ajouter au panier"
-              rounded
-              icon="pi pi-shopping-bag"
-              class="w-fit"
-              :class="{
-                'select-disable': !selectedQuantity,
-                'transition-transform': selectedQuantity,
-                'hover:scale-105': selectedQuantity
-              }"
-              style="padding: 1rem 4rem; background-color: black; border: 1px solid black"
-              @click="selectedSize && selectedQuantity ? onSubmit() : null"
-            />
+            <Button label="Ajouter au panier" rounded icon="pi pi-shopping-bag" class="w-fit" :class="{
+              'select-disable': !selectedQuantity,
+              'transition-transform': selectedQuantity,
+              'hover:scale-105': selectedQuantity
+            }" style="padding: 1rem 4rem; background-color: black; border: 1px solid black"
+              @click="selectedSize && selectedQuantity ? onSubmit() : null" />
           </div>
         </section>
       </main>
@@ -342,9 +317,14 @@ const onSubmit = async () => {
 }
 
 .text-title {
-  padding-bottom: 0.5rem /* 8px */;
+  padding-bottom: 0.5rem
+    /* 8px */
+  ;
   font-weight: 600;
-  font-size: 1.25rem /* 20px */;
-  line-height: 1.75rem; /* 28px */
+  font-size: 1.25rem
+    /* 20px */
+  ;
+  line-height: 1.75rem;
+  /* 28px */
 }
 </style>

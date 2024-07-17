@@ -1,6 +1,6 @@
 import { OrderRepository } from '../repositories/sql/OrderRepository';
 import { CartService } from './CartService';
-import { CheckoutService } from './CheckoutService';
+import { CheckoutService, stripe } from './CheckoutService';
 import Stripe from 'stripe';
 
 export class StripeService {
@@ -25,7 +25,17 @@ export class StripeService {
         if (!order) {
           break;
         }
-        CheckoutService.updateOrder(order.reference, 'completed', 'paid');
+        const invoice = await stripe.invoices.retrieve(
+          checkoutSessionCompleted.invoice as string,
+        );
+        const invoiceUrl = invoice.hosted_invoice_url;
+        CheckoutService.updateOrder(
+          order.reference,
+          order.userId,
+          'isDelivered',
+          'paid',
+          invoiceUrl,
+        );
 
         // Empty the cart
         CartService.emptyCart(
@@ -42,7 +52,12 @@ export class StripeService {
         if (!order) {
           break;
         }
-        CheckoutService.updateOrder(order.reference, 'expired', 'unpaid');
+        CheckoutService.updateOrder(
+          order.reference,
+          order.userId,
+          'expired',
+          'unpaid',
+        );
 
         break;
       }
