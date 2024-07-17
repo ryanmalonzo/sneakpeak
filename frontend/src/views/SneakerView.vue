@@ -26,9 +26,7 @@ const sizeList = ref<SneakerApi.SizeOut[]>([])
 const selectedQuantity = ref<{ quantity: number }>()
 
 onBeforeMount(async () => {
-  console.log(route.params.slugSneaker)
   sneaker.value = await SneakerApi.getOne(route.params.slugSneaker as string)
-  console.log(sneaker.value)
 
   if (!selectedColor.value) {
     selectedColor.value = sneaker.value?.variants[0].name
@@ -99,11 +97,6 @@ const newSizeList = computed(() => {
 })
 
 const onSubmit = async () => {
-  console.log('Ajout au panier', {
-    variantId: selectedSize.value?.idRef,
-    quantity: selectedQuantity.value?.quantity
-  })
-
   if (selectedSize.value === undefined || selectedQuantity.value === undefined) {
     return
   }
