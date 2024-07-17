@@ -26,14 +26,13 @@ const sizeList = ref<SneakerApi.SizeOut[]>([])
 const selectedQuantity = ref<{ quantity: number }>()
 
 onBeforeMount(async () => {
-  console.log(route.params.slugSneaker)
-  sneaker.value = await SneakerApi.getOne(route.params.slugSneaker as string)
-  console.log(sneaker.value)
-
+    sneaker.value = await SneakerApi.getOne(route.params.slugSneaker as string)
+  
   if (!selectedColor.value) {
     selectedColor.value = sneaker.value?.variants[0].name
   }
-})
+  selectedSize.value = selectedColor.value ? sneaker.value?.variants.find((variant) => variant.name === selectedColor.value)?.sizes[0] : undefined
+ })
 
 const selectColor = (color: string) => {
   resetSelectedSize()
@@ -51,15 +50,14 @@ const resetSelectedQuantity = () => {
   selectedQuantity.value = undefined
 }
 
-const changeRouteColor = (color: string | undefined) => {
+const changeRouteColor = (color: string | undefined, size: string | undefined) => {
   if (color === undefined) return
-  router.push({ query: { color } })
+   router.push({ query: { color, size } })
 }
 
 const selectedVariant = computed(() => {
-  resetSelectedSize()
   resetSelectedQuantity()
-  changeRouteColor(selectedColor.value)
+  changeRouteColor(selectedColor.value, selectedSize.value?.name)
   return sneaker.value?.variants.find((variant) => variant.name === selectedColor.value)
 })
 
@@ -85,9 +83,8 @@ const resetSizeList = () => {
 // m'enlever si un jour le back renvoie toutes les tailles même avec un stock à zéro
 const newSizeList = computed(() => {
   resetSizeList()
-  resetSelectedSize()
-  sizeList.value.map((size) => {
-    if (selectedVariant?.value?.sizes) {
+  sizeList.value.forEach((size) => {
+    if (selectedVariant.value?.sizes) {
       for (const taille of selectedVariant.value.sizes) {
         if (size.name === taille.name) {
           Object.assign(size, taille)
@@ -146,7 +143,7 @@ const onSubmit = async () => {
 
         <!-- Main Infos produit -->
         <section class="flex flex-1 flex-col justify-around gap-2 p-4 max-sm:p-0">
-          <h1 class="text-2xl text-orange-600">NOUVELLE ARRIVÉE !</h1>
+          <h1 class="text-2xl text-[#10b981]">NOUVELLE ARRIVÉE !</h1>
           <h1 class="text-4xl font-medium">{{ sneaker.name }}</h1>
 
           <div class="flex items-baseline gap-2">
