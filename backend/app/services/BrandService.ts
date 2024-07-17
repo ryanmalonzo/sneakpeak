@@ -13,7 +13,18 @@ import {
 
 export class BrandService {
   static async findAll(): Promise<HydratedDocument<IBrand>[]> {
-    return BrandRepositoryMongoDB.findAll();
+    const brands = await BrandRepositoryMongoDB.findAll();
+    return brands;
+  }
+
+  static async find(
+    filterOptions: FilterOptions,
+  ): Promise<HydratedDocument<IBrand> | null> {
+    const brand = await BrandRepositoryMongoDB.findOne(filterOptions);
+    if (!brand) {
+      throw new RequestError(StatusCodes.NOT_FOUND);
+    }
+    return brand;
   }
 
   static async save(name: string, slug: string, image: string): Promise<Brand> {
