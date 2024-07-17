@@ -13,7 +13,18 @@ import {
 
 export class CategoryService {
   static async findAll(): Promise<HydratedDocument<ICategory>[]> {
-    return CategoryRepositoryMongoDB.findAll();
+    const categories = await CategoryRepositoryMongoDB.findAll();
+    return categories;
+  }
+
+  static async find(
+    filterOptions: FilterOptions,
+  ): Promise<HydratedDocument<ICategory> | null> {
+    const category = await CategoryRepositoryMongoDB.findOne(filterOptions);
+    if (!category) {
+      throw new RequestError(StatusCodes.NOT_FOUND);
+    }
+    return category;
   }
 
   static async save(

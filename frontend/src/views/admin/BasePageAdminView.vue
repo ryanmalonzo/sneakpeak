@@ -3,11 +3,11 @@ import { ref } from 'vue'
 import { logout } from '@/helpers/auth'
 import logoWhite from '@/assets/images/logoWhite.svg'
 import Image from 'primevue/image'
-import type { IProfile } from '@/services/sessionApi'
+import { profileStore } from '@/store/profile'
 
 const isSidebarOpen = ref(false)
-const profile: IProfile = JSON.parse(localStorage.getItem('profile')!)
-const greeting = 'Hello, ' + (profile.firstName || profile.email)
+const profile = profileStore()
+const greeting = 'Hello, ' + (profile.profile?.firstName || profile.profile?.email)
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value
@@ -46,7 +46,10 @@ const toggleSidebar = () => {
       <div class="font-['Be Vietnam Pro'] w-full flex-col px-6 text-zinc-100">
         <ul>
           <li>
-            <RouterLink to="dashboard" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink
+              to="/admin/dashboard"
+              class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500"
+            >
               <i class="pi pi-home" style="color: #ffff; font-size: 1.3rem"></i>
               Accueil
             </RouterLink>
@@ -64,19 +67,22 @@ const toggleSidebar = () => {
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="sneakers" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink to="/admin/sneakers" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
               <i class="pi pi-tags" style="color: #ffff; font-size: 1.3rem"></i>
               Chaussures
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="categories" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink
+              to="/admin/categories"
+              class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500"
+            >
               <i class="pi pi-objects-column" style="color: #ffff; font-size: 1.3rem"></i>
               Catégories
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="brands" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink to="/admin/brands" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
               <i class="pi pi-list" style="color: #ffff; font-size: 1.3rem"></i>
               Marques
             </RouterLink>
@@ -124,10 +130,3 @@ const toggleSidebar = () => {
     </section>
   </section>
 </template>
-
-<!-- <style scoped> -->
-<!-- #content { -->
-<!--   height: calc(100svh - 114px); -->
-<!--   overflow: auto; -->
-<!-- } -->
-<!-- </style> -->
