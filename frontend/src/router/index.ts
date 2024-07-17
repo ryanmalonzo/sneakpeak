@@ -134,8 +134,23 @@ const router = createRouter({
         },
         {
           path: 'brands',
-          name: 'admin_brands',
-          component: () => import('@/views/admin/BrandsAdminView.vue')
+          children: [
+            {
+              path: '',
+              name: 'admin_brands',
+              component: () => import('@/views/admin/BrandsAdminView.vue')
+            },
+            {
+              path: 'add',
+              name: 'admin_brands_add',
+              component: () => import('@/views/admin/forms/BrandForm.vue')
+            },
+            {
+              path: ':id',
+              name: 'admin_brands_edit',
+              component: () => import('@/views/admin/forms/BrandForm.vue')
+            }
+          ]
         }
       ]
     },
@@ -160,7 +175,8 @@ const adminRoutes = [
   'admin_dashboard',
   'admin_sneakers',
   'admin_categories',
-  'admin_brands',
+  'admin_brands_add',
+  'admin_brands_edit',
   'admin_categories_add',
   'admin_categories_edit'
 ]
