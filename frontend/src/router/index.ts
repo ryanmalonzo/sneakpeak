@@ -8,7 +8,6 @@ import CheckoutView from '@/views/CheckoutView.vue'
 import CheckoutSuccessView from '@/views/CheckoutSuccessView.vue'
 import CheckoutCancelView from '@/views/CheckoutCancelView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
-import BaseProfilView from '@/views/BaseProfilView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import CGUView from '@/views/legal/CGUView.vue'
 import { checkAuth } from '@/helpers/auth'
@@ -80,7 +79,6 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: () => BaseProfilView,
       children: [
         {
           path: '',
@@ -116,8 +114,23 @@ const router = createRouter({
         },
         {
           path: 'categories',
-          name: 'admin_categories',
-          component: () => import('@/views/admin/CategoriesAdminView.vue')
+          children: [
+            {
+              path: '',
+              name: 'admin_categories',
+              component: () => import('@/views/admin/CategoriesAdminView.vue')
+            },
+            {
+              path: 'add',
+              name: 'admin_categories_add',
+              component: () => import('@/views/admin/forms/CategoryForm.vue')
+            },
+            {
+              path: ':id',
+              name: 'admin_categories_edit',
+              component: () => import('@/views/admin/forms/CategoryForm.vue')
+            }
+          ]
         },
         {
           path: 'brands',
@@ -125,6 +138,11 @@ const router = createRouter({
           component: () => import('@/views/admin/BrandsAdminView.vue')
         }
       ]
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not_found',
+      component: () => import('@/views/NotFoundView.vue')
     }
   ]
 })
@@ -138,7 +156,14 @@ const publicRoutes = [
   'cgu',
   'cgv'
 ]
-const adminRoutes = ['admin_dashboard', 'admin_sneakers', 'admin_categories', 'admin_brands']
+const adminRoutes = [
+  'admin_dashboard',
+  'admin_sneakers',
+  'admin_categories',
+  'admin_brands',
+  'admin_categories_add',
+  'admin_categories_edit'
+]
 
 router.beforeEach(async (to) => {
   const { isAuthenticated, roles } = await checkAuth()

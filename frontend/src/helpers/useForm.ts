@@ -1,4 +1,4 @@
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import { z, type ZodTypeAny } from 'zod'
 
 export function useForm(
@@ -10,6 +10,13 @@ export function useForm(
   const formData = reactive({ ...initialData })
   const isSubmitting = ref(false)
   const validationErrors: Record<string, string> = reactive({})
+
+  watch(initialData, () => {
+    Object.keys(initialData).forEach((field) => {
+      formData[field] = initialData[field]
+      validateField(field)
+    })
+  })
 
   const schema = z.object(validationSchema as unknown as Record<string, ZodTypeAny>)
 

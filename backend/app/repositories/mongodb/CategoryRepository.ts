@@ -3,12 +3,16 @@ import { ICategory, CategoryModel } from '../../models/mongodb/Category';
 import { FilterOptions, SortOptions } from '../../helpers/interfaces';
 
 export class CategoryRepository {
-  static findAll(): Promise<HydratedDocument<ICategory>[]> {
-    return CategoryModel.find();
+  static async findAll(): Promise<HydratedDocument<ICategory>[]> {
+    const categories = await CategoryModel.find();
+    return categories;
   }
 
-  static findById(id: string): Promise<HydratedDocument<ICategory> | null> {
-    return CategoryModel.findById(id);
+  static async findOne(
+    filterOptions: FilterOptions,
+  ): Promise<HydratedDocument<ICategory> | null> {
+    const category = await CategoryModel.findOne(filterOptions);
+    return category;
   }
 
   static async getPaginated(
