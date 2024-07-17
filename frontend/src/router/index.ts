@@ -8,7 +8,6 @@ import CheckoutView from '@/views/CheckoutView.vue'
 import CheckoutSuccessView from '@/views/CheckoutSuccessView.vue'
 import CheckoutCancelView from '@/views/CheckoutCancelView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
-import BaseProfilView from '@/views/BaseProfilView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import CGUView from '@/views/legal/CGUView.vue'
 import { checkAuth } from '@/helpers/auth'
@@ -80,7 +79,6 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: () => BaseProfilView,
       children: [
         {
           path: '',
@@ -140,6 +138,11 @@ const router = createRouter({
           component: () => import('@/views/admin/BrandsAdminView.vue')
         }
       ]
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not_found',
+      component: () => import('@/views/NotFoundView.vue')
     }
   ]
 })
