@@ -47,7 +47,7 @@ const redirectToSneakerView = (slug: string) => {
   router.push({
     name: 'sneakers',
     params: { slugSneaker: slugs[0] },
-    query: { color: slugs[1], size: slugs[2] }
+    query: { color: slugs[1] }
   })
 }
 </script>

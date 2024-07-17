@@ -31,7 +31,10 @@ onBeforeMount(async () => {
   if (!selectedColor.value) {
     selectedColor.value = sneaker.value?.variants[0].name
   }
-  selectedSize.value = selectedColor.value ? sneaker.value?.variants.find((variant) => variant.name === selectedColor.value)?.sizes[0] : undefined
+  // preselectionner la bonne taille parmis les tailles de la variante
+  if (selectedColor.value) {
+    selectedSize.value = sneaker.value?.variants.find((variant) => variant.name === selectedColor.value)?.sizes[0]
+  }
 })
 
 const selectColor = (color: string) => {
@@ -134,7 +137,7 @@ const onSubmit = async () => {
 
         <!-- Main Infos produit -->
         <section class="flex flex-1 flex-col justify-around gap-2 p-4 max-sm:p-0">
-          <h1 class="text-2xl text-[#10b981]">NOUVELLE ARRIVÉE !</h1>
+          <h1 class="text-2xl text-orange-600">NOUVELLE ARRIVÉE !</h1>
           <h1 class="text-4xl font-medium">{{ sneaker.name }}</h1>
 
           <div class="flex items-baseline gap-2">
@@ -192,13 +195,13 @@ const onSubmit = async () => {
           <div class="card mb-4 flex flex-col">
             <label for="quantity" class="text-title">Quantité :</label>
             <Select v-model="selectedQuantity" :options="selectedSize?.stock
-                ? Array.from(
-                  { length: Math.min(selectedSize.stock, MAX_QUANTITY_DISPLAYED) },
-                  (_, i) => ({
-                    quantity: i + 1
-                  })
-                )
-                : null
+              ? Array.from(
+                { length: Math.min(selectedSize.stock, MAX_QUANTITY_DISPLAYED) },
+                (_, i) => ({
+                  quantity: i + 1
+                })
+              )
+              : null
               " optionLabel="quantity" placeholder="Selectionnez une quantité" class="w-full" />
           </div>
 

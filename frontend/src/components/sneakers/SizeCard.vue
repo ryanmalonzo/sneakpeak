@@ -37,7 +37,7 @@ const handleClick = () => {
 .selected {
   color: white;
   background: rgb(255, 98, 0);
-  background: linear-gradient(90deg, #10b981 0%, #0a7a55 100%);
+  background: linear-gradient(90deg, rgba(255, 98, 0, 1) 0%, rgba(187, 55, 0, 1) 100%);
 }
 .display-none {
   display: none;
