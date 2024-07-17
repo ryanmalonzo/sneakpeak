@@ -17,7 +17,7 @@ const { resource, headerTitle, uniqueKey } = defineProps<{
   resource: string
   uniqueKey: string
   headerTitle: string
-  addButtonPath: string
+  path: string
 }>()
 
 const rows = ref<Record<string, string>[]>([])
@@ -116,7 +116,7 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
     <div class="flex items-center justify-between gap-2.5 self-stretch">
       <div class="flex items-center gap-2.5">
         <h2 class="text-2xl font-semibold">{{ headerTitle }}</h2>
-        <Button icon="pi pi-plus" label="Ajouter" @click="router.push(addButtonPath)" />
+        <Button icon="pi pi-plus" label="Ajouter" @click="router.push(`${path}/add`)" />
         <Button
           icon="pi pi-download"
           severity="secondary"
@@ -183,7 +183,12 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
             </td>
             <td :class="tdClasses">
               <div class="flex justify-center gap-2.5 self-stretch">
-                <Button icon="pi pi-pen-to-square" severity="contrast" aria-label="Modifier" />
+                <Button
+                  icon="pi pi-pen-to-square"
+                  severity="contrast"
+                  aria-label="Modifier"
+                  @click="router.push(`${path}/${row.id}`)"
+                />
                 <Button icon="pi pi-trash" severity="secondary" aria-label="Supprimer" />
               </div>
             </td>

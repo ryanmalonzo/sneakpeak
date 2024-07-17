@@ -15,7 +15,7 @@ const columns = [
       resource="categories"
       uniqueKey="slug"
       headerTitle="Catégories"
-      addButtonPath="/admin/categories/add"
+      path="/admin/categories"
     />
   </BasePageAdminView>
 </template>
