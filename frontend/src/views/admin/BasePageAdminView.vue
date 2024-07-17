@@ -3,11 +3,11 @@ import { ref } from 'vue'
 import { logout } from '@/helpers/auth'
 import logoWhite from '@/assets/images/logoWhite.svg'
 import Image from 'primevue/image'
-import type { IProfile } from '@/services/sessionApi'
+import { profileStore } from '@/store/profile'
 
 const isSidebarOpen = ref(false)
-const profile: IProfile = JSON.parse(localStorage.getItem('profile')!)
-const greeting = 'Hello, ' + (profile.firstName || profile.email)
+const profile = profileStore()
+const greeting = 'Hello, ' + (profile.profile?.firstName || profile.profile?.email)
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value
@@ -124,10 +124,3 @@ const toggleSidebar = () => {
     </section>
   </section>
 </template>
-
-<!-- <style scoped> -->
-<!-- #content { -->
-<!--   height: calc(100svh - 114px); -->
-<!--   overflow: auto; -->
-<!-- } -->
-<!-- </style> -->
