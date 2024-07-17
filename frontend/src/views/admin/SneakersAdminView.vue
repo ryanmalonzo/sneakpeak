@@ -13,6 +13,12 @@ const columns = [
 
 <template>
   <BasePageAdminView>
-    <DataTable :columns="columns" resource="sneakers" uniqueKey="_id" headerTitle="Sneakers" />
+    <DataTable
+      :columns="columns"
+      resource="sneakers"
+      uniqueKey="_id"
+      headerTitle="Sneakers"
+      addButtonPath="/"
+    />
   </BasePageAdminView>
 </template>

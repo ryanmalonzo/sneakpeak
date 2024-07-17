@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import Select, { type SelectChangeEvent } from 'primevue/select'
 import { debounce } from 'underscore'
 import DataPagination from './DataPagination.vue'
@@ -9,11 +10,14 @@ import { downloadCSV } from './utils/csv'
 const API_URL = import.meta.env.VITE_API_URL
 const DEFAULT_LIMIT = 25
 
+const router = useRouter()
+
 const { resource, headerTitle, uniqueKey } = defineProps<{
   columns: { key: string; label: string }[]
   resource: string
   uniqueKey: string
   headerTitle: string
+  addButtonPath: string
 }>()
 
 const rows = ref<Record<string, string>[]>([])
@@ -112,7 +116,7 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
     <div class="flex items-center justify-between gap-2.5 self-stretch">
       <div class="flex items-center gap-2.5">
         <h2 class="text-2xl font-semibold">{{ headerTitle }}</h2>
-        <Button icon="pi pi-plus" label="Ajouter" />
+        <Button icon="pi pi-plus" label="Ajouter" @click="router.push(addButtonPath)" />
         <Button
           icon="pi pi-download"
           severity="secondary"

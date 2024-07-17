@@ -46,7 +46,10 @@ const toggleSidebar = () => {
       <div class="font-['Be Vietnam Pro'] w-full flex-col px-6 text-zinc-100">
         <ul>
           <li>
-            <RouterLink to="dashboard" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink
+              to="/admin/dashboard"
+              class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500"
+            >
               <i class="pi pi-home" style="color: #ffff; font-size: 1.3rem"></i>
               Accueil
             </RouterLink>
@@ -64,19 +67,22 @@ const toggleSidebar = () => {
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="sneakers" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink to="/admin/sneakers" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
               <i class="pi pi-tags" style="color: #ffff; font-size: 1.3rem"></i>
               Chaussures
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="categories" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink
+              to="/admin/categories"
+              class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500"
+            >
               <i class="pi pi-objects-column" style="color: #ffff; font-size: 1.3rem"></i>
               Catégories
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="brands" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink to="/admin/brands" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
               <i class="pi pi-list" style="color: #ffff; font-size: 1.3rem"></i>
               Marques
             </RouterLink>

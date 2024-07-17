@@ -24,8 +24,9 @@ StripeRouter.post(
       return;
     }
 
-    StripeService.handleWebhookEvent(event).catch((err) => {
+    StripeService.handleWebhookEvent(event).catch((err): void => {
       response.status(500).send('Webhook Error ' + err.message);
+      return;
     });
 
     response.json({ received: true });
