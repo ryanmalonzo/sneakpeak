@@ -15,7 +15,7 @@ const columns = [
       resource="brands"
       uniqueKey="slug"
       headerTitle="Marques"
-      path="/"
+      path="/admin/brands"
     />
   </BasePageAdminView>
 </template>

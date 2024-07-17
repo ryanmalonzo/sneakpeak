@@ -3,12 +3,16 @@ import { IBrand, BrandModel } from '../../models/mongodb/Brand';
 import { FilterOptions, SortOptions } from '../../helpers/interfaces';
 
 export class BrandRepository {
-  static findAll(): Promise<HydratedDocument<IBrand>[]> {
-    return BrandModel.find();
+  static async findAll(): Promise<HydratedDocument<IBrand>[]> {
+    const brand = await BrandModel.find();
+    return brand;
   }
 
-  static findById(id: string): Promise<HydratedDocument<IBrand> | null> {
-    return BrandModel.findById(id);
+  static async findOne(
+    filterOptions: FilterOptions,
+  ): Promise<HydratedDocument<IBrand> | null> {
+    const brand = await BrandModel.findOne(filterOptions);
+    return brand;
   }
 
   static async getPaginated(

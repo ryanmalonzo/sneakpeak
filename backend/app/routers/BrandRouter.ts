@@ -36,6 +36,19 @@ BrandRouter.get(
   },
 );
 
+BrandRouter.get(
+  '/:id',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res
+        .status(StatusCodes.OK)
+        .json(await BrandService.find({ id: parseInt(req.params.id) }));
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 BrandRouter.post(
   '/',
   schema(
