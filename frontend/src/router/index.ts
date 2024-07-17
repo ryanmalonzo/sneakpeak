@@ -116,8 +116,23 @@ const router = createRouter({
         },
         {
           path: 'categories',
-          name: 'admin_categories',
-          component: () => import('@/views/admin/CategoriesAdminView.vue')
+          children: [
+            {
+              path: '',
+              name: 'admin_categories',
+              component: () => import('@/views/admin/CategoriesAdminView.vue')
+            },
+            {
+              path: 'add',
+              name: 'admin_categories_add',
+              component: () => import('@/views/admin/forms/CategoryForm.vue')
+            },
+            {
+              path: ':id',
+              name: 'admin_categories_edit',
+              component: () => import('@/views/admin/forms/CategoryForm.vue')
+            }
+          ]
         },
         {
           path: 'brands',
@@ -138,7 +153,14 @@ const publicRoutes = [
   'cgu',
   'cgv'
 ]
-const adminRoutes = ['admin_dashboard', 'admin_sneakers', 'admin_categories', 'admin_brands']
+const adminRoutes = [
+  'admin_dashboard',
+  'admin_sneakers',
+  'admin_categories',
+  'admin_brands',
+  'admin_categories_add',
+  'admin_categories_edit'
+]
 
 router.beforeEach(async (to) => {
   const { isAuthenticated, roles } = await checkAuth()
