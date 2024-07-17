@@ -33,7 +33,10 @@ onBeforeMount(async () => {
   }
   // preselectionner la bonne taille parmis les tailles de la variante
   if (selectedColor.value) {
-    selectedSize.value = sneaker.value?.variants.find((variant) => variant.name === selectedColor.value)?.sizes[0]
+    const querySizeName = route.query.size as string
+    selectedSize.value = sneaker.value?.variants.find((variant) => variant.name === selectedColor.value)?.sizes.find(
+      (size) => size.name === querySizeName
+    )
   }
 })
 
@@ -68,6 +71,10 @@ const selectedVariant = computed(() => {
 // m'enlever si un jour le back renvoie toutes les tailles même avec un stock à zéro
 const resetSizeList = () => {
   sizeList.value = [
+    { idRef: 0, _id: '', id: 0, name: '34', slug: '', stock: 0 },
+    { idRef: 0, _id: '', id: 0, name: '35', slug: '', stock: 0 },
+    { idRef: 0, _id: '', id: 0, name: '36', slug: '', stock: 0 },
+    { idRef: 0, _id: '', id: 0, name: '37', slug: '', stock: 0 },
     { idRef: 0, _id: '', id: 0, name: '38', slug: '', stock: 0 },
     { idRef: 0, _id: '', id: 0, name: '39', slug: '', stock: 0 },
     { idRef: 0, _id: '', id: 0, name: '40', slug: '', stock: 0 },
