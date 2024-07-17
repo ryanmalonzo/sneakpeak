@@ -1,7 +1,3 @@
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
 export interface IOrder {
   order: {
     total: number
