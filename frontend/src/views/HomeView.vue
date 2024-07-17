@@ -41,6 +41,15 @@ onMounted(async () => {
   })
   bestSellingVariants.push(...dataBestSellingVariants.items)
 })
+
+const redirectToSneakerView = (slug: string) => {
+  const slugs = slug.split('|')
+  router.push({
+    name: 'sneakers',
+    params: { slugSneaker: slugs[0] },
+    query: { color: slugs[1] }
+  })
+}
 </script>
 
 <template>
@@ -87,7 +96,7 @@ onMounted(async () => {
           :showNavigators="false"
         >
           <template #item="variant">
-            <a href="#" class="h-[358px]">
+            <a href="#" class="h-[358px]" @click="redirectToSneakerView(variant.slug)">
               <div class="border-1 surface-border border-round flex flex-col items-center p-5">
                 <img :src="variant.data.image" class="border-round w-full" />
                 <p>{{ variant.data.name }}</p>
@@ -121,7 +130,7 @@ onMounted(async () => {
           :showNavigators="false"
         >
           <template #item="brand">
-            <a href="#" class="h-[310px]">
+            <a href="#" class="h-[310px]" @click="router.push(`/search?brand=${brand.name}`)">
               <div class="border-1 surface-border border-round flex flex-col items-center p-5">
                 <img :src="brand.data.image" class="border-round w-full" />
               </div>
