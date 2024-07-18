@@ -116,9 +116,9 @@ const isRowSelected = (row: Record<string, string>) => {
 }
 
 const deleteRow = async () => {
-  if (rowToDelete.value) {  
+  if (rowToDelete.value) {
     await fetch(`${API_URL}/${resource}/${rowToDelete.value.id}`, {
-        method: 'DELETE'
+      method: 'DELETE'
     })
 
     // Reset les valeurs
@@ -126,9 +126,6 @@ const deleteRow = async () => {
     rowToDelete.value = null
   }
 }
-
-console.log('uniqueKey', uniqueKey)
-console.log('resource', deleteRow)
 
 const thClasses = 'border border-black px-2.5 py-1 text-left font-semibold text-white'
 const tdClasses = 'border border-gray-300 px-2.5 py-1'
@@ -173,7 +170,7 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
       <table class="w-full table-auto">
         <thead
           class="sticky top-0 z-10 rounded-t-md bg-black outline outline-offset-[-1px] outline-black"
-        >          
+        >
           <tr>
             <th :class="thClasses"></th>
             <DataHeaderCell
@@ -231,8 +228,13 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
     <!-- Popup de confirmation de suppression -->
     <GenericModal v-model:visible="showDialog" header="Confirmation" modal>
       <p>Êtes-vous sûr de vouloir supprimer cet élément ?</p>
-      <div class="flex justify-end gap-2 mt-6">
-        <Button label="Annuler" icon="pi pi-times" @click="showDialog = false" class="p-button-text" />
+      <div class="mt-6 flex justify-end gap-2">
+        <Button
+          label="Annuler"
+          icon="pi pi-times"
+          @click="showDialog = false"
+          class="p-button-text"
+        />
         <Button label="Confirmer" icon="pi pi-check" @click="deleteRow" />
       </div>
     </GenericModal>
