@@ -68,6 +68,19 @@ SneakerRouter.get(
 );
 
 SneakerRouter.get(
+  '/:id',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res
+        .status(StatusCodes.OK)
+        .json(await SneakerService.find({ id: parseInt(req.params.id) }));
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+SneakerRouter.get(
   '/:slug',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -78,6 +91,7 @@ SneakerRouter.get(
       if (!sneaker) {
         return res.sendStatus(StatusCodes.NOT_FOUND);
       }
+
       return res.status(StatusCodes.OK).json(sneaker);
     } catch (error) {
       next(error);
@@ -107,10 +121,6 @@ SneakerRouter.post(
       categoryId,
       brandId,
     };
-
-    if (!name || !description || !price || !categoryId || !brandId) {
-      return res.sendStatus(StatusCodes.UNPROCESSABLE_ENTITY);
-    }
 
     try {
       return res

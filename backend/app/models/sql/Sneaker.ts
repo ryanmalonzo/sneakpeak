@@ -35,6 +35,8 @@ export const updateSneakerInMongoDB = async (sneaker: Sneaker) => {
   const brand = await BrandRepository.findBrandById(data.brandId);
   data.category = category!.name;
   data.brand = brand!.name;
+  data.categoryId = category!.id;
+  data.brandId = brand!.id;
 
   const sneakerSlug = data.name.replace(/\s/g, '-').toLowerCase();
   data.slug = `${sneakerSlug}`;
