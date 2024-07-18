@@ -6,6 +6,8 @@ import { debounce } from 'underscore'
 import DataPagination from './DataPagination.vue'
 import DataHeaderCell from './DataHeaderCell.vue'
 import { downloadCSV } from './utils/csv'
+import Button from 'primevue/button'
+import GenericModal from '@/components/GenericModal.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 const DEFAULT_LIMIT = 25
@@ -21,12 +23,14 @@ const { resource, headerTitle, uniqueKey } = defineProps<{
 }>()
 
 const rows = ref<Record<string, string>[]>([])
+const rowToDelete = ref<Record<string, string> | null>(null)
 const currentPage = ref(1)
 const maxPage = ref(1)
 const limit = ref(DEFAULT_LIMIT)
 const searchQuery = ref('')
 const sortKeyRef = ref('')
 const orderRef = ref<'asc' | 'desc' | null>(null)
+const showDialog = ref(false)
 
 const selectedRows = ref<Record<string, unknown>[]>([])
 
@@ -92,6 +96,11 @@ const exportToCSV = () => {
   )
 }
 
+const confirmDelete = (row: Record<string, string>) => {
+  rowToDelete.value = row
+  showDialog.value = true
+}
+
 const handleSelectRow = (row: Record<string, string>, event: Event) => {
   const checkbox = event.target as HTMLInputElement
 
@@ -104,6 +113,20 @@ const handleSelectRow = (row: Record<string, string>, event: Event) => {
 
 const isRowSelected = (row: Record<string, string>) => {
   return !!selectedRows.value.find((r) => r.id === row.id)
+}
+
+const deleteRow = async () => {
+  if (rowToDelete.value) {
+    /* Contact de l'api pour supprimer la ligne sélectionnée 
+    
+      .....................................................
+
+    */
+
+    // reset
+    showDialog.value = false
+    rowToDelete.value = null
+  }
 }
 
 const thClasses = 'border border-black px-2.5 py-1 text-left font-semibold text-white'
@@ -149,7 +172,7 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
       <table class="w-full table-auto">
         <thead
           class="sticky top-0 z-10 rounded-t-md bg-black outline outline-offset-[-1px] outline-black"
-        >
+        >          
           <tr>
             <th :class="thClasses"></th>
             <DataHeaderCell
@@ -189,16 +212,29 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
                   aria-label="Modifier"
                   @click="router.push(`${path}/${row.id}`)"
                 />
-                <Button icon="pi pi-trash" severity="secondary" aria-label="Supprimer" />
+                <Button
+                  icon="pi pi-trash"
+                  severity="secondary"
+                  aria-label="Supprimer"
+                  @click="confirmDelete(row)"
+                />
               </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-
     <!-- Pagination -->
     <DataPagination :currentPage="currentPage" :maxPage="maxPage" @pageChange="handlePageChange" />
+
+    <!-- Popup de confirmation de suppression -->
+    <GenericModal v-model:visible="showDialog" header="Confirmation" modal>
+      <p>Êtes-vous sûr de vouloir supprimer cet élément ?</p>
+      <div class="flex justify-end gap-2 mt-6">
+        <Button label="Annuler" icon="pi pi-times" @click="showDialog = false" class="p-button-text" />
+        <Button label="Confirmer" icon="pi pi-check" @click="deleteRow" />
+      </div>
+    </GenericModal>
   </div>
 </template>
 
