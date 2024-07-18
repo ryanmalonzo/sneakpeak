@@ -116,18 +116,19 @@ const isRowSelected = (row: Record<string, string>) => {
 }
 
 const deleteRow = async () => {
-  if (rowToDelete.value) {
-    /* Contact de l'api pour supprimer la ligne sélectionnée 
-    
-      .....................................................
+  if (rowToDelete.value) {  
+    await fetch(`${API_URL}/${resource}/${rowToDelete.value.id}`, {
+        method: 'DELETE'
+    })
 
-    */
-
-    // reset
+    // Reset les valeurs
     showDialog.value = false
     rowToDelete.value = null
   }
 }
+
+console.log('uniqueKey', uniqueKey)
+console.log('resource', deleteRow)
 
 const thClasses = 'border border-black px-2.5 py-1 text-left font-semibold text-white'
 const tdClasses = 'border border-gray-300 px-2.5 py-1'
