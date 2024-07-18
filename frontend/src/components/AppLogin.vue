@@ -8,7 +8,7 @@
           class="flex-auto"
           placeholder="john.doe@gmail.com"
           v-model="formData.email"
-          @input="updateField('email', $event.target.value)"
+          @input="updateField('email', ($event.target as HTMLInputElement).value)"
         />
         <p v-if="validationErrors.email">
           <span class="text-sm text-red-500">{{ validationErrors.email }}</span>

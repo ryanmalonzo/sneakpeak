@@ -130,7 +130,7 @@ const handleUpload = async (event: FileUploadUploaderEvent) => {
         <InputText
           id="name"
           v-model="formData.name"
-          @input="updateField('name', $event.target.value)"
+          @input="updateField('name', ($event.target as HTMLInputElement).value)"
           placeholder="Adidas"
           aria-describedby="name-help"
         />
@@ -145,7 +145,7 @@ const handleUpload = async (event: FileUploadUploaderEvent) => {
         <InputText
           id="slug"
           v-model="formData.slug"
-          @input="updateField('slug', $event.target.value)"
+          @input="updateField('slug', ($event.target as HTMLInputElement).value)"
           placeholder="adidas"
           aria-describedby="slug-help"
         />
