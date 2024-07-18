@@ -18,7 +18,7 @@ const columns = [
       resource="sneakers"
       uniqueKey="_id"
       headerTitle="Sneakers"
-      path="/"
+      path="/admin/sneakers"
     />
   </BasePageAdminView>
 </template>

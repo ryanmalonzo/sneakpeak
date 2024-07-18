@@ -110,6 +110,13 @@ export class SneakerRepository {
     return result.length > 0 ? result[0].count : 0;
   }
 
+  static async findOne(
+    filterOptions: FilterOptions,
+  ): Promise<HydratedDocument<ISneaker> | null> {
+    const sneaker = await SneakerModel.findOne(filterOptions);
+    return sneaker;
+  }
+
   static async findOneBySlug(
     slug: string,
   ): Promise<HydratedDocument<ISneaker> | null> {
