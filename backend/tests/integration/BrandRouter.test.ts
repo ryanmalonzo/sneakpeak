@@ -42,7 +42,6 @@ describe('BrandRouter', () => {
         .set('Cookie', `accessToken=${accessToken}`)
         .send({
           name: 'Nike',
-          slug: 'nike',
           image: 'https://example.com/nike.png',
         });
 
@@ -57,7 +56,6 @@ describe('BrandRouter', () => {
         .set('Cookie', `accessToken=${accessToken}`)
         .send({
           name: 'Nike',
-          slug: 'nike',
           image: 'https://example.com/nike.png',
         });
 
@@ -73,7 +71,6 @@ describe('BrandRouter', () => {
         .set('Cookie', `accessToken=${accessToken}`)
         .send({
           name: 'Nike',
-          slug: 'nike',
           image: 'https://example.com/nike.png',
         });
 

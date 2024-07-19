@@ -54,7 +54,6 @@ BrandRouter.post(
   schema(
     z.object({
       name: z.string(),
-      slug: z.string(),
       image: z.string(),
     }),
   ),
@@ -64,9 +63,7 @@ BrandRouter.post(
     try {
       return res
         .status(StatusCodes.CREATED)
-        .json(
-          await BrandService.save(req.body.name, req.body.slug, req.body.image),
-        );
+        .json(await BrandService.save(req.body.name, req.body.image));
     } catch (error) {
       next(error);
     }
@@ -78,7 +75,6 @@ BrandRouter.put(
   schema(
     z.object({
       name: z.string(),
-      slug: z.string(),
       image: z.string(),
     }),
   ),
@@ -89,7 +85,6 @@ BrandRouter.put(
       const { brand, created } = await BrandService.createOrUpdate(
         parseInt(req.params.id),
         req.body.name,
-        req.body.slug,
         req.body.image,
       );
 

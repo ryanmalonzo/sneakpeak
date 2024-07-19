@@ -9,6 +9,8 @@ interface ISneaker extends Document {
   price: number;
   category: string;
   brand: string;
+  categoryId: number;
+  brandId: number;
   variants: IVariant[];
   createdAt: Date;
   updatedAt: Date;
@@ -23,10 +25,13 @@ const SneakerSchema: Schema<ISneaker> = new Schema(
     price: { type: Number, required: true },
     category: { type: String, required: true },
     brand: { type: String, required: true },
+    categoryId: { type: Number, required: true },
+    brandId: { type: Number, required: true },
     variants: [
       {
         id: { type: Number, required: true },
         name: { type: String, required: true },
+        hexCode: { type: String, required: true },
         slug: { type: String, required: true },
         image: { type: String, required: true },
         isBest: { type: Boolean, required: true },

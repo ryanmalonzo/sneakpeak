@@ -46,28 +46,25 @@ const toggleSidebar = () => {
       <div class="font-['Be Vietnam Pro'] w-full flex-col px-6 text-zinc-100">
         <ul>
           <li>
-            <RouterLink
-              to="/admin/dashboard"
-              class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500"
-            >
+            <RouterLink to="/admin/dashboard" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
               <i class="pi pi-home" style="color: #ffff; font-size: 1.3rem"></i>
               Accueil
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
               <i class="pi pi-users" style="color: #ffff; font-size: 1.3rem"></i>
               Clients
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
               <i class="pi pi-cart-arrow-down" style="color: #ffff; font-size: 1.3rem"></i>
               Commandes
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="/admin/sneakers" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink to="/admin/sneakers" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
               <i class="pi pi-tags" style="color: #ffff; font-size: 1.3rem"></i>
               Chaussures
             </RouterLink>
@@ -75,21 +72,26 @@ const toggleSidebar = () => {
           <li>
             <RouterLink
               to="/admin/categories"
-              class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500"
+              class="flex gap-4 rounded-xl p-4 hover:bg-orange-500"
             >
               <i class="pi pi-objects-column" style="color: #ffff; font-size: 1.3rem"></i>
               Catégories
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="/admin/brands" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink to="/admin/brands" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
               <i class="pi pi-list" style="color: #ffff; font-size: 1.3rem"></i>
               Marques
             </RouterLink>
           </li>
-
           <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-emerald-500">
+            <RouterLink to="/admin/colors" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
+              <i class="pi pi-palette" style="color: #ffff; font-size: 1.3rem"></i>
+              Couleurs
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
               <i class="pi pi-cog" style="color: #ffff; font-size: 1.3rem"></i>
               Paramètres
             </RouterLink>

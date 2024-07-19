@@ -2,57 +2,56 @@
 import { onMounted, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { z } from 'zod'
-import FileUpload, { type FileUploadUploaderEvent } from 'primevue/fileupload'
-import Image from 'primevue/image'
 import { useToast } from 'primevue/usetoast'
 import { useForm } from '@/helpers/useForm'
 import BasePageAdminView from '../BasePageAdminView.vue'
+import ColorPicker from 'primevue/colorpicker'
 
 const API_URL = import.meta.env.VITE_API_URL
 
 const router = useRouter()
 const route = useRoute()
-const brandId = route.params.id
+const colorId = route.params.id
 
 const toast = useToast()
 
 const actions = reactive({
-  title: brandId ? 'Modifier une marque' : 'Créer une marque',
-  buttonText: brandId ? 'Modifier' : 'Créer',
-  toastSuccess: brandId ? 'Marque modifiée' : 'Marque créée',
-  toastSuccessDetail: brandId
-    ? 'La marque a été modifiée avec succès'
-    : 'La marque a été créée avec succès',
-  toastErrorDetail: brandId
-    ? 'Une erreur est survenue lors de la modification de la marque'
-    : 'Une erreur est survenue lors de la création de la marque'
+  title: colorId ? 'Modifier une couleur' : 'Créer une couleur',
+  buttonText: colorId ? 'Modifier' : 'Créer',
+  toastSuccess: colorId ? 'Couleur modifiée' : 'Couleur créée',
+  toastSuccessDetail: colorId
+    ? 'La couleur a été modifiée avec succès'
+    : 'La couleur a été créée avec succès',
+  toastErrorDetail: colorId
+    ? 'Une erreur est survenue lors de la modification de la couleur'
+    : 'Une erreur est survenue lors de la création de la couleur'
 })
 
 const initialData = reactive({
   name: '',
-  image: ''
+  hexCode: '#000000'
 })
 
 onMounted(async () => {
-  if (brandId) {
-    const response = await fetch(`${API_URL}/brands/${brandId}`, {
+  if (colorId) {
+    const response = await fetch(`${API_URL}/colors/${colorId}`, {
       credentials: 'include'
     })
 
     if (!response.ok) {
-      router.push('/admin/brands')
+      router.push('/admin/colors')
       return
     }
 
     const data = await response.json()
     initialData.name = data.name
-    initialData.image = data.image
+    initialData.hexCode = data.hexCode
   }
 })
 
 const validationSchema = {
   name: z.string().min(1, { message: 'Le nom ne peut pas être vide' }),
-  image: z.string().min(1, { message: 'Vous devez sélectionner une image' })
+  hexCode: z.string().min(1, { message: 'Le code hexadécimal ne peut pas être vide' })
 }
 
 const showErrorToast = () => {
@@ -66,13 +65,16 @@ const showErrorToast = () => {
 
 const onSubmit = async () => {
   try {
-    const path = brandId ? `brands/${brandId}` : 'brands'
+    const path = colorId ? `colors/${colorId}` : 'colors'
     const response = await fetch(`${API_URL}/${path}`, {
-      method: brandId ? 'PUT' : 'POST',
+      method: colorId ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({
+        name: formData.name,
+        hexCode: '#' + formData.hexCode
+      }),
       credentials: 'include'
     })
 
@@ -98,18 +100,6 @@ const { formData, updateField, submitForm, isSubmitting, validationErrors, isVal
   validationSchema,
   onSubmit
 )
-
-// Transform to base64
-const handleUpload = async (event: FileUploadUploaderEvent) => {
-  const file: File = (event.files as File[])[0]
-  const reader = new FileReader()
-  let blob = await fetch(URL.createObjectURL(file)).then((r) => r.blob())
-  reader.readAsDataURL(blob)
-
-  reader.onloadend = function () {
-    updateField('image', reader.result as string)
-  }
-}
 </script>
 
 <template>
@@ -132,32 +122,18 @@ const handleUpload = async (event: FileUploadUploaderEvent) => {
         }}</small>
       </div>
 
-      <!-- Image -->
-      <div class="card flex flex-col justify-center gap-2">
-        <label for="image">Image</label>
-        <FileUpload
-          mode="basic"
-          id="image"
-          name="image"
-          accept="image/*"
-          chooseLabel="Sélectionner un fichier"
-          auto
-          customUpload
-          @uploader="handleUpload"
-          aria-describedby="image-help"
+      <!-- Hex code -->
+      <div class="flex flex-col gap-2">
+        <label for="name">Couleur</label>
+        <ColorPicker
+          id="hexCode"
+          v-model="formData.hexCode"
+          @input="updateField('hexCode', ($event.target as HTMLInputElement).value)"
+          aria-describedby="hexcode-help"
         />
-        <small id="image-help" class="text-red-500" v-if="validationErrors.image">{{
-          validationErrors.image
+        <small id="hexcode-help" class="text-red-500" v-if="validationErrors.hexCode">{{
+          validationErrors.hexCode
         }}</small>
-      </div>
-
-      <div class="mx-auto h-40 w-40 border">
-        <Image
-          v-if="formData.image"
-          :src="formData.image"
-          alt="Image de la marque"
-          imageClass="h-40 w-40 object-cover"
-        />
       </div>
 
       <Button

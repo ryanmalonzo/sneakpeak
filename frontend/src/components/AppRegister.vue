@@ -1,90 +1,87 @@
 <template>
-  <GenericModal v-model:visible="localVisible" header="Inscription">
-    <form @submit.prevent="submitForm">
-      <div class="align-items-center mb-3 flex flex-col gap-2">
-        <label for="email" class="w-6rem">Adresse mail</label>
-        <InputText
-          id="email"
-          class="flex-auto"
-          placeholder="john.doe@gmail.com"
-          v-model="formData.email"
-          @input="updateField('email', ($event.target as HTMLInputElement).value)"
-        />
-        <p v-if="validationErrors.email">
-          <span class="text-sm text-red-500">{{ validationErrors.email }}</span>
-        </p>
-      </div>
-      <div class="align-items-center mb-3 flex flex-col gap-2">
-        <label for="password" class="w-6rem">Mot de passe</label>
-        <Password
-          v-model="formData.password"
-          @input="updateField('password', $event.target.value)"
-          id="password"
-          toggleMask
-          :feedback="false"
-          inputClass="flex-auto"
-          placeholder="************"
-          :invalid="!!validationErrors.password"
-        />
-        <p v-if="validationErrors.password">
-          <span class="text-sm text-red-500">{{ validationErrors.password }}</span>
-        </p>
-      </div>
-      <div class="align-items-center mb-3 flex flex-col gap-2">
-        <label for="passwordConfirm" class="w-6rem">Confirmation du mot de passe</label>
-        <Password
-          v-model="formData.passwordConfirm"
-          @input="updateField('passwordConfirm', $event.target.value)"
-          id="passwordConfirm"
-          toggleMask
-          :feedback="false"
-          inputClass="flex-auto"
-          placeholder="************"
-          :invalid="!!validationErrors.passwordConfirm"
-        />
-        <p v-if="passwordMismatch">
-          <span class="text-sm text-red-500">Les mots de passe ne correspondent pas</span>
-        </p>
-      </div>
-      <!-- Checkbox -->
-      <div class="mb-3">
-        <Checkbox
-          id="cgu"
-          v-model="formData.cguAccepted"
-          @change="updateField('cguAccepted', ($event.target as HTMLInputElement).checked)"
-          :binary="true"
-          :invalid="!!validationErrors.cguAccepted"
-        />
+  <form @submit.prevent="submitForm">
+    <div class="align-items-center mb-3 flex flex-col gap-2">
+      <label for="email" class="w-6rem">Adresse mail</label>
+      <InputText
+        id="email"
+        class="flex-auto"
+        placeholder="john.doe@gmail.com"
+        v-model="formData.email"
+        @input="updateField('email', ($event.target as HTMLInputElement).value)"
+      />
+      <p v-if="validationErrors.email">
+        <span class="text-sm text-red-500">{{ validationErrors.email }}</span>
+      </p>
+    </div>
+    <div class="align-items-center mb-3 flex flex-col gap-2">
+      <label for="password" class="w-6rem">Mot de passe</label>
+      <Password
+        v-model="formData.password"
+        @input="updateField('password', $event.target.value)"
+        id="password"
+        toggleMask
+        :feedback="false"
+        inputClass="flex-auto"
+        placeholder="************"
+        :invalid="!!validationErrors.password"
+      />
+      <p v-if="validationErrors.password">
+        <span class="text-sm text-red-500">{{ validationErrors.password }}</span>
+      </p>
+    </div>
+    <div class="align-items-center mb-3 flex flex-col gap-2">
+      <label for="passwordConfirm" class="w-6rem">Confirmation du mot de passe</label>
+      <Password
+        v-model="formData.passwordConfirm"
+        @input="updateField('passwordConfirm', $event.target.value)"
+        id="passwordConfirm"
+        toggleMask
+        :feedback="false"
+        inputClass="flex-auto"
+        placeholder="************"
+        :invalid="!!validationErrors.passwordConfirm"
+      />
+      <p v-if="passwordMismatch">
+        <span class="text-sm text-red-500">Les mots de passe ne correspondent pas</span>
+      </p>
+    </div>
+    <!-- Checkbox -->
+    <div class="mb-3">
+      <Checkbox
+        id="cgu"
+        v-model="formData.cguAccepted"
+        @change="updateField('cguAccepted', ($event.target as HTMLInputElement).checked)"
+        :binary="true"
+        :invalid="!!validationErrors.cguAccepted"
+      />
         <label
           for="cgu"
           class="ml-2 text-sm"
           :class="validationErrors.cguAccepted && 'text-red-500'"
         >
-          En cochant cette case, j'accepte les
-          <RouterLink to="/legal/cgu" target="_blank" class="underline"
-            >conditions générales d'utilisation</RouterLink
-          >
-        </label>
-      </div>
-      <div class="justify-content-end flex flex-col gap-2">
-        <Button
-          type="submit"
-          label="S'inscrire"
-          rounded
-          :loading="isSubmitting"
-          :disabled="!isValid"
-        ></Button>
-      </div>
-    </form>
-  </GenericModal>
+        En cochant cette case, j'accepte les
+        <RouterLink to="/legal/cgu" target="_blank" class="underline"
+          >conditions générales d'utilisation</RouterLink
+        >
+      </label>
+    </div>
+    <div class="justify-content-end flex flex-col gap-2">
+      <Button
+        type="submit"
+        label="S'inscrire"
+        rounded
+        :loading="isSubmitting"
+        :disabled="!isValid"
+      ></Button>
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { inject, ref, watch } from 'vue'
 import { z } from 'zod'
 import axios, { AxiosError } from 'axios'
 import { useToast } from 'primevue/usetoast'
-import GenericModal from './GenericModal.vue'
 import Password from 'primevue/password'
 import { Translation } from '@/helpers/translation'
 import { useForm } from '@/helpers/useForm'
@@ -92,11 +89,8 @@ import { useForm } from '@/helpers/useForm'
 const API_URL = import.meta.env.VITE_API_URL
 
 const toast = useToast()
+const dialogRef = inject('dialogRef') as { value: { close: () => void } }
 
-const props = defineProps<{ visible: boolean }>()
-const emit = defineEmits(['update:visible'])
-
-const localVisible = ref(props.visible)
 const passwordMismatch = ref(false)
 
 const initialData = {
@@ -126,16 +120,9 @@ const validationSchema = {
   })
 }
 
-watch(
-  () => props.visible,
-  (newVal) => {
-    localVisible.value = newVal
-  }
-)
-
-watch(localVisible, (newVal) => {
-  emit('update:visible', newVal)
-})
+const closeModal = () => {
+  dialogRef.value.close()
+}
 
 async function onSubmit({ email, password }: typeof initialData) {
   if (passwordMismatch.value) {
@@ -148,7 +135,7 @@ async function onSubmit({ email, password }: typeof initialData) {
       password: password
     })
 
-    localVisible.value = false
+    closeModal()
 
     toast.add({
       severity: 'success',

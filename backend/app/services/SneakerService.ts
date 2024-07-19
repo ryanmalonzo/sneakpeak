@@ -98,6 +98,16 @@ export class SneakerService {
     };
   }
 
+  public static async find(
+    filterOptions: FilterOptions,
+  ): Promise<HydratedDocument<ISneaker> | null> {
+    const sneaker = await SneakerRepositoryMongo.findOne(filterOptions);
+    if (!sneaker) {
+      throw new RequestError(StatusCodes.NOT_FOUND);
+    }
+    return sneaker;
+  }
+
   public static async findOneBySlug(
     slug: string,
   ): Promise<HydratedDocument<ISneaker> | null> {

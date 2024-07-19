@@ -30,7 +30,6 @@ const actions = reactive({
 
 const initialData = reactive({
   name: '',
-  slug: '',
   image: ''
 })
 
@@ -47,18 +46,12 @@ onMounted(async () => {
 
     const data = await response.json()
     initialData.name = data.name
-    initialData.slug = data.slug
     initialData.image = data.image
   }
 })
 
-const transformFunctions = {
-  slug: (value: string) => value.trim()
-}
-
 const validationSchema = {
   name: z.string().min(1, { message: 'Le nom ne peut pas être vide' }),
-  slug: z.string().min(1, { message: 'Le slug ne peut pas être vide' }),
   image: z.string().min(1, { message: 'Vous devez sélectionner une image' })
 }
 
@@ -101,7 +94,7 @@ const onSubmit = async () => {
 
 const { formData, updateField, submitForm, isSubmitting, validationErrors, isValid } = useForm(
   initialData,
-  transformFunctions,
+  {},
   validationSchema,
   onSubmit
 )
@@ -136,21 +129,6 @@ const handleUpload = async (event: FileUploadUploaderEvent) => {
         />
         <small id="name-help" class="text-red-500" v-if="validationErrors.name">{{
           validationErrors.name
-        }}</small>
-      </div>
-
-      <!-- Slug -->
-      <div class="flex flex-col gap-2">
-        <label for="slug">Slug</label>
-        <InputText
-          id="slug"
-          v-model="formData.slug"
-          @input="updateField('slug', ($event.target as HTMLInputElement).value)"
-          placeholder="running"
-          aria-describedby="slug-help"
-        />
-        <small id="slug-help" class="text-red-500" v-if="validationErrors.slug">{{
-          validationErrors.slug
         }}</small>
       </div>
 
