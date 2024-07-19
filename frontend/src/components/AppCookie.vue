@@ -7,26 +7,30 @@
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            show: true,
-        };
-    },
-    methods: {
-        closeNotice() {
-            localStorage.setItem('noticeClosed', 'true');
-            this.show = false;
-        },
-    },
-    mounted() {
-        const noticeClosed = localStorage.getItem('noticeClosed');
-        if (noticeClosed) {
-            this.show = false;
-        }
-    },
-};
+<script setup lang="ts">
+
+import { ref } from 'vue'
+import { onBeforeMount } from 'vue'
+
+const show = ref(true)
+
+
+onBeforeMount(() => {
+
+    const noticeClosed = localStorage.getItem('noticeClosed');
+    if (noticeClosed) {
+        show.value = false;
+    }
+})
+
+const closeNotice = () => {
+    show.value = false;
+    localStorage.setItem('noticeClosed', 'true');
+}
+
+
+
+
 </script>
 
 <style scoped></style>
