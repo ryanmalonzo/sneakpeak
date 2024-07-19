@@ -84,7 +84,12 @@ const toggleSidebar = () => {
               Marques
             </RouterLink>
           </li>
-
+          <li>
+            <RouterLink to="/admin/colors" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
+              <i class="pi pi-palette" style="color: #ffff; font-size: 1.3rem"></i>
+              Couleurs
+            </RouterLink>
+          </li>
           <li>
             <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
               <i class="pi pi-cog" style="color: #ffff; font-size: 1.3rem"></i>
