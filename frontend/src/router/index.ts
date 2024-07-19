@@ -109,8 +109,23 @@ const router = createRouter({
         },
         {
           path: 'sneakers',
-          name: 'admin_sneakers',
-          component: () => import('@/views/admin/SneakersAdminView.vue')
+          children: [
+            {
+              path: '',
+              name: 'admin_sneakers',
+              component: () => import('@/views/admin/SneakersAdminView.vue')
+            },
+            {
+              path: 'add',
+              name: 'admin_sneakers_add',
+              component: () => import('@/views/admin/forms/SneakerForm.vue')
+            },
+            {
+              path: ':id',
+              name: 'admin_sneakers_edit',
+              component: () => import('@/views/admin/forms/SneakerForm.vue')
+            }
+          ]
         },
         {
           path: 'categories',
@@ -178,7 +193,9 @@ const adminRoutes = [
   'admin_brands_add',
   'admin_brands_edit',
   'admin_categories_add',
-  'admin_categories_edit'
+  'admin_categories_edit',
+  'admin_sneakers_add',
+  'admin_sneakers_edit'
 ]
 
 router.beforeEach(async (to) => {
