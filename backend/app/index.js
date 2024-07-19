@@ -13,12 +13,17 @@ import { CartRouter } from './routers/CartRouter';
 import { StripeRouter } from './routers/StripeRouter';
 import { CheckoutRouter } from './routers/CheckoutRouter';
 import { ProfilRouter } from './routers/ProfilRouter';
+import { ColorRouter } from './routers/ColorRouter';
 
 const app = express();
 
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'https://sneakpeak.store', 'https://www.sneakpeak.store'],
+    origin: [
+      'http://localhost:5173',
+      'https://sneakpeak.store',
+      'https://www.sneakpeak.store',
+    ],
     methods: 'GET,POST,PUT,PATCH,DELETE',
     allowedHeaders: 'Content-Type,Authorization',
     credentials: true,
@@ -40,6 +45,7 @@ app.use('/sneakers', SneakerRouter);
 app.use('/variants', VariantRouter);
 app.use('/brands', BrandRouter);
 app.use('/categories', CategoryRouter);
+app.use('/colors', ColorRouter);
 app.use('/cart', CartRouter);
 app.use('/webhook', StripeRouter);
 app.use('/checkout', CheckoutRouter);
