@@ -5,6 +5,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
+import slugify from 'slugify';
 import { Sneaker } from './Sneaker';
 
 export class Color extends Model {
@@ -29,6 +30,12 @@ export default (sequelize: Sequelize) => {
     },
     { sequelize, underscored: true },
   );
+
+  Color.beforeValidate((color) => {
+    if (color.name) {
+      color.slug = slugify(color.name, { lower: true });
+    }
+  });
 
   return Color;
 };

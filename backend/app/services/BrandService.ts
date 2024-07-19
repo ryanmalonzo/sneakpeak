@@ -27,10 +27,9 @@ export class BrandService {
     return brand;
   }
 
-  static async save(name: string, slug: string, image: string): Promise<Brand> {
+  static async save(name: string, image: string): Promise<Brand> {
     const brand = BrandRepository.build({
       name,
-      slug,
       image,
     });
     await BrandRepository.save(brand);
@@ -40,12 +39,10 @@ export class BrandService {
   static async createOrUpdate(
     id: number,
     name: string,
-    slug: string,
     image: string,
   ): Promise<{ created: boolean; brand: Brand }> {
     const { created, brand } = await BrandRepository.updateOrCreate(id, {
       name,
-      slug,
       image,
     });
     return { created, brand };

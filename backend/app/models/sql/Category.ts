@@ -5,6 +5,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
+import slugify from 'slugify';
 import { Sneaker, updateSneakerInMongoDB } from './Sneaker';
 import syncWithMongoDB from '../../helpers/syncPsqlMongo';
 import { SneakerRepository } from '../../repositories/sql/SneakerRepository';
@@ -36,6 +37,12 @@ export default (sequelize: Sequelize) => {
     },
     { sequelize, underscored: true },
   );
+
+  Category.beforeValidate((category) => {
+    if (category.name) {
+      category.slug = slugify(category.name, { lower: true });
+    }
+  });
 
   Category.afterCreate(async (category) => {
     const data = category.toJSON();

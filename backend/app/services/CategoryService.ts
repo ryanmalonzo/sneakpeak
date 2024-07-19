@@ -27,14 +27,9 @@ export class CategoryService {
     return category;
   }
 
-  static async save(
-    name: string,
-    slug: string,
-    image: string,
-  ): Promise<Category> {
+  static async save(name: string, image: string): Promise<Category> {
     const category = CategoryRepository.build({
       name,
-      slug,
       image,
     });
     await CategoryRepository.save(category);
@@ -44,12 +39,10 @@ export class CategoryService {
   static async createOrUpdate(
     id: number,
     name: string,
-    slug: string,
     image: string,
   ): Promise<{ created: boolean; category: Category }> {
     const { created, category } = await CategoryRepository.updateOrCreate(id, {
       name,
-      slug,
       image,
     });
     return { created, category };

@@ -5,6 +5,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
+import slugify from 'slugify';
 import { Category } from './Category';
 import { Brand } from './Brand';
 import syncWithMongoDB from '../../helpers/syncPsqlMongo';
@@ -38,10 +39,9 @@ export const updateSneakerInMongoDB = async (sneaker: Sneaker) => {
   data.categoryId = category!.id;
   data.brandId = brand!.id;
 
-  const sneakerSlug = data.name.replace(/\s/g, '-').toLowerCase();
-  data.slug = `${sneakerSlug}`;
+  const sneakerSlug = slugify(data.name, { lower: true });
+  data.slug = sneakerSlug;
 
-  // const variants = await VariantRepository.findVariantsBySneakerId(data.id);
   const colors = await VariantRepository.findAllColorsVariantForOneSneaker(
     data.id,
   );
@@ -128,5 +128,6 @@ export default (sequelize: Sequelize) => {
     const data = sneaker.toJSON();
     await syncWithMongoDB(sneaker.constructor.name, 'delete', data);
   });
+
   return Sneaker;
 };

@@ -148,7 +148,6 @@ async function generateDataModelBrand(
     'brands',
     async () => ({
       name: faker.company.name(),
-      slug: faker.lorem.slug(),
       image: await imageUrlToBase64(
         faker.image.urlLoremFlickr({ category: 'logo' }),
       ),
@@ -167,7 +166,6 @@ async function generateDataModelCategory(
     'categories',
     async () => ({
       name: faker.lorem.word(),
-      slug: faker.lorem.slug(),
       image: await imageUrlToBase64(
         faker.image.urlLoremFlickr({ category: 'sneaker' }),
       ),
@@ -186,7 +184,6 @@ async function generateDataModelColor(
     'colors',
     () => ({
       name: faker.color.human(),
-      slug: faker.lorem.slug(),
     }),
     isDelete,
     count,
@@ -202,7 +199,6 @@ async function generateDataModelSize(
     'sizes',
     () => ({
       name: `${faker.number.int({ min: 35, max: 48 })}`,
-      slug: faker.lorem.slug(),
     }),
     isDelete,
     count,

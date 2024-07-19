@@ -2,10 +2,7 @@
 import BasePageAdminView from './BasePageAdminView.vue'
 import DataTable from '@/components/datatable/DataTable.vue'
 
-const columns = [
-  { key: 'name', label: 'Nom' },
-  { key: 'slug', label: 'Slug' }
-]
+const columns = [{ key: 'name', label: 'Nom' }]
 </script>
 
 <template>
