@@ -12,6 +12,7 @@ export class Color extends Model {
   declare id: CreationOptional<number>;
   declare name: string;
   declare slug: string;
+  declare hexCode: string;
 
   declare getSneakers: HasManyGetAssociationsMixin<Sneaker>;
 }
@@ -24,6 +25,10 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
       },
       slug: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      hexCode: {
         type: DataTypes.STRING,
         allowNull: false,
       },

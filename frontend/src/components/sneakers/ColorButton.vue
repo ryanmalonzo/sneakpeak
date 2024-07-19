@@ -14,7 +14,7 @@ const handleClick = () => {
 <template>
   <div
     class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-slate-400 transition-transform hover:scale-105 hover:border-blue-500 hover:shadow-md"
-    :style="{ backgroundColor: props.variant?.name }"
+    :style="{ backgroundColor: props.variant?.hexCode }"
     @click="handleClick"
   >
     <span :class="{ 'display-none': !props.isColorSelected }"></span>

@@ -184,6 +184,7 @@ async function generateDataModelColor(
     'colors',
     () => ({
       name: faker.color.human(),
+      hexCode: faker.internet.color(),
     }),
     isDelete,
     count,

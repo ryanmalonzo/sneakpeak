@@ -53,15 +53,18 @@ export const updateSneakerInMongoDB = async (sneaker: Sneaker) => {
           data.id,
           color.id,
         );
+
       const sizes = await VariantRepository.findAllSizesForAColorSneaker(
         data.id,
         color.id,
       );
-      const colorSlug = color.name.replace(/\s/g, '-').toLowerCase();
+
+      const colorSlug = slugify(color.name, { lower: true });
 
       return {
         id: color?.id,
         name: color.name,
+        hexCode: color.hexCode,
         slug: `${sneakerSlug}|${colorSlug}`,
         image: variantColor?.image,
         isBest: variantColor?.isBest,
