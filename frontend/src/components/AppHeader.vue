@@ -12,18 +12,22 @@ import { logout } from '@/helpers/auth'
 import { RouterLink } from 'vue-router'
 import { CartStore } from '@/store/cart'
 import { profileStore } from '@/store/profile'
+import { useDialog } from 'primevue/usedialog'
 
 // Utilisation de la route et du routeur
 const router = useRouter()
 const route = useRoute()
+const dialog = useDialog()
 
 // Références et variables réactives
 const showMobileSearchRef = ref(false)
 const searchRef = ref((route.query.q as string) || '')
 const profile = profileStore() //Store profile
 
-// Synchronisation de la visibilité de la modale de connexion
-const modelLoginVisible = ref(false)
+// Ouvrir de la modale de connexion
+const openLoginModal = () => {
+  dialog.open(AppLogin, { props: { dismissableMask: true, modal: true, header: "Connexion" } })
+}
 
 // Éléments de menu
 const items = ref([
@@ -141,13 +145,12 @@ watch(cart, async () => {
         </div>
         <!-- Login -->
         <div v-else id="user" class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
-          @click="modelLoginVisible = true">
+          @click="openLoginModal">
           <i class="pi pi-user"></i>
         </div>
       </div>
     </template>
   </MegaMenu>
-  <AppLogin v-model:visible="modelLoginVisible" />
 </template>
 
 <style scoped>
