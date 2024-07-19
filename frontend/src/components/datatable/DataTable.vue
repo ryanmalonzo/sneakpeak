@@ -7,7 +7,7 @@ import DataPagination from './DataPagination.vue'
 import DataHeaderCell from './DataHeaderCell.vue'
 import { downloadCSV } from './utils/csv'
 import Button from 'primevue/button'
-import GenericModal from '@/components/GenericModal.vue'
+import ConfirmButton from '../ButtonConfirm.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 const DEFAULT_LIMIT = 25
@@ -30,7 +30,6 @@ const limit = ref(DEFAULT_LIMIT)
 const searchQuery = ref('')
 const sortKeyRef = ref('')
 const orderRef = ref<'asc' | 'desc' | null>(null)
-const showDialog = ref(false)
 
 const selectedRows = ref<Record<string, unknown>[]>([])
 
@@ -98,7 +97,6 @@ const exportToCSV = () => {
 
 const confirmDelete = (row: Record<string, string>) => {
   rowToDelete.value = row
-  showDialog.value = true
 }
 
 const handleSelectRow = (row: Record<string, string>, event: Event) => {
@@ -122,8 +120,8 @@ const deleteRow = async () => {
     })
 
     // Reset les valeurs
-    showDialog.value = false
     rowToDelete.value = null
+    fetchData()
   }
 }
 
@@ -210,11 +208,12 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
                   aria-label="Modifier"
                   @click="router.push(`${path}/${row.id}`)"
                 />
-                <Button
+                <ConfirmButton
                   icon="pi pi-trash"
                   severity="secondary"
-                  aria-label="Supprimer"
-                  @click="confirmDelete(row)"
+                  label=""
+                  confirmMessage="Êtes-vous sûr de vouloir supprimer cet élément ?"
+                  @confirm="() => deleteRow(row)"
                 />
               </div>
             </td>
@@ -224,20 +223,6 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
     </div>
     <!-- Pagination -->
     <DataPagination :currentPage="currentPage" :maxPage="maxPage" @pageChange="handlePageChange" />
-
-    <!-- Popup de confirmation de suppression -->
-    <GenericModal v-model:visible="showDialog" header="Confirmation" modal>
-      <p>Êtes-vous sûr de vouloir supprimer cet élément ?</p>
-      <div class="mt-6 flex justify-end gap-2">
-        <Button
-          label="Annuler"
-          icon="pi pi-times"
-          @click="showDialog = false"
-          class="p-button-text"
-        />
-        <Button label="Confirmer" icon="pi pi-check" @click="deleteRow" />
-      </div>
-    </GenericModal>
   </div>
 </template>
 
