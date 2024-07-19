@@ -8,8 +8,9 @@ import { useRoute, useRouter } from 'vue-router'
 import Button from 'primevue/button'
 import Select from 'primevue/select'
 import { useToast } from 'primevue/usetoast'
-import { CartStore } from '@/store/cart'
 import { useDialog } from 'primevue/usedialog'
+import { CartStore } from '@/store/cart'
+import { profileStore } from '@/store/profile'
 import AppLogin from '@/components/AppLogin.vue'
 
 const MAX_QUANTITY_DISPLAYED = 5
@@ -17,6 +18,7 @@ const MAX_QUANTITY_DISPLAYED = 5
 const router = useRouter()
 const route = useRoute()
 const cart = CartStore() //Store cart
+const profile = profileStore() //Store profile
 const toast = useToast()
 const dialog = useDialog()
 
@@ -215,7 +217,7 @@ const onSubmit = async () => {
 
           <!-- Boutton CTA -->
           <div class="flex justify-center gap-3">
-            <Button label="Ajouter au panier" rounded icon="pi pi-shopping-bag" class="w-fit" :class="{
+            <Button :label="profile.profile ? 'Ajouter au panier' : 'Se connecter'" rounded size="large" icon="pi pi-shopping-bag" class="w-fit" :class="{
                 'select-disable': !selectedQuantity,
                 'transition-transform': selectedQuantity,
                 'hover:scale-105': selectedQuantity
