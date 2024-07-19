@@ -5,6 +5,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
+import slugify from 'slugify';
 import { Sneaker, updateSneakerInMongoDB } from './Sneaker';
 import syncWithMongoDB from '../../helpers/syncPsqlMongo';
 import { SneakerRepository } from '../../repositories/sql/SneakerRepository';
@@ -36,6 +37,12 @@ export default (sequelize: Sequelize) => {
     },
     { sequelize, underscored: true },
   );
+
+  Brand.beforeValidate((brand) => {
+    if (brand.name) {
+      brand.slug = slugify(brand.name, { lower: true });
+    }
+  });
 
   Brand.afterCreate(async (brand) => {
     const data = brand.toJSON();

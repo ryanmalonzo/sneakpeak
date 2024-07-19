@@ -54,7 +54,6 @@ CategoryRouter.post(
   schema(
     z.object({
       name: z.string(),
-      slug: z.string(),
       image: z.string(),
     }),
   ),
@@ -64,13 +63,7 @@ CategoryRouter.post(
     try {
       return res
         .status(StatusCodes.CREATED)
-        .json(
-          await CategoryService.save(
-            req.body.name,
-            req.body.slug,
-            req.body.image,
-          ),
-        );
+        .json(await CategoryService.save(req.body.name, req.body.image));
     } catch (error) {
       next(error);
     }
@@ -82,7 +75,6 @@ CategoryRouter.put(
   schema(
     z.object({
       name: z.string(),
-      slug: z.string(),
       image: z.string(),
     }),
   ),
@@ -93,7 +85,6 @@ CategoryRouter.put(
       const { category, created } = await CategoryService.createOrUpdate(
         parseInt(req.params.id),
         req.body.name,
-        req.body.slug,
         req.body.image,
       );
 
