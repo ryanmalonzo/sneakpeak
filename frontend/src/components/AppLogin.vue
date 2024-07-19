@@ -65,7 +65,7 @@ import { useDialog } from 'primevue/usedialog'
 
 const toast = useToast()
 const dialog = useDialog()
-const dialogRef = inject('dialogRef')
+const dialogRef = inject('dialogRef') as { value: { close: () => void } }
 
 const initialData = {
   email: '',

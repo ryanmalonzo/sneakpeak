@@ -26,14 +26,14 @@
 </template>
 
 <script setup lang="ts">
-import { inject, ref, watch } from 'vue'
+import { inject } from 'vue'
 import { z } from 'zod'
 import axios from 'axios'
 import { useToast } from 'primevue/usetoast'
 import { useForm } from '@/helpers/useForm'
 
 const toast = useToast()
-const dialogRef = inject('dialogRef')
+const dialogRef = inject('dialogRef') as { value: { close: () => void } }
 
 const API_URL = import.meta.env.VITE_API_URL
 

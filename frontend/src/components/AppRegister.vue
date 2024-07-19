@@ -89,7 +89,7 @@ import { useForm } from '@/helpers/useForm'
 const API_URL = import.meta.env.VITE_API_URL
 
 const toast = useToast()
-const dialogRef = inject('dialogRef')
+const dialogRef = inject('dialogRef') as { value: { close: () => void } }
 
 const passwordMismatch = ref(false)
 
