@@ -71,7 +71,6 @@ export class VariantRepository {
     sneakerId: number,
   ): Promise<Color[]> {
     return await Color.findAll({
-      // attributes: ['id'],
       include: [{ model: Variant, required: true, where: { sneakerId } }],
     });
   }

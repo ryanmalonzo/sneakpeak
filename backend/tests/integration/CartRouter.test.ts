@@ -69,7 +69,7 @@ before(async () => {
     const color = Color.build({
       name: faker.internet.color(),
       slug: faker.lorem.slug(),
-      hex: faker.internet.color(),
+      hexCode: faker.internet.color(),
     });
 
     await color.save();
