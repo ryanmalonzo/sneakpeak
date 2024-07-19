@@ -70,7 +70,7 @@ async function generateData(model: string, isDelete: string, count: string) {
       console.log('Data generated for Color model');
       break;
     case 'size':
-      await generateDataModelSize(isDelete === 'true', parseInt(count));
+      await generateDataModelSize(isDelete === 'true');
       console.log('Data generated for Size model');
       break;
     case 'variant':
@@ -191,19 +191,25 @@ async function generateDataModelColor(
   );
 }
 
-async function generateDataModelSize(
-  isDelete: boolean = false,
-  count: number = 10,
-): Promise<void> {
-  await generateDataModel(
-    Size as GenericModel,
-    'sizes',
-    () => ({
-      name: `${faker.number.int({ min: 35, max: 48 })}`,
-    }),
-    isDelete,
-    count,
-  );
+async function generateDataModelSize(isDelete: boolean = false): Promise<void> {
+  const MIN_SIZE = 35;
+  const MAX_SIZE = 48;
+
+  if (isDelete) {
+    await mongoose.connection.db.dropCollection('sizes');
+    await Size.truncate({ cascade: true, restartIdentity: true });
+  }
+
+  for (let i = MIN_SIZE; i <= MAX_SIZE; i++) {
+    await Size.findOrCreate({
+      where: {
+        name: i.toString(),
+        slug: i.toString(),
+      },
+    });
+  }
+
+  console.log(`Created ${MAX_SIZE - MIN_SIZE + 1} Size models`);
 }
 
 async function generateDataModelSneaker(
@@ -244,7 +250,7 @@ async function generateDataModelVariant(
 
   await Promise.all([
     generateDataModelColor(isDelete, count),
-    generateDataModelSize(isDelete, count),
+    generateDataModelSize(isDelete),
     generateDataModelSneaker(isDelete, count),
   ]);
 
