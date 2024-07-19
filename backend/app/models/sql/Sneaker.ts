@@ -5,6 +5,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
+import slugify from 'slugify';
 import { Category } from './Category';
 import { Brand } from './Brand';
 import syncWithMongoDB from '../../helpers/syncPsqlMongo';
@@ -35,11 +36,12 @@ export const updateSneakerInMongoDB = async (sneaker: Sneaker) => {
   const brand = await BrandRepository.findBrandById(data.brandId);
   data.category = category!.name;
   data.brand = brand!.name;
+  data.categoryId = category!.id;
+  data.brandId = brand!.id;
 
-  const sneakerSlug = data.name.replace(/\s/g, '-').toLowerCase();
-  data.slug = `${sneakerSlug}`;
+  const sneakerSlug = slugify(data.name, { lower: true });
+  data.slug = sneakerSlug;
 
-  // const variants = await VariantRepository.findVariantsBySneakerId(data.id);
   const colors = await VariantRepository.findAllColorsVariantForOneSneaker(
     data.id,
   );
@@ -51,15 +53,18 @@ export const updateSneakerInMongoDB = async (sneaker: Sneaker) => {
           data.id,
           color.id,
         );
+
       const sizes = await VariantRepository.findAllSizesForAColorSneaker(
         data.id,
         color.id,
       );
-      const colorSlug = color.name.replace(/\s/g, '-').toLowerCase();
+
+      const colorSlug = slugify(color.name, { lower: true });
 
       return {
         id: color?.id,
         name: color.name,
+        hexCode: color.hexCode,
         slug: `${sneakerSlug}|${colorSlug}`,
         image: variantColor?.image,
         isBest: variantColor?.isBest,
@@ -126,5 +131,6 @@ export default (sequelize: Sequelize) => {
     const data = sneaker.toJSON();
     await syncWithMongoDB(sneaker.constructor.name, 'delete', data);
   });
+
   return Sneaker;
 };

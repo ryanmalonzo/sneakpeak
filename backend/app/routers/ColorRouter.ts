@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { CategoryService } from '../services/CategoryService';
 import { StatusCodes } from 'http-status-codes';
 import z from 'zod';
+import { ColorService } from '../services/ColorService';
 import { auth } from '../middlewares/auth';
 import { admin } from '../middlewares/admin';
 import { schema } from '../middlewares/schema';
 import { pagination } from '../middlewares/pagination';
 
-export const CategoryRouter = Router();
+export const ColorRouter = Router();
 
-CategoryRouter.get(
+ColorRouter.get(
   '/',
   pagination({
     name: 'in',
@@ -22,7 +22,7 @@ CategoryRouter.get(
       return res
         .status(StatusCodes.OK)
         .json(
-          await CategoryService.getPaginated(
+          await ColorService.getPaginated(
             q,
             page,
             limit,
@@ -36,25 +36,25 @@ CategoryRouter.get(
   },
 );
 
-CategoryRouter.get(
+ColorRouter.get(
   '/:id',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       return res
         .status(StatusCodes.OK)
-        .json(await CategoryService.find({ id: parseInt(req.params.id) }));
+        .json(await ColorService.find({ id: parseInt(req.params.id) }));
     } catch (error) {
       next(error);
     }
   },
 );
 
-CategoryRouter.post(
+ColorRouter.post(
   '/',
   schema(
     z.object({
       name: z.string(),
-      image: z.string(),
+      hexCode: z.string(),
     }),
   ),
   auth,
@@ -63,41 +63,41 @@ CategoryRouter.post(
     try {
       return res
         .status(StatusCodes.CREATED)
-        .json(await CategoryService.save(req.body.name, req.body.image));
+        .json(await ColorService.save(req.body.name, req.body.hexCode));
     } catch (error) {
       next(error);
     }
   },
 );
 
-CategoryRouter.put(
+ColorRouter.put(
   '/:id',
   schema(
     z.object({
       name: z.string(),
-      image: z.string(),
+      hexCode: z.string(),
     }),
   ),
   auth,
   admin,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { category, created } = await CategoryService.createOrUpdate(
+      const { color, created } = await ColorService.createOrUpdate(
         parseInt(req.params.id),
         req.body.name,
-        req.body.image,
+        req.body.hexCode,
       );
 
       return res
         .status(created ? StatusCodes.CREATED : StatusCodes.OK)
-        .json(category);
+        .json(color);
     } catch (error) {
       next(error);
     }
   },
 );
 
-CategoryRouter.delete(
+ColorRouter.delete(
   '/:id',
   auth,
   admin,
@@ -105,7 +105,7 @@ CategoryRouter.delete(
     try {
       return res
         .status(StatusCodes.OK)
-        .json(await CategoryService.delete(parseInt(req.params.id)));
+        .json(await ColorService.delete(parseInt(req.params.id)));
     } catch (error) {
       next(error);
     }

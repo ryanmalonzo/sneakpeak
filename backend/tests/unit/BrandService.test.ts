@@ -34,17 +34,12 @@ describe('BrandService', () => {
       const brand = {
         id: 1,
         name: 'Nike',
-        slug: 'nike',
         image: 'https://example.com/nike.png',
       } as Brand;
       sinon.stub(BrandRepository, 'build').returns(brand);
       sinon.stub(BrandRepository, 'save').resolves(brand);
 
-      const result = await BrandService.save(
-        brand.name,
-        brand.slug,
-        brand.image,
-      );
+      const result = await BrandService.save(brand.name, brand.image);
 
       expect(result).to.deep.equal(brand);
     });
@@ -55,7 +50,6 @@ describe('BrandService', () => {
       const brand = {
         id: 1,
         name: 'Nike',
-        slug: 'nike',
         image: 'https://example.com/nike.png',
       } as Brand;
       sinon
@@ -65,7 +59,6 @@ describe('BrandService', () => {
       const result = await BrandService.createOrUpdate(
         brand.id,
         brand.name,
-        brand.slug,
         brand.image,
       );
 
@@ -76,7 +69,6 @@ describe('BrandService', () => {
       const brand = {
         id: 1,
         name: 'Nike',
-        slug: 'nike',
         image: 'https://example.com/nike.png',
       } as Brand;
       sinon
@@ -86,7 +78,6 @@ describe('BrandService', () => {
       const result = await BrandService.createOrUpdate(
         brand.id,
         brand.name,
-        brand.slug,
         brand.image,
       );
 
@@ -99,7 +90,6 @@ describe('BrandService', () => {
       const brand = {
         id: 1,
         name: 'Nike',
-        slug: 'nike',
         image: 'https://example.com/nike.png',
       } as Brand;
       sinon.stub(BrandRepository, 'delete').resolves(brand);

@@ -2,17 +2,20 @@
 import BasePageAdminView from './BasePageAdminView.vue'
 import DataTable from '@/components/datatable/DataTable.vue'
 
-const columns = [{ key: 'name', label: 'Nom' }]
+const columns = [
+  { key: 'name', label: 'Nom' },
+  { key: 'hexCode', label: 'Code hexadécimal' }
+]
 </script>
 
 <template>
   <BasePageAdminView>
     <DataTable
       :columns="columns"
-      resource="brands"
+      resource="colors"
       uniqueKey="slug"
-      headerTitle="Marques"
-      path="/admin/brands"
+      headerTitle="Couleurs"
+      path="/admin/colors"
     />
   </BasePageAdminView>
 </template>
