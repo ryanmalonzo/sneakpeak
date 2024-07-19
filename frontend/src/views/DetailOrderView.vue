@@ -5,12 +5,38 @@ import { useRoute } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'
 import { OrderApi, type IOrder } from '@/services/orderApi'
 import { useToast } from 'primevue/usetoast'
+import Dialog from 'primevue/dialog'
+import Textarea from 'primevue/textarea'
 
 const toast = useToast()
 
 const route = useRoute()
 const order = ref<IOrder | undefined>(undefined)
 const error = ref<string | undefined>(undefined)
+const modal = ref(false)
+const productId = ref('')
+const reason = ref('')
+
+const returnProduct = async () => {
+  try {
+    await OrderApi.returnProduct(productId.value, reason.value)
+    toast.add({
+      severity: 'success',
+      summary: 'Succès',
+      detail: 'Article retourné',
+      life: 3000
+    })
+    order.value = await OrderApi.loadOrder(route.params.reference as string)
+    modal.value = false
+  } catch (e) {
+    toast.add({
+      severity: 'error',
+      summary: 'Erreur',
+      detail: 'Impossible de retourner l\'article',
+      life: 3000
+    })
+  }
+}
 
 onBeforeMount(async () => {
   const orderId = route.params.reference as string
@@ -26,21 +52,22 @@ onBeforeMount(async () => {
     })
   }
 })
+
+
+const openModal = (id: string) => {
+  productId.value = id
+  modal.value = true
+}
 </script>
 
 <template>
   <BasePage>
-    <div
-      class="flex flex-col justify-between gap-6 p-4 md:p-6 lg:flex-row lg:gap-[45px] lg:p-10"
-      v-if="order"
-    >
+    <div class="flex flex-col justify-between gap-6 p-4 md:p-6 lg:flex-row lg:gap-[45px] lg:p-10" v-if="order">
       <div class="w-full lg:w-3/4">
         <h2 class="mb-6 text-2xl font-medium md:text-3xl">Ma commande</h2>
 
         <div class="mb-6 rounded-lg bg-white shadow">
-          <div
-            class="flex flex-col justify-between rounded-t-lg bg-gray-100 p-4 md:flex-row md:p-5"
-          >
+          <div class="flex flex-col justify-between rounded-t-lg bg-gray-100 p-4 md:flex-row md:p-5">
             <div class="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:mb-0 md:grid-cols-4">
               <div class="flex flex-col">
                 <span class="font-light">Commandé le :</span>
@@ -89,25 +116,23 @@ onBeforeMount(async () => {
             </div>
           </div>
 
-          <div
-            v-for="item in order.products"
-            :key="item.id"
-            class="mb-4 flex flex-col p-4 sm:flex-row"
-          >
-            <img
-              :src="item.image"
-              alt=""
-              class="mb-4 h-[130px] w-full object-cover sm:mb-0 sm:mr-4 sm:w-[130px]"
-            />
+          <div v-for="item in order.products" :key="item.id" class="mb-4 flex flex-col p-4 sm:flex-row">
+            <img :src="item.image" alt="" class="mb-4 h-[130px] w-full object-cover sm:mb-0 sm:mr-4 sm:w-[130px]" />
             <div class="flex w-full flex-col justify-between sm:flex-row">
               <div class="mb-4 flex flex-col justify-between sm:mb-0">
                 <p class="font-medium">{{ item.name }}</p>
                 <p class="text-gray-600">Couleur : {{ item.color }}</p>
                 <p class="text-gray-600">Taille : {{ item.size }}</p>
-                <p class="text-gray-600">{{ item.quantity }} x {{ item.unit_price }} €</p>
+                <p class="text-gray-600">{{ item.quantity }} x {{ item.unitPrice }} €</p>
               </div>
               <div class="self-end sm:self-center">
-                <button class="text-black underline">Retourner un article</button>
+                <button class="text-black underline" @click="openModal(item.id)">
+                  <!-- v-if="order.order.status == 'completed'" -->
+                  Retourner un article
+                </button>
+
+                <span class="text-red-500" v-if="item.isRefund">Retourné</span>
+
               </div>
             </div>
           </div>
@@ -121,6 +146,27 @@ onBeforeMount(async () => {
       <h1 class="">{{ error }}</h1>
     </div>
   </BasePage>
+
+  <Dialog v-model:visible="modal" modal
+    :header="`Retourner l'article ${order?.products.find(p => p.id === productId)?.name}`">
+
+
+    <strong class="mb-4 text-red-500">
+      Si votre achat a été effectué, il y a moins de 14 jours, vous pouvez retourner votre article.
+      Sinon votre demande sera soumise à l'approbation de notre service client.
+    </strong>
+
+    <div class="flex flex-col gap-2 mt-4">
+      <label for="reason">Raison du retour</label>
+      <Textarea id="reason" v-model="reason" rows="4" />
+    </div>
+
+    <template #footer>
+      <Button label="Annuler" outlined severity="secondary" @click="modal = false" autofocus />
+      <Button label="Envoyer" outlined severity="secondary" @click="returnProduct" autofocus />
+    </template>
+  </Dialog>
+
 </template>
 
 <style></style>

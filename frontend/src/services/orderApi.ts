@@ -29,7 +29,8 @@ export interface IOrder {
     size: string
     name: string
     quantity: number
-    unit_price: number
+    unitPrice: number
+    isRefund: boolean
   }[]
 }
 
@@ -50,6 +51,28 @@ export class OrderApi {
         const data = await response.json()
         return data
       } else {
+        throw response as Response
+      }
+    } catch (error) {
+      throw await (error as Response).json()
+    }
+  }
+
+  static async returnProduct(productId: string, reason: string): Promise<void> {
+    try {
+      const response = await fetch(`${this.BASE_URL}/return`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          productId,
+          reason
+        })
+      })
+
+      if (!response.ok) {
         throw response as Response
       }
     } catch (error) {

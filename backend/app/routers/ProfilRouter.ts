@@ -54,7 +54,7 @@ ProfilRouter.get('/orders/:reference', auth, async (req, res, next) => {
         return res.status(StatusCodes.NOT_FOUND).send();
       }
       const product = {
-        id: orderProduct.variantId,
+        id: orderProduct.id,
         image: orderProduct.image,
         name: orderProduct.name,
         color: color.name,
