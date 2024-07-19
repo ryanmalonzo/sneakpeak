@@ -3,13 +3,10 @@ import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
 import AppLogin from '@/components/AppLogin.vue'
 import { ref } from 'vue'
-
-const isLoginVisible = ref(false)
 </script>
 
 <template>
-  <AppLogin v-model:visible="isLoginVisible" />
-  <AppHeader v-model:loginVisible="isLoginVisible"/>
+  <AppHeader />
 
   <main class="relative flex flex-1 self-stretch">
     <slot />

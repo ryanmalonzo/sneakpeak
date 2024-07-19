@@ -8,8 +8,9 @@ import { useRoute, useRouter } from 'vue-router'
 import Button from 'primevue/button'
 import Select from 'primevue/select'
 import { useToast } from 'primevue/usetoast'
-import { Translation } from '@/helpers/translation'
 import { CartStore } from '@/store/cart'
+import { useDialog } from 'primevue/usedialog'
+import AppLogin from '@/components/AppLogin.vue'
 
 const MAX_QUANTITY_DISPLAYED = 5
 
@@ -17,6 +18,7 @@ const router = useRouter()
 const route = useRoute()
 const cart = CartStore() //Store cart
 const toast = useToast()
+const dialog = useDialog()
 
 let sneaker = ref<SneakerApi.SneakerOut | undefined>(undefined)
 const selectedColor = ref<string>(route.query.color as string)
@@ -105,6 +107,10 @@ const newSizeList = computed(() => {
   return sizeList.value
 })
 
+const openLoginModal = () => {
+  dialog.open(AppLogin, { props: { dismissableMask: true, modal: true, header: "Connexion" } })
+}
+
 const onSubmit = async () => {
   if (selectedSize.value === undefined || selectedQuantity.value === undefined) {
     return
@@ -120,12 +126,7 @@ const onSubmit = async () => {
     })
     resetSelectedSize()
   } catch (error) {
-    toast.add({
-      severity: 'error',
-      summary: 'Erreur',
-      detail: Translation.sessionErrors(error as Error)!,
-      life: 3000
-    })
+    openLoginModal()
   }
 }
 </script>
@@ -202,22 +203,22 @@ const onSubmit = async () => {
           <div class="card mb-4 flex flex-col">
             <label for="quantity" class="text-title">Quantité :</label>
             <Select v-model="selectedQuantity" :options="selectedSize?.stock
-              ? Array.from(
-                { length: Math.min(selectedSize.stock, MAX_QUANTITY_DISPLAYED) },
-                (_, i) => ({
-                  quantity: i + 1
-                })
-              )
-              : null
+                  ? Array.from(
+                      { length: Math.min(selectedSize.stock, MAX_QUANTITY_DISPLAYED) },
+                      (_, i) => ({
+                        quantity: i + 1
+                      })
+                    )
+                  : null
               " optionLabel="quantity" placeholder="Selectionnez une quantité" class="w-full" />
           </div>
 
           <!-- Boutton CTA -->
           <div class="flex justify-center gap-3">
             <Button label="Ajouter au panier" rounded icon="pi pi-shopping-bag" class="w-fit" :class="{
-              'select-disable': !selectedQuantity,
-              'transition-transform': selectedQuantity,
-              'hover:scale-105': selectedQuantity
+                'select-disable': !selectedQuantity,
+                'transition-transform': selectedQuantity,
+                'hover:scale-105': selectedQuantity
             }" style="padding: 1rem 4rem; background-color: black; border: 1px solid black"
               @click="selectedSize && selectedQuantity ? onSubmit() : null" />
           </div>
