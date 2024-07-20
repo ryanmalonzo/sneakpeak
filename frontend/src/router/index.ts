@@ -15,6 +15,7 @@ import BasePageAdminView from '@/views/admin/BasePageAdminView.vue'
 import CGVView from '@/views/legal/CGVView.vue'
 import OrdersView from '@/views/OrdersView.vue'
 import DetailOrderView from '@/views/DetailOrderView.vue'
+import PDCView from '@/views/legal/PDCView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -73,7 +74,8 @@ const router = createRouter({
       path: '/legal',
       children: [
         { path: 'cgu', name: 'cgu', component: CGUView },
-        { path: 'cgv', name: 'cgv', component: CGVView }
+        { path: 'cgv', name: 'cgv', component: CGVView },
+        { path: 'privacy', name: 'privacy', component: PDCView }
       ]
     },
     {
@@ -204,7 +206,8 @@ const publicRoutes = [
   'sneakers',
   'reset_password',
   'cgu',
-  'cgv'
+  'cgv',
+  'privacy'
 ]
 const adminRoutes = [
   'admin_dashboard',
