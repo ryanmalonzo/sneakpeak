@@ -61,6 +61,7 @@ ProfilRouter.get('/orders/:reference', auth, async (req, res, next) => {
         size: size.name,
         quantity: orderProduct.quantity,
         unitPrice: orderProduct.unitPrice,
+        isRefund: orderProduct.isRefund,
       };
       products.push(product);
     }

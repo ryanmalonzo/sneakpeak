@@ -7,6 +7,7 @@ import { OrderApi, type IOrder } from '@/services/orderApi'
 import { useToast } from 'primevue/usetoast'
 import Dialog from 'primevue/dialog'
 import Textarea from 'primevue/textarea'
+import Button from 'primevue/button'
 
 const toast = useToast()
 
@@ -14,6 +15,7 @@ const route = useRoute()
 const order = ref<IOrder | undefined>(undefined)
 const error = ref<string | undefined>(undefined)
 const modal = ref(false)
+const modalRefund = ref(false)
 const productId = ref('')
 const reason = ref('')
 
@@ -54,9 +56,13 @@ onBeforeMount(async () => {
 })
 
 
-const openModal = (id: string) => {
-  productId.value = id
-  modal.value = true
+const openModal = (id: string, isRefund: boolean) => {
+  if (isRefund) {
+    modal.value = true
+  } else {
+    productId.value = id
+    modalRefund.value = true
+  }
 }
 </script>
 
@@ -126,12 +132,16 @@ const openModal = (id: string) => {
                 <p class="text-gray-600">{{ item.quantity }} x {{ item.unitPrice }} €</p>
               </div>
               <div class="self-end sm:self-center">
-                <button class="text-black underline" @click="openModal(item.id)">
-                  <!-- v-if="order.order.status == 'completed'" -->
-                  Retourner un article
-                </button>
+                <Button le statut du retour class="text-black underline" @click="openModal(item.id, item.isRefund)"
+                  v-if="order.order.status == 'completed' && item.isRefund == false">
 
-                <span class="text-red-500" v-if="item.isRefund">Retourné</span>
+                  <!--  -->
+                  Retourner un article
+                </Button>
+
+                <Button v-if="item.isRefund" @click="openModal(item.id, item.isRefund)">
+                  Voir le statut du retour
+                </Button>
 
               </div>
             </div>
@@ -147,7 +157,7 @@ const openModal = (id: string) => {
     </div>
   </BasePage>
 
-  <Dialog v-model:visible="modal" modal
+  <Dialog v-model:visible="modalRefund" modalRefund
     :header="`Retourner l'article ${order?.products.find(p => p.id === productId)?.name}`">
 
 
@@ -162,9 +172,16 @@ const openModal = (id: string) => {
     </div>
 
     <template #footer>
-      <Button label="Annuler" outlined severity="secondary" @click="modal = false" autofocus />
+      <Button label="Annuler" outlined severity="secondary" @click="modalRefund = false" autofocus />
       <Button label="Envoyer" outlined severity="secondary" @click="returnProduct" autofocus />
     </template>
+  </Dialog>
+
+  <Dialog v-model:visible="modal" modal
+    :header="`Retourner l'article ${order?.products.find(p => p.id === productId)?.name}`">
+
+
+    Le status de votre retour est en attente de validation par notre service client.
   </Dialog>
 
 </template>
