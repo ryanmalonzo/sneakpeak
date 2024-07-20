@@ -8,20 +8,20 @@ export const up: Migration = async ({
   context: Sequelize;
 }) => {
   await sequelize.getQueryInterface().bulkInsert('sizes', [
-    { name: '35', slug: '35' },
-    { name: '36', slug: '36' },
-    { name: '37', slug: '37' },
-    { name: '38', slug: '38' },
-    { name: '39', slug: '39' },
-    { name: '40', slug: '40' },
-    { name: '41', slug: '41' },
-    { name: '42', slug: '42' },
-    { name: '43', slug: '43' },
-    { name: '44', slug: '44' },
-    { name: '45', slug: '45' },
-    { name: '46', slug: '46' },
-    { name: '47', slug: '47' },
-    { name: '48', slug: '48' },
+    { name: '35', slug: '35', created_at: new Date(), updated_at: new Date() },
+    { name: '36', slug: '36', created_at: new Date(), updated_at: new Date() },
+    { name: '37', slug: '37', created_at: new Date(), updated_at: new Date() },
+    { name: '38', slug: '38', created_at: new Date(), updated_at: new Date() },
+    { name: '39', slug: '39', created_at: new Date(), updated_at: new Date() },
+    { name: '40', slug: '40', created_at: new Date(), updated_at: new Date() },
+    { name: '41', slug: '41', created_at: new Date(), updated_at: new Date() },
+    { name: '42', slug: '42', created_at: new Date(), updated_at: new Date() },
+    { name: '43', slug: '43', created_at: new Date(), updated_at: new Date() },
+    { name: '44', slug: '44', created_at: new Date(), updated_at: new Date() },
+    { name: '45', slug: '45', created_at: new Date(), updated_at: new Date() },
+    { name: '46', slug: '46', created_at: new Date(), updated_at: new Date() },
+    { name: '47', slug: '47', created_at: new Date(), updated_at: new Date() },
+    { name: '48', slug: '48', created_at: new Date(), updated_at: new Date() },
   ]);
 };
 
