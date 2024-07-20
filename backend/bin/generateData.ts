@@ -205,6 +205,8 @@ async function generateDataModelSize(isDelete: boolean = false): Promise<void> {
       where: {
         name: i.toString(),
         slug: i.toString(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     });
   }
