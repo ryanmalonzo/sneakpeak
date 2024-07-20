@@ -198,11 +198,11 @@ const status = (status: string) => {
   </Dialog>
 
   <Dialog v-model:visible="modal" modal
-    :header="`Statut du retour de l'article ${order?.products.find(p => p.id === productId)?.name}`">
+    :header="`Statut du remboursement de l'article ${order?.products.find(p => p.id === productId)?.name}`">
 
 
     <p>
-      <strong>Statut du retour :</strong> {{ status(productRefund?.status ?? '') }}
+      <strong>Statut du remboursement :</strong> {{ status(productRefund?.status ?? '') }}
     </p>
   </Dialog>
 
