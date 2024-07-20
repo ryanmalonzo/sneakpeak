@@ -152,16 +152,16 @@ const status = (status: string) => {
                 <p class="text-gray-600">{{ item.quantity }} x {{ item.unitPrice }} €</p>
               </div>
               <div class="self-end sm:self-center">
-                <Button le statut du retour class="text-black underline" @click="openModal(item.id, item.isRefund)"
+                <p class="text-black underline" @click="openModal(item.id, item.isRefund)"
                   v-if="order.order.status == 'completed' && item.isRefund == false">
 
                   <!--  -->
                   Retourner un article
-                </Button>
+                </p>
 
-                <Button v-if="item.isRefund" @click="openModal(item.id, item.isRefund)">
+                <p v-if="item.isRefund" class="text-black underline" @click="openModal(item.id, item.isRefund)">
                   Voir le statut du remboursement
-                </Button>
+                </p>
 
               </div>
             </div>
