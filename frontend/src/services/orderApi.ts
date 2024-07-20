@@ -34,6 +34,15 @@ export interface IOrder {
   }[]
 }
 
+export interface IProductReturn {
+  id: number
+  order_products_id: number
+  reason: string
+  status: string
+  created_at: string
+  updated_at: string
+}
+
 export class OrderApi {
   static BASE_URL = import.meta.env.VITE_API_URL
 
@@ -73,6 +82,27 @@ export class OrderApi {
       })
 
       if (!response.ok) {
+        throw response as Response
+      }
+    } catch (error) {
+      throw await (error as Response).json()
+    }
+  }
+
+  static async loadProductReturn(id: number): Promise<IProductReturn | undefined> {
+    try {
+      const response = await fetch(`${this.BASE_URL}/return/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        return data
+      } else {
         throw response as Response
       }
     } catch (error) {

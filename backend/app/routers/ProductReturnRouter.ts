@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { auth } from '../middlewares/auth';
-import { admin } from '../middlewares/admin';
 import { ProductReturnService } from '../services/ProductReturnService';
 
 export const ProductReturnRouter = Router();
@@ -9,7 +8,6 @@ export const ProductReturnRouter = Router();
 ProductReturnRouter.get(
   '/:id',
   auth,
-  admin,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       return res

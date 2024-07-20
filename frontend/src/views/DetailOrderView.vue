@@ -3,7 +3,7 @@ import BasePage from '@/components/BasePage.vue'
 import MenuProfil from '@/components/profile/MenuProfil.vue'
 import { useRoute } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'
-import { OrderApi, type IOrder } from '@/services/orderApi'
+import { type IProductReturn, OrderApi, type IOrder } from '@/services/orderApi'
 import { useToast } from 'primevue/usetoast'
 import Dialog from 'primevue/dialog'
 import Textarea from 'primevue/textarea'
@@ -16,6 +16,7 @@ const order = ref<IOrder | undefined>(undefined)
 const error = ref<string | undefined>(undefined)
 const modal = ref(false)
 const modalRefund = ref(false)
+const productRefund = ref<IProductReturn | undefined>(undefined)
 const productId = ref('')
 const reason = ref('')
 
@@ -25,10 +26,12 @@ const returnProduct = async () => {
     toast.add({
       severity: 'success',
       summary: 'Succès',
-      detail: 'Article retourné',
+      detail: 'Votre demande de retour a bien été prise en compte',
       life: 3000
     })
     order.value = await OrderApi.loadOrder(route.params.reference as string)
+
+    modalRefund.value = false
     modal.value = false
   } catch (e) {
     toast.add({
@@ -56,12 +59,29 @@ onBeforeMount(async () => {
 })
 
 
-const openModal = (id: string, isRefund: boolean) => {
+const openModal = async (id: string, isRefund: boolean) => {
   if (isRefund) {
+    productId.value = id
     modal.value = true
+    productRefund.value = await OrderApi.loadProductReturn(parseInt(id))
   } else {
     productId.value = id
     modalRefund.value = true
+  }
+}
+
+const status = (status: string) => {
+  switch (status) {
+    case 'pending':
+      return 'En attente'
+    case 'approved':
+      return 'Remboursé accepté'
+    case 'rejected':
+      return 'Remboursé refusé'
+    case 'completed':
+      return 'Remboursé'
+    default:
+      return status
   }
 }
 </script>
@@ -140,7 +160,7 @@ const openModal = (id: string, isRefund: boolean) => {
                 </Button>
 
                 <Button v-if="item.isRefund" @click="openModal(item.id, item.isRefund)">
-                  Voir le statut du retour
+                  Voir le statut du remboursement
                 </Button>
 
               </div>
@@ -178,10 +198,12 @@ const openModal = (id: string, isRefund: boolean) => {
   </Dialog>
 
   <Dialog v-model:visible="modal" modal
-    :header="`Retourner l'article ${order?.products.find(p => p.id === productId)?.name}`">
+    :header="`Statut du retour de l'article ${order?.products.find(p => p.id === productId)?.name}`">
 
 
-    Le status de votre retour est en attente de validation par notre service client.
+    <p>
+      <strong>Statut du retour :</strong> {{ status(productRefund?.status ?? '') }}
+    </p>
   </Dialog>
 
 </template>

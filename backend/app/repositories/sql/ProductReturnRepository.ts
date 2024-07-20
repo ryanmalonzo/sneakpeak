@@ -34,4 +34,14 @@ export class ProductReturnRepository {
   static async findOne(id: number): Promise<ProductReturn | null> {
     return await ProductReturn.findByPk(id);
   }
+
+  static async findByOrderProductId(
+    orderProductId: number,
+  ): Promise<ProductReturn | null> {
+    return await ProductReturn.findOne({
+      where: {
+        order_products_id: orderProductId,
+      },
+    });
+  }
 }

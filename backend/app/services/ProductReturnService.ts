@@ -8,7 +8,13 @@ import { OrderService } from './OrderService';
 
 export class ProductReturnService {
   static async find(id: number): Promise<ProductReturn | null> {
-    const productReturn = await ProductReturnRepository.findOne(id);
+    const orderProduct = await OrderProductRepository.findById(id);
+    if (!orderProduct) {
+      throw new RequestError(StatusCodes.NOT_FOUND);
+    }
+    const productReturn = await ProductReturnRepository.findByOrderProductId(
+      orderProduct.id,
+    );
     if (!productReturn) {
       throw new RequestError(StatusCodes.NOT_FOUND);
     }
@@ -20,14 +26,11 @@ export class ProductReturnService {
     reason: string,
   ): Promise<ProductReturn> {
     if (!order_products_id) {
-      console.log('order_products_id', order_products_id);
       throw new RequestError(StatusCodes.BAD_REQUEST);
     }
     if (!reason) {
-      console.log('reason', reason);
       throw new RequestError(StatusCodes.BAD_REQUEST);
     }
-    console.log('order_products_id', order_products_id);
     const orderProduct =
       await OrderProductRepository.findById(order_products_id);
     if (!orderProduct) {
@@ -48,9 +51,7 @@ export class ProductReturnService {
     } else {
       data.status = 'approved';
     }
-    console.log('data', data);
     const productReturn = ProductReturnRepository.build(data);
-    console.log('productReturn', productReturn);
     await ProductReturnRepository.save(productReturn);
     orderProduct.isRefund = true;
     OrderService.updateProduct(orderProduct);
