@@ -113,9 +113,9 @@ const isRowSelected = (row: Record<string, string>) => {
   return !!selectedRows.value.find((r) => r.id === row.id)
 }
 
-const deleteRow = async () => {
-  if (rowToDelete.value) {
-    await fetch(`${API_URL}/${resource}/${rowToDelete.value.id}`, {
+const deleteRow = async (row: Record<string, string>) => {
+  if (row) {
+    await fetch(`${API_URL}/${resource}/${row.id}`, {
       method: 'DELETE'
     })
 
