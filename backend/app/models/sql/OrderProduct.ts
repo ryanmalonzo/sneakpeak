@@ -16,6 +16,7 @@ export class OrderProduct extends Model {
   declare image: string;
   declare unitPrice: number;
   declare quantity: number;
+  declare isRefund: boolean;
 }
 
 export default (sequelize: Sequelize) => {
@@ -44,6 +45,11 @@ export default (sequelize: Sequelize) => {
       unitPrice: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
+      },
+      isRefund: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
       },
     },
     { sequelize, underscored: true },
