@@ -5,6 +5,7 @@ import { SneakerModel } from '../models/mongodb/Sneaker';
 import { VariantModel } from '../models/mongodb/Variant';
 import { CartModel } from '../models/mongodb/Cart';
 import { ColorModel } from '../models/mongodb/Color';
+import { SizeModel } from '../models/mongodb/Size';
 
 // Operation type
 export type Operation = 'create' | 'update' | 'delete';
@@ -62,6 +63,8 @@ function getModel(modelName: string) {
       return CategoryModel;
     case 'Color':
       return ColorModel;
+    case 'Size':
+      return SizeModel;
     case 'Sneaker':
       return SneakerModel;
     case 'Variant':

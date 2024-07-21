@@ -1,4 +1,6 @@
 import { OrderRepository } from '../repositories/sql/OrderRepository';
+import { OrderProduct } from '../models/sql/OrderProduct';
+import { OrderProductRepository } from '../repositories/sql/OrderProductRepository';
 
 export class OrderService {
   static async findAllOrders(userId: number) {
@@ -15,5 +17,9 @@ export class OrderService {
 
   static async findProductsByOrderId(orderId: number) {
     return OrderRepository.findProductsByOrderId(orderId);
+  }
+
+  static async updateProduct(orderProduct: OrderProduct) {
+    return OrderProductRepository.update(orderProduct);
   }
 }

@@ -13,6 +13,7 @@ import orderAdress, { OrderAddress } from './sql/OrderAddress';
 import order, { Order } from './sql/Order';
 import orderProduct, { OrderProduct } from './sql/OrderProduct';
 import historyCartProduct, { HistoryCartProduct } from './sql/HistoryCartProduct';
+import productReturn from './sql/ProductReturn';
 
 
 export const sequelize = new Sequelize(process.env.DATABASE_URL, {
@@ -33,6 +34,7 @@ order(sequelize);
 orderAdress(sequelize);
 orderProduct(sequelize);
 historyCartProduct(sequelize);
+productReturn(sequelize);
 
 User.hasMany(Challenge);
 

@@ -10,11 +10,11 @@ interface ISize extends Document {
 
 const SizeSchema: Schema<ISize> = new Schema(
   {
-    idRef: { type: Number, required: true },
+    idRef: { type: Number, required: false }, // Not required to just declare sizes
     id: { type: Number, required: true },
     name: { type: String, required: true },
     slug: { type: String, required: true },
-    stock: { type: Number, required: true },
+    stock: { type: Number, required: false }, // Not required to just declare sizes 
   },
   { timestamps: true },
 );
