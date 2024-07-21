@@ -150,3 +150,21 @@ UserRouter.patch(
     }
   },
 );
+
+UserRouter.post(
+  '/:id/anonymize',
+  findUser,
+  auth,
+  permissions(['user']),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      await UserService.anonymize(Number(id));
+
+      return res.sendStatus(StatusCodes.NO_CONTENT);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
