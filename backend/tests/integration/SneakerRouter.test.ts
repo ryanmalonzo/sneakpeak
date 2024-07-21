@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import app from '../../app';
 import { UserService } from '../../app/services/UserService';
 import { uniqueEmail } from './helpers';
+import { ChallengeRepository } from '../../app/repositories/sql/ChallengeRepository';
 
 function expectSneaker(sneaker: object) {
   expect(sneaker).to.have.property('id');
@@ -21,6 +22,11 @@ before(async () => {
     uniqueEmail(),
     'FateStayNight123%',
   );
+
+  const challenge = await ChallengeRepository.findByUserAndType(user, 'email');
+
+  // Verify email
+  await UserService.verifyEmail(user, challenge!.token);
 
   // Grant admin permissions
   await UserService.update(user.id, { roles: ['USER', 'ADMIN'] });
