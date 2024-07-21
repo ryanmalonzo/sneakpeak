@@ -170,6 +170,17 @@ CheckoutRouter.post(
       return res.status(404).json();
     }
     const orderProducts = await OrderProductRepository.findByOrderId(order.id);
+    for (const item of orderProducts) {
+      const vaiiant = await VariantRepository.findVariantById(item.variantId);
+      if (!vaiiant) {
+        return res.status(400).json();
+      }
+      if (item.quantity > vaiiant.stock) {
+        return res
+          .status(400)
+          .json({ messages: 'Le stock est insuffisant pour ' + item.name });
+      }
+    }
     const reference = 'sneakpeak' + '-' + uniqid();
     const session = await CheckoutService.getCheckoutSession(
       orderProducts,

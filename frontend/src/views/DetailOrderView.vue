@@ -100,7 +100,7 @@ const reOrder = async () => {
     toast.add({
       severity: 'error',
       summary: 'Erreur',
-      detail: e.message,
+      detail: (e as Error).message ?? 'Une erreur est survenue lors du traitement de votre commande. Veuillez recommencer la commande depuis le début. Si le problème persiste, contactez notre service client.',
       life: 3000
     })
   }
