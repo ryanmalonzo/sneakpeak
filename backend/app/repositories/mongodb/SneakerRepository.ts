@@ -11,6 +11,7 @@ export interface FlattenedSneakerVariant {
   sneakerBrand: string;
   variantId: number;
   variantName: string;
+  variantHexCode: string;
   variantSlug: string;
   variantImage: string;
   variantIsBest: boolean;
@@ -65,6 +66,7 @@ export class SneakerRepository {
         $project: {
           id: '$variants.id',
           name: '$variants.name',
+          hexCode: '$variants.hexCode',
           slug: '$variants.slug',
           image: '$variants.image',
           isBest: '$variants.isBest',

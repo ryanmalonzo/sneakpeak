@@ -4,6 +4,7 @@ import { ISize } from './Size';
 interface IVariant extends Document {
   id: number;
   name: string; // a color
+  hexCode: string;
   slug: string;
   image: string;
   isBest: boolean;
@@ -16,6 +17,7 @@ const VariantSchema: Schema<IVariant> = new Schema(
   {
     id: { type: Number, required: true },
     name: { type: String, required: true },
+    hexCode: { type: String, required: true },
     slug: { type: String },
     image: { type: String, required: true },
     isBest: { type: Boolean, required: true },
