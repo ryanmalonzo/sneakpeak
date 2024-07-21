@@ -95,10 +95,6 @@ const exportToCSV = () => {
   )
 }
 
-const confirmDelete = (row: Record<string, string>) => {
-  rowToDelete.value = row
-}
-
 const handleSelectRow = (row: Record<string, string>, event: Event) => {
   const checkbox = event.target as HTMLInputElement
 
