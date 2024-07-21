@@ -171,14 +171,14 @@ CheckoutRouter.post(
     }
     const orderProducts = await OrderProductRepository.findByOrderId(order.id);
     for (const item of orderProducts) {
-      const vaiiant = await VariantRepository.findVariantById(item.variantId);
-      if (!vaiiant) {
+      const variant = await VariantRepository.findVariantById(item.variantId);
+      if (!variant) {
         return res.status(400).json();
       }
-      if (item.quantity > vaiiant.stock) {
+      if (item.quantity > variant.stock) {
         return res
           .status(400)
-          .json({ messages: 'Le stock est insuffisant pour ' + item.name });
+          .json({ message: 'Le stock est insuffisant pour ' + item.name });
       }
     }
     const reference = 'sneakpeak' + '-' + uniqid();
