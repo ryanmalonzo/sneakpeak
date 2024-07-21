@@ -6,6 +6,7 @@ import app from '../../app';
 import { UserService } from '../../app/services/UserService';
 import { uniqueEmail } from './helpers';
 import { Brand } from '../../app/models/sql/Brand';
+import { ChallengeRepository } from '../../app/repositories/sql/ChallengeRepository';
 
 describe('BrandRouter', () => {
   let email: string;
@@ -18,6 +19,14 @@ describe('BrandRouter', () => {
 
     await UserService.registerUser(email, 'Sneakpeak12345*$');
     const user = await UserService.findByEmail(email);
+
+    const challenge = await ChallengeRepository.findByUserAndType(
+      user!,
+      'email',
+    );
+
+    await UserService.verifyEmail(user!, challenge!.token);
+
     userId = user!.id;
 
     await UserService.update(userId, { roles: ['USER', 'ADMIN'] });

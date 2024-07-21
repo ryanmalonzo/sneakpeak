@@ -271,4 +271,30 @@ export class UserService {
 
     return await UserRepository.update(userId, data);
   }
+
+  static async anonymize(userId: number): Promise<void> {
+    const user = await UserRepository.update(userId, {
+      email: `${new Date().toISOString()}-deleted@email.com`,
+      lastName: 'DELETED',
+      firstName: 'DELETED',
+      phone: '0000000000',
+      roles: ['USER'],
+    });
+
+    if (!user) {
+      throw new RequestError(StatusCodes.NOT_FOUND);
+    }
+
+    const challenge = await ChallengeRepository.findByUserAndType(
+      user,
+      'email',
+    );
+
+    if (!challenge) {
+      return;
+    }
+
+    // Unverify user to further prevent login
+    await ChallengeRepository.update(challenge, { disabled: false });
+  }
 }
