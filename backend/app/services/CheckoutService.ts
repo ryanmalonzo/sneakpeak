@@ -10,6 +10,7 @@ import { OrderRepository } from '../repositories/sql/OrderRepository';
 import { OrderProductRepository } from '../repositories/sql/OrderProductRepository';
 import { Order } from '../models/sql/Order';
 import { OrderProduct } from '../models/sql/OrderProduct';
+import { OrderAddress } from '../models/sql/OrderAddress';
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-06-20',
@@ -66,7 +67,6 @@ export class CheckoutService {
     session_id: string,
     userId: number,
   ): Promise<Order> {
-    console.log(total, reference, userId);
     const new_order = OrderRepository.build({
       total: total / 100,
       status: 'pending',
@@ -114,6 +114,16 @@ export class CheckoutService {
     return new_order_product;
   }
 
+  public static async findOrderAddressById(
+    orderId: number,
+    type: string,
+  ): Promise<OrderAddress | null> {
+    return await OrderAddressRepository.findOrderAddressByOrderId(
+      orderId,
+      type,
+    );
+  }
+
   public static async saveAdress(
     address: string,
     name: string,
@@ -150,7 +160,6 @@ export class CheckoutService {
         zip: formattedAddress.zip,
       };
     } catch (error) {
-      console.error(error);
       throw new Error('Invalid address');
     }
   }
@@ -183,7 +192,6 @@ export class CheckoutService {
         zip: properties.postcode || '',
       };
     } catch (error) {
-      console.error(error);
       throw new Error('Invalid address');
     }
   }

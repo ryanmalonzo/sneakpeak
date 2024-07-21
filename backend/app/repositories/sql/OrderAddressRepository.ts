@@ -35,4 +35,13 @@ export class OrderAddressRepository {
   ): Promise<OrderAddress | null> {
     return await OrderAddress.findByPk(orderAddressId);
   }
+
+  static async findOrderAddressByOrderId(
+    orderId: number,
+    type: string,
+  ): Promise<OrderAddress | null> {
+    return await OrderAddress.findOne({
+      where: { orderId, type },
+    });
+  }
 }

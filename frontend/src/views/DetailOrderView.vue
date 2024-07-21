@@ -84,6 +84,27 @@ const status = (status: string) => {
       return status
   }
 }
+
+const reOrder = async () => {
+  try {
+    const data = await OrderApi.reOrder(order.value?.order.reference as string)
+    toast.add({
+      severity: 'success',
+      summary: 'Succès',
+      detail: 'Vous allez être redirigé vers le paiement',
+      life: 3000
+    })
+    window.location.href = data.url
+
+  } catch (e) {
+    toast.add({
+      severity: 'error',
+      summary: 'Erreur',
+      detail: (e as Error).message ?? 'Une erreur est survenue lors du traitement de votre commande. Veuillez recommencer la commande depuis le début. Si le problème persiste, contactez notre service client.',
+      life: 3000
+    })
+  }
+}
 </script>
 
 <template>
@@ -135,7 +156,7 @@ const status = (status: string) => {
                 <button class="text-black underline" v-else>
                   <a :href="order.order.linkPaiement" target="_blank"> Payer la commande </a>
                 </button>
-                <button class="text-black underline" v-if="order.order.payment_status == 'paid'">
+                <button class="text-black underline" v-if="order.order.payment_status == 'paid'" @click="reOrder">
                   Commander à nouveau
                 </button>
               </div>
