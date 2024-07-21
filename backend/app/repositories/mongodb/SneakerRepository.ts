@@ -24,6 +24,29 @@ export interface FlattenedSneakerVariant {
   }[];
 }
 
+export interface FullFlattenedSneakerVariant {
+  sneakerId: number;
+  sneakerName: string;
+  sneakerSlug: string;
+  sneakerDescription: string;
+  sneakerPrice: number;
+  sneakerCategory: string;
+  sneakerBrand: string;
+  sneakerCategoryId: number;
+  sneakerBrandId: number;
+  variantId: number;
+  variantName: string;
+  variantHexCode: string;
+  variantSlug: string;
+  variantImage: string;
+  variantIsBest: boolean;
+  variantIdRef: number;
+  sizeId: number;
+  sizeName: string;
+  sizeSlug: string;
+  sizeStock: number;
+}
+
 export class SneakerRepository {
   static async getPaginated(
     page: number,
@@ -110,6 +133,43 @@ export class SneakerRepository {
 
     const result = await SneakerModel.aggregate(pipeline);
     return result.length > 0 ? result[0].count : 0;
+  }
+
+  static async getVariantById(
+    variantId: number,
+  ): Promise<FullFlattenedSneakerVariant> {
+    const pipeline = [
+      { $unwind: "$variants" },
+      { $unwind: "$variants.sizes" },
+      { $match: { "variants.sizes.idRef": variantId } },
+      {
+        $project: {
+          sneakerId: "$id",
+          sneakerName: "$name",
+          sneakerSlug: "$slug",
+          sneakerDescription: "$description",
+          sneakerPrice: "$price",
+          sneakerCategory: "$category",
+          sneakerBrand: "$brand",
+          sneakerCategoryId: "$categoryId",
+          sneakerBrandId: "$brandId",
+          variantId: "$variants.id",
+          variantName: "$variants.name",
+          variantHexCode: "$variants.hexCode",
+          variantSlug: "$variants.slug",
+          variantImage: "$variants.image",
+          variantIsBest: "$variants.isBest",
+          variantIdRef: "$variants.sizes.idRef",
+          sizeId: "$variants.sizes.id",
+          sizeName: "$variants.sizes.name",
+          sizeSlug: "$variants.sizes.slug",
+          sizeStock: "$variants.sizes.stock"
+        }
+      }
+    ];
+  
+    const flattenedVariant = await SneakerModel.aggregate(pipeline);    
+    return flattenedVariant[0];
   }
 
   static async findOne(

@@ -67,6 +67,23 @@ SneakerRouter.get(
   },
 );
 
+SneakerRouter.get(
+  '/variants/:id',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      
+      return res
+        .status(StatusCodes.OK)
+        .json(
+          await SneakerService.getVariantById(parseInt(id)),
+        );
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 // Route pour récupérer une sneaker par son ID, pour ne pas interférer avec la route /:slug
 SneakerRouter.get(
   /^\/(\d+)$/,
