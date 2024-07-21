@@ -115,9 +115,13 @@ const deleteRow = async (row: Record<string, string>) => {
       method: 'DELETE'
     })
 
+    const index = rows.value.findIndex((r) => r[uniqueKey] === row[uniqueKey])
+    if (index !== -1) {
+      rows.value.splice(index, 1)
+    }
+
     // Reset les valeurs
     rowToDelete.value = null
-    fetchData()
   }
 }
 
