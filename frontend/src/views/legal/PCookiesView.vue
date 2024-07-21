@@ -6,7 +6,7 @@ import BasePage from '@/components/BasePage.vue'
 const markdown: Ref<string> = ref<string>('')
 
 const fetchMarkdown = async () => {
-  const res = await fetch('/legal/pcookies.md')
+  const res = await fetch('/legal/politique-de-cookies.md')
   const text = await res.text()
   markdown.value = marked(text) as string
 }

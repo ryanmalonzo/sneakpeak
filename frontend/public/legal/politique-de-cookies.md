@@ -10,21 +10,9 @@ Un cookie est un petit fichier texte que les sites internet que vous visitez dé
 
 ### Types de Cookies Utilisés
 
-#### 1. Cookies Essentiels
+#### 1. Cookies d'authentification
 
-Ces cookies sont indispensables pour le bon fonctionnement du Site. Ils vous permettent de naviguer sur le Site et d'utiliser ses fonctionnalités, telles que l'accès à des zones sécurisées du Site. Sans ces cookies, les services que vous avez demandés, tels que les paniers d'achat ou la facturation électronique, ne peuvent être fournis.
-
-#### 2. Cookies de Performance
-
-Ces cookies collectent des informations sur la manière dont les visiteurs utilisent le Site, par exemple les pages que les visiteurs consultent le plus souvent, et s'ils reçoivent des messages d'erreur des pages web. Ces cookies ne collectent pas d'informations qui identifient un visiteur. Toutes les informations collectées par ces cookies sont agrégées et donc anonymes. Elles sont utilisées uniquement pour améliorer le fonctionnement du Site.
-
-#### 3. Cookies de Fonctionnalité
-
-Ces cookies permettent au Site de se souvenir des choix que vous faites (comme votre nom d'utilisateur, votre langue ou la région dans laquelle vous vous trouvez) et de fournir des fonctionnalités améliorées et plus personnelles. Ces cookies peuvent également être utilisés pour se souvenir des modifications que vous avez apportées à la taille du texte, aux polices et à d'autres parties des pages web que vous pouvez personnaliser. Les informations collectées par ces cookies peuvent être anonymisées et ne peuvent pas suivre votre activité de navigation sur d'autres sites web.
-
-#### 4. Cookies de Ciblage ou Publicitaires
-
-Ces cookies sont utilisés pour diffuser des publicités plus pertinentes pour vous et vos intérêts. Ils sont également utilisés pour limiter le nombre de fois que vous voyez une publicité et pour mesurer l'efficacité des campagnes publicitaires. Ils sont généralement placés par des réseaux publicitaires avec l'autorisation de l'exploitant du site web. Ils se souviennent que vous avez visité un site web et cette information est partagée avec d'autres organisations telles que des annonceurs. Bien souvent, les cookies de ciblage ou publicitaires seront liés à la fonctionnalité du site fournie par l'autre organisation.
+Ce cookie est nécessaire pour vous permettre de vous connecter et d'accéder à votre compte de manière sécurisée sans avoir à tout le temps renseigner vos informations de connexion. Il ne peut pas être désactivé car il est crucial pour le fonctionnement de notre site.
 
 ### Gestion des Cookies
 

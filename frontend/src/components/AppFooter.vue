@@ -51,7 +51,7 @@ const footerLinks = [
       },
       {
         title: 'Politique des cookies',
-        link: '/legal/pcookies'
+        link: '/legal/politique-de-cookies'
       }
     ]
   },
