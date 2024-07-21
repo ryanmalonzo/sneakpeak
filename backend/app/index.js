@@ -14,6 +14,7 @@ import { StripeRouter } from './routers/StripeRouter';
 import { CheckoutRouter } from './routers/CheckoutRouter';
 import { ProfilRouter } from './routers/ProfilRouter';
 import { ColorRouter } from './routers/ColorRouter';
+import { SizeRouter } from './routers/SizeRouter';
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use('/variants', VariantRouter);
 app.use('/brands', BrandRouter);
 app.use('/categories', CategoryRouter);
 app.use('/colors', ColorRouter);
+app.use('/sizes', SizeRouter);
 app.use('/cart', CartRouter);
 app.use('/webhook', StripeRouter);
 app.use('/checkout', CheckoutRouter);
