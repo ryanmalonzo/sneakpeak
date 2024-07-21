@@ -48,6 +48,10 @@ const footerLinks = [
       {
         title: 'Politique de confidentialité',
         link: '#'
+      },
+      {
+        title: 'Politique des cookies',
+        link: '/legal/pcookies'
       }
     ]
   },
