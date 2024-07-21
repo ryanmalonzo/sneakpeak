@@ -10,6 +10,7 @@ import { OrderRepository } from '../repositories/sql/OrderRepository';
 import { OrderProductRepository } from '../repositories/sql/OrderProductRepository';
 import { Order } from '../models/sql/Order';
 import { OrderProduct } from '../models/sql/OrderProduct';
+import { OrderAddress } from '../models/sql/OrderAddress';
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-06-20',
@@ -116,7 +117,7 @@ export class CheckoutService {
   public static async findOrderAddressById(
     orderId: number,
     type: string,
-  ): Promise<OrderAddressRepository | null> {
+  ): Promise<OrderAddress | null> {
     return await OrderAddressRepository.findOrderAddressByOrderId(
       orderId,
       type,

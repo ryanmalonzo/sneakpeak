@@ -193,20 +193,48 @@ CheckoutRouter.post(
         item.unitPrice,
       );
     }
+    const shippingAddress = await CheckoutService.findOrderAddressById(
+      order.id,
+      'shipping',
+    );
+
+    if (!shippingAddress) {
+      return res.status(404).json();
+    }
+    const billingAddress = await CheckoutService.findOrderAddressById(
+      order.id,
+      'billing',
+    );
+    if (!billingAddress) {
+      return res.status(404).json();
+    }
 
     const data = {
       url: session.url,
       total: session.amount_total,
-      shipping: await CheckoutService.findOrderAddressById(
-        newOrder.id,
+      shipping: await CheckoutService.saveAdress(
+        shippingAddress.street +
+          ' ' +
+          shippingAddress.postal_code +
+          ' ' +
+          shippingAddress.city,
+        shippingAddress.name,
+        shippingAddress.phone,
         'shipping',
-      ),
-      billing: await CheckoutService.findOrderAddressById(
         newOrder.id,
+      ),
+      billing: await CheckoutService.saveAdress(
+        billingAddress.street +
+          ' ' +
+          billingAddress.postal_code +
+          ' ' +
+          billingAddress.city,
+        billingAddress.name,
+        billingAddress.phone,
         'billing',
+        newOrder.id,
       ),
     };
-
     res.json(data);
   },
 );
