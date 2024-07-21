@@ -1,3 +1,4 @@
+import { CheckoutApi } from './checkoutApi'
 export interface IOrder {
   order: {
     total: number
@@ -105,6 +106,25 @@ export class OrderApi {
       } else {
         throw response as Response
       }
+    } catch (error) {
+      throw await (error as Response).json()
+    }
+  }
+
+  static async reOrder(reference: string): Promise<CheckoutApi.CheckoutOut> {
+    try {
+      const response = await fetch(`${this.BASE_URL}/checkout/reorder/${reference}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      })
+
+      if (!response.ok) {
+        throw response as Response
+      }
+      return await response.json()
     } catch (error) {
       throw await (error as Response).json()
     }

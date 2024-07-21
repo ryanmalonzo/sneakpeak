@@ -66,7 +66,6 @@ export class CheckoutService {
     session_id: string,
     userId: number,
   ): Promise<Order> {
-    console.log(total, reference, userId);
     const new_order = OrderRepository.build({
       total: total / 100,
       status: 'pending',
@@ -114,6 +113,16 @@ export class CheckoutService {
     return new_order_product;
   }
 
+  public static async findOrderAddressById(
+    orderId: number,
+    type: string,
+  ): Promise<OrderAddressRepository | null> {
+    return await OrderAddressRepository.findOrderAddressByOrderId(
+      orderId,
+      type,
+    );
+  }
+
   public static async saveAdress(
     address: string,
     name: string,
@@ -150,7 +159,6 @@ export class CheckoutService {
         zip: formattedAddress.zip,
       };
     } catch (error) {
-      console.error(error);
       throw new Error('Invalid address');
     }
   }
@@ -183,7 +191,6 @@ export class CheckoutService {
         zip: properties.postcode || '',
       };
     } catch (error) {
-      console.error(error);
       throw new Error('Invalid address');
     }
   }

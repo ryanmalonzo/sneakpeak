@@ -157,3 +157,56 @@ CheckoutRouter.get(
     res.json(linkPaiement);
   },
 );
+
+CheckoutRouter.post(
+  '/reorder/:reference',
+  auth,
+  async (req: Request, res: Response) => {
+    const order = await OrderRepository.findByReference(
+      req.params.reference,
+      res.locals.user.id,
+    );
+    if (!order) {
+      return res.status(404).json();
+    }
+    const orderProducts = await OrderProductRepository.findByOrderId(order.id);
+    const reference = 'sneakpeak' + '-' + uniqid();
+    const session = await CheckoutService.getCheckoutSession(
+      orderProducts,
+      res.locals.user.id,
+      reference,
+    );
+    const newOrder = await CheckoutService.createOrder(
+      session.amount_total as number,
+      reference,
+      session.id,
+      res.locals.user.id,
+    );
+
+    for (const item of orderProducts) {
+      await CheckoutService.createOrderProduct(
+        newOrder.id,
+        item.variantId,
+        item.quantity,
+        item.name,
+        item.image,
+        item.unitPrice,
+      );
+    }
+
+    const data = {
+      url: session.url,
+      total: session.amount_total,
+      shipping: await CheckoutService.findOrderAddressById(
+        newOrder.id,
+        'shipping',
+      ),
+      billing: await CheckoutService.findOrderAddressById(
+        newOrder.id,
+        'billing',
+      ),
+    };
+
+    res.json(data);
+  },
+);
