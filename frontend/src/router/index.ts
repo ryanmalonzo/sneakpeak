@@ -190,6 +190,16 @@ const router = createRouter({
               component: () => import('@/views/admin/forms/ColorForm.vue')
             }
           ]
+        },
+        {
+          path: 'orders',
+          children: [
+            {
+              path: '',
+              name: 'admin_orders',
+              component: () => import('@/views/admin/OrdersAdminView.vue')
+            }
+          ]
         }
       ]
     },

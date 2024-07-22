@@ -59,4 +59,16 @@ export class OrderRepository {
       where: { orderId: orderId },
     });
   }
+
+  static async getPaginated(
+    page: number,
+    limit: number,
+    userId: number,
+  ): Promise<Order[]> {
+    return Order.findAll({
+      where: { user_id: userId },
+      offset: (page - 1) * limit,
+      limit: limit,
+    });
+  }
 }
