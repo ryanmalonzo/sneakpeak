@@ -8,7 +8,6 @@ import {
 } from '../helpers/interfaces';
 import {
   FlattenedSneakerVariant,
-  FullFlattenedSneakerVariant,
   SneakerRepository as SneakerRepositoryMongo,
 } from '../repositories/mongodb/SneakerRepository';
 import { Sneaker, SneakerDTO } from '../models/sql/Sneaker';
@@ -101,7 +100,7 @@ export class SneakerService {
 
   public static async getVariantById(
     variantId: number
-  ): Promise<FullFlattenedSneakerVariant> {
+  ): Promise<FlattenedSneakerVariant> {
     const variant = await SneakerRepositoryMongo.getVariantById(variantId);
     if (!variant) {
       throw new RequestError(StatusCodes.NOT_FOUND);
