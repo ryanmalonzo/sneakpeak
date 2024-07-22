@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import Button from 'primevue/button'
 import Select, { type SelectChangeEvent } from 'primevue/select'
+import { useToast } from 'primevue/usetoast'
 import { debounce } from 'underscore'
 import DataPagination from './DataPagination.vue'
 import DataHeaderCell from './DataHeaderCell.vue'
 import { downloadCSV } from './utils/csv'
-import Button from 'primevue/button'
 import ConfirmButton from '../ButtonConfirm.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 const DEFAULT_LIMIT = 25
 
 const router = useRouter()
+
+const toast = useToast()
 
 const { resource, headerTitle, uniqueKey } = defineProps<{
   columns: { key: string; label: string }[]
@@ -146,6 +149,13 @@ const deleteRow = async (row: Record<string, string>) => {
 
     // Reset les valeurs
     rowToDelete.value = null
+
+    toast.add({
+      severity: 'success',
+      summary: 'Suppression réussie',
+      detail: "L'élément a bien été supprimé.",
+      life: 5000
+    })
   }
 }
 
