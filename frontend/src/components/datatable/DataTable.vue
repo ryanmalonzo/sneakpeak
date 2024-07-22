@@ -6,6 +6,8 @@ import { debounce } from 'underscore'
 import DataPagination from './DataPagination.vue'
 import DataHeaderCell from './DataHeaderCell.vue'
 import { downloadCSV } from './utils/csv'
+import Button from 'primevue/button'
+import ConfirmButton from '../ButtonConfirm.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 const DEFAULT_LIMIT = 25
@@ -21,6 +23,7 @@ const { resource, headerTitle, uniqueKey } = defineProps<{
 }>()
 
 const rows = ref<Record<string, string>[]>([])
+const rowToDelete = ref<Record<string, string> | null>(null)
 const currentPage = ref(1)
 const maxPage = ref(1)
 const limit = ref(DEFAULT_LIMIT)
@@ -106,6 +109,22 @@ const isRowSelected = (row: Record<string, string>) => {
   return !!selectedRows.value.find((r) => r.id === row.id)
 }
 
+const deleteRow = async (row: Record<string, string>) => {
+  if (row) {
+    await fetch(`${API_URL}/${resource}/${row.id}`, {
+      method: 'DELETE'
+    })
+
+    const index = rows.value.findIndex((r) => r[uniqueKey] === row[uniqueKey])
+    if (index !== -1) {
+      rows.value.splice(index, 1)
+    }
+
+    // Reset les valeurs
+    rowToDelete.value = null
+  }
+}
+
 const thClasses = 'border border-black px-2.5 py-1 text-left font-semibold text-white'
 const tdClasses = 'border border-gray-300 px-2.5 py-1'
 </script>
@@ -189,14 +208,19 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
                   aria-label="Modifier"
                   @click="router.push(`${path}/${row.id}`)"
                 />
-                <Button icon="pi pi-trash" severity="secondary" aria-label="Supprimer" />
+                <ConfirmButton
+                  icon="pi pi-trash"
+                  severity="secondary"
+                  label=""
+                  confirmMessage="Êtes-vous sûr de vouloir supprimer cet élément ?"
+                  @confirm="() => deleteRow(row)"
+                />
               </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-
     <!-- Pagination -->
     <DataPagination :currentPage="currentPage" :maxPage="maxPage" @pageChange="handlePageChange" />
   </div>
