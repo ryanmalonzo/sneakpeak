@@ -3,12 +3,14 @@ import { ref, onMounted } from 'vue'
 import { logout } from '@/helpers/auth'
 import ButtonConfirm from '@/components/ButtonConfirm.vue'
 import { SessionApi } from '@/services/sessionApi'
+import { useToast } from 'primevue/usetoast'
 
 const loading = ref(false)
 const error = ref(false)
 const errorMessage = ref('')
 const API_URL = import.meta.env.VITE_API_URL
 const userId = ref<number | null>(null)
+const toast = useToast()
 
 const getUserId = async () => {
   try {
@@ -42,6 +44,12 @@ const deleteAccount = async () => {
     if (response.status === 204) {
       // Déconnecte l'utilisateur
       logout()
+
+      toast.add({
+        severity: 'success',
+        summary: 'Compte supprimé',
+        detail: 'Votre compte a bien été supprimé.'
+      })
     } else {
       throw new Error('Erreur lors de la suppression du compte')
     }
