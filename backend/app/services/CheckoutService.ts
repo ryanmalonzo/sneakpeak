@@ -124,7 +124,7 @@ export class CheckoutService {
     );
   }
 
-  public static async saveAdress(
+  public static async saveAddress(
     address: string,
     name: string,
     phone: string,
@@ -141,7 +141,7 @@ export class CheckoutService {
 
     try {
       formattedAddress = await this._formatAddress(address);
-      const new_address = OrderAddressRepository.build({
+      const newAddress = OrderAddressRepository.build({
         street: formattedAddress.street,
         city: formattedAddress.city,
         postal_code: formattedAddress.zip,
@@ -151,7 +151,7 @@ export class CheckoutService {
         orderId: orderId,
       });
 
-      await OrderAddressRepository.save(new_address);
+      await OrderAddressRepository.save(newAddress);
       return {
         street: formattedAddress.street,
         city: formattedAddress.city,
