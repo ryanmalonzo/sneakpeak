@@ -50,7 +50,7 @@ const getUrl = () => {
   }
 
   if (searchQuery.value) {
-    url.searchParams.append('q', searchQuery.value)
+    url.searchParams.append('q', searchQuery.value.trim())
   }
 
   return url
@@ -106,6 +106,16 @@ const isRowSelected = (row: Record<string, string>) => {
   return !!selectedRows.value.find((r) => r.id === row.id)
 }
 
+const translateStatus = (status: string) => {
+  const translations: { [key: string]: string } = {
+    paid: 'Payé',
+    pending: 'En attente de paiement',
+    isDelivered: 'En cours de livraison',
+    completed: 'Livré'
+  }
+  return translations[status] || status
+}
+
 const thClasses = 'border border-black px-2.5 py-1 text-left font-semibold text-white'
 const tdClasses = 'border border-gray-300 px-2.5 py-1'
 </script>
@@ -117,78 +127,43 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
       <div class="flex items-center gap-2.5">
         <h2 class="text-2xl font-semibold">{{ headerTitle }}</h2>
         <Button icon="pi pi-plus" label="Ajouter" @click="router.push(`${path}/add`)" />
-        <Button
-          icon="pi pi-download"
-          severity="secondary"
-          :label="selectedRows.length ? `Exporter (${selectedRows.length})` : 'Exporter'"
-          @click="exportToCSV"
-        />
-        <Button
-          v-if="selectedRows.length"
-          icon="pi pi-times"
-          severity="secondary"
-          label="Tout déselectionner"
-          outlined
-          @click="selectedRows = []"
-        />
+        <Button icon="pi pi-download" severity="secondary"
+          :label="selectedRows.length ? `Exporter (${selectedRows.length})` : 'Exporter'" @click="exportToCSV" />
+        <Button v-if="selectedRows.length" icon="pi pi-times" severity="secondary" label="Tout déselectionner" outlined
+          @click="selectedRows = []" />
       </div>
 
       <div class="flex items-center gap-2.5">
         <InputText placeholder="Rechercher" icon="pi pi-search" v-model="searchQuery" />
-        <Select
-          v-model="limit"
-          :options="[10, 25, 50, 75, 100]"
-          aria-label="Nombre d'éléments par page"
-          @change="handleLimitChange"
-        />
+        <Select v-model="limit" :options="[10, 25, 50, 75, 100]" aria-label="Nombre d'éléments par page"
+          @change="handleLimitChange" />
       </div>
     </div>
 
     <!-- Table -->
     <div id="wrapper" class="w-full overflow-x-auto overflow-y-scroll rounded-md">
       <table class="w-full table-auto">
-        <thead
-          class="sticky top-0 z-10 rounded-t-md bg-black outline outline-offset-[-1px] outline-black"
-        >
+        <thead class="sticky top-0 z-10 rounded-t-md bg-black outline outline-offset-[-1px] outline-black">
           <tr>
             <th :class="thClasses"></th>
-            <DataHeaderCell
-              v-for="column in columns"
-              :key="column.key"
-              :sortKey="column.key"
-              :currentSort="sortKeyRef"
-              :label="column.label"
-              :classes="thClasses"
-              @orderChange="handleOrderChange"
-            />
+            <DataHeaderCell v-for="column in columns" :key="column.key" :sortKey="column.key" :currentSort="sortKeyRef"
+              :label="column.label" :classes="thClasses" @orderChange="handleOrderChange" />
             <th :class="thClasses">Actions</th>
           </tr>
         </thead>
         <tbody class="rounded-b-md outline outline-offset-[-1px] outline-gray-300">
-          <tr
-            v-for="row in rows"
-            :key="row[uniqueKey]"
-            :class="isRowSelected(row) ? 'bg-[#12b9813b]' : 'bg-white'"
-          >
+          <tr v-for="row in rows" :key="row[uniqueKey]" :class="isRowSelected(row) ? 'bg-[#12b9813b]' : 'bg-white'">
             <td class="text-center" :class="tdClasses">
-              <input
-                type="checkbox"
-                class="h-4 w-4"
-                :checked="isRowSelected(row)"
-                @change="(event: Event) => handleSelectRow(row, event)"
-              />
+              <input type="checkbox" class="h-4 w-4" :checked="isRowSelected(row)"
+                @change="(event: Event) => handleSelectRow(row, event)" />
             </td>
             <td v-for="column in columns" :key="column.key" :class="tdClasses">
-              {{ row[column.key] }}
+              {{ translateStatus(row[column.key]) }}
             </td>
             <td :class="tdClasses">
               <div class="flex justify-center gap-2.5 self-stretch">
-                <Button
-                  icon="pi pi-pen-to-square"
-                  severity="contrast"
-                  aria-label="Modifier"
-                  @click="router.push(`${path}/${row.id}`)"
-                />
+                <Button icon="pi pi-pen-to-square" severity="contrast" aria-label="Modifier"
+                  @click="router.push(`${path}/${row.id}`)" />
                 <Button icon="pi pi-trash" severity="secondary" aria-label="Supprimer" />
               </div>
             </td>

@@ -9,14 +9,11 @@ OrderRouter.get(
   '/',
   pagination({
     reference: 'in',
+    status: 'in',
   }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { q, page, limit, sortOptions, filterOptions } = res.locals;
-      console.log('get all orders');
-      console.log(
-        OrderService.getPaginated(q, page, limit, sortOptions, filterOptions),
-      );
       return res
         .status(StatusCodes.OK)
         .json(

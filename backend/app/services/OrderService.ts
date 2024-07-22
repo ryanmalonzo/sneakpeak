@@ -41,8 +41,8 @@ export class OrderService {
     let allFilterOptions: Record<string, unknown> = {};
     if (q) {
       allFilterOptions['$or'] = [
-        { name: { $regex: q, $options: 'i' } },
-        { slug: { $regex: q, $options: 'i' } },
+        { reference: { $regex: q, $options: 'i' } },
+        { status: { $regex: q, $options: 'i' } },
       ];
     }
     allFilterOptions = { ...allFilterOptions, ...filterOptions };

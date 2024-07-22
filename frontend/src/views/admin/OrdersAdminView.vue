@@ -4,6 +4,10 @@ import DataTable from '@/components/datatable/DataTable.vue'
 
 const columns = [
     { key: 'reference', label: 'Référence' },
+    { key: 'total', label: 'Total' },
+    { key: 'status', label: 'Statut' },
+    { key: 'createdAt', label: 'Date de création' },
+
 ]
 </script>
 
