@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import Button from 'primevue/button'
 import Select, { type SelectChangeEvent } from 'primevue/select'
+import { useToast } from 'primevue/usetoast'
 import { debounce } from 'underscore'
 import DataPagination from './DataPagination.vue'
 import DataHeaderCell from './DataHeaderCell.vue'
 import { downloadCSV } from './utils/csv'
+import ConfirmButton from '../ButtonConfirm.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 const DEFAULT_LIMIT = 25
 
 const router = useRouter()
+
+const toast = useToast()
 
 const { resource, headerTitle, uniqueKey } = defineProps<{
   columns: { key: string; label: string }[]
@@ -21,6 +26,7 @@ const { resource, headerTitle, uniqueKey } = defineProps<{
 }>()
 
 const rows = ref<Record<string, string>[]>([])
+const rowToDelete = ref<Record<string, string> | null>(null)
 const currentPage = ref(1)
 const maxPage = ref(1)
 const limit = ref(DEFAULT_LIMIT)
@@ -29,6 +35,9 @@ const sortKeyRef = ref('')
 const orderRef = ref<'asc' | 'desc' | null>(null)
 
 const selectedRows = ref<Record<string, unknown>[]>([])
+
+const isDeleteLoading = ref(false)
+const isDeleteError = ref(false)
 
 watch(
   searchQuery,
@@ -104,6 +113,50 @@ const handleSelectRow = (row: Record<string, string>, event: Event) => {
 
 const isRowSelected = (row: Record<string, string>) => {
   return !!selectedRows.value.find((r) => r.id === row.id)
+}
+
+const deleteRow = async (row: Record<string, string>) => {
+  if (row) {
+    isDeleteLoading.value = true
+    isDeleteError.value = false
+
+    let response
+    try {
+      response = await fetch(`${API_URL}/${resource}/${row.id}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      })
+    } catch {
+      isDeleteLoading.value = false
+      isDeleteError.value = true
+      return
+    }
+
+    if (!response.ok) {
+      isDeleteLoading.value = false
+      isDeleteError.value = true
+      return
+    }
+
+    // Supprime visuellement la ligne
+    // A aussi pour effet de refermer la modal
+    const index = rows.value.findIndex((r) => r[uniqueKey] === row[uniqueKey])
+    if (index !== -1) {
+      rows.value.splice(index, 1)
+    }
+
+    isDeleteLoading.value = false
+
+    // Reset les valeurs
+    rowToDelete.value = null
+
+    toast.add({
+      severity: 'success',
+      summary: 'Suppression réussie',
+      detail: "L'élément a bien été supprimé.",
+      life: 5000
+    })
+  }
 }
 
 const thClasses = 'border border-black px-2.5 py-1 text-left font-semibold text-white'
@@ -189,14 +242,28 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
                   aria-label="Modifier"
                   @click="router.push(`${path}/${row.id}`)"
                 />
-                <Button icon="pi pi-trash" severity="secondary" aria-label="Supprimer" />
+                <ConfirmButton
+                  icon="pi pi-trash"
+                  severity="secondary"
+                  label=""
+                  confirmMessage="Êtes-vous sûr de vouloir supprimer cet élément ?"
+                  errorMessage="Une erreur est survenue lors de la suppression de l'élément. Veuillez réessayer."
+                  @cancel="
+                    () => {
+                      isDeleteLoading = false
+                      isDeleteError = false
+                    }
+                  "
+                  @confirm="() => deleteRow(row)"
+                  :loading="isDeleteLoading"
+                  :error="isDeleteError"
+                />
               </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-
     <!-- Pagination -->
     <DataPagination :currentPage="currentPage" :maxPage="maxPage" @pageChange="handlePageChange" />
   </div>
