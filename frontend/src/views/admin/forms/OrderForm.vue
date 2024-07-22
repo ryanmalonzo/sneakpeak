@@ -7,6 +7,7 @@ import { useForm } from '@/helpers/useForm'
 import BasePageAdminView from '../BasePageAdminView.vue'
 import Card from 'primevue/card';
 import Select from 'primevue/select';
+import SelectButton from 'primevue/selectbutton'
 import DataView from 'primevue/dataview'
 
 const API_URL = import.meta.env.VITE_API_URL
@@ -26,7 +27,7 @@ const actions = reactive({
 })
 
 const statusShipping = ref([
-    { name: 'En attente de paiement', code: 'pending' },
+    { name: 'En attente', code: 'pending' },
     { name: 'En cours de livraison', code: 'isDelivered' },
     { name: 'Livré', code: 'completed' }
 ])
@@ -68,8 +69,14 @@ const orderDetails = reactive({
     createdAt: '',
     orderProduct: [],
     selectedStatus: '',
-    status: ''
+    selectedRefund: false,
+    status: '',
+
 })
+const refundMessage = ref('')
+const productName = ref('')
+const productId = ref('')
+const modal = ref(false)
 
 const initialData = reactive({
     status: ''
@@ -110,7 +117,7 @@ const fetchOrderDetails = async () => {
                 city: data.shipping.city,
                 phone: data.shipping.phone,
                 name: data.shipping.name,
-            }
+            },
         })
         orderDetails.selectedStatus = data.status
         formData.status = data.status
@@ -174,6 +181,15 @@ const { formData, submitForm, isSubmitting, validationErrors, isValid } = useFor
 watch(() => orderDetails.selectedStatus, (value) => {
     formData.status = value
 })
+
+const choicesRefund = [
+    { label: 'Accepter le remboursement', value: true },
+    { label: 'Refuser le remboursement', value: false }
+]
+
+const validRefund = () => {
+
+}
 </script>
 
 <template>
@@ -279,8 +295,12 @@ watch(() => orderDetails.selectedStatus, (value) => {
                                 <div class="flex flex-col md:items-end gap-8">
                                     <span class="text-xl font-semibold">{{ item.unitPrice }} €</span>
                                     <div class="flex flex-row-reverse md:flex-row gap-2">
-                                        <Button label="Demande de retour demandé !" v-if="item.isRefund"
-                                            class="flex-auto md:flex-initial whitespace-nowrap">
+                                        <Button label="Demande de retour demandé !" v-if="item.isRefund" @click="() => {
+                                            modal = true
+                                            refundMessage = item.productReturn.reason
+                                            productName = item.name
+                                            productId = item.id
+                                        }" class="flex-auto md:flex-initial whitespace-nowrap">
                                         </Button>
                                     </div>
                                 </div>
@@ -290,5 +310,27 @@ watch(() => orderDetails.selectedStatus, (value) => {
                 </div>
             </template>
         </DataView>
+
+        <Dialog :header="`Demande de remboursement pour ${productName}`" v-model:visible="modal" modal>
+            <div class="flex flex-col gap-5">
+
+                <p>Une demande de remboursement a été demandée pour cet article.</p>
+                <p>
+                    Voici le message de l'utilisateur : <br />
+                    <span class="text-red-500">"{{ refundMessage }}"</span>
+                </p>
+
+                <Select v-model="orderDetails.selectedRefund" :options="choicesRefund" optionLabel="label"
+                    optionValue="value" placeholder="Choisir une action" aria-describedby="name-help"
+                    @update:modelValue="orderDetails.selectedRefund = $event" />
+
+                <small id="name-help" class="text-red-500" v-if="validationErrors.name">{{ validationErrors.name
+                    }}</small>
+                <div class="flex gap-5">
+                    <Button label="Annuler" @click="modal = false"></Button>
+                    <Button label="Confirmer" @click="() => validRefund()"></Button>
+                </div>
+            </div>
+        </Dialog>
     </BasePageAdminView>
 </template>
