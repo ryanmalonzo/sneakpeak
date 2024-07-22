@@ -33,6 +33,9 @@ const orderRef = ref<'asc' | 'desc' | null>(null)
 
 const selectedRows = ref<Record<string, unknown>[]>([])
 
+const isDeleteLoading = ref(false)
+const isDeleteError = ref(false)
+
 watch(
   searchQuery,
   // Déclenche la recherche 500 ms après fin de saisie
@@ -111,15 +114,35 @@ const isRowSelected = (row: Record<string, string>) => {
 
 const deleteRow = async (row: Record<string, string>) => {
   if (row) {
-    await fetch(`${API_URL}/${resource}/${row.id}`, {
-      method: 'DELETE',
-      credentials: 'include'
-    })
+    isDeleteLoading.value = true
+    isDeleteError.value = false
 
+    let response
+    try {
+      response = await fetch(`${API_URL}/${resource}/${row.id}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      })
+    } catch {
+      isDeleteLoading.value = false
+      isDeleteError.value = true
+      return
+    }
+
+    if (!response.ok) {
+      isDeleteLoading.value = false
+      isDeleteError.value = true
+      return
+    }
+
+    // Supprime visuellement la ligne
+    // A aussi pour effet de refermer la modal
     const index = rows.value.findIndex((r) => r[uniqueKey] === row[uniqueKey])
     if (index !== -1) {
       rows.value.splice(index, 1)
     }
+
+    isDeleteLoading.value = false
 
     // Reset les valeurs
     rowToDelete.value = null
@@ -214,7 +237,16 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
                   severity="secondary"
                   label=""
                   confirmMessage="Êtes-vous sûr de vouloir supprimer cet élément ?"
+                  errorMessage="Une erreur est survenue lors de la suppression de l'élément. Veuillez réessayer."
+                  @cancel="
+                    () => {
+                      isDeleteLoading = false
+                      isDeleteError = false
+                    }
+                  "
                   @confirm="() => deleteRow(row)"
+                  :loading="isDeleteLoading"
+                  :error="isDeleteError"
                 />
               </div>
             </td>
