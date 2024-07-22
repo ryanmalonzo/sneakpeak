@@ -112,7 +112,8 @@ const isRowSelected = (row: Record<string, string>) => {
 const deleteRow = async (row: Record<string, string>) => {
   if (row) {
     await fetch(`${API_URL}/${resource}/${row.id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      credentials: 'include'
     })
 
     const index = rows.value.findIndex((r) => r[uniqueKey] === row[uniqueKey])
