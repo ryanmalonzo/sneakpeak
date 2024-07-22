@@ -76,7 +76,11 @@ const router = createRouter({
       children: [
         { path: 'cgu', name: 'cgu', component: CGUView },
         { path: 'cgv', name: 'cgv', component: CGVView },
-        { path: 'privacy', name: 'privacy', component: PDCView },
+        {
+          path: 'politique-de-confidentialite',
+          name: 'politique-de-confidentialite',
+          component: PDCView
+        },
         { path: 'politique-de-cookies', name: 'politique-de-cookies', component: PCookiesView }
       ]
     },
@@ -209,7 +213,8 @@ const publicRoutes = [
   'reset_password',
   'cgu',
   'cgv',
-  'privacy'
+  'politique-de-confidentialite',
+  'politique-de-cookies'
 ]
 const adminRoutes = [
   'admin_dashboard',
