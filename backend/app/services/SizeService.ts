@@ -21,7 +21,7 @@ export class SizeService {
     }
     allFilterOptions = { ...allFilterOptions, ...filterOptions };
 
-    const colors = await SizeRepositoryMongoDB.getPaginated(
+    const sizes = await SizeRepositoryMongoDB.getPaginated(
       page,
       limit,
       sortOptions,
@@ -37,7 +37,7 @@ export class SizeService {
       total: totalCount,
       page,
       limit,
-      items: colors,
+      items: sizes,
     };
   }
     
