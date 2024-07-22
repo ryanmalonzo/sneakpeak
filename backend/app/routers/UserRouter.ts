@@ -168,3 +168,38 @@ UserRouter.post(
     }
   },
 );
+
+UserRouter.put(
+  '/:id/address',
+  findUser,
+  auth,
+  permissions(['user']),
+  schema(
+    z.object({
+      type: z.string(),
+      street: z.string(),
+      postalCode: z.string(),
+      city: z.string(),
+      phone: z.string(),
+      name: z.string(),
+    }),
+  ),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const { type, street, postalCode, city, phone, name } = req.body;
+
+      const address = [street, postalCode, city].join(' ');
+
+      // TODO CREATED if it did not exist before,
+      // OK if it was updated
+      return res
+        .status(StatusCodes.OK)
+        .json(
+          await UserService.saveAddress(Number(id), type, address, phone, name),
+        );
+    } catch (error) {
+      next(error);
+    }
+  },
+);

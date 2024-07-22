@@ -46,6 +46,6 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
       },
     },
-    { sequelize, underscored: true },
+    { sequelize, underscored: true, timestamps: true },
   );
 };
