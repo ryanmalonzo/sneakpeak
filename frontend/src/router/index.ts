@@ -8,13 +8,13 @@ import CheckoutView from '@/views/CheckoutView.vue'
 import CheckoutSuccessView from '@/views/CheckoutSuccessView.vue'
 import CheckoutCancelView from '@/views/CheckoutCancelView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
-import ProfileView from '@/views/ProfileView.vue'
+import ProfileView from '@/views/profile/ProfileView.vue'
 import CGUView from '@/views/legal/CGUView.vue'
 import { checkAuth } from '@/helpers/auth'
 import BasePageAdminView from '@/views/admin/BasePageAdminView.vue'
 import CGVView from '@/views/legal/CGVView.vue'
-import OrdersView from '@/views/OrdersView.vue'
-import DetailOrderView from '@/views/DetailOrderView.vue'
+import OrdersView from '@/views/profile/OrdersView.vue'
+import DetailOrderView from '@/views/profile/DetailOrderView.vue'
 import PDCView from '@/views/legal/PDCView.vue'
 import PCookiesView from '@/views/legal/PCookiesView.vue'
 
@@ -86,15 +86,19 @@ const router = createRouter({
     },
     {
       path: '/profile',
-      name: 'profile',
       children: [
         {
           path: '',
-          name: 'profil',
+          name: 'profile',
           component: () => ProfileView
         },
         {
-          path: 'orders/',
+          path: 'addresses',
+          name: 'addresses',
+          component: () => import('@/views/profile/AddressesView.vue')
+        },
+        {
+          path: 'orders',
           name: 'orders',
           component: () => OrdersView
         },

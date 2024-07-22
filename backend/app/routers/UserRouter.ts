@@ -169,6 +169,31 @@ UserRouter.post(
   },
 );
 
+UserRouter.get(
+  '/:id/address',
+  findUser,
+  auth,
+  permissions(['user']),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const { type } = req.query;
+
+      if (!type) {
+        return res
+          .status(StatusCodes.OK)
+          .json(await UserService.getAddresses(Number(id)));
+      }
+
+      return res
+        .status(StatusCodes.OK)
+        .json(await UserService.getAddress(Number(id), type as string));
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 UserRouter.put(
   '/:id/address',
   findUser,
@@ -177,9 +202,7 @@ UserRouter.put(
   schema(
     z.object({
       type: z.string(),
-      street: z.string(),
-      postalCode: z.string(),
-      city: z.string(),
+      address: z.string(),
       phone: z.string(),
       name: z.string(),
     }),
@@ -187,9 +210,7 @@ UserRouter.put(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const { type, street, postalCode, city, phone, name } = req.body;
-
-      const address = [street, postalCode, city].join(' ');
+      const { type, address, phone, name } = req.body;
 
       // TODO CREATED if it did not exist before,
       // OK if it was updated

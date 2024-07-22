@@ -301,6 +301,73 @@ export class UserService {
     await ChallengeRepository.update(challenge, { disabled: false });
   }
 
+  static async getAddress(
+    userId: number,
+    type: string,
+  ): Promise<FormattedAddress | null> {
+    if (!['billing', 'shipping'].includes(type)) {
+      throw new RequestError(StatusCodes.UNPROCESSABLE_ENTITY);
+    }
+
+    const address = await AddressRepository.findAddressByUserIdAndType(
+      userId,
+      type,
+    );
+
+    if (!address) {
+      return null;
+    }
+
+    return {
+      street: address.street,
+      city: address.city,
+      zip: address.postal_code,
+      name: address.name,
+      phone: address.phone,
+      state: '',
+      country: '',
+    };
+  }
+
+  static async getAddresses(userId: number): Promise<{
+    billing: FormattedAddress | null;
+    shipping: FormattedAddress | null;
+  }> {
+    const billing = await AddressRepository.findAddressByUserIdAndType(
+      userId,
+      'billing',
+    );
+    const shipping = await AddressRepository.findAddressByUserIdAndType(
+      userId,
+      'shipping',
+    );
+
+    return {
+      billing: billing
+        ? {
+            street: billing.street,
+            city: billing.city,
+            zip: billing.postal_code,
+            name: billing.name,
+            phone: billing.phone,
+            state: '',
+            country: '',
+          }
+        : null,
+      shipping: shipping
+        ? {
+            street: shipping.street,
+            city: shipping.city,
+            zip: shipping.postal_code,
+            name: shipping.name,
+            phone: shipping.phone,
+            state: '',
+            country: '',
+          }
+        : null,
+    };
+  }
+
   // address = street + postal code + city
   static async saveAddress(
     userId: number,

@@ -23,7 +23,8 @@ export const formatAddress = async (
     const properties = response.data.features[0].properties;
 
     return {
-      street: properties.street || '',
+      street:
+        [properties.housenumber, properties.street].join(' ').trim() || '',
       city: properties.city || '',
       state: properties.state || '',
       country: properties.country || '',
