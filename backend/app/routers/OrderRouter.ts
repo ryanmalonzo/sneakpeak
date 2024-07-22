@@ -30,3 +30,33 @@ OrderRouter.get(
     }
   },
 );
+
+OrderRouter.get(
+  '/:id',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      return res
+        .status(StatusCodes.OK)
+        .json(await OrderService.findOrderById(id));
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+OrderRouter.put(
+  '/:id',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const orderId = req.params.id;
+      console.log('orderId', orderId);
+      const status = req.body.status;
+      return res
+        .status(StatusCodes.CREATED)
+        .json(await OrderService.updateStatus(status, orderId));
+    } catch (error) {
+      next(error);
+    }
+  },
+);

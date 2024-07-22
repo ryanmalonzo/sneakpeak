@@ -66,4 +66,14 @@ export class OrderService {
       items: orders,
     };
   }
+
+  static async findOrderById(orderId: string) {
+    return OrderRepositoryMongo.findById(orderId);
+  }
+
+  static async updateStatus(status: string, orderId: string) {
+    console.log('status', status);
+    console.log('orderId', orderId);
+    return OrderRepository.updateStatus(parseInt(orderId), status);
+  }
 }

@@ -39,6 +39,16 @@ export class OrderRepository {
     return order.save();
   }
 
+  static async updateStatus(id: number, status: string): Promise<Order> {
+    console.log('id', id);
+    const order = await Order.findOne({ where: { id } });
+    if (order) {
+      order.status = status;
+      return order.save();
+    }
+    throw new Error('Order not found');
+  }
+
   static async delete(id: number): Promise<void> {
     await Order.destroy({ where: { id } });
   }

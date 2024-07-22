@@ -34,4 +34,9 @@ export class OrderRepository {
   ): Promise<number> {
     return await OrderModel.countDocuments(filterOptions, sortOptions);
   }
+
+  static async findById(id: string): Promise<HydratedDocument<IOrder> | null> {
+    const order = await OrderModel.findOne({ id });
+    return order;
+  }
 }
