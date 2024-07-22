@@ -23,25 +23,33 @@ interface IOrder extends Document {
     postal_code: string;
   };
   billing: {
-    address: string;
+    street: string;
     city: string;
+    phone: string;
+    name: string;
     postal_code: string;
   };
   orderProduct: [
     {
       id: number;
-      reference: string;
-      name: string;
       color: string;
       size: string;
+      name: string;
       category: string;
+      isRefund: boolean;
       brand: string;
       image: string;
       stock: number;
       quantity: number;
       unitPrice: number;
-      adjustment: number;
-      total: number;
+      productReturn: {
+        id: number;
+        order_product_id: number;
+        reason: string;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
+      };
     },
   ];
 }
@@ -78,19 +86,25 @@ const OrderSchema: Schema<IOrder> = new Schema({
 
   orderProduct: [
     {
-      id: { type: Number, required: false },
-      reference: { type: String, required: false },
-      color: { type: String, required: false },
-      size: { type: String, required: false },
-      name: { type: String, required: false },
-      category: { type: String, required: false },
-      brand: { type: String, required: false },
-      image: { type: String, required: false },
-      stock: { type: Number, required: false },
-      quantity: { type: Number, required: false },
-      unitPrice: { type: Number, required: false },
-      adjustment: { type: Number, required: false },
-      total: { type: Number, required: false },
+      id: { type: Number, required: true },
+      color: { type: String, required: true },
+      size: { type: String, required: true },
+      name: { type: String, required: true },
+      category: { type: String, required: true },
+      isRefund: { type: Boolean, required: true },
+      brand: { type: String, required: true },
+      image: { type: String, required: true },
+      stock: { type: Number, required: true },
+      quantity: { type: Number, required: true },
+      unitPrice: { type: Number, required: true },
+      productReturn: {
+        id: { type: Number, required: true },
+        order_product_id: { type: Number, required: true },
+        reason: { type: String, required: true },
+        status: { type: String, required: true },
+        createdAt: { type: Date, required: true },
+        updatedAt: { type: Date, required: true },
+      },
     },
   ],
 });

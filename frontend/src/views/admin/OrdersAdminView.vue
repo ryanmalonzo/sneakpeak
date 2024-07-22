@@ -6,6 +6,7 @@ const columns = [
     { key: 'reference', label: 'Référence' },
     { key: 'total', label: 'Total' },
     { key: 'status', label: 'Statut' },
+    { key: 'payment_status', label: 'Statut de paiement' },
     { key: 'createdAt', label: 'Date de création' },
 
 ]

@@ -19,11 +19,27 @@ import { OrderProductRepository } from '../../repositories/sql/OrderProductRepos
 import { OrderRepository } from '../../repositories/sql/OrderRepository';
 import { Operation } from '../../helpers/syncPsqlMongo';
 import syncWithMongoDB from '../../helpers/syncPsqlMongo';
+import { ProductReturnRepository } from '../../repositories/sql/ProductReturnRepository';
+import { ProductReturn } from './ProductReturn';
+
+interface OrderProductWithReturn {
+  id: number;
+  color: string;
+  size: string;
+  name: string;
+  category: string;
+  isRefund: boolean;
+  brand: string;
+  image: string;
+  stock: number;
+  quantity: number;
+  unitPrice: number;
+  productReturn?: ProductReturn;
+}
 
 export const SyncOrderInMongoDB = async (Order: Order, type: Operation) => {
   try {
     const data = Order.toJSON();
-    console.log('SyncOrderInMongoDB', data);
     const user = await UserRepository.findById(data.userId);
     const shipping = await OrderRepository.findAddressByType(
       data.id,
@@ -51,56 +67,75 @@ export const SyncOrderInMongoDB = async (Order: Order, type: Operation) => {
 
     const items = await OrderProductRepository.findByOrderId(data.id);
 
-    const orderProductPromises = items.map(async (item: OrderProduct) => {
-      const variant = await VariantRepository.findVariantById(item.variantId);
-      if (!variant) {
-        throw new Error(`Variant not found for id ${item.variantId}`);
-      }
+    const orderProductPromises = items.map(
+      async (item: OrderProduct): Promise<OrderProductWithReturn> => {
+        const variant = await VariantRepository.findVariantById(item.variantId);
+        if (!variant) {
+          throw new Error(`Variant not found for id ${item.variantId}`);
+        }
 
-      const sneaker = await SneakerRepository.findSneakerById(
-        variant.sneakerId,
-      );
-      if (!sneaker) {
-        throw new Error(`Sneaker not found for id ${variant.sneakerId}`);
-      }
+        const sneaker = await SneakerRepository.findSneakerById(
+          variant.sneakerId,
+        );
+        if (!sneaker) {
+          throw new Error(`Sneaker not found for id ${variant.sneakerId}`);
+        }
 
-      const [category, brand] = await Promise.all([
-        CategoryRepository.findCategoryById(sneaker.categoryId),
-        BrandRepository.findBrandById(sneaker.brandId),
-      ]);
+        const [category, brand] = await Promise.all([
+          CategoryRepository.findCategoryById(sneaker.categoryId),
+          BrandRepository.findBrandById(sneaker.brandId),
+        ]);
 
-      const [color, size] = await Promise.all([
-        ColorRepository.findColorById(variant.colorId),
-        SizeRepository.findSizeById(variant.sizeId),
-      ]);
+        const [color, size] = await Promise.all([
+          ColorRepository.findColorById(variant.colorId),
+          SizeRepository.findSizeById(variant.sizeId),
+        ]);
 
-      if (!color) {
-        throw new Error(`Color not found for id ${variant.colorId}`);
-      }
-      if (!size) {
-        throw new Error(`Size not found for id ${variant.sizeId}`);
-      }
-      if (!category) {
-        throw new Error(`Category not found for id ${sneaker.categoryId}`);
-      }
-      if (!brand) {
-        throw new Error(`Brand not found for id ${sneaker.brandId}`);
-      }
+        console.log('color', color);
 
-      return {
-        ...item.toJSON(),
-        variant: variant.toJSON(),
-        sneaker: sneaker.toJSON(),
-        category: category.name,
-        brand: brand.name,
-        color: color.name,
-        size: size.name,
-      };
-    });
+        if (!color) {
+          throw new Error(`Color not found for id ${variant.colorId}`);
+        }
+        if (!size) {
+          throw new Error(`Size not found for id ${variant.sizeId}`);
+        }
+        if (!category) {
+          throw new Error(`Category not found for id ${sneaker.categoryId}`);
+        }
+        if (!brand) {
+          throw new Error(`Brand not found for id ${sneaker.brandId}`);
+        }
 
-    await Promise.all(orderProductPromises);
+        const product: OrderProductWithReturn = {
+          id: item.id,
+          color: color.name,
+          size: size.name,
+          name: sneaker.name,
+          category: category.name,
+          isRefund: item.isRefund,
+          brand: brand.name,
+          image: variant.image,
+          stock: variant.stock,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+        };
 
-    data.orderProduct = items.map((item) => item.toJSON());
+        // Add productReturn if exists
+        const productReturn =
+          await ProductReturnRepository.findByOrderProductId(item.id);
+        if (productReturn) {
+          product.isRefund = true;
+          product.productReturn = productReturn.toJSON();
+        }
+
+        console.log('item', product);
+
+        return product;
+      },
+    );
+
+    // Await all promises and map the results to orderProduct
+    data.orderProduct = await Promise.all(orderProductPromises);
 
     await syncWithMongoDB(Order.constructor.name, type, data);
   } catch (error) {

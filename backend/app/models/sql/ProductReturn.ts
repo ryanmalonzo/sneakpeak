@@ -6,6 +6,8 @@ import {
   ForeignKey,
 } from 'sequelize';
 import { OrderProduct } from './OrderProduct';
+import { SyncOrderInMongoDB } from './Order';
+import { OrderRepository } from '../../repositories/sql/OrderRepository';
 
 export class ProductReturn extends Model {
   declare id: CreationOptional<number>;
@@ -42,4 +44,38 @@ export default (sequelize: Sequelize) => {
       timestamps: true,
     },
   );
+
+  ProductReturn.afterCreate(async (productReturn) => {
+    const data = productReturn.toJSON();
+    const orderProduct = await OrderProduct.findOne({
+      where: { id: data.order_products_id },
+    });
+    if (!orderProduct) {
+      return;
+    }
+
+    const order = await OrderRepository.findById(orderProduct.orderId);
+    if (!order) {
+      return;
+    }
+    await SyncOrderInMongoDB(order, 'update');
+  });
+
+  ProductReturn.afterUpdate(async (productReturn) => {
+    const data = productReturn.toJSON();
+    const orderProduct = await OrderProduct.findOne({
+      where: { id: data.order_products_id },
+    });
+    if (!orderProduct) {
+      return;
+    }
+
+    const order = await OrderRepository.findById(orderProduct.orderId);
+    if (!order) {
+      return;
+    }
+    await SyncOrderInMongoDB(order, 'update');
+  });
+
+  return ProductReturn;
 };
