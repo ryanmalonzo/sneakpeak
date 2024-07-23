@@ -1,5 +1,3 @@
-import type { VariantApi } from './variantApi'
-
 const BASE_URL = import.meta.env.VITE_API_URL
 
 export namespace SneakerApi {

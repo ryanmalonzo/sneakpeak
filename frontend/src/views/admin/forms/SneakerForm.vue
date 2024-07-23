@@ -9,6 +9,7 @@ import { useForm } from '@/helpers/useForm'
 import ApiAutocomplete from '@/components/ApiAutocomplete.vue'
 import BasePageAdminView from '../BasePageAdminView.vue'
 import type { BrandApi } from '@/services/brandApi'
+import DataTable from '@/components/datatable/DataTable.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -140,6 +141,15 @@ const { formData, updateField, submitForm, isSubmitting, validationErrors, isVal
   validationSchema,
   onSubmit
 )
+
+const columns = [
+  { key: 'sneakerName', label: 'Sneaker'},
+  { key: 'variantName', label: 'Nom Couleur' },
+  { key: 'variantImage', label: 'Image' },
+  { key: 'variantIsBest', label: 'Top vente' },
+  { key: 'sizeName', label: 'Taille' },
+  { key: 'sizeStock', label: 'Stock' },
+]
 </script>
 
 <template>
@@ -245,5 +255,18 @@ const { formData, updateField, submitForm, isSubmitting, validationErrors, isVal
         :disabled="!isValid"
       />
     </form>
+
+    <hr class="mt-10 border border-zinc-200">
+
+    <!-- Taleau des variantes -->
+    <div class="mt-10">
+      <DataTable
+        :columns="columns"
+        :resource="`sneakers/${sneakerId}/variants`"
+        uniqueKey="id"
+        headerTitle="Variantes de cette sneaker"
+        path="/admin/variants"
+      />
+    </div>
   </BasePageAdminView>
 </template>
