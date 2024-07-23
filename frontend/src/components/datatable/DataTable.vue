@@ -232,8 +232,11 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
               />
             </td>
             <td v-for="column in columns" :key="column.key" :class="tdClasses">
-              {{ row[column.key] }}
+              <img v-if="column.key.match(/image$/i)" :src="row[column.key]" alt="Image produit" class="max-w-32">
+              <span v-else>{{ row[column.key] }}</span>
             </td>
+
+            <!-- Boutons Actions -->
             <td :class="tdClasses">
               <div class="flex justify-center gap-2.5 self-stretch">
                 <Button

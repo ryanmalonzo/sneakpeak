@@ -19,7 +19,7 @@ export interface FlattenedSneakerVariant {
   variantSlug: string;
   variantImage: string;
   variantIsBest: boolean;
-  variantIdRef: number;
+  id: number;
   sizeId: number;
   sizeName: string;
   sizeSlug: string;
@@ -82,7 +82,7 @@ export class SneakerRepository {
           variantSlug: "$variants.slug",
           variantImage: "$variants.image",
           variantIsBest: "$variants.isBest",
-          variantIdRef: "$variants.sizes.idRef",
+          id: "$variants.sizes.idRef",
           sizeId: "$variants.sizes.id",
           sizeName: "$variants.sizes.name",
           sizeSlug: "$variants.sizes.slug",

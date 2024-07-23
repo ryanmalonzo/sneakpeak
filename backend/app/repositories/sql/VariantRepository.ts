@@ -29,7 +29,7 @@ export class VariantRepository {
 
   static async partialUpdate(
     id: number,
-    variant: VariantDTO,
+    variant: Partial<VariantDTO>,
   ): Promise<Variant | null> {
     const [_nbUpdated, updatedVariant] = await Variant.update(variant, {
       where: { id },
@@ -57,6 +57,13 @@ export class VariantRepository {
     colorId: number,
   ): Promise<Variant | null> {
     return await Variant.findOne({ where: { sneakerId, colorId } });
+  }
+
+  static async findVariantsBySneakerIdAndColorId(
+    sneakerId: number,
+    colorId: number,
+  ): Promise<Variant[] | null> {
+    return await Variant.findAll({ where: { sneakerId, colorId } });
   }
 
   static async findVariantBySneakerIdAndColorIdAndSizeId(

@@ -34,6 +34,7 @@ export namespace SneakerApi {
 
   export interface SneakerOut {
     _id: string
+    id: string
     name: string
     slug: string
     description: string
@@ -74,7 +75,7 @@ export namespace SneakerApi {
     variantSlug: string;
     variantImage: string;
     variantIsBest: boolean;
-    variantIdRef: number;
+    id: number;
     sizeId: number;
     sizeName: string;
     sizeSlug: string;
