@@ -27,7 +27,7 @@ onMounted(async () => {
 
   const dataVariants = await SneakerApi.getVariantsPaginated({
     limit: 8,
-    sort: 'createdAt',
+    sort: 'variantCreatedAt',
     order: 'desc'
   })
   latestVariants.push(...dataVariants.items)

@@ -14,15 +14,15 @@ const router = useRouter()
 const route = useRoute()
 
 const filterOptionsOpen = ref(false)
-const sneakers: Ref<SneakerApi.SneakerOut[]> = ref([])
+const variants: Ref<SneakerApi.FlattenedVariantOut[]> = ref([])
 const totalCount = ref(0)
 const currentPage = ref(route.query.page ? parseInt(route.query.page as string) : 1)
 
 const DEFAULT_LIMIT = 25
 
 const searchSneakers = async (pagination: SneakerApi.PaginationIn) => {
-  const data = await SneakerApi.getPaginated(pagination)
-  sneakers.value = data.items
+  const data = await SneakerApi.getVariantsPaginated(pagination)
+  variants.value = data.items
   totalCount.value = data.total
 }
 
@@ -34,7 +34,9 @@ watchEffect(() => {
     q: route.query.q as string,
     brand: route.query.brand as string,
     category: route.query.category as string,
-    price: route.query.price as string
+    price: route.query.price as string,
+    'variants.name': route.query.color as string,
+    'variants.sizes.name': route.query.size as string
   })
 })
 
@@ -48,10 +50,19 @@ const setQueryParams = (query: Record<string, string>) => {
 }
 
 // Set current page back to 1 when filters change
-watch([() => route.query.brand, () => route.query.category, () => route.query.price], () => {
-  currentPage.value = 1
-  setQueryParams({ page: currentPage.value.toString() })
-})
+watch(
+  [
+    () => route.query.brand,
+    () => route.query.category,
+    () => route.query.color,
+    () => route.query.size,
+    () => route.query.price
+  ],
+  () => {
+    currentPage.value = 1
+    setQueryParams({ page: currentPage.value.toString() })
+  }
+)
 
 const onCriteriaChange = (criteria: { sort: string; order: string }) => {
   // Reset page to 1 when sorting changes
@@ -73,7 +84,13 @@ const handleFilterOptionsOpen = (value: boolean) => {
   filterOptionsOpen.value = value
 }
 
-if (route.query.brand || route.query.category || route.query.price) {
+if (
+  route.query.brand ||
+  route.query.category ||
+  route.query.price ||
+  route.query.color ||
+  route.query.size
+) {
   filterOptionsOpen.value = true
 }
 </script>
@@ -106,12 +123,12 @@ if (route.query.brand || route.query.category || route.query.price) {
 
       <SneakerGrid>
         <SneakerCard
-          v-for="sneaker in sneakers"
-          :key="sneaker._id"
-          :image="sneaker.variants[0]?.image"
-          :name="sneaker.name"
-          :price="sneaker.price"
-          :slug="sneaker.slug"
+          v-for="variant in variants"
+          :key="variant.sizeSlug"
+          :image="variant.variantImage"
+          :name="variant.sneakerName"
+          :price="variant.sneakerPrice"
+          :slug="variant.sneakerSlug"
         />
       </SneakerGrid>
 
