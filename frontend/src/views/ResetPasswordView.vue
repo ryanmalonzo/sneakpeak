@@ -6,6 +6,7 @@ import { z } from 'zod'
 import Password from 'primevue/password'
 import { useToast } from 'primevue/usetoast'
 import { useForm } from '@/helpers/useForm'
+import { checkAuth } from '@/helpers/auth'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -59,6 +60,8 @@ async function onSubmit({ password }: typeof initialData) {
         withCredentials: true
       }
     )
+
+    await checkAuth()
 
     router.replace('/')
 
