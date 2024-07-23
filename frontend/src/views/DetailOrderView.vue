@@ -30,7 +30,9 @@ const returnProduct = async () => {
       life: 3000
     })
     order.value = await OrderApi.loadOrder(route.params.reference as string)
-
+    if (order.value) {
+      order.value.products = order.value.products.sort((a, b) => parseInt(a.id) - parseInt(b.id))
+    }
     modalRefund.value = false
     modal.value = false
   } catch (e) {
@@ -47,6 +49,10 @@ onBeforeMount(async () => {
   const orderId = route.params.reference as string
   try {
     order.value = await OrderApi.loadOrder(orderId)
+    // trier par id pour avoir le même ordre que la commande
+    if (order.value) {
+      order.value.products = order.value.products.sort((a, b) => parseInt(a.id) - parseInt(b.id))
+    }
   } catch (e) {
     error.value = 'Commande introuvable'
     toast.add({

@@ -36,7 +36,9 @@ const translateStatus = (status: string) => {
         paid: 'Payé',
         pending: 'En attente de paiement',
         isDelivered: 'En cours de livraison',
-        completed: 'Livré'
+        completed: 'Livré',
+        approved: 'Demande de retour approuvée',
+        refused: 'Demande de retour refusée'
     }
     return translations[status] || status
 }
@@ -69,7 +71,7 @@ const orderDetails = reactive({
     createdAt: '',
     orderProduct: [],
     selectedStatus: '',
-    selectedRefund: false,
+    selectedRefund: '',
     status: '',
 
 })
@@ -121,7 +123,6 @@ const fetchOrderDetails = async () => {
         })
         orderDetails.selectedStatus = data.status
         formData.status = data.status
-        console.log(orderDetails.selectedStatus)
     } catch {
         router.push('/admin/orders')
     }
@@ -162,7 +163,7 @@ const onSubmit = async () => {
                 detail: actions.toastSuccessDetail,
                 life: 3000
             })
-            router.push('/admin/orders')
+            fetchOrderDetails()
         } else {
             showErrorToast()
         }
@@ -183,12 +184,36 @@ watch(() => orderDetails.selectedStatus, (value) => {
 })
 
 const choicesRefund = [
-    { label: 'Accepter le remboursement', value: true },
-    { label: 'Refuser le remboursement', value: false }
+    { label: 'Accepter le remboursement', value: "approved" },
+    { label: 'Refuser le remboursement', value: 'refused' }
 ]
 
 const validRefund = () => {
 
+    const data = {
+        status: orderDetails.selectedRefund,
+        productId: productId.value
+    }
+
+    fetch(`${API_URL}/orders/${productId.value}/return/`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    }).then((response) => {
+        if (response.ok) {
+            toast.add({
+                severity: 'success',
+                summary: 'Demande de remboursement',
+                detail: 'La demande de remboursement a été traitée avec succès',
+                life: 3000
+            })
+            modal.value = false
+            fetchOrderDetails()
+        } else {
+            showErrorToast()
+        }
+    })
 }
 </script>
 
@@ -213,7 +238,7 @@ const validRefund = () => {
                             <p>{{ orderDetails.total }}</p>
                         </div>
                         <div class="flex gap-2">
-                            <label for="total">Status de paiement : </label>
+                            <label for="total">Statut de paiement : </label>
                             <p>{{ translateStatus(orderDetails.payment_status) }}</p>
                         </div>
                         <div class="flex gap-2">
@@ -294,14 +319,26 @@ const validRefund = () => {
                                 </div>
                                 <div class="flex flex-col md:items-end gap-8">
                                     <span class="text-xl font-semibold">{{ item.unitPrice }} €</span>
-                                    <div class="flex flex-row-reverse md:flex-row gap-2">
-                                        <Button label="Demande de retour demandé !" v-if="item.isRefund" @click="() => {
+                                    <div class="flex flex-row-reverse md:flex-row gap-2"
+                                        v-if="item.productReturn && item.productReturn.status == 'pending'">
+                                        <Button label="Demande de retour !" v-if="item.isRefund" @click="() => {
                                             modal = true
                                             refundMessage = item.productReturn.reason
                                             productName = item.name
                                             productId = item.id
                                         }" class="flex-auto md:flex-initial whitespace-nowrap">
                                         </Button>
+                                    </div>
+                                    <div>
+                                        <span class="text-sm text-surface-500 dark:text-surface-400 text-green-500"
+                                            v-if="item.productReturn && item.productReturn.status == 'approved'">{{
+                                                translateStatus(item.productReturn.status) }}</span>
+
+                                        <span class="text-sm text-surface-500 dark:text-surface-400 text-red-500"
+                                            v-if="item.productReturn && item.productReturn.status == 'refused'">{{
+                                                translateStatus(item.productReturn.status) }}
+
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -315,6 +352,7 @@ const validRefund = () => {
             <div class="flex flex-col gap-5">
 
                 <p>Une demande de remboursement a été demandée pour cet article.</p>
+                {{ productId }}
                 <p>
                     Voici le message de l'utilisateur : <br />
                     <span class="text-red-500">"{{ refundMessage }}"</span>
@@ -326,7 +364,7 @@ const validRefund = () => {
 
                 <small id="name-help" class="text-red-500" v-if="validationErrors.name">{{ validationErrors.name
                     }}</small>
-                <div class="flex gap-5">
+                <div class="flex gap-5 justify-between">
                     <Button label="Annuler" @click="modal = false"></Button>
                     <Button label="Confirmer" @click="() => validRefund()"></Button>
                 </div>

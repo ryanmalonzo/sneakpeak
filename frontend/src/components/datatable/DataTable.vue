@@ -109,7 +109,7 @@ const isRowSelected = (row: Record<string, string>) => {
 const translateStatus = (status: string) => {
   const translations: { [key: string]: string } = {
     paid: 'Payé',
-    pending: 'En attente de paiement',
+    pending: 'En attente',
     isDelivered: 'En cours de livraison',
     completed: 'Livré'
   }

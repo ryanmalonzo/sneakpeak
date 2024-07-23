@@ -14,7 +14,11 @@ export class ProductReturnRepository {
     id: number,
     data: Partial<ProductReturn>,
   ): Promise<ProductReturn | null> {
-    const productReturn = await ProductReturn.findByPk(id);
+    const productReturn = await ProductReturn.findOne({
+      where: {
+        id,
+      },
+    });
     if (!productReturn) {
       return null;
     }
