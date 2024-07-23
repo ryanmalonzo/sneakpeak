@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { useToast } from 'primevue/usetoast'
+import { checkAuth } from '@/helpers/auth'
 
 const API_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
@@ -26,6 +27,9 @@ onMounted(async () => {
     })
 
     if (response.ok) {
+      // Set user profile
+      await checkAuth()
+
       router.replace('/')
 
       toast.add({
