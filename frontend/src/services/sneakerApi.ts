@@ -58,19 +58,27 @@ export namespace SneakerApi {
   }
 
   export interface FlattenedVariantOut {
-    _id: string
-    id: number
-    name: string
-    slug: string
-    image: string
-    isBest: boolean
-    sizes: VariantApi.SizeOut[]
-    sneakerId: string
-    sneakerName: string
-    sneakerDescription: string
-    sneakerPrice: number
-    sneakerCategory: string
-    sneakerBrand: string
+    _id: string;
+    sneakerId: number;
+    sneakerName: string;
+    sneakerSlug: string;
+    sneakerDescription: string;
+    sneakerPrice: number;
+    sneakerCategory: string;
+    sneakerBrand: string;
+    sneakerCategoryId: number;
+    sneakerBrandId: number;
+    variantId: number;
+    variantName: string;
+    variantHexCode: string;
+    variantSlug: string;
+    variantImage: string;
+    variantIsBest: boolean;
+    variantIdRef: number;
+    sizeId: number;
+    sizeName: string;
+    sizeSlug: string;
+    sizeStock: number;
   }
 
   export interface PaginationVariantsOut {

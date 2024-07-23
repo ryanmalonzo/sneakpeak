@@ -3,28 +3,7 @@ import { ISneaker, SneakerModel } from '../../models/mongodb/Sneaker';
 import { FilterOptions, SortOptions } from '../../helpers/interfaces';
 
 export interface FlattenedSneakerVariant {
-  sneakerId: number;
-  sneakerName: string;
-  sneakerDescription: string;
-  sneakerPrice: number;
-  sneakerCategory: string;
-  sneakerBrand: string;
-  variantId: number;
-  variantName: string;
-  variantHexCode: string;
-  variantSlug: string;
-  variantImage: string;
-  variantIsBest: boolean;
-  variantSizes: {
-    idRef: number;
-    id: number;
-    name: string;
-    slug: string;
-    stock: number;
-  }[];
-}
-
-export interface FullFlattenedSneakerVariant {
+  _id: string;
   sneakerId: number;
   sneakerName: string;
   sneakerSlug: string;
@@ -80,6 +59,7 @@ export class SneakerRepository {
     const pipeline = [
       // Extrait les variants
       { $unwind: '$variants' },
+      { $unwind: "$variants.sizes" },
 
       // Applique les filtres ([!] basés sur SneakerModel, par exemple 'variants.isBest'' au lieu de 'isBest')
       { $match: filterOptions },
@@ -87,20 +67,27 @@ export class SneakerRepository {
       // Projection pour formater les données de sortie
       {
         $project: {
-          id: '$variants.id',
-          name: '$variants.name',
-          hexCode: '$variants.hexCode',
-          slug: '$variants.slug',
-          image: '$variants.image',
-          isBest: '$variants.isBest',
-          sizes: '$variants.sizes',
-          sneakerId: '$_id',
-          sneakerName: '$name',
-          sneakerDescription: '$description',
-          sneakerPrice: '$price',
-          sneakerCategory: '$category',
-          sneakerBrand: '$brand',
-        },
+          sneakerId: "$id",
+          sneakerName: "$name",
+          sneakerSlug: "$slug",
+          sneakerDescription: "$description",
+          sneakerPrice: "$price",
+          sneakerCategory: "$category",
+          sneakerBrand: "$brand",
+          sneakerCategoryId: "$categoryId",
+          sneakerBrandId: "$brandId",
+          variantId: "$variants.id",
+          variantName: "$variants.name",
+          variantHexCode: "$variants.hexCode",
+          variantSlug: "$variants.slug",
+          variantImage: "$variants.image",
+          variantIsBest: "$variants.isBest",
+          variantIdRef: "$variants.sizes.idRef",
+          sizeId: "$variants.sizes.id",
+          sizeName: "$variants.sizes.name",
+          sizeSlug: "$variants.sizes.slug",
+          sizeStock: "$variants.sizes.stock"
+        }
       },
 
       { $sort: sortOptions },
@@ -137,7 +124,7 @@ export class SneakerRepository {
 
   static async getVariantById(
     variantId: number,
-  ): Promise<FullFlattenedSneakerVariant> {
+  ): Promise<FlattenedSneakerVariant> {
     const pipeline = [
       { $unwind: "$variants" },
       { $unwind: "$variants.sizes" },

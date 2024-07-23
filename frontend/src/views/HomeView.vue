@@ -79,8 +79,8 @@ const redirectToSneakerView = (slug: string) => {
           <CardProduct
             v-for="variant in latestVariants"
             :key="variant._id"
-            :slug="variant.slug"
-            :image="variant.image"
+            :slug="variant.variantSlug"
+            :image="variant.variantImage"
             :name="variant.sneakerName"
             :price="variant.sneakerPrice"
           />
@@ -153,8 +153,8 @@ const redirectToSneakerView = (slug: string) => {
               <CardBestProduct
                 v-for="variant in bestSellingVariants"
                 :key="variant._id"
-                :slug="variant.slug"
-                :image="variant.image"
+                :slug="variant.variantSlug"
+                :image="variant.variantImage"
                 :name="variant.sneakerName"
                 :price="variant.sneakerPrice"
               />
