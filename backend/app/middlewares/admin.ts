@@ -38,3 +38,16 @@ export const storeKeeper = async (
     next();
   });
 };
+
+export const checkRoles = (requiredRoles: string[]) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    await auth(req, res, async () => {
+      if (requiredRoles.some((role) => res.locals.user.roles.includes(role))) {
+        next();
+        return;
+      }
+
+      next(new RequestError(StatusCodes.FORBIDDEN));
+    });
+  };
+};

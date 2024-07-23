@@ -32,6 +32,9 @@ export class Variant extends Model {
   declare colorId: ForeignKey<Color['id']>;
 }
 
+const STOCK_MAX = 10;
+const TEMPLATE_ID_LOW_STOCK = 36711455;
+
 export const updateVariantInMongoDB = async (
   variant: Variant,
   sneaker: Sneaker,
@@ -102,7 +105,7 @@ export default (sequelize: Sequelize) => {
   Variant.afterUpdate(async (variant) => {
     const sneaker = await Sneaker.findByPk(variant.sneakerId);
     if (!sneaker) return;
-    if (variant.stock < 5) {
+    if (variant.stock < STOCK_MAX) {
       const users = await UserRepository.findByRole('STORE_KEEPER');
       if (!users) return;
       const sneaker = await Sneaker.findByPk(variant.sneakerId);
@@ -113,7 +116,7 @@ export default (sequelize: Sequelize) => {
       if (!size) return;
       const url = `${process.env.WEBAPP_URL}/admin/variants/${variant.id}`;
       users.forEach(async (user) => {
-        await PostmarkClient.sendEmail(user.email, 36711455, {
+        await PostmarkClient.sendEmail(user.email, TEMPLATE_ID_LOW_STOCK, {
           sneaker: sneaker.name,
           url: url,
           color: color.name,

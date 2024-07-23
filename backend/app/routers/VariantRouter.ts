@@ -4,7 +4,7 @@ import { VariantService } from '../services/VariantService';
 import { StatusCodes } from 'http-status-codes';
 import { VariantDTO } from '../models/sql/Variant';
 import { auth } from '../middlewares/auth';
-import { admin } from '../middlewares/admin';
+import { admin, checkRoles } from '../middlewares/admin';
 import { schema } from '../middlewares/schema';
 import { VariantRepository } from '../repositories/sql/VariantRepository';
 
@@ -116,14 +116,3 @@ VariantRouter.delete(
     }
   },
 );
-
-function checkRoles(requiredRoles: string[]) {
-  return (req: Request, res: Response, next: NextFunction) => {
-    const userRoles = res.locals.user.roles;
-    if (requiredRoles.some((role) => userRoles.includes(role))) {
-      next();
-    } else {
-      res.status(StatusCodes.FORBIDDEN).json();
-    }
-  };
-}
