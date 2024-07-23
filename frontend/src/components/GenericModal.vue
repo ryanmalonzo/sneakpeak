@@ -6,26 +6,25 @@
     :dismissableMask="true"
     :header="header"
     :style="{ width: width }"
+    :closable="closable"
   >
     <slot></slot>
   </Dialog>
 </template>
 
 <script setup lang="ts">
-defineProps({
-  visible: {
-    type: Boolean,
-    required: true
-  },
-  header: {
-    type: String,
-    required: true
-  },
-  width: {
-    type: String,
-    default: '30rem'
+withDefaults(
+  defineProps<{
+    visible: boolean
+    header: string
+    width: string
+    closable: boolean
+  }>(),
+  {
+    width: '30rem',
+    closable: true
   }
-})
+)
 
 defineEmits(['update:visible'])
 </script>

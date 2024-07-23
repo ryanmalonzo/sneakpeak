@@ -83,14 +83,14 @@ CheckoutRouter.post(
       const data = {
         url: session.url,
         total: session.amount_total,
-        shipping: await CheckoutService.saveAdress(
+        shipping: await CheckoutService.saveAddress(
           shipping.address,
           shipping.firstName + ' ' + shipping.lastName,
           shipping.phone,
           'shipping',
           order.id,
         ),
-        billing: await CheckoutService.saveAdress(
+        billing: await CheckoutService.saveAddress(
           billing.address,
           billing.firstName + ' ' + billing.lastName,
           billing.phone,
@@ -223,7 +223,7 @@ CheckoutRouter.post(
     const data = {
       url: session.url,
       total: session.amount_total,
-      shipping: await CheckoutService.saveAdress(
+      shipping: await CheckoutService.saveAddress(
         shippingAddress.street +
           ' ' +
           shippingAddress.postal_code +
@@ -234,7 +234,7 @@ CheckoutRouter.post(
         'shipping',
         newOrder.id,
       ),
-      billing: await CheckoutService.saveAdress(
+      billing: await CheckoutService.saveAddress(
         billingAddress.street +
           ' ' +
           billingAddress.postal_code +

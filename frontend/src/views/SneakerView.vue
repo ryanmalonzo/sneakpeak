@@ -62,7 +62,7 @@ const resetSelectedQuantity = () => {
 
 const changeRouteColor = (color: string | undefined, size: string | undefined) => {
   if (color === undefined) return
-  router.push({ query: { color, size } })
+  router.replace({ query: { color, size } })
 }
 
 const selectedVariant = computed(() => {

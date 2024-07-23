@@ -89,7 +89,7 @@ onMounted(async () => {
                 {{ data.total }}
               </template>
             </Column>
-            <Column field="status" header="Status" :showFilterMenu="false" style="min-width: 12rem; text-align: center"
+            <Column field="status" header="Statut" :showFilterMenu="false" style="min-width: 12rem; text-align: center"
               class="mx-auto">
               <template #body="{ data }">
                 <p :class="getSeverity(data.status)">{{ translateStatus(data.status) }}</p>
@@ -103,7 +103,7 @@ onMounted(async () => {
                 </p>
               </template>
             </Column>
-            <Column field="updatedAt" header="Derière mise à jour" style="min-width: 12rem; text-align: center"
+            <Column field="updatedAt" header="Dernière mise à jour" style="min-width: 12rem; text-align: center"
               class="mx-auto">
               <template #body="{ data }">
                 {{ new Date(data.createdAt).toLocaleDateString() }}

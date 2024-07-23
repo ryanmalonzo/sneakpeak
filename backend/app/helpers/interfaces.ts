@@ -12,6 +12,8 @@ export interface FormattedAddress {
   state: string;
   country: string;
   zip: string;
+  name?: string;
+  phone?: string;
 }
 
 export interface FormattedAddressError {
