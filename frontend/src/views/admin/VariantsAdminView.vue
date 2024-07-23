@@ -20,6 +20,7 @@ const columns = [
       uniqueKey="id"
       headerTitle="Variantes"
       path="/admin/variants"
+      deleteResource="variants"
     />
   </BasePageAdminView>
 </template>

@@ -266,6 +266,7 @@ const columns = [
         uniqueKey="id"
         headerTitle="Variantes de cette sneaker"
         path="/admin/variants"
+        deleteResource="variants"
       />
     </div>
   </BasePageAdminView>

@@ -15,10 +15,11 @@ const DEFAULT_LIMIT = 25
 
 const router = useRouter()
 const toast = useToast()
-const { resource, headerTitle, uniqueKey } = withDefaults(
+const { resource, headerTitle, uniqueKey, deleteResource } = withDefaults(
   defineProps<{
     columns: { key: string; label: string }[]
-    resource: string
+    resource: string,
+    deleteResource: string | null,
     uniqueKey: string
     headerTitle: string
     path: string
@@ -26,6 +27,7 @@ const { resource, headerTitle, uniqueKey } = withDefaults(
   }>(),
   {
     isDelete: true,
+    deleteResource: null
   }
 )
 
@@ -138,7 +140,7 @@ const deleteRow = async (row: Record<string, string>) => {
 
     let response
     try {
-      response = await fetch(`${API_URL}/${resource}/${row.id}`, {
+      response = await fetch(`${API_URL}/${deleteResource || resource}/${row.id}`, {
         method: 'DELETE',
         credentials: 'include'
       })
