@@ -4,8 +4,9 @@ import { VariantService } from '../services/VariantService';
 import { StatusCodes } from 'http-status-codes';
 import { VariantDTO } from '../models/sql/Variant';
 import { auth } from '../middlewares/auth';
-import { admin } from '../middlewares/admin';
+import { admin, checkRoles } from '../middlewares/admin';
 import { schema } from '../middlewares/schema';
+import { VariantRepository } from '../repositories/sql/VariantRepository';
 
 export const VariantRouter = Router();
 
@@ -57,24 +58,38 @@ VariantRouter.patch(
     }),
   ),
   auth,
-  admin,
+  checkRoles(['ADMIN', 'STORE_KEEPER']),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
       const { stock, image, isBest, sneakerId, colorId, sizeId } = req.body;
+
+      const currentVariant = await VariantRepository.findVariantById(
+        parseInt(id),
+      );
+      if (!currentVariant) {
+        return res.sendStatus(StatusCodes.NOT_FOUND);
+      }
+
+      if (!stock) {
+        return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
+          message: 'stock is required',
+        });
+      }
+
       const variant: VariantDTO = {
-        stock,
-        image,
-        isBest,
-        sneakerId,
-        colorId,
-        sizeId,
+        stock: stock ?? currentVariant.stock,
+        image: image ?? currentVariant.image,
+        isBest: isBest ?? currentVariant.isBest,
+        sneakerId: sneakerId ?? currentVariant.sneakerId,
+        colorId: colorId ?? currentVariant.colorId,
+        sizeId: sizeId ?? currentVariant.sizeId,
       };
 
-    const updatedVariant = await VariantService.partialUpdate(
-      parseInt(id, 10), 
-      variant
-    )
+      const updatedVariant = await VariantService.partialUpdate(
+        parseInt(id, 10),
+        variant,
+      );
 
       return res.status(StatusCodes.OK).json(updatedVariant);
     } catch (error) {

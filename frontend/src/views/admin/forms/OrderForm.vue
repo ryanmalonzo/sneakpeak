@@ -7,7 +7,6 @@ import { useForm } from '@/helpers/useForm'
 import BasePageAdminView from '../BasePageAdminView.vue'
 import Card from 'primevue/card';
 import Select from 'primevue/select';
-import SelectButton from 'primevue/selectbutton'
 import DataView from 'primevue/dataview'
 
 const API_URL = import.meta.env.VITE_API_URL
