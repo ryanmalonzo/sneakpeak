@@ -1,11 +1,11 @@
 <script setup lang="ts">
-defineProps<{
+const { color, size } = defineProps<{
   image: string | undefined
   name: string
   price: number
   slug: string
-  color?: string
-  size?: string
+  color: string
+  size: string
 }>()
 
 import { useRouter } from 'vue-router'
@@ -17,7 +17,7 @@ const redirectToSneakerView = (slug: string) => {
   router.push({
     name: 'sneakers',
     params: { slugSneaker: slugs[0] },
-    query: { color: slugs[1] }
+    query: { color: color, size: size }
   })
 }
 </script>
@@ -37,6 +37,7 @@ const redirectToSneakerView = (slug: string) => {
     <div class="flex flex-col text-center">
       <p>{{ name }}</p>
       <p class="text-sm font-bold">{{ price }} €</p>
+      <small class="text-sm text-orange-500">{{ color }} - EU {{ size }}</small>
     </div>
   </div>
 </template>

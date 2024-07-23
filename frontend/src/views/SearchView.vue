@@ -129,6 +129,8 @@ if (
           :name="variant.sneakerName"
           :price="variant.sneakerPrice"
           :slug="variant.sneakerSlug"
+          :color="variant.variantName"
+          :size="variant.sizeName"
         />
       </SneakerGrid>
 
