@@ -113,7 +113,7 @@ onMounted(async () => {
             </Column>
             <Column
               field="status"
-              header="Status"
+              header="Statut"
               :showFilterMenu="false"
               style="min-width: 12rem; text-align: center"
               class="mx-auto"
@@ -137,7 +137,7 @@ onMounted(async () => {
             </Column>
             <Column
               field="updatedAt"
-              header="Derière mise à jour"
+              header="Dernière mise à jour"
               style="min-width: 12rem; text-align: center"
               class="mx-auto"
             >
