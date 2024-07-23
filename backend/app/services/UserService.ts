@@ -10,6 +10,7 @@ import { ChallengeRepository } from '../repositories/sql/ChallengeRepository';
 import { AddressRepository } from '../repositories/sql/AddressRepository';
 import { formatAddress } from '../helpers/address';
 import { FormattedAddress } from '../helpers/interfaces';
+import { Address } from '../models/sql/Address';
 
 const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
 const PASSWORD_RESET_TEMPLATE_ID = 35966741;
@@ -375,7 +376,7 @@ export class UserService {
     address: string,
     phone: string,
     name: string,
-  ): Promise<FormattedAddress> {
+  ): Promise<{ created: boolean; address: Address }> {
     if (!['billing', 'shipping'].includes(type)) {
       throw new RequestError(StatusCodes.UNPROCESSABLE_ENTITY);
     }
@@ -383,22 +384,20 @@ export class UserService {
     try {
       const formattedAddress = await formatAddress(address);
 
-      await AddressRepository.createOrUpdate(userId, {
-        street: formattedAddress.street,
-        city: formattedAddress.city,
-        postal_code: formattedAddress.zip,
-        phone,
-        name,
-        type,
-        userId,
-      });
+      const { created, address: processedAddress } =
+        await AddressRepository.createOrUpdate(userId, {
+          street: formattedAddress.street,
+          city: formattedAddress.city,
+          postal_code: formattedAddress.zip,
+          phone,
+          name,
+          type,
+          userId,
+        });
 
       return {
-        street: formattedAddress.street,
-        city: formattedAddress.city,
-        state: formattedAddress.state,
-        country: formattedAddress.country,
-        zip: formattedAddress.zip,
+        created,
+        address: processedAddress,
       };
     } catch (e) {
       throw new RequestError(StatusCodes.UNPROCESSABLE_ENTITY);

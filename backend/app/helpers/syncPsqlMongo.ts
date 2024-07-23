@@ -6,6 +6,7 @@ import { VariantModel } from '../models/mongodb/Variant';
 import { CartModel } from '../models/mongodb/Cart';
 import { ColorModel } from '../models/mongodb/Color';
 import { SizeModel } from '../models/mongodb/Size';
+import { OrderModel } from '../models/mongodb/Order';
 
 // Operation type
 export type Operation = 'create' | 'update' | 'delete';
@@ -71,6 +72,8 @@ function getModel(modelName: string) {
       return VariantModel;
     case 'Cart':
       return CartModel;
+    case 'Order':
+      return OrderModel;
     default:
       throw new Error(`Unsupported model name: ${modelName}`);
   }

@@ -39,6 +39,16 @@ export class OrderRepository {
     return order.save();
   }
 
+  static async updateStatus(id: number, status: string): Promise<Order> {
+    console.log('id', id);
+    const order = await Order.findOne({ where: { id } });
+    if (order) {
+      order.status = status;
+      return order.save();
+    }
+    throw new Error('Order not found');
+  }
+
   static async delete(id: number): Promise<void> {
     await Order.destroy({ where: { id } });
   }
@@ -57,6 +67,18 @@ export class OrderRepository {
   ): Promise<OrderProduct[] | null> {
     return OrderProduct.findAll({
       where: { orderId: orderId },
+    });
+  }
+
+  static async getPaginated(
+    page: number,
+    limit: number,
+    userId: number,
+  ): Promise<Order[]> {
+    return Order.findAll({
+      where: { user_id: userId },
+      offset: (page - 1) * limit,
+      limit: limit,
     });
   }
 }

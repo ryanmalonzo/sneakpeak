@@ -212,13 +212,12 @@ UserRouter.put(
       const { id } = req.params;
       const { type, address, phone, name } = req.body;
 
-      // TODO CREATED if it did not exist before,
-      // OK if it was updated
+      const { created, address: processedAddress } =
+        await UserService.saveAddress(Number(id), type, address, phone, name);
+
       return res
-        .status(StatusCodes.OK)
-        .json(
-          await UserService.saveAddress(Number(id), type, address, phone, name),
-        );
+        .status(created ? StatusCodes.CREATED : StatusCodes.OK)
+        .json(processedAddress);
     } catch (error) {
       next(error);
     }
