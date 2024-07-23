@@ -39,19 +39,23 @@ const footerLinks = [
     links: [
       {
         title: "Conditions générales d'utilisation",
-        link: '/legal/cgu'
+        link: '/legal/cgu',
+        target: '_blank'
       },
       {
         title: 'Conditions générales de vente',
-        link: '/legal/cgv'
+        link: '/legal/cgv',
+        target: '_blank'
       },
       {
         title: 'Politique de confidentialité',
-        link: '/legal/politique-de-confidentialite'
+        link: '/legal/politique-de-confidentialite',
+        target: '_blank'
       },
       {
         title: 'Politique de cookies',
-        link: '/legal/politique-de-cookies'
+        link: '/legal/politique-de-cookies',
+        target: '_blank'
       }
     ]
   },
@@ -68,7 +72,8 @@ const footerLinks = [
       },
       {
         title: 'Livraison et retours',
-        link: '/legal/cgv'
+        link: '/legal/cgv',
+        target: '_blank'
       }
     ]
   }
@@ -93,12 +98,19 @@ const footerLinks = [
           <div class="flex flex-col items-start gap-2.5 self-stretch">
             <p class="font-medium text-white">{{ link.title }}</p>
             <template v-for="sublink in link.links" :key="sublink">
-              <router-link :to="sublink.link" class="text-sneakpeak-gray-500 hover:text-white">{{
-                sublink.title
-              }}</router-link>
+              <router-link
+                :to="sublink.link"
+                :target="sublink.target || '_self'"
+                class="text-sneakpeak-gray-500 hover:text-white"
+                >{{ sublink.title }}</router-link
+              >
             </template>
           </div>
         </template>
+      </div>
+
+      <div class="flex flex-col items-start gap-5 self-stretch">
+        <p class="text-sm font-medium text-white">© 2024 SneakPeak. Tous droits réservés.</p>
       </div>
     </div>
   </footer>

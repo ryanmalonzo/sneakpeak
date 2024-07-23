@@ -54,14 +54,18 @@
         :binary="true"
         :invalid="!!validationErrors.cguAccepted"
       />
-        <label
-          for="cgu"
-          class="ml-2 text-sm"
-          :class="validationErrors.cguAccepted && 'text-red-500'"
-        >
+      <label for="cgu" class="ml-2 text-sm" :class="validationErrors.cguAccepted && 'text-red-500'">
         En cochant cette case, j'accepte les
         <RouterLink to="/legal/cgu" target="_blank" class="underline"
           >conditions générales d'utilisation</RouterLink
+        >
+        , les
+        <RouterLink to="/legal/cgv" target="_blank" class="underline"
+          >conditions générales de vente</RouterLink
+        >
+        et la
+        <RouterLink to="/legal/politique-de-confidentialite" target="_blank" class="underline"
+          >politique de confidentialité</RouterLink
         >
       </label>
     </div>
@@ -116,7 +120,7 @@ const validationSchema = {
     }),
   passwordConfirm: z.string(),
   cguAccepted: z.literal<boolean>(true, {
-    message: "Vous devez accepter les conditions générales d'utilisation"
+    message: 'Vous devez accepter les politiques du site'
   })
 }
 

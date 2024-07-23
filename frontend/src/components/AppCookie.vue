@@ -11,7 +11,7 @@
       Politique de cookies
     </RouterLink>
     <button @click="closeNotice" class="self-start rounded bg-white px-3 py-2 text-black">
-      Compris
+      J'ai compris et j'accepte
     </button>
   </div>
 </template>
@@ -36,4 +36,3 @@ const closeNotice = () => {
 </script>
 
 <style scoped></style>
-

@@ -1,12 +1,12 @@
 # Politique de confidentialité
 
-Version du 16/07/2024
+Version du 23/07/2024
 
 Site : https://www.sneakpeak.store
 
-Lorsque vous utilisez notre site internet, vous êtes amené à nous transmettre des données confidentielles et personnelles. Sneakpeak considère que le traitement de ces données est d'une grande importance. Nous nous engageons à les traiter avec attention et de façon sécurisée. C'est pourquoi nous nous engageons à respecter la confidentialité des renseignements personnels que nous collectons.
+Lorsque vous utilisez notre site internet, vous êtes amené à nous transmettre des données confidentielles et personnelles. SneakPeak® considère que le traitement de ces données est d'une grande importance. Nous nous engageons à les traiter avec attention et de façon sécurisée. C'est pourquoi nous nous engageons à respecter la confidentialité des renseignements personnels que nous collectons.
 
-Les entités Sneakpeak pertinentes sont désignées par "Sneakpeak", "nous", "notre" ou "nos" dans la présente politique de confidentialité.
+Les entités SneakPeak® pertinentes sont désignées par "SneakPeak®", "nous", "notre" ou "nos" dans la présente politique de confidentialité.
 
 ## Collecte des renseignements personnels
 
@@ -22,9 +22,11 @@ Nous collectons les renseignements suivants :
 
 Les renseignements personnels que nous collectons sont recueillis au travers de formulaires et grâce à l'interactivité établie entre vous et notre site internet. Nous utilisons également, comme indiqué dans la section suivante.
 
-Vos données tels que vos coordonnées bancaires ne sont pas collectées par notre site internet. Elles sont collectées par notre prestataire de paiement, Stripe. Vous pouvez consulter leur politique de confidentialité à l'adresse suivante : https://stripe.com/fr/privacy
+Vos données tels que vos coordonnées bancaires ne sont pas collectées par notre site internet. Elles sont collectées par notre prestataire de paiement, Stripe. Vous pouvez consulter leur politique de confidentialité à l'adresse suivante : [https://stripe.com/fr/privacy](https://stripe.com/fr/privacy)
 
-Pour une meilleure expérience utilisateur, nous passons par un service tiers pour la gestion des adresses de livraison et de facturation. Ces données sont collectées par notre prestataire, Geoapify. Vous pouvez consulter leur politique de confidentialité à l'adresse suivante : https://www.geoapify.com/privacy-policy/
+Pour une meilleure expérience utilisateur, nous passons par un service tiers pour la gestion des adresses de livraison et de facturation. Ces données sont collectées par notre prestataire, Geoapify. Vous pouvez consulter leur politique de confidentialité à l'adresse suivante : [https://www.geoapify.com/privacy-policy/](https://www.geoapify.com/privacy-policy/)
+
+L'ensemble de vos informations ne sera pas divulguée, sauf demande d'une autorité dûment habilitée.
 
 ## Formulaires et interactivité
 
@@ -43,7 +45,7 @@ Nous utilisons les renseignements ainsi collectés pour les finalités suivantes
 
 ## Droit de suppression des données
 
-Sneakpeak s'engage à vous offrir un droit de suppression des données personnelles vous concernant. Vous pouvez demander la suppression de vos données personnelles en nous contactant à l'adresse suivante : contact@sneakpeak.store
+SneakPeak® s'engage à vous offrir un droit de suppression des données personnelles vous concernant. Vous pouvez demander la suppression de vos données personnelles en nous contactant à l'adresse suivante : [help@sneakpeak.store](help@sneakpeak.store)
 
 ou directement sur votre compte utilisateur.
 
@@ -67,9 +69,9 @@ de vous y rendre.
 
 ## Contact
 
-Sneakpeak
+SneakPeak®
 
-contact@sneakpeak.store
+[help@sneakpeak.store](mailto:help@sneakpeak.store)
 
 242 rue du Faubourg Saint-Antoine
 
