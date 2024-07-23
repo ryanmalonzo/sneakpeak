@@ -33,9 +33,6 @@ VariantRouter.post(
       colorId,
       sizeId,
     };
-    if (!stock || !image || !sneakerId || !colorId || !sizeId) {
-      return res.sendStatus(StatusCodes.UNPROCESSABLE_ENTITY);
-    }
 
     try {
       return res
@@ -62,21 +59,24 @@ VariantRouter.patch(
   auth,
   admin,
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
-    const { stock, image, isBest, sneakerId, colorId, sizeId } = req.body;
-    const variant: VariantDTO = {
-      stock,
-      image,
-      isBest,
-      sneakerId,
-      colorId,
-      sizeId,
-    };
-
     try {
-      return res
-        .status(StatusCodes.OK)
-        .json(await VariantService.partialUpdate(parseInt(id, 10), variant));
+      const { id } = req.params;
+      const { stock, image, isBest, sneakerId, colorId, sizeId } = req.body;
+      const variant: VariantDTO = {
+        stock,
+        image,
+        isBest,
+        sneakerId,
+        colorId,
+        sizeId,
+      };
+
+    const updatedVariant = await VariantService.partialUpdate(
+      parseInt(id, 10), 
+      variant
+    )
+
+      return res.status(StatusCodes.OK).json(updatedVariant);
     } catch (error) {
       next(error);
     }

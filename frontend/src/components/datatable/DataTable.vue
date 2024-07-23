@@ -15,10 +15,11 @@ const DEFAULT_LIMIT = 25
 
 const router = useRouter()
 const toast = useToast()
-const { resource, headerTitle, uniqueKey } = withDefaults(
+const { resource, headerTitle, uniqueKey, deleteResource } = withDefaults(
   defineProps<{
     columns: { key: string; label: string }[]
-    resource: string
+    resource: string,
+    deleteResource: string | null,
     uniqueKey: string
     headerTitle: string
     path: string
@@ -26,6 +27,7 @@ const { resource, headerTitle, uniqueKey } = withDefaults(
   }>(),
   {
     isDelete: true,
+    deleteResource: null
   }
 )
 
@@ -138,7 +140,7 @@ const deleteRow = async (row: Record<string, string>) => {
 
     let response
     try {
-      response = await fetch(`${API_URL}/${resource}/${row.id}`, {
+      response = await fetch(`${API_URL}/${deleteResource || resource}/${row.id}`, {
         method: 'DELETE',
         credentials: 'include'
       })
@@ -217,8 +219,11 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
                 @change="(event: Event) => handleSelectRow(row, event)" />
             </td>
             <td v-for="column in columns" :key="column.key" :class="tdClasses">
-              {{ translateStatus(row[column.key]) }}
+              <img v-if="column.key.match(/image$/i)" :src="row[column.key]" alt="Image produit" class="max-w-32">
+              <span v-else>{{ translateStatus(row[column.key]) }}</span>
             </td>
+
+            <!-- Boutons Actions -->
             <td :class="tdClasses">
               <div class="flex justify-center gap-2.5 self-stretch">
                 <Button icon="pi pi-pen-to-square" severity="contrast" aria-label="Modifier"

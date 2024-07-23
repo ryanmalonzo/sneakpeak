@@ -19,7 +19,38 @@ export class VariantService {
     id: number,
     variant: VariantDTO,
   ): Promise<Variant | null> {
-    return await VariantRepository.partialUpdate(id, variant);
+    const isSneakerAlreadyExists =
+      await VariantRepository.findVariantBySneakerIdAndColorIdAndSizeId(
+        variant.sneakerId,
+        variant.colorId,
+        variant.sizeId,
+      );
+    if (isSneakerAlreadyExists && id !== isSneakerAlreadyExists?.id) {
+      throw new RequestError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        'Variant already exists',
+      );
+    }
+    
+    const isVariantExists = await VariantRepository.partialUpdate(id, variant);
+
+    if (!isVariantExists) {
+      throw new RequestError(StatusCodes.NOT_FOUND, 'Variant not found');
+    }
+
+    const variantsForSneaker = await VariantRepository.findVariantsBySneakerIdAndColorId(
+      variant.sneakerId, variant.colorId,
+    );
+
+    if (!variantsForSneaker) {
+      return isVariantExists;
+    }
+    
+    for (const otherVariants of variantsForSneaker) {
+      await VariantRepository.partialUpdate(otherVariants.id, { image: variant.image });
+    }
+
+    return isVariantExists;
   }
 
   public static async delete(id: number): Promise<number> {

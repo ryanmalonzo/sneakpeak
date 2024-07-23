@@ -200,6 +200,26 @@ const router = createRouter({
           ]
         },
         {
+          path: 'variants',
+          children: [
+            {
+              path: '',
+              name: 'admin_variants',
+              component: () => import('@/views/admin/VariantsAdminView.vue')
+            },
+            {
+              path: 'add',
+              name: 'admin_variants_add',
+              component: () => import('@/views/admin/forms/VariantForm.vue')
+            },
+            {
+              path: ':id',
+              name: 'admin_variants_edit',
+              component: () => import('@/views/admin/forms/VariantForm.vue')
+            }
+          ]
+        },
+        {
           path: 'orders',
           children: [
             {

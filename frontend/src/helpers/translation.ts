@@ -67,4 +67,20 @@ export class Translation {
         return 'Une erreur est survenue. Veuillez réessayer'
     }
   }
+
+  /**
+   * @param message Erreur CRUD variante en anglais
+   * @returns Erreur CRUD variante en français
+   */
+  static variantsErrors(message: Error) {
+    switch ((message as IError).error) {
+      case 'Variant already exists':
+        return "Opération impossible cette variante existe déjà"
+      case 'Variant not found':
+        return "Opération impossible cette variante n'existe pas"
+
+      default:
+        return 'Une erreur est survenue. Veuillez réessayer avec une image moins lourde'
+    }
+  }
 }

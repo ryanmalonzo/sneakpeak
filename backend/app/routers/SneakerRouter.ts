@@ -68,6 +68,33 @@ SneakerRouter.get(
 );
 
 SneakerRouter.get(
+  '/:id/variants',
+  pagination({
+    'variants.isBest': 'boolean',
+  }),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { q, page, limit, sortOptions } = res.locals;
+      const { id } = req.params;
+
+      return res
+        .status(StatusCodes.OK)
+        .json(
+          await SneakerService.getVariantsPaginated(
+            q,
+            page,
+            limit,
+            sortOptions,
+            { id: parseInt(id) }, //id de la sneaker
+          ),
+        );
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+SneakerRouter.get(
   '/variants/:id',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
