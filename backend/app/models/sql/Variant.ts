@@ -10,6 +10,8 @@ import { Size } from './Size';
 import { Color } from './Color';
 import syncWithMongoDB from '../../helpers/syncPsqlMongo';
 import { VariantRepository } from '../../repositories/sql/VariantRepository';
+import { PostmarkClient } from '../../helpers/postmark';
+import { UserRepository } from '../../repositories/sql/UserRepository';
 
 export interface VariantDTO {
   stock: number;
@@ -100,6 +102,28 @@ export default (sequelize: Sequelize) => {
   Variant.afterUpdate(async (variant) => {
     const sneaker = await Sneaker.findByPk(variant.sneakerId);
     if (!sneaker) return;
+    if (variant.changed('stock')) {
+      if (variant.stock < 5) {
+        const users = await UserRepository.findByRole('{STORE_KEEPER}');
+        if (!users) return;
+        const sneaker = await Sneaker.findByPk(variant.sneakerId);
+        if (!sneaker) return;
+        const color = await Color.findByPk(variant.colorId);
+        if (!color) return;
+        const size = await Size.findByPk(variant.sizeId);
+        if (!size) return;
+        const url = `${process.env.WEBAPP_URL}/admin/variants/${variant.id}`;
+        users.forEach(async (user) => {
+          await PostmarkClient.sendEmail(user.email, 36711455, {
+            sneaker: sneaker.name,
+            url: url,
+            color: color.name,
+            size: size.name,
+          });
+        });
+      }
+      await updateVariantInMongoDB(variant, sneaker);
+    }
 
     await updateSneakerInMongoDB(sneaker);
   });
