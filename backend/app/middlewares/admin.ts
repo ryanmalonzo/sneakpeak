@@ -23,3 +23,18 @@ export const admin = async (
     next();
   });
 };
+
+export const storeKeeper = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  await auth(req, res, async () => {
+    if (!res.locals.user.roles.includes('STORE_KEEPER')) {
+      next(new RequestError(StatusCodes.FORBIDDEN, 'not_enough_permissions'));
+      return;
+    }
+
+    next();
+  });
+};

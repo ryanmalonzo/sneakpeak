@@ -42,54 +42,57 @@ const toggleSidebar = () => {
               Accueil
             </RouterLink>
           </li>
-          <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
-              <i class="pi pi-users" style="color: #ffff; font-size: 1.3rem"></i>
-              Clients
+          <div v-if="profile.profile?.roles.includes('ADMIN')">
+            <li>
+              <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
+                <i class="pi pi-users" style="color: #ffff; font-size: 1.3rem"></i>
+                Clients
+              </RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/admin/orders" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
+                <i class="pi pi-cart-arrow-down" style="color: #ffff; font-size: 1.3rem"></i>
+                Commandes
+              </RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/admin/sneakers" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
+                <i class="pi pi-tags" style="color: #ffff; font-size: 1.3rem"></i>
+                Chaussures
+              </RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/admin/categories" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
+                <i class="pi pi-objects-column" style="color: #ffff; font-size: 1.3rem"></i>
+                Catégories
+              </RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/admin/brands" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
+                <i class="pi pi-list" style="color: #ffff; font-size: 1.3rem"></i>
+                Marques
+              </RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/admin/colors" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
+                <i class="pi pi-palette" style="color: #ffff; font-size: 1.3rem"></i>
+                Couleurs
+              </RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/admin/variants" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
+                <i class="pi pi-barcode" style="color: #ffff; font-size: 1.3rem"></i>
+                Variantes
+              </RouterLink>
+            </li>
+          </div>
+          <li v-if="profile.profile?.roles.includes('STORE_KEEPER')">
+            <RouterLink to="/admin/profile" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
+              <i class="pi pi-shopping-cart" style="color: #ffff; font-size: 1.3rem"></i>
+              Stock
             </RouterLink>
           </li>
-          <li>
-            <RouterLink to="/admin/orders" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
-              <i class="pi pi-cart-arrow-down" style="color: #ffff; font-size: 1.3rem"></i>
-              Commandes
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/admin/sneakers" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
-              <i class="pi pi-tags" style="color: #ffff; font-size: 1.3rem"></i>
-              Chaussures
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/admin/categories" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
-              <i class="pi pi-objects-column" style="color: #ffff; font-size: 1.3rem"></i>
-              Catégories
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/admin/brands" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
-              <i class="pi pi-list" style="color: #ffff; font-size: 1.3rem"></i>
-              Marques
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/admin/colors" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
-              <i class="pi pi-palette" style="color: #ffff; font-size: 1.3rem"></i>
-              Couleurs
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/admin/variants" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
-              <i class="pi pi-barcode" style="color: #ffff; font-size: 1.3rem"></i>
-              Variantes
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
-              <i class="pi pi-cog" style="color: #ffff; font-size: 1.3rem"></i>
-              Paramètres
-            </RouterLink>
-          </li>
+
         </ul>
       </div>
     </nav>

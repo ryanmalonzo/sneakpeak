@@ -32,4 +32,8 @@ export class UserRepository {
   static async findAll(): Promise<User[]> {
     return User.findAll();
   }
+
+  static async findByRole(role: string): Promise<User[]> {
+    return User.findAll({ where: { role } });
+  }
 }

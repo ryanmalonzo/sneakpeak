@@ -24,10 +24,12 @@ const { resource, headerTitle, uniqueKey, deleteResource } = withDefaults(
     headerTitle: string
     path: string
     isDelete: boolean
+    isAdd: boolean
   }>(),
   {
     isDelete: true,
-    deleteResource: null
+    deleteResource: null,
+    isAdd: true,
   }
 )
 
@@ -187,7 +189,7 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
     <div class="flex items-center justify-between gap-2.5 self-stretch">
       <div class="flex items-center gap-2.5">
         <h2 class="text-2xl font-semibold">{{ headerTitle }}</h2>
-        <Button icon="pi pi-plus" label="Ajouter" @click="router.push(`${path}/add`)" />
+        <Button icon="pi pi-plus" label="Ajouter" @click="router.push(`${path}/add`)" v-if="isAdd" />
         <Button icon="pi pi-download" severity="secondary"
           :label="selectedRows.length ? `Exporter (${selectedRows.length})` : 'Exporter'" @click="exportToCSV" />
         <Button v-if="selectedRows.length" icon="pi pi-times" severity="secondary" label="Tout déselectionner" outlined

@@ -233,6 +233,11 @@ const router = createRouter({
               component: () => import('@/views/admin/forms/OrderForm.vue')
             }
           ]
+        },
+        {
+          path: 'store',
+          name: 'store',
+          component: () => import('@/views/admin/StoreAdminView.vue')
         }
       ]
     },
@@ -272,6 +277,7 @@ const adminRoutes = [
   'admin_orders',
   'admin_orders_edit'
 ]
+const storeRoutes = ['store']
 
 router.beforeEach(async (to) => {
   const { isAuthenticated, roles } = await checkAuth()
