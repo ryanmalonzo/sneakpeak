@@ -1,8 +1,10 @@
 ## Politique des Cookies
 
+Version du 23/07/2024
+
 ### Introduction
 
-La présente politique de cookies (ci-après « Politique ») explique comment Sneakpeak (ci-après « nous » ou « Sneakpeak »), société par actions simplifiée, immatriculée au Registre du commerce et des sociétés de Paris sous le numéro 123 456 789, ayant son siège social 242 rue du Faubourg Saint-Antoine, 75012 Paris, France, utilise des cookies et des technologies similaires sur le site https://sneakpeak.store (ci-après « le Site »).
+La présente politique de cookies (ci-après « Politique ») explique comment SneakPeak® (ci-après « nous » ou « SneakPeak® »), société par actions simplifiée, immatriculée au Registre du commerce et des sociétés de Paris sous le numéro 123 456 789, ayant son siège social 242 rue du Faubourg Saint-Antoine, 75012 Paris, France, utilise des cookies et des technologies similaires sur le site https://sneakpeak.store (ci-après « le Site »).
 
 ### Qu'est-ce qu'un Cookie ?
 
@@ -28,10 +30,10 @@ Pour gérer vos cookies, vous pouvez vous rendre dans les paramètres de votre n
 
 ### Mise à Jour de la Politique de Cookies
 
-Nous pouvons être amenés à modifier la présente Politique afin de refléter les changements apportés à nos pratiques et services. Nous vous encourageons à consulter régulièrement cette page pour prendre connaissance des éventuelles modifications ou mises à jour apportées à notre Politique.
+Nous pouvons être amenés à modifier la présente Politique afin de refléter les changements apportés à nos pratiques et services. Le cas échéant, vous serez averti par mail et serez invité à consulter cette page pour prendre connaissance des éventuelles modifications ou mises à jour apportées à notre Politique.
 
 ### Contact
 
-Si vous avez des questions concernant notre utilisation des cookies, vous pouvez nous contacter à l'adresse suivante : help@sneakpeak.store.
+Si vous avez des questions concernant notre utilisation des cookies, vous pouvez nous contacter à l'adresse suivante : [help@sneakpeak.store](mailto:help@sneakpeak.store).
 
 En naviguant sur notre Site, vous acceptez l’utilisation des cookies conformément à la présente Politique.

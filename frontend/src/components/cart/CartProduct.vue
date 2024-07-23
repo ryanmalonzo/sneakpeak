@@ -62,7 +62,7 @@ const updateProduct = async (quantity: number) => {
               "
             >
               <option
-                v-for="i in (stock ?? 1) < 20 ? stock ?? 1 : 20"
+                v-for="i in (stock ?? 1) < 5 ? stock ?? 1 : 5"
                 :key="i"
                 :value="i"
                 :selected="i === quantity"
@@ -101,4 +101,3 @@ const updateProduct = async (quantity: number) => {
 </template>
 
 <style scoped></style>
-

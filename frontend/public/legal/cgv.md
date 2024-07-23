@@ -1,11 +1,10 @@
-﻿
-# Conditions Générales de Vente
+﻿# Conditions Générales de Vente
 
-Version du 16/07/2024
+Version du 23/07/2024
 
 ## Préambule
 
-Les présentes conditions générales de vente (ci-après « CGV ») s'appliquent à tout achat effectué par une personne physique ayant la qualité de consommateur (ci-après « le Client ») sur le site Internet [https://sneakpeak.store](https://sneakpeak.store) (ci-après « le Site » ou « la Plateforme ») auprès de la société Sneakpeak, société par actions simplifiée, immatriculée au Registre du commerce et des sociétés de Paris sous le numéro 123 456 789, ayant son siège social 242 rue du Faubourg Saint-Antoine, 75012 Paris, France (ci-après « le Vendeur »).
+Les présentes conditions générales de vente (ci-après « CGV ») s'appliquent à tout achat effectué par une personne physique ayant la qualité de consommateur (ci-après « le Client ») sur le site Internet [https://sneakpeak.store](https://sneakpeak.store) (ci-après « le Site » ou « la Plateforme ») auprès de la société SneakPeak®, société par actions simplifiée, immatriculée au Registre du commerce et des sociétés de Paris sous le numéro 123 456 789, ayant son siège social 242 rue du Faubourg Saint-Antoine, 75012 Paris, France (ci-après « le Vendeur »).
 
 **Toute commande passée sur le Site implique obligatoirement l'acceptation sans réserve du Client des présentes Conditions Générales de Vente.**
 
@@ -13,16 +12,16 @@ Les présentes conditions générales de vente (ci-après « CGV ») s'appliquen
 
 Les termes employés ci-après ont, dans les présentes CGV, la signification suivante :
 
-- « **Client** » : désigne le cocontractant du Vendeur, ayant passé une Commande sur le Site.
-- « **Produits** » : désigne l’ensemble des articles disponibles à l’achat sur le Site.
-- « **Commande** » : désigne l’achat des Produits réalisé par un Client auprès du Vendeur sur le Site.
-- « **Livraison** » : désigne la première présentation des Produits commandés par le Client à l'adresse de livraison indiquée lors de la Commande.
 - « **Espace Client** » : désigne l’interface permettant au Client 
 d’accéder à son espace personnel, dans lequel est regroupé l’ensemble des données fournies. L’accès à l’Espace Client se fait grâce aux Identifiants.
+- « **Client** » : désigne le cocontractant du Vendeur, ayant passé une Commande sur le Site.
+- « **Commande** » : désigne l’achat des Produits réalisé par un Client auprès du Vendeur sur le Site.
 - « **Identifiants** » : désigne l’adresse mail et le mot de passe du Client, nécessaires à l’accès à son Espace Client sur le Site.
+- « **Livraison** » : désigne la première présentation des Produits commandés par le Client à l'adresse de livraison indiquée lors de la Commande.
 - « **Parties** » : au pluriel, désigne ensemble le Client et le Vendeur. Au singulier, désigne une seule des deux Parties.
+- « **Produits** » : désigne l’ensemble des articles disponibles à l’achat sur le Site.
 - « **Utilisateur** » : désigne toute personne naviguant sur la Plateforme, qu’il soit Client ou simple internaute.
-- « **Vendeur** » : désigne la société SneakPeak, société par actions simplifiée, immatriculée au registre du commerce et des sociétés de Paris, sous le numéro 123 456 789, ayant son siège social 242 rue du Faubourg Saint-Antoine, 75012 Paris, France.
+- « **Vendeur** » : désigne la société SneakPeak®, société par actions simplifiée, immatriculée au registre du commerce et des sociétés de Paris, sous le numéro 123 456 789, ayant son siège social 242 rue du Faubourg Saint-Antoine, 75012 Paris, France.
 
 ## 2. Objet
 
@@ -92,7 +91,7 @@ Une facture est établie par le Vendeur et accessible après la Livraison. Le Cl
 
 La date de la Commande est la date à laquelle le Vendeur accuse réception en ligne de la Commande. Les délais indiqués sur la Plateforme ne commencent à courir qu’à partir de cette date.
 
-Le Vendeur se réserve le droit d'annuler ou de refuser toute Commande d'un Client avec lequel il existerait un litige relatif au paiement d'une commande antérieure et en cas de doutes fondés de tentative de paiement frauduleux selon les critères établis par les partenaires de paiement de SneakPeak.
+Le Vendeur se réserve le droit d'annuler ou de refuser toute Commande d'un Client avec lequel il existerait un litige relatif au paiement d'une commande antérieure et en cas de doutes fondés de tentative de paiement frauduleux selon les critères établis par les partenaires de paiement de SneakPeak®.
 
 ## 6. Tarifs
 
@@ -112,7 +111,7 @@ Les frais de livraison éventuellement appliqués sont indiqués au Client préa
 
 Le paiement demandé au Client correspond au montant total de l'achat, y compris ces frais lorsqu’ils sont applicables.
 
-Les prix indiqués sont valables, sauf erreur grossière. Le prix applicable est celui indiqué sur la Plateforme à la date à laquelle la commande est passée par le Client. SneakPeak se réserve le droit d'annuler toute Commande passée sur un Produit pour lequel elle a constaté une erreur de prix grossière, à tout moment et sans justification, ainsi que de rectifier ledit prix.
+Les prix indiqués sont valables, sauf erreur grossière. Le prix applicable est celui indiqué sur la Plateforme à la date à laquelle la commande est passée par le Client. SneakPeak® se réserve le droit d'annuler toute Commande passée sur un Produit pour lequel elle a constaté une erreur de prix grossière, à tout moment et sans justification, ainsi que de rectifier ledit prix.
 
 ## 7. Disponibilité des produits
 
@@ -156,7 +155,7 @@ Un message électronique automatique sera adressé au Client au moment de l’ex
 
 ### 9.3. Délais et frais de Livraison
 
-SneakPeak ne livre ses Produits qu'en France métropolitaine, à l'aide de son propre service de livraison. Les colis sont remis à domicile **contre signature**.
+SneakPeak® ne livre ses Produits qu'en France métropolitaine, à l'aide de son propre service de livraison. Les colis sont remis à domicile **contre signature**.
 
 Le délai de livraison moyen d'un colis en France métropolitaine est de 3 jours ouvrés.
 
@@ -306,7 +305,7 @@ Une telle modification ou décision n’autorise en aucun cas les Utilisateurs �
 
 Les présentes CGV s’appliquent à tout Utilisateur navigant sur le Site.
 
-Les CGV pourront être modifiées et mises à jour par SneakPeak à tout moment, notamment pour s’adapter à l’évolution législative ou réglementaire.
+Les CGV pourront être modifiées et mises à jour par SneakPeak® à tout moment, notamment pour s’adapter à l’évolution législative ou réglementaire.
 
 Les CGV applicables sont celles en vigueur au moment de la navigation sur le Site.
 
