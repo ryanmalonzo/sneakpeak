@@ -87,7 +87,7 @@ const toggleSidebar = () => {
             </li>
           </div>
           <li v-if="profile.profile?.roles.includes('STORE_KEEPER')">
-            <RouterLink to="/admin/profile" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
+            <RouterLink to="/admin/store" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
               <i class="pi pi-shopping-cart" style="color: #ffff; font-size: 1.3rem"></i>
               Stock
             </RouterLink>

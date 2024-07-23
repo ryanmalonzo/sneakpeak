@@ -215,7 +215,14 @@ const router = createRouter({
             {
               path: ':id',
               name: 'admin_variants_edit',
-              component: () => import('@/views/admin/forms/VariantForm.vue')
+              component: async () => {
+                const { isAuthenticated, roles } = await checkAuth()
+                if (isAuthenticated && roles.includes('ADMIN')) {
+                  return import('@/views/admin/forms/VariantForm.vue')
+                } else {
+                  return import('@/views/admin/forms/StoreForm.vue')
+                }
+              }
             }
           ]
         },
@@ -277,7 +284,7 @@ const adminRoutes = [
   'admin_orders',
   'admin_orders_edit'
 ]
-const storeRoutes = ['store']
+const storeRoutes = ['admin_store', 'admin_dashboard']
 
 router.beforeEach(async (to) => {
   const { isAuthenticated, roles } = await checkAuth()
@@ -286,7 +293,9 @@ router.beforeEach(async (to) => {
     router.push('/')
   }
 
-  if (adminRoutes.includes(to.name as string) && !roles.includes('ADMIN')) {
+  if (storeRoutes.includes(to.name as string) && !roles.includes('STORE_KEEPER')) {
+    router.push('/')
+  } else if (adminRoutes.includes(to.name as string) && !roles.includes('ADMIN')) {
     router.push('/')
   }
 })

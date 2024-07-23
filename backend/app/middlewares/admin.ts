@@ -16,7 +16,7 @@ export const admin = async (
 ) => {
   await auth(req, res, async () => {
     if (!res.locals.user.roles.includes('ADMIN')) {
-      next(new RequestError(StatusCodes.FORBIDDEN, 'not_enough_permissions'));
+      next(new RequestError(StatusCodes.FORBIDDEN));
       return;
     }
 
@@ -31,7 +31,7 @@ export const storeKeeper = async (
 ) => {
   await auth(req, res, async () => {
     if (!res.locals.user.roles.includes('STORE_KEEPER')) {
-      next(new RequestError(StatusCodes.FORBIDDEN, 'not_enough_permissions'));
+      next(new RequestError(StatusCodes.FORBIDDEN));
       return;
     }
 

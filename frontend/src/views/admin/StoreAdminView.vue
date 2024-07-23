@@ -12,7 +12,7 @@ const columns = [
 
 <template>
     <BasePageAdminView>
-        <DataTable :columns="columns" resource="sneakers/variants" uniqueKey="variantId"
-            headerTitle="Le stock de sneakers" :isDelete="false" :isAdd="false" path="/admin/sneakers/variants" />
+        <DataTable :columns="columns" resource="sneakers/variants" uniqueKey="id" headerTitle="Variantes"
+            path="/admin/variants" deleteResource="variants" :isAdd="false" :isDelete="false" />
     </BasePageAdminView>
 </template>

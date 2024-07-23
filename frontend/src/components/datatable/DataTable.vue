@@ -236,8 +236,7 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
                   @cancel="() => {
                     isDeleteLoading = false
                     isDeleteError = false
-                  }
-                    " @confirm="() => deleteRow(row)" :loading="isDeleteLoading" :error="isDeleteError"
+                  }" @confirm="() => deleteRow(row)" :loading="isDeleteLoading" :error="isDeleteError"
                   v-if="isDelete" />
               </div>
             </td>
