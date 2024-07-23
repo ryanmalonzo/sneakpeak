@@ -29,6 +29,7 @@ export default (sequelize: Sequelize) => {
       slug: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
       image: {
         type: DataTypes.TEXT,

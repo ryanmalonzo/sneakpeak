@@ -51,6 +51,7 @@ before(async () => {
         faker.image.urlLoremFlickr({ category: 'sneaker' }),
       ),
     });
+
     const brand = await Brand.create({
       name: faker.company.name(),
       slug: faker.lorem.slug(),
@@ -58,6 +59,7 @@ before(async () => {
         faker.image.urlLoremFlickr({ category: 'logo' }),
       ),
     });
+
     const sneaker = await Sneaker.create({
       name: faker.commerce.productName(),
       description: faker.lorem.sentence(),
@@ -75,8 +77,8 @@ before(async () => {
     await color.save();
 
     const size = Size.build({
-      name: '42',
-      slug: '42',
+      name: `${42 + i}`,
+      slug: `${42 + i}`,
     });
 
     await size.save();

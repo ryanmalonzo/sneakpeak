@@ -20,6 +20,7 @@ export const up: Migration = async ({
     slug: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     image: {
       type: DataTypes.TEXT,

@@ -20,6 +20,7 @@ export const up: Migration = async ({
     slug: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     created_at: {
       type: DataTypes.DATE,

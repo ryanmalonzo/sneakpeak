@@ -27,6 +27,7 @@ export default (sequelize: Sequelize) => {
       slug: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
     },
     { sequelize, underscored: true },

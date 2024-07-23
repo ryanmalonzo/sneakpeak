@@ -50,7 +50,7 @@ describe('BrandRouter', () => {
         .post('/brands')
         .set('Cookie', `accessToken=${accessToken}`)
         .send({
-          name: 'Nike',
+          name: 'Adidas',
           image: 'https://example.com/nike.png',
         });
 
@@ -79,7 +79,7 @@ describe('BrandRouter', () => {
         .put('/brands/' + brand.id)
         .set('Cookie', `accessToken=${accessToken}`)
         .send({
-          name: 'Nike',
+          name: 'New Balance',
           image: 'https://example.com/nike.png',
         });
 
