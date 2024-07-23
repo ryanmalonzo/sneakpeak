@@ -85,14 +85,14 @@ CheckoutRouter.post(
         total: session.amount_total,
         shipping: await CheckoutService.saveAddress(
           shipping.address,
-          shipping.firstName + ' ' + shipping.lastName,
+          shipping.name,
           shipping.phone,
           'shipping',
           order.id,
         ),
         billing: await CheckoutService.saveAddress(
           billing.address,
-          billing.firstName + ' ' + billing.lastName,
+          billing.name,
           billing.phone,
           'billing',
           order.id,

@@ -4,14 +4,12 @@ const BASE_URL = import.meta.env.VITE_API_URL
 export namespace CheckoutApi {
   export interface CheckoutIn {
     billing: {
-      firstName: string
-      lastName: string
+      name: string
       address: string
       phone: string
     }
     shipping: {
-      firstName: string
-      lastName: string
+      name: string
       address: string
       phone: string
     }

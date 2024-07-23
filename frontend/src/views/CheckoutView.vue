@@ -1,15 +1,17 @@
 <script setup lang="ts">
+import { onMounted, onBeforeUnmount, reactive, ref, type Ref, watch } from 'vue'
 import BasePage from '@/components/BasePage.vue'
 import Checkbox from 'primevue/checkbox'
 import AutoComplete from 'primevue/autocomplete'
 import InputText from 'primevue/inputtext'
 import FloatLabel from 'primevue/floatlabel'
 import axios from 'axios'
-import { onMounted, onBeforeUnmount, reactive, ref, type Ref, watch } from 'vue'
+import { debounce } from 'underscore'
 import { CheckoutApi } from '@/services/checkoutApi'
 import { CartStore } from '@/store/cart'
 import { CartApi } from '@/services/cartApi'
 import { useToast } from 'primevue/usetoast'
+import { profileStore } from '@/store/profile'
 
 interface GeoapifyFeatureProperties {
   formatted: string
@@ -18,73 +20,62 @@ interface GeoapifyFeatureProperties {
 interface GeoapifyFeature {
   properties: GeoapifyFeatureProperties
 }
+
+const API_URL = import.meta.env.VITE_API_URL
 const GEOAPIFY_API_KEY = import.meta.env.VITE_GEOAPIFY_API_KEY
+
+const profile = profileStore()
+
 const isBilling = ref(false)
 const filteredShippingAdress = ref([])
 const shipping = reactive({
-  firstName: '',
-  lastName: '',
+  name: '',
   address: '',
   phone: ''
 })
 const filteredBillingAdress = ref([])
 const billing = reactive({
-  firstName: '',
-  lastName: '',
+  name: '',
   address: '',
   phone: ''
 })
 
 watch(isBilling, (newVal) => {
   if (newVal) {
-    billing.firstName = shipping.firstName
-    billing.lastName = shipping.lastName
+    billing.name = shipping.name
     billing.address = shipping.address
     billing.phone = shipping.phone
   }
 })
 
-watch(shipping, async (newVal) => {
-  if (newVal.address.length > 3) {
-    console.log(newVal.address)
+const debouncedSearch = debounce(async (query: string, ref: Ref) => {
+  if (query.length > 3) {
     try {
       const response = await axios.get(
-        `https://api.geoapify.com/v1/geocode/autocomplete?text=${newVal.address}&apiKey=${GEOAPIFY_API_KEY}`
+        `https://api.geoapify.com/v1/geocode/autocomplete?text=${query}&apiKey=${GEOAPIFY_API_KEY}`
       )
-      console.log(response.data)
-      filteredShippingAdress.value = response.data.features.map(
+      ref.value = response.data.features.map(
         (feature: GeoapifyFeature) => feature.properties.formatted
       )
     } catch (error) {
       console.error(error)
     }
   } else {
-    filteredShippingAdress.value = []
+    ref.value = []
   }
+}, 500)
+
+watch(shipping, (newVal) => {
+  debouncedSearch(newVal.address, filteredShippingAdress)
 })
 
 watch(billing, async (newVal) => {
-  if (newVal.address.length > 3 && !isBilling.value) {
-    console.log(newVal.address)
-    try {
-      const response = await axios.get(
-        `https://api.geoapify.com/v1/geocode/autocomplete?text=${newVal.address}&apiKey=${GEOAPIFY_API_KEY}`
-      )
-      console.log(response.data)
-      filteredBillingAdress.value = response.data.features.map(
-        (feature: GeoapifyFeature) => feature.properties.formatted
-      )
-    } catch (error) {
-      console.error(error)
-    }
-  } else {
-    filteredBillingAdress.value = []
-  }
+  debouncedSearch(newVal.address, filteredBillingAdress)
 })
 
 const toast = useToast()
 const onSubmit = async () => {
-  if (!shipping.firstName || !shipping.lastName || !shipping.address || !shipping.phone) {
+  if (!shipping.name || !shipping.address || !shipping.phone) {
     toast.add({
       severity: 'error',
       summary: 'Erreur',
@@ -93,10 +84,7 @@ const onSubmit = async () => {
     return
   }
 
-  if (
-    !isBilling.value &&
-    (!billing.firstName || !billing.lastName || !billing.address || !billing.phone)
-  ) {
+  if (!isBilling.value && (!billing.name || !billing.address || !billing.phone)) {
     toast.add({
       severity: 'error',
       summary: 'Erreur',
@@ -106,8 +94,7 @@ const onSubmit = async () => {
   }
   if (isBilling.value) {
     billing.address = shipping.address
-    billing.firstName = shipping.firstName
-    billing.lastName = shipping.lastName
+    billing.name = shipping.name
     billing.phone = shipping.phone
   }
   const data: CheckoutApi.CheckoutOut = await CheckoutApi.create({
@@ -116,8 +103,6 @@ const onSubmit = async () => {
   })
 
   if (data.url !== undefined) window.location.href = data.url
-
-  console.log(data)
 }
 
 // Reactive references
@@ -152,7 +137,6 @@ const startExpirationTimer = () => {
 }
 
 const updateCart = async () => {
-  console.log('updateCart')
   const data = await CheckoutApi.getCheckoutProduct()
   cartProducts.value = data.cartProduct.sort((a, b) => a.id - b.id)
   cartTotal.value = cartProducts.value.reduce((total, product) => total + product.total, 0)
@@ -162,9 +146,48 @@ const updateCart = async () => {
   CartStore().setCart(data)
 }
 
+const fetchAddress = async (type: string) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/users/${profile.profile?.id}/address?type=${type}`,
+      {
+        withCredentials: true
+      }
+    )
+
+    if (response.data) {
+      if (type === 'shipping') {
+        shipping.name = response.data.name
+        shipping.address = [response.data.street, response.data.zip, response.data.city].join(' ')
+        shipping.phone = response.data.phone
+      } else {
+        billing.name = response.data.name
+        billing.address = [response.data.street, response.data.zip, response.data.city].join(' ')
+        billing.phone = response.data.phone
+      }
+
+      return response.data
+    }
+
+    return null
+  } catch {
+    return null
+  }
+}
+
+const fetchAddresses = async () => {
+  const [shippingAddress, billingAddress] = await Promise.all([
+    fetchAddress('shipping'),
+    fetchAddress('billing')
+  ])
+  if (shippingAddress && billingAddress) {
+    isBilling.value = JSON.stringify(shippingAddress) === JSON.stringify(billingAddress)
+  }
+}
+
 onMounted(async () => {
   await updateCart()
-  console.log(cartProducts.value)
+  await fetchAddresses()
 })
 
 onBeforeUnmount(() => {
@@ -195,15 +218,10 @@ onBeforeUnmount(() => {
             </div>
           </div>
           <h2 class="mb-8 text-2xl font-bold">Adresse de livraison</h2>
-          <div class="my-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div class="my-8">
             <FloatLabel>
-              <InputText id="first-name" v-model="shipping.firstName" class="max-md:w-full" />
-              <label for="first-name">Prénom</label>
-            </FloatLabel>
-
-            <FloatLabel>
-              <InputText id="last-name" v-model="shipping.lastName" class="max-md:w-full" />
-              <label for="last-name">Nom</label>
+              <InputText id="name" v-model="shipping.name" class="w-full" />
+              <label for="name">Nom</label>
             </FloatLabel>
           </div>
           <div class="my-8">
@@ -232,16 +250,12 @@ onBeforeUnmount(() => {
             </div>
           </div>
         </div>
-        <div class="bg-white" v-if="isBilling === false">
+        <div class="flex flex-col self-stretch bg-white" v-if="isBilling === false">
           <h2 class="mb-8 text-2xl font-bold">Adresse de facturation</h2>
-          <div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div class="mb-8">
             <FloatLabel>
-              <InputText id="first-name" v-model="billing.firstName" class="max-md:w-full" />
-              <label for="first-name">Prénom</label>
-            </FloatLabel>
-            <FloatLabel>
-              <InputText id="last-name" v-model="billing.lastName" class="max-md:w-full" />
-              <label for="last-name">Nom</label>
+              <InputText id="name" v-model="billing.name" class="w-full" />
+              <label for="name">Nom</label>
             </FloatLabel>
           </div>
           <div class="mb-8">
