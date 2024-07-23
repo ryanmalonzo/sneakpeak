@@ -274,7 +274,7 @@ onBeforeUnmount(() => {
           <!-- right top -->
           <button
             @click="onSubmit"
-            class="flex items-center gap-3 self-stretch bg-black p-3 px-5 text-white"
+            class="flex items-center gap-3 self-stretch rounded-t-lg bg-black p-3 px-5 text-white outline outline-offset-[-1px] outline-black"
           >
             <p class="flex flex-1">PAYER</p>
             <svg

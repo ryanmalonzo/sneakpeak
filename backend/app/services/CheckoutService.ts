@@ -1,6 +1,5 @@
 import { CartProduct } from '../models/sql/CartProduct';
 import { FormattedAddress, FormattedAddressError } from '../helpers/interfaces';
-import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -11,6 +10,7 @@ import { OrderProductRepository } from '../repositories/sql/OrderProductReposito
 import { Order } from '../models/sql/Order';
 import { OrderProduct } from '../models/sql/OrderProduct';
 import { OrderAddress } from '../models/sql/OrderAddress';
+import { formatAddress } from '../helpers/address';
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-06-20',
@@ -124,7 +124,7 @@ export class CheckoutService {
     );
   }
 
-  public static async saveAdress(
+  public static async saveAddress(
     address: string,
     name: string,
     phone: string,
@@ -140,8 +140,8 @@ export class CheckoutService {
     };
 
     try {
-      formattedAddress = await this._formatAddress(address);
-      const new_address = OrderAddressRepository.build({
+      formattedAddress = await formatAddress(address);
+      const newAddress = OrderAddressRepository.build({
         street: formattedAddress.street,
         city: formattedAddress.city,
         postal_code: formattedAddress.zip,
@@ -151,45 +151,13 @@ export class CheckoutService {
         orderId: orderId,
       });
 
-      await OrderAddressRepository.save(new_address);
+      await OrderAddressRepository.save(newAddress);
       return {
         street: formattedAddress.street,
         city: formattedAddress.city,
         state: formattedAddress.state,
         country: formattedAddress.country,
         zip: formattedAddress.zip,
-      };
-    } catch (error) {
-      throw new Error('Invalid address');
-    }
-  }
-
-  private static async _formatAddress(
-    address: string,
-  ): Promise<FormattedAddress> {
-    const config = {
-      method: 'get',
-      url:
-        'https://api.geoapify.com/v1/geocode/search?text=' +
-        encodeURIComponent(address) +
-        '&apiKey=' +
-        process.env.VITE_GEOAPIFY_API_KEY,
-      headers: {},
-    };
-
-    try {
-      const response = await axios(config);
-      if (response.data.features.length === 0) {
-        throw new Error('Invalid address');
-      }
-
-      const properties = response.data.features[0].properties;
-      return {
-        street: properties.street || '',
-        city: properties.city || '',
-        state: properties.state || '',
-        country: properties.country || '',
-        zip: properties.postcode || '',
       };
     } catch (error) {
       throw new Error('Invalid address');

@@ -12,9 +12,11 @@ import cartProduct, { CartProduct } from './sql/CartProduct';
 import orderAdress, { OrderAddress } from './sql/OrderAddress';
 import order, { Order } from './sql/Order';
 import orderProduct, { OrderProduct } from './sql/OrderProduct';
-import historyCartProduct, { HistoryCartProduct } from './sql/HistoryCartProduct';
+import historyCartProduct, {
+  HistoryCartProduct,
+} from './sql/HistoryCartProduct';
 import productReturn from './sql/ProductReturn';
-
+import address, { Address } from './sql/Address';
 
 export const sequelize = new Sequelize(process.env.DATABASE_URL, {
   logging: process.env.NODE_ENV !== 'test',
@@ -35,6 +37,7 @@ orderAdress(sequelize);
 orderProduct(sequelize);
 historyCartProduct(sequelize);
 productReturn(sequelize);
+address(sequelize);
 
 User.hasMany(Challenge);
 
@@ -164,6 +167,15 @@ OrderProduct.belongsTo(Variant, {
   onDelete: 'CASCADE',
   foreignKey: {
     name: 'variantId',
+    allowNull: false,
+  },
+});
+
+User.hasMany(Address);
+Address.belongsTo(User, {
+  onDelete: 'CASCADE',
+  foreignKey: {
+    name: 'userId',
     allowNull: false,
   },
 });

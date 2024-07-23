@@ -26,7 +26,7 @@ const profile = profileStore() //Store profile
 
 // Ouvrir de la modale de connexion
 const openLoginModal = () => {
-  dialog.open(AppLogin, { props: { dismissableMask: true, modal: true, header: "Connexion" } })
+  dialog.open(AppLogin, { props: { dismissableMask: true, modal: true, header: 'Connexion' } })
 }
 
 // Éléments de menu
@@ -116,8 +116,11 @@ watch(cart, async () => {
     <template #end>
       <div class="flex items-center gap-2.5">
         <SearchInput class="hidden md:block" :submit="handleSubmit" v-model="searchRef" />
-        <div class="absolute left-0 top-0 flex w-full flex-1 items-center gap-2.5 bg-white p-2.5 md:hidden"
-          id="search-mobile" v-if="showMobileSearchRef">
+        <div
+          class="absolute left-0 top-0 flex w-full flex-1 items-center gap-2.5 bg-white p-2.5 md:hidden"
+          id="search-mobile"
+          v-if="showMobileSearchRef"
+        >
           <SearchInput :submit="handleSubmit" v-model="searchRef" />
           <button type="button" @click="showMobileSearchRef = false">Annuler</button>
         </div>
@@ -125,16 +128,20 @@ watch(cart, async () => {
           <i class="pi pi-search cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
         </div>
         <i class="pi pi-bell cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
-        <div id="cart"
-          class="relative flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50">
-          <RouterLink to="/cart">
+        <RouterLink to="/cart">
+          <div
+            id="cart"
+            class="relative flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
+          >
             <i class="pi pi-shopping-bag"></i>
-            <span v-if="cartItemCount"
-              class="absolute right-0 top-0 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#10b981] text-xs text-white">
+            <span
+              v-if="cartItemCount"
+              class="absolute right-0 top-0 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#10b981] text-xs text-white"
+            >
               {{ cartItemCount }}
             </span>
-          </RouterLink>
-        </div>
+          </div>
+        </RouterLink>
 
         <!-- Menu Profile -->
         <div v-if="profile.profile">
@@ -144,8 +151,12 @@ watch(cart, async () => {
           </div>
         </div>
         <!-- Login -->
-        <div v-else id="user" class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
-          @click="openLoginModal">
+        <div
+          v-else
+          id="user"
+          class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
+          @click="openLoginModal"
+        >
           <i class="pi pi-user"></i>
         </div>
       </div>

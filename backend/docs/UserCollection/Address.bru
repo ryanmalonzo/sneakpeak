@@ -1,0 +1,31 @@
+meta {
+  name: Address
+  type: http
+  seq: 9
+}
+
+put {
+  url: http://localhost:3000/users/{{user_id}}/address
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "type": "shipping",
+    "street": "242 Rue du Faubourg Saint-Antoine",
+    "postalCode": "75012",
+    "city": "Paris",
+    "phone": "0102030405",
+    "name": "ESGI"
+  }
+}
+
+vars:pre-request {
+  user_id: 1
+}
+
+docs {
+  auth required
+  type is one of 'billing', 'shipping'
+}

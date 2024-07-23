@@ -7,6 +7,9 @@ import { User } from '../models/sql/User';
 import { UserRepository } from '../repositories/sql/UserRepository';
 import bcrypt from 'bcrypt';
 import { ChallengeRepository } from '../repositories/sql/ChallengeRepository';
+import { AddressRepository } from '../repositories/sql/AddressRepository';
+import { formatAddress } from '../helpers/address';
+import { FormattedAddress } from '../helpers/interfaces';
 
 const ACCOUNT_VERIFICATION_TEMPLATE_ID = 35812359;
 const PASSWORD_RESET_TEMPLATE_ID = 35966741;
@@ -296,5 +299,109 @@ export class UserService {
 
     // Unverify user to further prevent login
     await ChallengeRepository.update(challenge, { disabled: false });
+  }
+
+  static async getAddress(
+    userId: number,
+    type: string,
+  ): Promise<FormattedAddress | null> {
+    if (!['billing', 'shipping'].includes(type)) {
+      throw new RequestError(StatusCodes.UNPROCESSABLE_ENTITY);
+    }
+
+    const address = await AddressRepository.findAddressByUserIdAndType(
+      userId,
+      type,
+    );
+
+    if (!address) {
+      return null;
+    }
+
+    return {
+      street: address.street,
+      city: address.city,
+      zip: address.postal_code,
+      name: address.name,
+      phone: address.phone,
+      state: '',
+      country: '',
+    };
+  }
+
+  static async getAddresses(userId: number): Promise<{
+    billing: FormattedAddress | null;
+    shipping: FormattedAddress | null;
+  }> {
+    const billing = await AddressRepository.findAddressByUserIdAndType(
+      userId,
+      'billing',
+    );
+    const shipping = await AddressRepository.findAddressByUserIdAndType(
+      userId,
+      'shipping',
+    );
+
+    return {
+      billing: billing
+        ? {
+            street: billing.street,
+            city: billing.city,
+            zip: billing.postal_code,
+            name: billing.name,
+            phone: billing.phone,
+            state: '',
+            country: '',
+          }
+        : null,
+      shipping: shipping
+        ? {
+            street: shipping.street,
+            city: shipping.city,
+            zip: shipping.postal_code,
+            name: shipping.name,
+            phone: shipping.phone,
+            state: '',
+            country: '',
+          }
+        : null,
+    };
+  }
+
+  // address = street + postal code + city
+  static async saveAddress(
+    userId: number,
+    type: 'billing' | 'shipping',
+    address: string,
+    phone: string,
+    name: string,
+  ): Promise<FormattedAddress> {
+    if (!['billing', 'shipping'].includes(type)) {
+      throw new RequestError(StatusCodes.UNPROCESSABLE_ENTITY);
+    }
+
+    try {
+      const formattedAddress = await formatAddress(address);
+
+      await AddressRepository.createOrUpdate(userId, {
+        street: formattedAddress.street,
+        city: formattedAddress.city,
+        postal_code: formattedAddress.zip,
+        phone,
+        name,
+        type,
+        userId,
+      });
+
+      return {
+        street: formattedAddress.street,
+        city: formattedAddress.city,
+        state: formattedAddress.state,
+        country: formattedAddress.country,
+        zip: formattedAddress.zip,
+      };
+    } catch (e) {
+      throw new RequestError(StatusCodes.UNPROCESSABLE_ENTITY);
+    }
   }
 }

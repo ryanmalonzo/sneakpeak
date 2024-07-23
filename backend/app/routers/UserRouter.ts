@@ -168,3 +168,59 @@ UserRouter.post(
     }
   },
 );
+
+UserRouter.get(
+  '/:id/address',
+  findUser,
+  auth,
+  permissions(['user']),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const { type } = req.query;
+
+      if (!type) {
+        return res
+          .status(StatusCodes.OK)
+          .json(await UserService.getAddresses(Number(id)));
+      }
+
+      return res
+        .status(StatusCodes.OK)
+        .json(await UserService.getAddress(Number(id), type as string));
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+UserRouter.put(
+  '/:id/address',
+  findUser,
+  auth,
+  permissions(['user']),
+  schema(
+    z.object({
+      type: z.string(),
+      address: z.string(),
+      phone: z.string(),
+      name: z.string(),
+    }),
+  ),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const { type, address, phone, name } = req.body;
+
+      // TODO CREATED if it did not exist before,
+      // OK if it was updated
+      return res
+        .status(StatusCodes.OK)
+        .json(
+          await UserService.saveAddress(Number(id), type, address, phone, name),
+        );
+    } catch (error) {
+      next(error);
+    }
+  },
+);
