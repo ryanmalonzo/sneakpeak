@@ -1,4 +1,5 @@
 import { User } from '../../models/sql/User';
+import { Op } from 'sequelize';
 
 export class UserRepository {
   static build(data: Partial<User>): User {
@@ -34,6 +35,13 @@ export class UserRepository {
   }
 
   static async findByRole(role: string): Promise<User[]> {
-    return User.findAll({ where: { role } });
+    return User.findAll({
+      where: {
+        roles: {
+          // Utiliser l'opérateur contains pour les tableaux
+          [Op.contains]: [role],
+        },
+      },
+    });
   }
 }
