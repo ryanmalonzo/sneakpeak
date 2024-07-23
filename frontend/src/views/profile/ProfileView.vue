@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import { z } from 'zod'
 import { useToast } from 'primevue/usetoast'
 import BasePage from '@/components/BasePage.vue'
@@ -9,6 +9,9 @@ import PasswordWithLabel from '@/components/profile/PasswordWithLabel.vue'
 import { profileStore } from '@/store/profile'
 import { useForm } from '@/helpers/useForm'
 import MenuProfil from '@/components/profile/MenuProfil.vue'
+import { SessionApi } from '@/services/sessionApi'
+import { logout } from '@/helpers/auth'
+import ButtonConfirm from '@/components/ButtonConfirm.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -122,6 +125,64 @@ watch(
     }
   }
 )
+
+const loading = ref(false)
+const error = ref(false)
+const errorMessage = ref('')
+const userId = ref<number | null>(null)
+
+const getUserId = async () => {
+  try {
+    const profile = await SessionApi.getProfile()
+    userId.value = profile.id
+  } catch (err) {
+    error.value = true
+    errorMessage.value = "Impossible de récupérer les informations de l'utilisateur."
+  }
+}
+
+const deleteAccount = async () => {
+  loading.value = true
+  error.value = false
+
+  // Vérification supplémentairement pour savoir si l'user est connecté
+  if (userId.value === null) {
+    error.value = true
+    errorMessage.value = 'Utilisateur non connecté.'
+    loading.value = false
+    return
+  }
+
+  // Requete pour anonymiser l'user
+  try {
+    const response = await fetch(`${API_URL}/users/${userId.value}/anonymize`, {
+      method: 'POST',
+      credentials: 'include'
+    })
+
+    if (response.status === 204) {
+      // Déconnecte l'utilisateur
+      logout()
+
+      toast.add({
+        severity: 'success',
+        summary: 'Compte supprimé',
+        detail: 'Votre compte a bien été supprimé.'
+      })
+    } else {
+      throw new Error('Erreur lors de la suppression du compte')
+    }
+  } catch (err) {
+    error.value = true
+    errorMessage.value = 'Une erreur est survenue lors de la suppression du compte.'
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  getUserId()
+})
 </script>
 
 <template>
@@ -167,6 +228,17 @@ watch(
             <Button type="submit" label="Sauvegarder" severity="contrast"
               class="self-start !rounded-none !px-5 uppercase" :loading="isSubmitting" :disabled="!isValid" />
           </form>
+          <h2 class="text-2xl font-medium uppercase mt-8">Gestion du compte</h2>
+          <ButtonConfirm
+            icon="pi pi-trash"
+            label="Supprimer mon compte"
+            severity="danger"
+            confirmMessage="Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
+            errorMessage="Une erreur est survenue lors de la suppression du compte."
+            :loading="loading"
+            :error="error"
+            @confirm="deleteAccount"
+          />
         </div>
 
         <!-- Right -->
