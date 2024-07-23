@@ -69,6 +69,8 @@ onMounted(() => {
 <template>
   <div class="order-1 flex flex-col gap-5 md:order-2">
     <p class="text-2xl font-medium">Menu</p>
+  <div class="order-1 flex flex-col gap-5 md:order-2">
+    <p class="text-2xl font-medium">Menu</p>
 
     <div class="flex flex-col gap-5 border border-black p-5">
       <RouterLink to="/profile" class="font-medium underline"

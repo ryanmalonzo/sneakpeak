@@ -47,10 +47,10 @@ const footerLinks = [
       },
       {
         title: 'Politique de confidentialité',
-        link: '#'
+        link: '/legal/politique-de-confidentialite'
       },
       {
-        title: 'Politique des cookies',
+        title: 'Politique de cookies',
         link: '/legal/politique-de-cookies'
       }
     ]
@@ -101,8 +101,5 @@ const footerLinks = [
         </template>
       </div>
     </div>
-
-    <!-- Blank space -->
-    <!-- <div class="flex-1 self-stretch"></div> -->
   </footer>
 </template>
