@@ -14,16 +14,20 @@ const API_URL = import.meta.env.VITE_API_URL
 const DEFAULT_LIMIT = 25
 
 const router = useRouter()
-
 const toast = useToast()
-
-const { resource, headerTitle, uniqueKey } = defineProps<{
-  columns: { key: string; label: string }[]
-  resource: string
-  uniqueKey: string
-  headerTitle: string
-  path: string
-}>()
+const { resource, headerTitle, uniqueKey } = withDefaults(
+  defineProps<{
+    columns: { key: string; label: string }[]
+    resource: string
+    uniqueKey: string
+    headerTitle: string
+    path: string
+    isDelete: boolean
+  }>(),
+  {
+    isDelete: true,
+  }
+)
 
 const rows = ref<Record<string, string>[]>([])
 const rowToDelete = ref<Record<string, string> | null>(null)
@@ -59,14 +63,16 @@ const getUrl = () => {
   }
 
   if (searchQuery.value) {
-    url.searchParams.append('q', searchQuery.value)
+    url.searchParams.append('q', searchQuery.value.trim())
   }
 
   return url
 }
 
 const fetchData = async () => {
-  const response = await fetch(getUrl())
+  const response = await fetch(getUrl(), {
+    credentials: 'include',
+  })
   const data = await response.json()
 
   rows.value = data.items
@@ -113,6 +119,16 @@ const handleSelectRow = (row: Record<string, string>, event: Event) => {
 
 const isRowSelected = (row: Record<string, string>) => {
   return !!selectedRows.value.find((r) => r.id === row.id)
+}
+
+const translateStatus = (status: string) => {
+  const translations: { [key: string]: string } = {
+    paid: 'Payé',
+    pending: 'En attente',
+    isDelivered: 'En cours de livraison',
+    completed: 'Livré'
+  }
+  return translations[status] || status
 }
 
 const deleteRow = async (row: Record<string, string>) => {
@@ -170,97 +186,55 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
       <div class="flex items-center gap-2.5">
         <h2 class="text-2xl font-semibold">{{ headerTitle }}</h2>
         <Button icon="pi pi-plus" label="Ajouter" @click="router.push(`${path}/add`)" />
-        <Button
-          icon="pi pi-download"
-          severity="secondary"
-          :label="selectedRows.length ? `Exporter (${selectedRows.length})` : 'Exporter'"
-          @click="exportToCSV"
-        />
-        <Button
-          v-if="selectedRows.length"
-          icon="pi pi-times"
-          severity="secondary"
-          label="Tout déselectionner"
-          outlined
-          @click="selectedRows = []"
-        />
+        <Button icon="pi pi-download" severity="secondary"
+          :label="selectedRows.length ? `Exporter (${selectedRows.length})` : 'Exporter'" @click="exportToCSV" />
+        <Button v-if="selectedRows.length" icon="pi pi-times" severity="secondary" label="Tout déselectionner" outlined
+          @click="selectedRows = []" />
       </div>
 
       <div class="flex items-center gap-2.5">
         <InputText placeholder="Rechercher" icon="pi pi-search" v-model="searchQuery" />
-        <Select
-          v-model="limit"
-          :options="[10, 25, 50, 75, 100]"
-          aria-label="Nombre d'éléments par page"
-          @change="handleLimitChange"
-        />
+        <Select v-model="limit" :options="[10, 25, 50, 75, 100]" aria-label="Nombre d'éléments par page"
+          @change="handleLimitChange" />
       </div>
     </div>
 
     <!-- Table -->
     <div id="wrapper" class="w-full overflow-x-auto overflow-y-scroll rounded-md">
       <table class="w-full table-auto">
-        <thead
-          class="sticky top-0 z-10 rounded-t-md bg-black outline outline-offset-[-1px] outline-black"
-        >
+        <thead class="sticky top-0 z-10 rounded-t-md bg-black outline outline-offset-[-1px] outline-black">
           <tr>
             <th :class="thClasses"></th>
-            <DataHeaderCell
-              v-for="column in columns"
-              :key="column.key"
-              :sortKey="column.key"
-              :currentSort="sortKeyRef"
-              :label="column.label"
-              :classes="thClasses"
-              @orderChange="handleOrderChange"
-            />
+            <DataHeaderCell v-for="column in columns" :key="column.key" :sortKey="column.key" :currentSort="sortKeyRef"
+              :label="column.label" :classes="thClasses" @orderChange="handleOrderChange" />
             <th :class="thClasses">Actions</th>
           </tr>
         </thead>
         <tbody class="rounded-b-md outline outline-offset-[-1px] outline-gray-300">
-          <tr
-            v-for="row in rows"
-            :key="row[uniqueKey]"
-            :class="isRowSelected(row) ? 'bg-[#12b9813b]' : 'bg-white'"
-          >
+          <tr v-for="row in rows" :key="row[uniqueKey]" :class="isRowSelected(row) ? 'bg-[#12b9813b]' : 'bg-white'">
             <td class="text-center" :class="tdClasses">
-              <input
-                type="checkbox"
-                class="h-4 w-4"
-                :checked="isRowSelected(row)"
-                @change="(event: Event) => handleSelectRow(row, event)"
-              />
+              <input type="checkbox" class="h-4 w-4" :checked="isRowSelected(row)"
+                @change="(event: Event) => handleSelectRow(row, event)" />
             </td>
             <td v-for="column in columns" :key="column.key" :class="tdClasses">
               <img v-if="column.key.match(/image$/i)" :src="row[column.key]" alt="Image produit" class="max-w-32">
-              <span v-else>{{ row[column.key] }}</span>
+              <span v-else>{{ translateStatus(row[column.key]) }}</span>
             </td>
 
             <!-- Boutons Actions -->
             <td :class="tdClasses">
               <div class="flex justify-center gap-2.5 self-stretch">
-                <Button
-                  icon="pi pi-pen-to-square"
-                  severity="contrast"
-                  aria-label="Modifier"
-                  @click="router.push(`${path}/${row.id}`)"
-                />
-                <ConfirmButton
-                  icon="pi pi-trash"
-                  severity="secondary"
-                  label=""
+                <Button icon="pi pi-pen-to-square" severity="contrast" aria-label="Modifier"
+                  @click="router.push(`${path}/${row.id}`)" />
+                <ConfirmButton icon="pi pi-trash" severity="secondary" label=""
                   confirmMessage="Êtes-vous sûr de vouloir supprimer cet élément ?"
                   errorMessage="Une erreur est survenue lors de la suppression de l'élément. Veuillez réessayer."
-                  @cancel="
-                    () => {
-                      isDeleteLoading = false
-                      isDeleteError = false
-                    }
-                  "
-                  @confirm="() => deleteRow(row)"
-                  :loading="isDeleteLoading"
-                  :error="isDeleteError"
-                />
+                  @cancel="() => {
+                    isDeleteLoading = false
+                    isDeleteError = false
+                  }
+                    " @confirm="() => deleteRow(row)" :loading="isDeleteLoading" :error="isDeleteError"
+                  v-if="isDelete" />
               </div>
             </td>
           </tr>
