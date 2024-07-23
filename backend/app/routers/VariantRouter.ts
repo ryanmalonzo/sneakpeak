@@ -78,12 +78,12 @@ VariantRouter.patch(
       }
 
       const variant: VariantDTO = {
-        stock: stock || currentVariant.stock,
-        image: image || currentVariant.image,
-        isBest: isBest || currentVariant.isBest,
-        sneakerId: sneakerId || currentVariant.sneakerId,
-        colorId: colorId || currentVariant.colorId,
-        sizeId: sizeId || currentVariant.sizeId,
+        stock: stock ?? currentVariant.stock,
+        image: image ?? currentVariant.image,
+        isBest: isBest ?? currentVariant.isBest,
+        sneakerId: sneakerId ?? currentVariant.sneakerId,
+        colorId: colorId ?? currentVariant.colorId,
+        sizeId: sizeId ?? currentVariant.sizeId,
       };
 
       const updatedVariant = await VariantService.partialUpdate(

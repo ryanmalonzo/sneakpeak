@@ -282,9 +282,12 @@ const adminRoutes = [
   'admin_colors_add',
   'admin_colors_edit',
   'admin_orders',
-  'admin_orders_edit'
+  'admin_orders_edit',
+  'admin_variants',
+  'admin_variants_add',
+  'admin_variants_edit'
 ]
-const storeRoutes = ['admin_store', 'admin_dashboard']
+const storeRoutes = ['admin_store', 'admin_dashboard', 'admin_variants_edit', 'store']
 
 router.beforeEach(async (to) => {
   const { isAuthenticated, roles } = await checkAuth()
@@ -293,10 +296,26 @@ router.beforeEach(async (to) => {
     router.push('/')
   }
 
-  if (storeRoutes.includes(to.name as string) && !roles.includes('STORE_KEEPER')) {
-    router.push('/')
-  } else if (adminRoutes.includes(to.name as string) && !roles.includes('ADMIN')) {
-    router.push('/')
+  // faire un switch case pour les roles
+  switch (roles[0]) {
+    case 'ADMIN': {
+      if (
+        ((adminRoutes.includes(to.name as string) || publicRoutes.includes(to.name as string)) &&
+          roles.includes('ADMIN')) === false
+      ) {
+        router.push('/')
+      }
+      break
+    }
+    case 'STORE_KEEPER': {
+      if (
+        ((storeRoutes.includes(to.name as string) || publicRoutes.includes(to.name as string)) &&
+          roles.includes('STORE_KEEPER')) === false
+      ) {
+        router.push('/')
+      }
+      break
+    }
   }
 })
 

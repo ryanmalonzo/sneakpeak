@@ -34,7 +34,7 @@ onMounted(async () => {
             credentials: 'include'
         })
         if (!response.ok) {
-            router.push('/admin/variants')
+            router.push('/admin/store')
             return
         }
         const data = await response.json()
@@ -77,7 +77,7 @@ const onSubmit = async () => {
             throw response as Response
         }
 
-        router.push('/admin/variants')
+        router.push('/admin/store')
 
         toast.add({
             severity: 'success',
@@ -86,7 +86,6 @@ const onSubmit = async () => {
             life: 5000
         })
     } catch (error) {
-        console.log('error', error);
         if ((error as Response).status === 500) {
             showErrorToast(new Error('Servor Error'))
             return
@@ -124,7 +123,7 @@ const { formData, updateField, submitForm, isSubmitting, validationErrors, isVal
                 </InputNumber>
                 <small id="stock-help" class="text-red-500" v-if="validationErrors.stock">{{
                     validationErrors.stock
-                    }}</small>
+                }}</small>
             </div>
 
             <Button type="submit" :label="actions.buttonText" :loading="isSubmitting" :disabled="!isValid" />
