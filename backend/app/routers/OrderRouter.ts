@@ -11,12 +11,12 @@ export const OrderRouter = Router();
 
 OrderRouter.get(
   '/',
+  auth,
+  admin,
   pagination({
     reference: 'in',
     status: 'in',
   }),
-  admin,
-  auth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { q, page, limit, sortOptions, filterOptions } = res.locals;

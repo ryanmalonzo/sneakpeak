@@ -12,13 +12,19 @@ const DEFAULT_LIMIT = 25
 
 const router = useRouter()
 
-const { resource, headerTitle, uniqueKey } = defineProps<{
-  columns: { key: string; label: string }[]
-  resource: string
-  uniqueKey: string
-  headerTitle: string
-  path: string
-}>()
+const { resource, headerTitle, uniqueKey } = withDefaults(
+  defineProps<{
+    columns: { key: string; label: string }[]
+    resource: string
+    uniqueKey: string
+    headerTitle: string
+    path: string
+    isDelete: boolean
+  }>(),
+  {
+    isDelete: true,
+  }
+)
 
 const rows = ref<Record<string, string>[]>([])
 const currentPage = ref(1)
@@ -57,7 +63,9 @@ const getUrl = () => {
 }
 
 const fetchData = async () => {
-  const response = await fetch(getUrl())
+  const response = await fetch(getUrl(), {
+    credentials: 'include',
+  })
   const data = await response.json()
 
   rows.value = data.items
@@ -164,7 +172,7 @@ const tdClasses = 'border border-gray-300 px-2.5 py-1'
               <div class="flex justify-center gap-2.5 self-stretch">
                 <Button icon="pi pi-pen-to-square" severity="contrast" aria-label="Modifier"
                   @click="router.push(`${path}/${row.id}`)" />
-                <Button icon="pi pi-trash" severity="secondary" aria-label="Supprimer" />
+                <Button icon="pi pi-trash" severity="secondary" aria-label="Supprimer" v-if="isDelete" />
               </div>
             </td>
           </tr>
