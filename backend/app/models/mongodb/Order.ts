@@ -8,6 +8,7 @@ interface IOrder extends Document {
   reference: string;
   session_id: string;
   invoice_link: string;
+  amount_refunded: number;
   user: {
     id: number;
     email: string;
@@ -61,7 +62,8 @@ const OrderSchema: Schema<IOrder> = new Schema({
   payment_status: { type: String, required: true },
   reference: { type: String, required: true },
   session_id: { type: String, required: true },
-  invoice_link: { type: String },
+  invoice_link: { type: String, required: false },
+  amount_refunded: { type: Number, required: false },
   user: {
     id: { type: Number, required: true },
     email: { type: String, required: true },

@@ -77,6 +77,8 @@ const orderDetails = reactive({
 const refundMessage = ref('')
 const productName = ref('')
 const productId = ref('')
+const date = ref('')
+const orderDate = ref('')
 const modal = ref(false)
 
 const initialData = reactive({
@@ -242,7 +244,7 @@ const validRefund = () => {
                         </div>
                         <div class="flex gap-2">
                             <label for="createdAt">Date de création : </label>
-                            <p>{{ orderDetails.createdAt }}</p>
+                            <p>{{ (orderDetails.createdAt).split('T')[0] }}</p>
                         </div>
 
                         <div class="flex flex-col gap-2">
@@ -325,6 +327,8 @@ const validRefund = () => {
                                             refundMessage = item.productReturn.reason
                                             productName = item.name
                                             productId = item.id
+                                            orderDate = orderDetails.createdAt.split('T')[0]
+                                            date = item.productReturn.createdAt.split('T')[0]
                                         }" class="flex-auto md:flex-initial whitespace-nowrap">
                                         </Button>
                                     </div>
@@ -351,7 +355,12 @@ const validRefund = () => {
             <div class="flex flex-col gap-5">
 
                 <p>Une demande de remboursement a été demandée pour cet article.</p>
-                {{ productId }}
+                <p>
+                    La commande a été passée le {{ orderDate }}.
+                </p>
+                <p>
+                    La demande a été faite le {{ date }}.
+                </p>
                 <p>
                     Voici le message de l'utilisateur : <br />
                     <span class="text-red-500">"{{ refundMessage }}"</span>

@@ -11,7 +11,7 @@ import { OrderRepository } from '../../repositories/sql/OrderRepository';
 
 export class ProductReturn extends Model {
   declare id: CreationOptional<number>;
-  declare orderProductId: ForeignKey<OrderProduct['id']>;
+  declare order_products_id: ForeignKey<OrderProduct['id']>;
   declare reason: string;
   declare status: string;
 }

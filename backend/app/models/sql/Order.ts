@@ -153,6 +153,8 @@ export class Order extends Model {
   declare invoice_link: string;
   declare userId: ForeignKey<User['id']>;
   declare createdAt: Date;
+  declare payment_intent: string;
+  declare amount_refunded: number;
 }
 
 export default (sequelize: Sequelize) => {
@@ -180,6 +182,14 @@ export default (sequelize: Sequelize) => {
       },
       invoice_link: {
         type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      payment_intent: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      amount_refunded: {
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: true,
       },
     },

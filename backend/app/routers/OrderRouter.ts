@@ -6,6 +6,9 @@ import { ProductReturnService } from '../services/ProductReturnService';
 import { ProductReturnRepository } from '../repositories/sql/ProductReturnRepository';
 import { admin } from '../middlewares/admin';
 import { auth } from '../middlewares/auth';
+import { stripe } from '../services/CheckoutService';
+import { OrderProductRepository } from '../repositories/sql/OrderProductRepository';
+import { OrderRepository } from '../repositories/sql/OrderRepository';
 
 export const OrderRouter = Router();
 
@@ -86,6 +89,29 @@ OrderRouter.put(
         return res.status(StatusCodes.NOT_FOUND).json();
       }
       productReturn.status = status;
+      if (status === 'approved') {
+        const orderProduct = await OrderProductRepository.findById(
+          productReturn.order_products_id,
+        );
+        if (!orderProduct) {
+          console.log('orderProduct not found');
+          return res.status(StatusCodes.NOT_FOUND).json();
+        }
+        const order = await OrderRepository.findById(orderProduct.orderId);
+        if (!order) {
+          console.log('order not found');
+          return res.status(StatusCodes.NOT_FOUND).json();
+        }
+
+        stripe.refunds.create({
+          payment_intent: order.payment_intent,
+          amount: parseInt(
+            (orderProduct.unitPrice * orderProduct.quantity * 100).toFixed(0),
+          ),
+        });
+        order.amount_refunded += orderProduct.unitPrice * orderProduct.quantity;
+        await OrderRepository.update(order);
+      }
       await ProductReturnRepository.save(productReturn);
 
       return res.status(StatusCodes.OK).json();

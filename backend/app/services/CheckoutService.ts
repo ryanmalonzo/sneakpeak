@@ -85,12 +85,14 @@ export class CheckoutService {
     status: string,
     paymentStatus: string,
     invoice_link: string | null = null,
+    payment_intent: string | null = null,
   ): Promise<Order> {
     const order = await OrderRepository.findByReference(reference, userId);
     if (!order) throw new Error('Order not found');
     order.status = status;
     order.payment_status = paymentStatus;
     invoice_link ? (order.invoice_link = invoice_link) : null;
+    payment_intent ? (order.payment_intent = payment_intent) : null;
     return await OrderRepository.update(order);
   }
 

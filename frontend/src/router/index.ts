@@ -267,6 +267,7 @@ const publicRoutes = [
   'politique-de-confidentialite',
   'politique-de-cookies'
 ]
+
 const adminRoutes = [
   'admin_dashboard',
   'admin_categories',
@@ -290,9 +291,11 @@ const adminRoutes = [
 const storeRoutes = ['admin_store', 'admin_dashboard', 'admin_variants_edit', 'store']
 
 router.beforeEach(async (to) => {
+  console.log(to)
   const { isAuthenticated, roles } = await checkAuth()
 
   if (!publicRoutes.includes(to.name as string) && !isAuthenticated) {
+    console.log('not authenticated')
     router.push('/')
   }
 
@@ -300,23 +303,32 @@ router.beforeEach(async (to) => {
   switch (roles[0]) {
     case 'ADMIN': {
       if (
-        ((adminRoutes.includes(to.name as string) || publicRoutes.includes(to.name as string)) &&
+        (adminRoutes.includes(to.name as string) ||
+          publicRoutes.includes(to.name as string) ||
           roles.includes('ADMIN')) === false
       ) {
+        console.log('not admin')
         router.push('/')
       }
       break
     }
     case 'STORE_KEEPER': {
       if (
-        ((storeRoutes.includes(to.name as string) || publicRoutes.includes(to.name as string)) &&
+        (storeRoutes.includes(to.name as string) ||
+          publicRoutes.includes(to.name as string) ||
           roles.includes('STORE_KEEPER')) === false
       ) {
+        console.log('not store keeper')
         router.push('/')
       }
       break
     }
+    default:
+      console.log('not authenticated')
+      break
   }
+
+  return true
 })
 
 export default router
