@@ -68,89 +68,48 @@ onMounted(async () => {
         <div class="order-2 flex flex-1 flex-col gap-5 md:order-1 md:gap-30px">
           <h2 class="text-2xl font-medium">Mes commandes</h2>
 
-          <DataTable
-            v-model:filters="filters"
-            :value="orders"
-            paginator
-            :rows="5"
-            dataKey="id"
-            filterDisplay="row"
-            :loading="loading"
-            :globalFilterFields="['reference', 'total', 'status', 'payment_status', 'createdAt']"
-          >
+          <DataTable v-model:filters="filters" :value="orders" paginator :rows="5" dataKey="id" filterDisplay="row"
+            :loading="loading" :globalFilterFields="['reference', 'total', 'status', 'payment_status', 'createdAt']">
             <template #header>
               <div class="flex justify-end">
                 <IconField>
-                  <InputText
-                    v-model="filters['global'].value"
-                    placeholder="Recherche par mot-clé"
-                    class="mx-3"
-                  />
+                  <InputText v-model="filters['global'].value" placeholder="Recherche par mot-clé" class="mx-3" />
                 </IconField>
               </div>
             </template>
             <template #empty> Aucune commande n'a été trouvée </template>
             <template #loading> Chargement des commandes... </template>
-            <Column
-              field="reference"
-              header="Référence"
-              style="min-width: 12rem; text-align: center"
-              class="mx-auto"
-            >
+            <Column field="reference" header="Référence" style="min-width: 12rem; text-align: center" class="mx-auto">
               <template #body="{ data }">
                 {{ data.reference }}
               </template>
             </Column>
-            <Column
-              field="total"
-              header="Total"
-              style="min-width: 12rem; text-align: center"
-              class="mx-auto"
-            >
+            <Column field="total" header="Total" style="min-width: 12rem; text-align: center" class="mx-auto">
               <template #body="{ data }">
                 {{ data.total }}
               </template>
             </Column>
-            <Column
-              field="status"
-              header="Statut"
-              :showFilterMenu="false"
-              style="min-width: 12rem; text-align: center"
-              class="mx-auto"
-            >
+            <Column field="status" header="Statut" :showFilterMenu="false" style="min-width: 12rem; text-align: center"
+              class="mx-auto">
               <template #body="{ data }">
                 <p :class="getSeverity(data.status)">{{ translateStatus(data.status) }}</p>
               </template>
             </Column>
-            <Column
-              field="payment_status"
-              header="Paiement"
-              :showFilterMenu="false"
-              style="min-width: 12rem; text-align: center"
-              class="mx-auto"
-            >
+            <Column field="payment_status" header="Paiement" :showFilterMenu="false"
+              style="min-width: 12rem; text-align: center" class="mx-auto">
               <template #body="{ data }">
                 <p :class="getSeverity(data.payment_status)">
                   {{ translateStatus(data.payment_status) }}
                 </p>
               </template>
             </Column>
-            <Column
-              field="updatedAt"
-              header="Dernière mise à jour"
-              style="min-width: 12rem; text-align: center"
-              class="mx-auto"
-            >
+            <Column field="updatedAt" header="Dernière mise à jour" style="min-width: 12rem; text-align: center"
+              class="mx-auto">
               <template #body="{ data }">
                 {{ new Date(data.createdAt).toLocaleDateString() }}
               </template>
             </Column>
-            <Column
-              field="actions"
-              header="Actions"
-              style="min-width: 12rem; text-align: center"
-              class="mx-auto"
-            >
+            <Column field="actions" header="Actions" style="min-width: 12rem; text-align: center" class="mx-auto">
               <template #body="{ data }">
                 <RouterLink :to="'/profile/orders/' + data.reference" class="">
                   <IconField>

@@ -17,28 +17,19 @@ const toggleSidebar = () => {
 <template>
   <section class="flex h-screen">
     <!-- sidebar -->
-    <nav
-      :class="{
-        flex: isSidebarOpen,
-        hidden: !isSidebarOpen,
-        'fixed left-0 top-0 h-screen md:hidden': isSidebarOpen
-      }"
-      class="z-50 flex-shrink-0 flex-col items-center gap-[6.25rem] bg-black bg-opacity-95 p-5 md:flex md:w-[15.625rem]"
-    >
+    <nav :class="{
+      flex: isSidebarOpen,
+      hidden: !isSidebarOpen,
+      'fixed left-0 top-0 h-screen md:hidden': isSidebarOpen
+    }"
+      class="z-50 flex-shrink-0 flex-col items-center gap-[6.25rem] bg-black bg-opacity-95 p-5 md:flex md:w-[15.625rem]">
       <!-- Logo ou fermeture de la sidebar-->
       <div class="mt-8">
         <RouterLink class="hidden md:block" to="/admin">
-          <Image
-            :src="logoWhite"
-            alt="Logo SneakPeak"
-            class="flex h-[46.5px] items-center pr-2.5"
-          />
+          <Image :src="logoWhite" alt="Logo SneakPeak" class="flex h-[46.5px] items-center pr-2.5" />
         </RouterLink>
-        <i
-          class="pi pi-times-circle cursor-pointer md:!hidden"
-          style="color: #ffff; font-size: 1.3rem"
-          @click="toggleSidebar"
-        >
+        <i class="pi pi-times-circle cursor-pointer md:!hidden" style="color: #ffff; font-size: 1.3rem"
+          @click="toggleSidebar">
         </i>
       </div>
 
@@ -58,7 +49,7 @@ const toggleSidebar = () => {
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="#" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
+            <RouterLink to="/admin/orders" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
               <i class="pi pi-cart-arrow-down" style="color: #ffff; font-size: 1.3rem"></i>
               Commandes
             </RouterLink>
@@ -70,10 +61,7 @@ const toggleSidebar = () => {
             </RouterLink>
           </li>
           <li>
-            <RouterLink
-              to="/admin/categories"
-              class="flex gap-4 rounded-xl p-4 hover:bg-orange-500"
-            >
+            <RouterLink to="/admin/categories" class="flex gap-4 rounded-xl p-4 hover:bg-orange-500">
               <i class="pi pi-objects-column" style="color: #ffff; font-size: 1.3rem"></i>
               Catégories
             </RouterLink>
@@ -103,11 +91,7 @@ const toggleSidebar = () => {
       <!-- navbar -->
       <nav class="mb-2 flex justify-end gap-4">
         <!-- Ouvre le menu -->
-        <div
-          v-if="!isSidebarOpen"
-          class="fixed left-2 top-2.5 cursor-pointer p-4 md:hidden"
-          @click="toggleSidebar"
-        >
+        <div v-if="!isSidebarOpen" class="fixed left-2 top-2.5 cursor-pointer p-4 md:hidden" @click="toggleSidebar">
           <i class="pi pi-bars" style="color: black; font-size: 1.3rem"></i>
         </div>
 

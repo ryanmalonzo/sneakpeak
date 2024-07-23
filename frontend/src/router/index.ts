@@ -198,6 +198,21 @@ const router = createRouter({
               component: () => import('@/views/admin/forms/ColorForm.vue')
             }
           ]
+        },
+        {
+          path: 'orders',
+          children: [
+            {
+              path: '',
+              name: 'admin_orders',
+              component: () => import('@/views/admin/OrdersAdminView.vue')
+            },
+            {
+              path: ':id',
+              name: 'admin_orders_edit',
+              component: () => import('@/views/admin/forms/OrderForm.vue')
+            }
+          ]
         }
       ]
     },
@@ -233,7 +248,9 @@ const adminRoutes = [
   'admin_sneakers_edit',
   'admin_colors',
   'admin_colors_add',
-  'admin_colors_edit'
+  'admin_colors_edit',
+  'admin_orders',
+  'admin_orders_edit'
 ]
 
 router.beforeEach(async (to) => {

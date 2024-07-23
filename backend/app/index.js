@@ -16,6 +16,7 @@ import { ProfilRouter } from './routers/ProfilRouter';
 import { ColorRouter } from './routers/ColorRouter';
 import { SizeRouter } from './routers/SizeRouter';
 import { ProductReturnRouter } from './routers/ProductReturnRouter';
+import { OrderRouter } from './routers/OrderRouter';
 const app = express();
 
 app.use(
@@ -53,6 +54,7 @@ app.use('/webhook', StripeRouter);
 app.use('/checkout', CheckoutRouter);
 app.use('/profile', ProfilRouter);
 app.use('/return', ProductReturnRouter);
+app.use('/orders', OrderRouter);
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 app.use((err, req, res, next) => {

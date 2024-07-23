@@ -61,11 +61,7 @@ export class ProductReturnService {
 
   static async update(
     id: number,
-    data: {
-      order_ProductsId: number;
-      reason: string;
-      status: 'pending' | 'approved' | 'rejected';
-    },
+    data: Partial<ProductReturn>,
   ): Promise<ProductReturn> {
     const productReturn = await ProductReturnRepository.update(id, data);
     if (!productReturn) {

@@ -7,6 +7,7 @@ import {
 } from 'sequelize';
 
 import { Order } from './Order';
+import syncWithMongoDB from '../../helpers/syncPsqlMongo';
 export class OrderAddress extends Model {
   declare id: CreationOptional<number>;
   declare type: string;
@@ -48,4 +49,33 @@ export default (sequelize: Sequelize) => {
     },
     { sequelize, underscored: true },
   );
+
+  OrderAddress.afterCreate(async (orderAddress) => {
+    const order = await Order.findByPk(orderAddress.orderId);
+    if (!order) {
+      throw new Error('Order not found');
+    }
+
+    await syncWithMongoDB(Order.name, 'update', order.toJSON());
+  });
+
+  OrderAddress.afterUpdate(async (orderAddress) => {
+    const order = await Order.findByPk(orderAddress.orderId);
+    if (!order) {
+      throw new Error('Order not found');
+    }
+
+    await syncWithMongoDB(Order.name, 'update', order.toJSON());
+  });
+
+  OrderAddress.afterDestroy(async (orderAddress) => {
+    const order = await Order.findByPk(orderAddress.orderId);
+    if (!order) {
+      throw new Error('Order not found');
+    }
+
+    await syncWithMongoDB(Order.name, 'update', order.toJSON());
+  });
+
+  return OrderAddress;
 };
