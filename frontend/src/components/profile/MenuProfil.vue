@@ -18,4 +18,3 @@ import { logout } from '../../helpers/auth'
 </template>
 
 <style scoped></style>
-
