@@ -4,7 +4,7 @@ import logo from '@/assets/images/logo.svg'
 import SearchInput from '@/components/search/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
 import Menu from 'primevue/menu'
-import { computed, onMounted, ref, watch, type Ref } from 'vue'
+import { computed, onMounted, onUpdated, ref, watch, type Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { debounce } from 'underscore'
 import AppLogin from '@/components/AppLogin.vue'
@@ -134,8 +134,17 @@ const itemsProfile = ref([
   }
 ])
 
-onMounted(() => {
-  if (profile.profile && profile.profile.roles.includes('ADMIN')) {
+const menuProfile = ref<typeof Menu>()
+const displayMenuProfile = (event: Event) => {
+  itemsProfile.value[0].label = `Bienvenue ${profile.profile?.firstName || profile.profile?.email} !`
+
+  if (profile.profile && !profile.profile.roles.includes('ADMIN') && !profile.profile.roles.includes('STORE_KEEPER')) {
+    itemsProfile.value = itemsProfile.value.filter((item) => item.label !== 'Administration' && item.label !== 'Gestionnaire de stock')
+  }
+
+  if (profile.profile && profile.profile.roles.includes('ADMIN') && !itemsProfile.value.find((item) => item.label === 'Administration')) {
+    console.log('ADMIN');
+    
     itemsProfile.value.push({
       label: 'Administration',
       items: [
@@ -143,7 +152,9 @@ onMounted(() => {
       ]
     })
   }
-  if (profile.profile && profile.profile.roles.includes('STORE_KEEPER')) {
+  if (profile.profile && profile.profile.roles.includes('STORE_KEEPER') && !itemsProfile.value.find((item) => item.label === 'Gestionnaire de stock')) {
+    console.log('STORE_KEEPER');
+    
     itemsProfile.value.push({
       label: 'Gestionnaire de stock',
       items: [
@@ -151,11 +162,6 @@ onMounted(() => {
       ]
     })
   }
-})
-
-const menuProfile = ref<typeof Menu>()
-const displayMenuProfile = (event: Event) => {
-  itemsProfile.value[0].label = `Bienvenue ${profile.profile?.firstName || profile.profile?.email} !`
   menuProfile.value?.toggle(event)
 }
 
@@ -168,6 +174,7 @@ watch(cart, async () => {
 </script>
 
 <template>
+  {{ itemsProfile }}
   <MegaMenu :model="items" class="!sticky top-0 z-50 hidden !rounded-none !px-2.5 md:!px-5">
     <template #start>
       <a @click="router.push('/')" class="cursor-pointer">
