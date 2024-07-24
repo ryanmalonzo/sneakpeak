@@ -17,6 +17,25 @@ import OrdersView from '@/views/profile/OrdersView.vue'
 import DetailOrderView from '@/views/profile/DetailOrderView.vue'
 import PDCView from '@/views/legal/PDCView.vue'
 import PCookiesView from '@/views/legal/PCookiesView.vue'
+import AboutView from '@/views/legal/AboutView.vue'
+import ValeurView from '@/views/legal/ValeurView.vue'
+import EngagementView from '@/views/legal/EngagementView.vue'
+import AddressesView from '@/views/profile/AddressesView.vue'
+import SneakersAdminView from '@/views/admin/SneakersAdminView.vue'
+import SneakerForm from '@/views/admin/forms/SneakerForm.vue'
+import CategoriesAdminView from '@/views/admin/CategoriesAdminView.vue'
+import CategoryForm from '@/views/admin/forms/CategoryForm.vue'
+import BrandsAdminView from '@/views/admin/BrandsAdminView.vue'
+import BrandForm from '@/views/admin/forms/BrandForm.vue'
+import ColorsAdminView from '@/views/admin/ColorsAdminView.vue'
+import ColorForm from '@/views/admin/forms/ColorForm.vue'
+import VariantsAdminView from '@/views/admin/VariantsAdminView.vue'
+import VariantForm from '@/views/admin/forms/VariantForm.vue'
+import OrdersAdminView from '@/views/admin/OrdersAdminView.vue'
+import OrderForm from '@/views/admin/forms/OrderForm.vue'
+import StoreAdminView from '@/views/admin/StoreAdminView.vue'
+import NotFoundView from '@/views/NotFoundView.vue'
+import StoreForm from '@/views/admin/forms/StoreForm.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -85,17 +104,17 @@ const router = createRouter({
         {
           path: 'notre-histoire',
           name: 'notre-histoire',
-          component: () => import('@/views/legal/AboutView.vue')
+          component: AboutView
         },
         {
           path: 'nos-valeurs',
           name: 'nos-valeurs',
-          component: () => import('@/views/legal/ValeurView.vue')
+          component: ValeurView
         },
         {
           path: 'nos-engagements',
           name: 'nos-engagements',
-          component: () => import('@/views/legal/EngagementView.vue')
+          component: EngagementView
         }
       ]
     },
@@ -105,22 +124,22 @@ const router = createRouter({
         {
           path: '',
           name: 'profile',
-          component: () => ProfileView
+          component: ProfileView
         },
         {
           path: 'addresses',
           name: 'addresses',
-          component: () => import('@/views/profile/AddressesView.vue')
+          component: AddressesView
         },
         {
           path: 'orders',
           name: 'orders',
-          component: () => OrdersView
+          component: OrdersView
         },
         {
           path: 'orders/:reference',
           name: 'order',
-          component: () => DetailOrderView
+          component: DetailOrderView
         }
       ]
     },
@@ -140,17 +159,17 @@ const router = createRouter({
             {
               path: '',
               name: 'admin_sneakers',
-              component: () => import('@/views/admin/SneakersAdminView.vue')
+              component: SneakersAdminView
             },
             {
               path: 'add',
               name: 'admin_sneakers_add',
-              component: () => import('@/views/admin/forms/SneakerForm.vue')
+              component: SneakerForm
             },
             {
               path: ':id',
               name: 'admin_sneakers_edit',
-              component: () => import('@/views/admin/forms/SneakerForm.vue')
+              component: SneakerForm
             }
           ]
         },
@@ -160,17 +179,17 @@ const router = createRouter({
             {
               path: '',
               name: 'admin_categories',
-              component: () => import('@/views/admin/CategoriesAdminView.vue')
+              component: CategoriesAdminView
             },
             {
               path: 'add',
               name: 'admin_categories_add',
-              component: () => import('@/views/admin/forms/CategoryForm.vue')
+              component: CategoryForm
             },
             {
               path: ':id',
               name: 'admin_categories_edit',
-              component: () => import('@/views/admin/forms/CategoryForm.vue')
+              component: CategoryForm
             }
           ]
         },
@@ -180,17 +199,17 @@ const router = createRouter({
             {
               path: '',
               name: 'admin_brands',
-              component: () => import('@/views/admin/BrandsAdminView.vue')
+              component: BrandsAdminView
             },
             {
               path: 'add',
               name: 'admin_brands_add',
-              component: () => import('@/views/admin/forms/BrandForm.vue')
+              component: BrandForm
             },
             {
               path: ':id',
               name: 'admin_brands_edit',
-              component: () => import('@/views/admin/forms/BrandForm.vue')
+              component: BrandForm
             }
           ]
         },
@@ -200,17 +219,17 @@ const router = createRouter({
             {
               path: '',
               name: 'admin_colors',
-              component: () => import('@/views/admin/ColorsAdminView.vue')
+              component: ColorsAdminView
             },
             {
               path: 'add',
               name: 'admin_colors_add',
-              component: () => import('@/views/admin/forms/ColorForm.vue')
+              component: ColorForm
             },
             {
               path: ':id',
               name: 'admin_colors_edit',
-              component: () => import('@/views/admin/forms/ColorForm.vue')
+              component: ColorForm
             }
           ]
         },
@@ -220,12 +239,12 @@ const router = createRouter({
             {
               path: '',
               name: 'admin_variants',
-              component: () => import('@/views/admin/VariantsAdminView.vue')
+              component: VariantsAdminView
             },
             {
               path: 'add',
               name: 'admin_variants_add',
-              component: () => import('@/views/admin/forms/VariantForm.vue')
+              component: VariantForm
             },
             {
               path: ':id',
@@ -233,9 +252,9 @@ const router = createRouter({
               component: async () => {
                 const { isAuthenticated, roles } = await checkAuth()
                 if (isAuthenticated && roles.includes('ADMIN')) {
-                  return import('@/views/admin/forms/VariantForm.vue')
+                  return VariantForm
                 } else {
-                  return import('@/views/admin/forms/StoreForm.vue')
+                  return StoreForm
                 }
               }
             }
@@ -247,26 +266,26 @@ const router = createRouter({
             {
               path: '',
               name: 'admin_orders',
-              component: () => import('@/views/admin/OrdersAdminView.vue')
+              component: OrdersAdminView
             },
             {
               path: ':id',
               name: 'admin_orders_edit',
-              component: () => import('@/views/admin/forms/OrderForm.vue')
+              component: OrderForm
             }
           ]
         },
         {
           path: 'store',
           name: 'store',
-          component: () => import('@/views/admin/StoreAdminView.vue')
+          component: StoreAdminView
         }
       ]
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'not_found',
-      component: () => import('@/views/NotFoundView.vue')
+      component: NotFoundView
     }
   ]
 })
