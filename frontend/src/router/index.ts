@@ -256,6 +256,18 @@ const router = createRouter({
   ]
 })
 
+const publicRoutes = [
+  'home',
+  'email_verification',
+  'search',
+  'sneakers',
+  'reset_password',
+  'cgu',
+  'cgv',
+  'politique-de-confidentialite',
+  'politique-de-cookies'
+]
+
 const adminRoutes = [
   'admin_dashboard',
   'admin_categories',
@@ -280,8 +292,11 @@ const adminRoutes = [
 const storeRoutes = ['admin_store', 'admin_dashboard', 'admin_variants_edit', 'store']
 
 router.beforeEach(async (to) => {
-  const { roles } = await checkAuth()
+  const { isAuthenticated, roles } = await checkAuth()
 
+  if (!publicRoutes.includes(to.name as string) && !isAuthenticated) {
+    router.push('/')
+  }
   if (!roles.includes('ADMIN') && adminRoutes.includes(to.name as string)) {
     router.push('/')
   }
