@@ -31,18 +31,28 @@ const setSortAndOrder = (sort: string, order: string) => {
       <ul class="py-1">
         <li
           class="cursor-pointer px-4 py-2 hover:bg-gray-100"
-          @click="setSortAndOrder('price', 'asc')"
+          @click="setSortAndOrder('sneakerPrice', 'asc')"
         >
           Prix croissant
         </li>
         <li
           class="cursor-pointer px-4 py-2 hover:bg-gray-100"
-          @click="setSortAndOrder('price', 'desc')"
+          @click="setSortAndOrder('sneakerPrice', 'desc')"
         >
           Prix décroissant
         </li>
-        <li class="px-4 py-2 hover:bg-gray-100">Nouveautés</li>
-        <li class="px-4 py-2 hover:bg-gray-100">Meilleures ventes</li>
+        <li
+          class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+          @click="setSortAndOrder('sneakerCreatedAt', 'desc')"
+        >
+          Nouveautés
+        </li>
+        <li
+          class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+          @click="setSortAndOrder('variantIsBest', 'desc')"
+        >
+          Meilleures ventes
+        </li>
       </ul>
     </div>
   </div>
