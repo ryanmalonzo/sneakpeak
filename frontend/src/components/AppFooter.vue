@@ -81,9 +81,9 @@ const footerLinks = [
 </script>
 
 <template>
-  <footer class="flex flex-shrink-0  gap-30px self-stretch bg-black p-30px flex-col items-center">
+  <footer class="flex flex-shrink-0  gap-30px self-stretch bg-black p-30px flex-col items-center ">
     <!-- Main -->
-    <div class="flex-start flex-1 gap-30px self-stretch flex justify-between f">
+    <div class="flex-start flex-1 gap-30px self-stretch flex justify-between max-md:flex-col">
       <!-- Footer text -->
       <div class="flex flex-col items-start gap-5 self-stretch">
         <p class="font-medium text-white">SneakPeak</p>
