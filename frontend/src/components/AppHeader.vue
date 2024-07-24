@@ -178,7 +178,7 @@ watch(cart, async () => {
       <div class="flex items-center gap-2.5">
         <SearchInput class="hidden md:block" :submit="handleSubmit" v-model="searchRef" />
         <div
-          class="absolute left-0 top-0 flex w-full flex-1 items-center gap-2.5 bg-white p-2.5 md:hidden"
+          class="absolute left-0 top-0 z-[999] flex w-full flex-1 items-center gap-2.5 bg-white p-2.5 md:hidden"
           id="search-mobile"
           v-if="showMobileSearchRef"
         >

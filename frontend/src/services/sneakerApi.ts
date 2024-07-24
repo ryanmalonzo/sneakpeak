@@ -10,6 +10,9 @@ export namespace SneakerApi {
     brand?: string
     category?: string
     price?: string
+    'variants.name'?: string // color
+    'variants.sizes.name'?: string
+    'variants.isBest'?: boolean
   }
 
   export interface SizeOut {
@@ -57,27 +60,27 @@ export namespace SneakerApi {
   }
 
   export interface FlattenedVariantOut {
-    _id: string;
-    sneakerId: number;
-    sneakerName: string;
-    sneakerSlug: string;
-    sneakerDescription: string;
-    sneakerPrice: number;
-    sneakerCategory: string;
-    sneakerBrand: string;
-    sneakerCategoryId: number;
-    sneakerBrandId: number;
-    variantId: number;
-    variantName: string;
-    variantHexCode: string;
-    variantSlug: string;
-    variantImage: string;
-    variantIsBest: boolean;
-    id: number;
-    sizeId: number;
-    sizeName: string;
-    sizeSlug: string;
-    sizeStock: number;
+    _id: string
+    sneakerId: number
+    sneakerName: string
+    sneakerSlug: string
+    sneakerDescription: string
+    sneakerPrice: number
+    sneakerCategory: string
+    sneakerBrand: string
+    sneakerCategoryId: number
+    sneakerBrandId: number
+    variantId: number
+    variantName: string
+    variantHexCode: string
+    variantSlug: string
+    variantImage: string
+    variantIsBest: boolean
+    id: number
+    sizeId: number
+    sizeName: string
+    sizeSlug: string
+    sizeStock: number
   }
 
   export interface PaginationVariantsOut {
