@@ -134,10 +134,10 @@ const onSlideEnd = () => {
 
 <template>
   <div
-    class="flex h-full w-full flex-col gap-30px bg-white px-5 py-5 md:sticky md:w-[300px] md:py-10"
+    class="flex h-full w-full flex-col gap-30px bg-white md:sticky md:w-[300px] md:px-5 md:py-10"
     :class="[open ? getOpenClasses() : 'hidden']"
   >
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between px-5 pt-5 md:px-0 md:pt-0">
       <h2 class="text-lg font-medium">Filtrer par</h2>
       <button
         type="button"
@@ -147,7 +147,7 @@ const onSlideEnd = () => {
     </div>
 
     <!-- Accordions -->
-    <Accordion multiple>
+    <Accordion multiple class="bg-white px-5 md:px-0">
       <AccordionTab :header="getBrandsHeader()">
         <div v-for="brand of brands" :key="brand.slug" class="flex items-center gap-2">
           <Checkbox
