@@ -30,6 +30,16 @@ onMounted(async () => {
     sort: 'variantCreatedAt',
     order: 'desc'
   })
+
+  // Filter out dataVariants.items with duplicate sneakerId AND color
+  dataVariants.items = dataVariants.items.filter(
+    (variant, index, self) =>
+      index ===
+      self.findIndex(
+        (v) => v.sneakerId === variant.sneakerId && v.variantName === variant.variantName
+      )
+  )
+
   latestVariants.push(...dataVariants.items)
 
   const dataBrands = await BrandApi.getPaginated()
@@ -39,6 +49,15 @@ onMounted(async () => {
     limit: 3,
     'variants.isBest': true
   })
+
+  dataBestSellingVariants.items = dataBestSellingVariants.items.filter(
+    (variant, index, self) =>
+      index ===
+      self.findIndex(
+        (v) => v.sneakerId === variant.sneakerId && v.variantName === variant.variantName
+      )
+  )
+
   bestSellingVariants.push(...dataBestSellingVariants.items)
 })
 
