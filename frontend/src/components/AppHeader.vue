@@ -161,9 +161,9 @@ const displayMenuProfile = (event: Event) => {
 
 // Compter les éléments du panier
 const cart = CartStore() //Store cart
-const cartItemCount = ref(0)
+const cartItemCount = ref(cart.getCart()?.cartProduct.length)
 watch(cart, async () => {
-  cartItemCount.value = cart.getCart().cartProduct.length
+  cartItemCount.value = cart.getCart()?.cartProduct.length
 })
 </script>
 
