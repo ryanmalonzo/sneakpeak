@@ -12,12 +12,13 @@ import MenuProfil from '@/components/profile/MenuProfil.vue'
 import { SessionApi } from '@/services/sessionApi'
 import { logout } from '@/helpers/auth'
 import ButtonConfirm from '@/components/ButtonConfirm.vue'
+import DownloadDataButton from './DownloadDataButton.vue'
 
 const API_URL = import.meta.env.VITE_API_URL
 
 const toast = useToast()
 
-const profile = profileStore() //Store profile
+const profile = profileStore()
 
 const passwordMismatch = ref(false)
 
@@ -205,46 +206,87 @@ onMounted(() => {
             <h2 class="text-2xl font-medium uppercase">Mes informations</h2>
 
             <FormRow>
-              <InputWithLabel id="firstName" label="Prénom" placeholder="John" :value="formData.firstName"
+              <InputWithLabel
+                id="firstName"
+                label="Prénom"
+                placeholder="John"
+                :value="formData.firstName"
                 @input="updateField('firstName', ($event.target as HTMLInputElement).value)"
-                :helperText="validationErrors.firstName" />
-              <InputWithLabel id="lastName" label="Nom" placeholder="Doe" :value="formData.lastName"
+                :helperText="validationErrors.firstName"
+              />
+              <InputWithLabel
+                id="lastName"
+                label="Nom"
+                placeholder="Doe"
+                :value="formData.lastName"
                 @input="updateField('lastName', ($event.target as HTMLInputElement).value)"
-                :helperText="validationErrors.lastName" />
+                :helperText="validationErrors.lastName"
+              />
             </FormRow>
 
             <FormRow>
-              <InputWithLabel id="phone" label="Téléphone" placeholder="06 01 02 03 04" :value="formData.phone"
+              <InputWithLabel
+                id="phone"
+                label="Téléphone"
+                placeholder="06 01 02 03 04"
+                :value="formData.phone"
                 @input="updateField('phone', ($event.target as HTMLInputElement).value)"
-                :helperText="validationErrors.phone" />
-              <InputWithLabel id="email" label="Adresse mail" placeholder="john.doe@gmail.com" :value="formData.email"
+                :helperText="validationErrors.phone"
+              />
+              <InputWithLabel
+                id="email"
+                label="Adresse mail"
+                placeholder="john.doe@gmail.com"
+                :value="formData.email"
                 @input="updateField('email', ($event.target as HTMLInputElement).value)"
-                :helperText="validationErrors.email" />
+                :helperText="validationErrors.email"
+              />
             </FormRow>
 
             <FormRow>
-              <PasswordWithLabel id="password" label="Mot de passe" :value="formData.password"
-                @input="updateField('password', $event)" :helperText="validationErrors.password"
-                :invalid="!!validationErrors.password" />
-              <PasswordWithLabel id="passwordConfirm" label="Confirmation du mot de passe"
-                :value="formData.passwordConfirm" @input="updateField('passwordConfirm', $event)"
-                helperText="Les mots de passe ne correspondent pas" :invalid="passwordMismatch" />
+              <PasswordWithLabel
+                id="password"
+                label="Mot de passe"
+                :value="formData.password"
+                @input="updateField('password', $event)"
+                :helperText="validationErrors.password"
+                :invalid="!!validationErrors.password"
+              />
+              <PasswordWithLabel
+                id="passwordConfirm"
+                label="Confirmation du mot de passe"
+                :value="formData.passwordConfirm"
+                @input="updateField('passwordConfirm', $event)"
+                helperText="Les mots de passe ne correspondent pas"
+                :invalid="passwordMismatch"
+              />
             </FormRow>
 
-            <Button type="submit" label="Sauvegarder" severity="contrast"
-              class="self-start !rounded-none !px-5 uppercase" :loading="isSubmitting" :disabled="!isValid" />
+            <Button
+              type="submit"
+              label="Sauvegarder"
+              severity="contrast"
+              class="self-start !rounded-none !px-5 uppercase"
+              :loading="isSubmitting"
+              :disabled="!isValid"
+            />
           </form>
-          <h2 class="text-2xl font-medium uppercase mt-8">Gestion du compte</h2>
-          <ButtonConfirm
-            icon="pi pi-trash"
-            label="Supprimer mon compte"
-            severity="danger"
-            confirmMessage="Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
-            errorMessage="Une erreur est survenue lors de la suppression du compte."
-            :loading="loading"
-            :error="error"
-            @confirm="deleteAccount"
-          />
+          <h2 class="mt-8 text-2xl font-medium uppercase">Gestion du compte</h2>
+
+          <div class="flex gap-2.5">
+            <DownloadDataButton />
+
+            <ButtonConfirm
+              icon="pi pi-trash"
+              label="Supprimer mon compte"
+              severity="danger"
+              confirmMessage="Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
+              errorMessage="Une erreur est survenue lors de la suppression du compte."
+              :loading="loading"
+              :error="error"
+              @confirm="deleteAccount"
+            />
+          </div>
         </div>
 
         <!-- Right -->

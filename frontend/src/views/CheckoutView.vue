@@ -130,7 +130,7 @@ const updateExpirationText = () => {
 }
 
 // Interval management
-let intervalId: number
+let intervalId: ReturnType<typeof setInterval>
 const startExpirationTimer = () => {
   updateExpirationText()
   intervalId = setInterval(updateExpirationText, 1000)
