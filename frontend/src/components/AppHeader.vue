@@ -55,14 +55,14 @@ const items = computed(() => [
   {
     label: 'Marques',
     root: true,
-    items: splitIntoGroups(menuBrands.value, Math.ceil(menuBrands.value.length / 2)).map(
+    items: splitIntoGroups(menuBrands.value, Math.ceil(menuBrands.value.length / 4)).map(
       (group) => [{ label: '', items: group }]
     )
   },
   {
     label: 'Catégories',
     root: true,
-    items: splitIntoGroups(menuCategories.value, Math.ceil(menuCategories.value.length / 2)).map(
+    items: splitIntoGroups(menuCategories.value, Math.ceil(menuCategories.value.length / 4)).map(
       (group) => [{ label: '', items: group }]
     )
   }
@@ -70,8 +70,8 @@ const items = computed(() => [
 
 onMounted(async () => {
   const [brands, categories] = await Promise.all([
-    BrandApi.getPaginated({ limit: 10 }),
-    CategoryApi.getPaginated({ limit: 10 })
+    BrandApi.getPaginated({ limit: 20 }),
+    CategoryApi.getPaginated({ limit: 20 })
   ])
 
   menuBrands.value = brands.map((brand) => ({
@@ -188,7 +188,6 @@ watch(cart, async () => {
         <div class="cursor-pointer md:hidden" @click="showMobileSearchRef = true">
           <i class="pi pi-search cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
         </div>
-        <i class="pi pi-bell cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
         <RouterLink to="/cart">
           <div
             id="cart"

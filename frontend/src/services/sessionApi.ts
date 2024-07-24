@@ -17,17 +17,15 @@ export class SessionApi {
 
   static async register(email: string, password: string) {
     try {
-      const response = await fetch(`${this.BASE_URL}/users`, {
+      await fetch(`${this.BASE_URL}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ email: email, password: password })
       })
-      const data = await response.json()
-      console.log(data)
     } catch (error) {
-      console.error('Error register:', error)
+      console.error(error)
     }
   }
 

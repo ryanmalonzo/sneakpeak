@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Image from 'primevue/image'
 import { CartApi } from '@/services/cartApi'
 
 const { id, stock } = defineProps({
@@ -17,7 +16,6 @@ const eventUpdateCart = defineEmits(['updateCart', 'updatePrice'])
 const removeProduct = async () => {
   if (id) {
     await CartApi.removeProduct(id)
-    console.log('Product removed with ID:' + id)
     eventUpdateCart('updateCart', id)
   }
 }

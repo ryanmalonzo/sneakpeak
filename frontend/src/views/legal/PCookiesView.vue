@@ -13,7 +13,6 @@ const fetchMarkdown = async () => {
 
 const mdToHtml = computed(() => {
   const html = marked.parse(markdown.value)
-  console.log(html)
   return html
 })
 

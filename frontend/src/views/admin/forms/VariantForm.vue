@@ -37,13 +37,13 @@ const actions = reactive({
   toastSuccess: variantId ? 'Variante modifiée' : 'Variante créée',
   toastSuccessDetail: variantId
     ? 'La variante a été modifiée avec succès'
-    : 'La variante a été créée avec succès',
+    : 'La variante a été créée avec succès'
 })
 
 const initialData = reactive({
   image: '',
   isBest: false,
-  stock: 0,
+  stock: 0
 })
 
 onMounted(async () => {
@@ -67,7 +67,7 @@ onMounted(async () => {
       id: data.sneakerId,
       name: data.sneakerName
     }
-    
+
     selectedColor.value = {
       id: data.variantId,
       name: data.variantName
@@ -87,8 +87,7 @@ const transformFunctions = {
 const validationSchema = {
   image: z.string().min(1, { message: 'Vous devez sélectionner une image' }),
   isBest: z.boolean(),
-  stock: z
-    .number({ invalid_type_error: 'Le stock ne peut pas être vide' })
+  stock: z.number({ invalid_type_error: 'Le stock ne peut pas être vide' })
 }
 
 const showErrorToast = (error: Error) => {
@@ -115,7 +114,6 @@ const onSubmit = async () => {
   }
 
   try {
-    console.log(selectedSneaker.value);
     const path = variantId ? `variants/${variantId}` : 'variants'
     const response = await fetch(`${API_URL}/${path}`, {
       method: variantId ? 'PATCH' : 'POST',
@@ -144,13 +142,12 @@ const onSubmit = async () => {
       life: 5000
     })
   } catch (error) {
-    console.log('error', error);
     if ((error as Response).status === 500) {
       showErrorToast(new Error('Servor Error'))
       return
     }
-    
-    showErrorToast(await (error as Response).json());
+
+    showErrorToast(await (error as Response).json())
   }
 }
 
@@ -180,7 +177,7 @@ const handleUpload = async (event: FileUploadUploaderEvent) => {
 
     <form @submit.prevent="submitForm" class="flex flex-col gap-5">
       <!-- Is best -->
-      <div class="card flex justify-start gap-2 bg-zinc-100 w-fit p-2 rounded-md">
+      <div class="card flex w-fit justify-start gap-2 rounded-md bg-zinc-100 p-2">
         <label for="isBest">Top vente :</label>
         <Checkbox v-model="formData.isBest" :binary="true" />
       </div>

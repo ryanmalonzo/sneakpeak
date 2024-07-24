@@ -38,7 +38,6 @@ const startExpirationTimer = () => {
 }
 
 const updateCart = async () => {
-  console.log('updateCart')
   const data = await CartApi.getAll()
   cartProducts.value = data.cartProduct.sort((a, b) => a.id - b.id)
   cartTotal.value = cartProducts.value.reduce((total, product) => total + product.total, 0)
@@ -50,7 +49,6 @@ const updateCart = async () => {
 
 onMounted(async () => {
   await updateCart()
-  console.log(cartProducts.value)
 })
 
 onBeforeUnmount(() => {
@@ -209,4 +207,3 @@ const updateTotal = async () => {
 </template>
 
 <style></style>
-

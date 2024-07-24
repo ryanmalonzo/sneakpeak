@@ -26,7 +26,7 @@ const redirectToSneakerView = (slug: string) => {
     <div class="flex flex-1 flex-col flex-wrap items-center justify-center gap-4 p-4">
       <p>{{ name }}</p>
       <p class="font-bold">{{ price }} €</p>
-      <p class="bg-black px-10 py-2 font-semibold text-white">Voir le produit</p>
+      <p class="bg-black px-10 py-2 text-center font-semibold text-white">Voir le produit</p>
     </div>
   </div>
 </template>

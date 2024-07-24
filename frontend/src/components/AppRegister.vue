@@ -60,6 +60,7 @@
           >conditions générales d'utilisation</RouterLink
         >
         , les
+        <br />
         <RouterLink to="/legal/cgv" target="_blank" class="underline"
           >conditions générales de vente</RouterLink
         >
