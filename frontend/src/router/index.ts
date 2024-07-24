@@ -256,18 +256,6 @@ const router = createRouter({
   ]
 })
 
-const publicRoutes = [
-  'home',
-  'email_verification',
-  'search',
-  'sneakers',
-  'reset_password',
-  'cgu',
-  'cgv',
-  'politique-de-confidentialite',
-  'politique-de-cookies'
-]
-
 const adminRoutes = [
   'admin_dashboard',
   'admin_categories',
@@ -291,40 +279,19 @@ const adminRoutes = [
 
 const storeRoutes = ['admin_store', 'admin_dashboard', 'admin_variants_edit', 'store']
 
-const authenticatedRoutes = ['profile', 'addresses', 'orders', 'order', 'checkout', 'cart']
-
 router.beforeEach(async (to) => {
-  const routeName = to.name as string
+  const { roles } = await checkAuth()
 
-  const { isAuthenticated, roles } = await checkAuth()
-
-  if (!isAuthenticated) {
-    if (!publicRoutes.includes(routeName)) {
-      return router.push('/')
-    }
-    return true
+  if (!roles.includes('ADMIN') && adminRoutes.includes(to.name as string)) {
+    router.push('/')
   }
 
-  if (roles.includes('ADMIN')) {
-    if (
-      !adminRoutes.includes(routeName) &&
-      !publicRoutes.includes(routeName) &&
-      !authenticatedRoutes.includes(routeName)
-    ) {
-      return router.push('/')
-    }
-  } else if (roles.includes('STORE_KEEPER')) {
-    if (
-      !storeRoutes.includes(routeName) &&
-      !publicRoutes.includes(routeName) &&
-      !authenticatedRoutes.includes(routeName)
-    ) {
-      return router.push('/')
-    }
-  } else {
-    if (!authenticatedRoutes.includes(routeName) && !publicRoutes.includes(routeName)) {
-      return router.push('/')
-    }
+  if (
+    !roles.includes('ADMIN') &&
+    !roles.includes('STORE_KEEPER') &&
+    (adminRoutes.includes(to.name as string) || storeRoutes.includes(to.name as string))
+  ) {
+    router.push('/')
   }
 
   return true
