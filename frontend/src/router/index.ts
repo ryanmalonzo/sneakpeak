@@ -124,7 +124,7 @@ const router = createRouter({
         {
           path: '',
           name: 'profile',
-          component: () => ProfileView
+          component: ProfileView
         },
         {
           path: 'addresses',
@@ -134,12 +134,12 @@ const router = createRouter({
         {
           path: 'orders',
           name: 'orders',
-          component: () => OrdersView
+          component: OrdersView
         },
         {
           path: 'orders/:reference',
           name: 'order',
-          component: () => DetailOrderView
+          component: DetailOrderView
         }
       ]
     },
