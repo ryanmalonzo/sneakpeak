@@ -3,6 +3,8 @@ import { CartService } from '../services/CartService';
 import { CartRepository } from '../repositories/mongodb/CartRepository';
 import { StatusCodes } from 'http-status-codes';
 import { auth } from '../middlewares/auth';
+import { schema } from '../middlewares/schema';
+import { z } from 'zod';
 
 export const CartRouter = Router();
 
@@ -22,6 +24,12 @@ CartRouter.get(
 
 CartRouter.post(
   '/',
+  schema(
+    z.object({
+      variantId: z.number(),
+      quantity: z.number(),
+    }),
+  ),
   auth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -42,6 +50,12 @@ CartRouter.post(
 
 CartRouter.put(
   '/',
+  schema(
+    z.object({
+      variantId: z.number(),
+      quantity: z.number(),
+    }),
+  ),
   auth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {

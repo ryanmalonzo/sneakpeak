@@ -160,7 +160,7 @@ async function testThatCantInsertProductInCartWithoutProductId(): Promise<void> 
       quantity: 1,
     });
 
-  expect(response.status).to.equal(StatusCodes.NOT_FOUND);
+  expect(response.status).to.equal(StatusCodes.UNPROCESSABLE_ENTITY);
 }
 
 async function testThatCantInsertProductInCartWithoutQuantity(): Promise<void> {
@@ -171,7 +171,7 @@ async function testThatCantInsertProductInCartWithoutQuantity(): Promise<void> {
       variantId: 1,
     });
 
-  expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+  expect(response.status).to.equal(StatusCodes.UNPROCESSABLE_ENTITY);
 }
 
 async function testThatCantUpdateProductInCartWithoutUserId(): Promise<void> {
@@ -191,7 +191,7 @@ async function testThatCantUpdateProductInCartWithoutProductId(): Promise<void> 
     quantity: 2,
   });
 
-  expect(response.status).to.equal(StatusCodes.NOT_FOUND);
+  expect(response.status).to.equal(StatusCodes.UNPROCESSABLE_ENTITY);
 }
 
 async function testThatCantUpdateProductInCartWithoutQuantity(): Promise<void> {
@@ -199,7 +199,7 @@ async function testThatCantUpdateProductInCartWithoutQuantity(): Promise<void> {
     variantId: 1,
   });
 
-  expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+  expect(response.status).to.equal(StatusCodes.UNPROCESSABLE_ENTITY);
 }
 
 async function testThatCantDeleteProductInCartWithoutUserId(): Promise<void> {

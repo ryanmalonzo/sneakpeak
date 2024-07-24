@@ -72,11 +72,13 @@ const orderDetails = reactive({
     selectedStatus: '',
     selectedRefund: '',
     status: '',
-
+    amount_refunded: ''
 })
 const refundMessage = ref('')
 const productName = ref('')
 const productId = ref('')
+const date = ref('')
+const orderDate = ref('')
 const modal = ref(false)
 
 const initialData = reactive({
@@ -99,6 +101,7 @@ const fetchOrderDetails = async () => {
             status: data.status,
             invoice: data.invoice_link,
             payment_status: data.payment_status,
+            amount_refunded: data.amount_refunded,
             user: {
                 id: data.user.id,
                 email: data.user.email,
@@ -234,7 +237,15 @@ const validRefund = () => {
                         </div>
                         <div class="flex gap-2">
                             <label for="total">Total : </label>
-                            <p>{{ orderDetails.total }}</p>
+                            <p>{{ orderDetails.total }} €</p>
+                        </div>
+                        <div class="flex gap-2" v-if="parseFloat(orderDetails.amount_refunded) > 0">
+                            <label for="status">Total remboursé : </label>
+                            <p>{{ orderDetails.amount_refunded }} €</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <label for="status">Statut de la commande : </label>
+                            <p>{{ translateStatus(orderDetails.status) }}</p>
                         </div>
                         <div class="flex gap-2">
                             <label for="total">Statut de paiement : </label>
@@ -242,7 +253,7 @@ const validRefund = () => {
                         </div>
                         <div class="flex gap-2">
                             <label for="createdAt">Date de création : </label>
-                            <p>{{ orderDetails.createdAt }}</p>
+                            <p>{{ (orderDetails.createdAt).split('T')[0] }}</p>
                         </div>
 
                         <div class="flex flex-col gap-2">
@@ -325,12 +336,20 @@ const validRefund = () => {
                                             refundMessage = item.productReturn.reason
                                             productName = item.name
                                             productId = item.id
+                                            orderDate = orderDetails.createdAt.split('T')[0]
+                                            date = item.productReturn.createdAt.split('T')[0]
                                         }" class="flex-auto md:flex-initial whitespace-nowrap">
                                         </Button>
                                     </div>
                                     <div>
                                         <span class="text-sm text-surface-500 dark:text-surface-400 text-green-500"
-                                            v-if="item.productReturn && item.productReturn.status == 'approved'">{{
+                                            v-if="item.productReturn && item.productReturn.status == 'approved' && item.linkRefund">
+                                            <a :href="item.linkRefund" target="_blank">
+                                                <Button type="submit" label="Voir l'avoir " />
+                                            </a>
+                                        </span>
+                                        <span class="text-sm text-surface-500 dark:text-surface-400 text-green-500"
+                                            v-else-if="item.productReturn && item.productReturn.status == 'approved'">{{
                                                 translateStatus(item.productReturn.status) }}</span>
 
                                         <span class="text-sm text-surface-500 dark:text-surface-400 text-red-500"
@@ -351,7 +370,12 @@ const validRefund = () => {
             <div class="flex flex-col gap-5">
 
                 <p>Une demande de remboursement a été demandée pour cet article.</p>
-                {{ productId }}
+                <p>
+                    La commande a été passée le {{ orderDate }}.
+                </p>
+                <p>
+                    La demande a été faite le {{ date }}.
+                </p>
                 <p>
                     Voici le message de l'utilisateur : <br />
                     <span class="text-red-500">"{{ refundMessage }}"</span>

@@ -17,6 +17,7 @@ export class OrderProduct extends Model {
   declare unitPrice: number;
   declare quantity: number;
   declare isRefund: boolean;
+  declare linkRefund: string;
 }
 
 export default (sequelize: Sequelize) => {
@@ -50,6 +51,10 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.BOOLEAN,
         allowNull: true,
         defaultValue: false,
+      },
+      linkRefund: {
+        type: DataTypes.TEXT,
+        allowNull: true,
       },
     },
     { sequelize, underscored: true },

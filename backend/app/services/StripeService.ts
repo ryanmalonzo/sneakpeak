@@ -35,6 +35,7 @@ export class StripeService {
           'isDelivered',
           'paid',
           invoiceUrl,
+          checkoutSessionCompleted.payment_intent as string,
         );
 
         // Empty the cart

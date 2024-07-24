@@ -6,6 +6,11 @@ import { ProductReturnService } from '../services/ProductReturnService';
 import { ProductReturnRepository } from '../repositories/sql/ProductReturnRepository';
 import { admin } from '../middlewares/admin';
 import { auth } from '../middlewares/auth';
+import { stripe } from '../services/CheckoutService';
+import { OrderProductRepository } from '../repositories/sql/OrderProductRepository';
+import { OrderRepository } from '../repositories/sql/OrderRepository';
+import { schema } from '../middlewares/schema';
+import { z } from 'zod';
 
 export const OrderRouter = Router();
 
@@ -55,6 +60,11 @@ OrderRouter.get(
 
 OrderRouter.put(
   '/:id',
+  schema(
+    z.object({
+      status: z.string(),
+    }),
+  ),
   admin,
   auth,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -72,6 +82,11 @@ OrderRouter.put(
 
 OrderRouter.put(
   '/:id/return',
+  schema(
+    z.object({
+      status: z.string(),
+    }),
+  ),
   admin,
   auth,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -86,6 +101,37 @@ OrderRouter.put(
         return res.status(StatusCodes.NOT_FOUND).json();
       }
       productReturn.status = status;
+      if (status === 'approved') {
+        const orderProduct = await OrderProductRepository.findById(
+          productReturn.order_products_id,
+        );
+        if (!orderProduct) {
+          return res.status(StatusCodes.NOT_FOUND).json();
+        }
+        const order = await OrderRepository.findById(orderProduct.orderId);
+        if (!order) {
+          return res.status(StatusCodes.NOT_FOUND).json();
+        }
+
+        if (orderProduct.linkRefund !== null) {
+          return res.status(StatusCodes.BAD_REQUEST).json();
+        }
+        const refund = await stripe.refunds.create({
+          payment_intent: order.payment_intent,
+          amount: parseInt(
+            (orderProduct.unitPrice * orderProduct.quantity * 100).toFixed(0),
+          ),
+        });
+
+        const charge = refund.charge as string;
+
+        const url = await stripe.charges.retrieve(charge);
+
+        order.amount_refunded += orderProduct.unitPrice * orderProduct.quantity;
+        orderProduct.linkRefund = url.receipt_url as string;
+        await OrderProductRepository.update(orderProduct);
+        await OrderRepository.update(order);
+      }
       await ProductReturnRepository.save(productReturn);
 
       return res.status(StatusCodes.OK).json();

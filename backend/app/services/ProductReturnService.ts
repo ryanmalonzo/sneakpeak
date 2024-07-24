@@ -45,12 +45,6 @@ export class ProductReturnService {
     if (!order) {
       throw new RequestError(StatusCodes.NOT_FOUND);
     }
-    // Check if order is older than 14 days
-    if (order.createdAt < new Date(Date.now() - 14 * 24 * 60 * 60 * 1000)) {
-      data.status = 'pending';
-    } else {
-      data.status = 'approved';
-    }
     const productReturn = ProductReturnRepository.build(data);
     await ProductReturnRepository.save(productReturn);
     orderProduct.isRefund = true;

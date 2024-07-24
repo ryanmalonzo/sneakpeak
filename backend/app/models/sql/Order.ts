@@ -29,6 +29,7 @@ interface OrderProductWithReturn {
   name: string;
   category: string;
   isRefund: boolean;
+  linkRefund?: string;
   brand: string;
   image: string;
   stock: number;
@@ -91,8 +92,6 @@ export const SyncOrderInMongoDB = async (Order: Order, type: Operation) => {
           SizeRepository.findSizeById(variant.sizeId),
         ]);
 
-        console.log('color', color);
-
         if (!color) {
           throw new Error(`Color not found for id ${variant.colorId}`);
         }
@@ -113,6 +112,7 @@ export const SyncOrderInMongoDB = async (Order: Order, type: Operation) => {
           name: sneaker.name,
           category: category.name,
           isRefund: item.isRefund,
+          linkRefund: item.linkRefund,
           brand: brand.name,
           image: variant.image,
           stock: variant.stock,
@@ -127,8 +127,6 @@ export const SyncOrderInMongoDB = async (Order: Order, type: Operation) => {
           product.isRefund = true;
           product.productReturn = productReturn.toJSON();
         }
-
-        console.log('item', product);
 
         return product;
       },
@@ -153,6 +151,8 @@ export class Order extends Model {
   declare invoice_link: string;
   declare userId: ForeignKey<User['id']>;
   declare createdAt: Date;
+  declare payment_intent: string;
+  declare amount_refunded: number;
 }
 
 export default (sequelize: Sequelize) => {
@@ -180,6 +180,14 @@ export default (sequelize: Sequelize) => {
       },
       invoice_link: {
         type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      payment_intent: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      amount_refunded: {
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: true,
       },
     },

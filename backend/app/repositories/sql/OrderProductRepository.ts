@@ -13,7 +13,7 @@ export class OrderProductRepository {
   }
 
   static async findById(id: number): Promise<OrderProduct | null> {
-    return OrderProduct.findByPk(id);
+    return OrderProduct.findOne({ where: { id } });
   }
 
   static async findByOrderId(orderId: number): Promise<OrderProduct[]> {
