@@ -22,15 +22,15 @@ const footerLinks = [
     links: [
       {
         title: 'Notre histoire',
-        link: '#'
+        link: '/legal/notre-histoire',
       },
       {
         title: 'Nos valeurs',
-        link: '#'
+        link: '/legal/nos-valeurs',
       },
       {
         title: 'Nos engagements',
-        link: '#'
+        link: '/legal/nos-engagements',
       }
     ]
   },
@@ -81,9 +81,9 @@ const footerLinks = [
 </script>
 
 <template>
-  <footer class="flex flex-shrink-0 items-start gap-30px self-stretch bg-black p-30px">
+  <footer class="flex flex-shrink-0  gap-30px self-stretch bg-black p-30px flex-col items-center">
     <!-- Main -->
-    <div class="flex-start flex flex-1 flex-col gap-30px self-stretch">
+    <div class="flex-start flex-1 gap-30px self-stretch flex justify-between f">
       <!-- Footer text -->
       <div class="flex flex-col items-start gap-5 self-stretch">
         <p class="font-medium text-white">SneakPeak</p>
@@ -93,25 +93,22 @@ const footerLinks = [
       </div>
 
       <!-- Footer links -->
-      <div class="flex flex-1 flex-col items-start gap-5 self-stretch md:flex-row md:gap-50px">
+      <div class="flex flex-1 flex-col items-start gap-5 self-stretch md:flex-row md:gap-50px justify-evenly">
         <template v-for="link in footerLinks" :key="link.title">
           <div class="flex flex-col items-start gap-2.5 self-stretch">
             <p class="font-medium text-white">{{ link.title }}</p>
             <template v-for="sublink in link.links" :key="sublink">
-              <router-link
-                :to="sublink.link"
-                :target="sublink.target || '_self'"
-                class="text-sneakpeak-gray-500 hover:text-white"
-                >{{ sublink.title }}</router-link
-              >
+              <router-link :to="sublink.link" :target="sublink.target || '_self'"
+                class="text-sneakpeak-gray-500 hover:text-white">{{ sublink.title }}</router-link>
             </template>
           </div>
         </template>
       </div>
 
-      <div class="flex flex-col items-start gap-5 self-stretch">
-        <p class="text-sm font-medium text-white">© 2024 SneakPeak. Tous droits réservés.</p>
-      </div>
+
+    </div>
+    <div class="flex flex-col items-start gap-5 self-center">
+      <p class="text-sm font-medium text-white">© 2024 SneakPeak. Tous droits réservés.</p>
     </div>
   </footer>
 </template>
