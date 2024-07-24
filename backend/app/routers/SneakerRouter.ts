@@ -44,6 +44,11 @@ SneakerRouter.get(
 SneakerRouter.get(
   '/variants',
   pagination({
+    brand: 'in',
+    category: 'in',
+    price: 'range',
+    'variants.name': 'in',
+    'variants.sizes.name': 'in',
     'variants.isBest': 'boolean',
   }),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -77,17 +82,15 @@ SneakerRouter.get(
       const { q, page, limit, sortOptions } = res.locals;
       const { id } = req.params;
 
-      return res
-        .status(StatusCodes.OK)
-        .json(
-          await SneakerService.getVariantsPaginated(
-            q,
-            page,
-            limit,
-            sortOptions,
-            { id: parseInt(id) }, //id de la sneaker
-          ),
-        );
+      return res.status(StatusCodes.OK).json(
+        await SneakerService.getVariantsPaginated(
+          q,
+          page,
+          limit,
+          sortOptions,
+          { id: parseInt(id) }, //id de la sneaker
+        ),
+      );
     } catch (error) {
       next(error);
     }
@@ -99,12 +102,10 @@ SneakerRouter.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      
+
       return res
         .status(StatusCodes.OK)
-        .json(
-          await SneakerService.getVariantById(parseInt(id)),
-        );
+        .json(await SneakerService.getVariantById(parseInt(id)));
     } catch (error) {
       next(error);
     }
