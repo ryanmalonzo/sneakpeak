@@ -142,9 +142,7 @@ const displayMenuProfile = (event: Event) => {
     itemsProfile.value = itemsProfile.value.filter((item) => item.label !== 'Administration' && item.label !== 'Gestionnaire de stock')
   }
 
-  if (profile.profile && profile.profile.roles.includes('ADMIN') && !itemsProfile.value.find((item) => item.label === 'Administration')) {
-    console.log('ADMIN');
-    
+  if (profile.profile && profile.profile.roles.includes('ADMIN') && !itemsProfile.value.find((item) => item.label === 'Administration')) {    
     itemsProfile.value.push({
       label: 'Administration',
       items: [
@@ -152,9 +150,7 @@ const displayMenuProfile = (event: Event) => {
       ]
     })
   }
-  if (profile.profile && profile.profile.roles.includes('STORE_KEEPER') && !itemsProfile.value.find((item) => item.label === 'Gestionnaire de stock')) {
-    console.log('STORE_KEEPER');
-    
+  if (profile.profile && profile.profile.roles.includes('STORE_KEEPER') && !itemsProfile.value.find((item) => item.label === 'Gestionnaire de stock')) {    
     itemsProfile.value.push({
       label: 'Gestionnaire de stock',
       items: [
@@ -174,7 +170,6 @@ watch(cart, async () => {
 </script>
 
 <template>
-  {{ itemsProfile }}
   <MegaMenu :model="items" class="!sticky top-0 z-50 hidden !rounded-none !px-2.5 md:!px-5">
     <template #start>
       <a @click="router.push('/')" class="cursor-pointer">
