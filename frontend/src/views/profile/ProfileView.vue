@@ -94,6 +94,12 @@ const onSubmit = async () => {
     })
 
     if (response.ok) {
+      // Update profile store
+      if (profile.profile) {
+        profile.profile.firstName = formData.firstName as string
+        profile.profile.email = formData.email as string
+      }
+      
       toast.add({
         severity: 'success',
         summary: 'Succès',

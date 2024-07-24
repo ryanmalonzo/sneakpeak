@@ -134,8 +134,15 @@ const itemsProfile = ref([
   }
 ])
 
-onMounted(() => {
-  if (profile.profile && profile.profile.roles.includes('ADMIN')) {
+const menuProfile = ref<typeof Menu>()
+const displayMenuProfile = (event: Event) => {
+  itemsProfile.value[0].label = `Bienvenue ${profile.profile?.firstName || profile.profile?.email} !`
+
+  if (profile.profile && !profile.profile.roles.includes('ADMIN') && !profile.profile.roles.includes('STORE_KEEPER')) {
+    itemsProfile.value = itemsProfile.value.filter((item) => item.label !== 'Administration' && item.label !== 'Gestionnaire de stock')
+  }
+
+  if (profile.profile && profile.profile.roles.includes('ADMIN') && !itemsProfile.value.find((item) => item.label === 'Administration')) {    
     itemsProfile.value.push({
       label: 'Administration',
       items: [
@@ -143,7 +150,7 @@ onMounted(() => {
       ]
     })
   }
-  if (profile.profile && profile.profile.roles.includes('STORE_KEEPER')) {
+  if (profile.profile && profile.profile.roles.includes('STORE_KEEPER') && !itemsProfile.value.find((item) => item.label === 'Gestionnaire de stock')) {    
     itemsProfile.value.push({
       label: 'Gestionnaire de stock',
       items: [
@@ -151,19 +158,14 @@ onMounted(() => {
       ]
     })
   }
-})
-
-const menuProfile = ref<typeof Menu>()
-const displayMenuProfile = (event: Event) => {
-  itemsProfile.value[0].label = `Bienvenue ${profile.profile?.firstName || profile.profile?.email} !`
   menuProfile.value?.toggle(event)
 }
 
 // Compter les éléments du panier
 const cart = CartStore() //Store cart
-const cartItemCount = ref(0)
+const cartItemCount = ref(cart.getCart()?.cartProduct.length)
 watch(cart, async () => {
-  cartItemCount.value = cart.getCart().cartProduct.length
+  cartItemCount.value = cart.getCart()?.cartProduct.length
 })
 </script>
 

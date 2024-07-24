@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { CartApi } from '@/services/cartApi'
 
 export const CartStore = defineStore('cart', () => {
-  const cart = ref<CartApi.CartApiOut>({
+  const cart = ref<CartApi.CartApiOut | undefined>({
     id: 0,
     user: 0,
     cartProduct: [],
@@ -23,10 +23,16 @@ export const CartStore = defineStore('cart', () => {
   const addProduct = async (variantId: number, quantity: number) => {
     try {
       await CartApi.addProduct(variantId, quantity)
+      const data = await CartApi.getAll()
+      setCart(data)
     } catch (error) {
       throw await (error as Response) // Renvoie le message d'erreur au composant
     }
   }
 
-  return { cart, getCart, setCart, addProduct }
+  const clearCart = () => {
+    cart.value = undefined
+  }
+
+  return { cart, getCart, setCart, addProduct, clearCart }
 })
