@@ -138,8 +138,9 @@ if (
           :image="variant.variantImage"
           :name="variant.sneakerName"
           :price="variant.sneakerPrice"
-          :slug="variant.sneakerSlug"
           :color="variant.variantName"
+          :sneakerSlug="variant.sneakerSlug"
+          :colorSlug="variant.colorSlug"
         />
       </SneakerGrid>
 

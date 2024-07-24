@@ -61,12 +61,11 @@ onMounted(async () => {
   bestSellingVariants.push(...dataBestSellingVariants.items)
 })
 
-const redirectToSneakerView = (slug: string) => {
-  const slugs = slug.split('|')
+const redirectToSneakerView = (sneakerSlug: string, colorSlug: string) => {
   router.push({
     name: 'sneakers',
-    params: { slugSneaker: slugs[0] },
-    query: { color: slugs[1] }
+    params: { slugSneaker: sneakerSlug },
+    query: { color: colorSlug }
   })
 }
 </script>
@@ -88,14 +87,25 @@ const redirectToSneakerView = (slug: string) => {
       <section>
         <h1 class="py-10 text-center text-xl font-bold uppercase">Nos dernières baskets</h1>
         <div class="hidden flex-wrap justify-center gap-10 md:flex">
-          <CardProduct v-for="variant in latestVariants" :key="variant._id" :slug="variant.variantSlug"
-            :image="variant.variantImage" :name="variant.sneakerName" :price="variant.sneakerPrice" />
+          <CardProduct
+            v-for="variant in latestVariants"
+            :key="variant._id"
+            :sneakerSlug="variant.sneakerSlug"
+            :colorSlug="variant.colorSlug"
+            :image="variant.variantImage"
+            :name="variant.sneakerName"
+            :price="variant.sneakerPrice"
+          />
         </div>
         <Carousel :value="latestVariants" :numVisible="1" :numScroll="1" orientation="vertical"
           verticalViewPortHeight="358px" containerClass="align-items-center flex md:!hidden" :autoplayInterval="3000"
           :showNavigators="false">
           <template #item="variant">
-            <a class="h-[358px]" @click="redirectToSneakerView(variant.data.variantSlug)">
+            <a
+              href="#"
+              class="h-[358px]"
+              @click="redirectToSneakerView(variant.sneakerSlug, variant.colorSlug)"
+            >
               <div class="border-1 surface-border border-round flex flex-col items-center p-5">
                 <img :src="variant.data.variantImage" class="border-round w-full" />
                 <p>{{ variant.data.sneakerName }}</p>
@@ -130,8 +140,15 @@ const redirectToSneakerView = (slug: string) => {
           <div class="flex justify-between gap-10">
             <img src="../assets/images/cover.png" alt="" class="h-[566px] w-[439px] shrink-0 max-lg:hidden" />
             <div class="flex flex-1 flex-col justify-between gap-5">
-              <CardBestProduct v-for="variant in bestSellingVariants" :key="variant._id" :slug="variant.variantSlug"
-                :image="variant.variantImage" :name="variant.sneakerName" :price="variant.sneakerPrice" />
+              <CardBestProduct
+                v-for="variant in bestSellingVariants"
+                :key="variant.sizeSlug"
+                :image="variant.variantImage"
+                :name="variant.sneakerName"
+                :price="variant.sneakerPrice"
+                :sneakerSlug="variant.sneakerSlug"
+                :colorSlug="variant.colorSlug"
+              />
             </div>
           </div>
         </section>

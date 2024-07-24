@@ -32,7 +32,8 @@ const SneakerSchema: Schema<ISneaker> = new Schema(
         id: { type: Number, required: true },
         name: { type: String, required: true },
         hexCode: { type: String, required: true },
-        slug: { type: String, required: true },
+        sneakerSlug: { type: String, required: true },
+        colorSlug: { type: String, required: true },
         image: { type: String, required: true },
         isBest: { type: Boolean, required: true },
         sizes: [
@@ -40,7 +41,6 @@ const SneakerSchema: Schema<ISneaker> = new Schema(
             idRef: { type: Number, required: true },
             id: { type: Number, required: true },
             name: { type: String, required: true },
-            slug: { type: String, required: true },
             stock: { type: Number, required: true },
           },
         ],

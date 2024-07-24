@@ -17,8 +17,8 @@ const MAX_QUANTITY_DISPLAYED = 5
 
 const router = useRouter()
 const route = useRoute()
-const cart = CartStore() //Store cart
-const profile = profileStore() //Store profile
+const cart = CartStore() // Store cart
+const profile = profileStore() // Store profile
 const toast = useToast()
 const dialog = useDialog()
 
@@ -31,9 +31,10 @@ const selectedQuantity = ref<{ quantity: number }>()
 
 onBeforeMount(async () => {
   sneaker.value = await SneakerApi.getOne(route.params.slugSneaker as string)
+  console.log(sneaker.value)
 
   if (!selectedColor.value) {
-    selectedColor.value = sneaker.value?.variants[0].name
+    selectedColor.value = sneaker.value?.variants[0].colorSlug
   }
   // preselectionner la bonne taille parmis les tailles de la variante
   if (selectedColor.value) {
@@ -68,7 +69,10 @@ const changeRouteColor = (color: string | undefined, size: string | undefined) =
 const selectedVariant = computed(() => {
   resetSelectedQuantity()
   changeRouteColor(selectedColor.value, selectedSize.value?.name)
-  return sneaker.value?.variants.find((variant) => variant.name === selectedColor.value)
+
+  return sneaker.value?.variants.find((variant) => {
+    return variant.colorSlug === selectedColor.value
+  })
 })
 
 // Permet de réinitialiser la liste des tailles (à chaque changement de couleur),
@@ -143,7 +147,7 @@ const onSubmit = async () => {
           <div class="flex h-full items-center rounded-xl bg-zinc-100 p-2">
             <img
               :src="selectedVariant?.image"
-              :alt="selectedVariant?.slug"
+              :alt="selectedVariant?.sneakerSlug"
               class="h-full w-full object-contain"
             />
           </div>
@@ -188,10 +192,10 @@ const onSubmit = async () => {
           <div class="mb-4 flex flex-col items-start gap-2">
             <h2 class="text-title">Couleurs disponibles :</h2>
             <div class="flex gap-2">
-              <div v-for="color in sneaker.variants" :key="color.name">
+              <div v-for="variant in sneaker.variants" :key="variant.name">
                 <ColorButton
-                  :variant="color"
-                  :isColorSelected="color.name === selectedVariant?.name"
+                  :variant="variant"
+                  :isColorSelected="variant.colorSlug === selectedVariant?.colorSlug"
                   @color-emittion="(color) => selectColor(color)"
                 />
               </div>

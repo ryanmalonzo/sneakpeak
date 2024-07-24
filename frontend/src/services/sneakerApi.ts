@@ -27,7 +27,8 @@ export namespace SneakerApi {
   export interface VariantOut {
     _id: string
     name: string // a color
-    slug: string
+    sneakerSlug: string
+    colorSlug: string
     image: string
     isBest: boolean
     sizes: SizeOut[]
@@ -81,6 +82,7 @@ export namespace SneakerApi {
     sizeName: string
     sizeSlug: string
     sizeStock: number
+    colorSlug: string
   }
 
   export interface PaginationVariantsOut {
