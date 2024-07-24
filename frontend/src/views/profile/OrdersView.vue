@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import BasePage from '@/components/BasePage.vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import { FilterMatchMode } from '@primevue/core/api'
 import MenuProfil from '@/components/profile/MenuProfil.vue'
 
-import { ref, onMounted } from 'vue'
+const BASE_URL = import.meta.env.VITE_API_URL
 
 const orders = ref([])
 const loading = ref(true)
@@ -40,7 +41,7 @@ const getSeverity = (status: string) => {
       return 'text-green-500 bg-green-100 border-green-500 text-center rounded-full px-3 py-1 font-semibold text-sm'
   }
 }
-const BASE_URL = import.meta.env.VITE_API_URL
+
 onMounted(async () => {
   // Load orders
   const loadOrders = async () => {

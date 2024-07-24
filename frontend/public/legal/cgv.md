@@ -244,14 +244,6 @@ Le Produit doit être retourné dans l'état dans lequel il a été reçu par le
 
 La responsabilité du Client n’est engagée qu’à l’égard de la dépréciation du bien résultant de manipulations autres que celles nécessaires pour établir la nature, les caractéristiques et le bon fonctionnement de ce Produit. En d’autres termes, le Client dispose de la possibilité de tester le Produit mais sa responsabilité pourra être engagée s’il procède à des manipulations autres que celles qui sont nécessaires.
 
-### 11.8. Politique d'échange
-
-En lieu et place d'un remboursement intégral du montant de la Commande, le Client peut, lors de l'exercice de son droit de rétractation, demander l'échange des Produits de sa Commande contre des Produits de nature équivalente et d'un montant total équivalent à celui de la Commande passée.
-
-Le Vendeur procède alors à l'expédition et à la livraison des nouveaux Produits choisis par le Client à réception des Produits retournés.
-
-L'expédition et la livraison de ces nouveaux Produits constituent une nouvelle Commande indépendante qui est répertoriée sur l'Espace Client du demandeur.
-
 ## 12. Garantie
 
 En dehors des garanties commerciales que le Vendeur pourrait proposer pour certains Produits, tout Client bénéficie de garanties « légales », pour l’ensemble des Produits, qui sont détaillées ci-dessous, conformément à l’article L.221-5 du Code de la consommation.

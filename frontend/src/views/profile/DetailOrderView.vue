@@ -39,7 +39,7 @@ const returnProduct = async () => {
     toast.add({
       severity: 'error',
       summary: 'Erreur',
-      detail: 'Impossible de retourner l\'article',
+      detail: "Impossible de retourner l'article",
       life: 3000
     })
   }
@@ -63,7 +63,6 @@ onBeforeMount(async () => {
     })
   }
 })
-
 
 const openModal = async (id: string, isRefund: boolean) => {
   if (isRefund) {
@@ -101,12 +100,13 @@ const reOrder = async () => {
       life: 3000
     })
     window.location.href = data.url
-
   } catch (e) {
     toast.add({
       severity: 'error',
       summary: 'Erreur',
-      detail: (e as Error).message ?? 'Une erreur est survenue lors du traitement de votre commande. Veuillez recommencer la commande depuis le début. Si le problème persiste, contactez notre service client.',
+      detail:
+        (e as Error).message ??
+        'Une erreur est survenue lors du traitement de votre commande. Veuillez recommencer la commande depuis le début. Si le problème persiste, contactez notre service client.',
       life: 3000
     })
   }
@@ -115,12 +115,17 @@ const reOrder = async () => {
 
 <template>
   <BasePage>
-    <div class="flex flex-col justify-between gap-6 p-4 md:p-6 lg:flex-row lg:gap-[45px] lg:p-10" v-if="order">
+    <div
+      class="flex flex-col justify-between gap-6 p-4 md:p-6 lg:flex-row lg:gap-[45px] lg:p-10"
+      v-if="order"
+    >
       <div class="w-full lg:w-3/4">
         <h2 class="mb-6 text-2xl font-medium md:text-3xl">Ma commande</h2>
 
         <div class="mb-6 rounded-lg bg-white shadow">
-          <div class="flex flex-col justify-between rounded-t-lg bg-gray-100 p-4 md:flex-row md:p-5">
+          <div
+            class="flex flex-col justify-between rounded-t-lg bg-gray-100 p-4 md:flex-row md:p-5"
+          >
             <div class="mb-4 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:mb-0 md:grid-cols-4">
               <div class="flex flex-col">
                 <span class="font-light">Commandé le :</span>
@@ -162,15 +167,27 @@ const reOrder = async () => {
                 <button class="text-black underline" v-else>
                   <a :href="order.order.linkPaiement" target="_blank"> Payer la commande </a>
                 </button>
-                <button class="text-black underline" v-if="order.order.payment_status == 'paid'" @click="reOrder">
+                <button
+                  class="text-black underline"
+                  v-if="order.order.payment_status == 'paid'"
+                  @click="reOrder"
+                >
                   Commander à nouveau
                 </button>
               </div>
             </div>
           </div>
 
-          <div v-for="item in order.products" :key="item.id" class="mb-4 flex flex-col p-4 sm:flex-row">
-            <img :src="item.image" alt="" class="mb-4 h-[130px] w-full object-cover sm:mb-0 sm:mr-4 sm:w-[130px]" />
+          <div
+            v-for="item in order.products"
+            :key="item.id"
+            class="mb-4 flex flex-col p-4 sm:flex-row"
+          >
+            <img
+              :src="item.image"
+              alt=""
+              class="mb-4 h-[130px] w-full object-cover sm:mb-0 sm:mr-4 sm:w-[130px]"
+            />
             <div class="flex w-full flex-col justify-between sm:flex-row">
               <div class="mb-4 flex flex-col justify-between sm:mb-0">
                 <p class="font-medium">{{ item.name }}</p>
@@ -179,17 +196,21 @@ const reOrder = async () => {
                 <p class="text-gray-600">{{ item.quantity }} x {{ item.unitPrice }} €</p>
               </div>
               <div class="self-end sm:self-center">
-                <p class="text-black underline" @click="openModal(item.id, item.isRefund)"
-                  v-if="order.order.status == 'completed' && item.isRefund == false">
-
-                  <!--  -->
+                <p
+                  class="cursor-pointer text-black underline"
+                  @click="openModal(item.id, item.isRefund)"
+                  v-if="order.order.status == 'completed' && item.isRefund == false"
+                >
                   Retourner un article
                 </p>
 
-                <p v-if="item.isRefund" class="text-black underline" @click="openModal(item.id, item.isRefund)">
+                <p
+                  v-if="item.isRefund"
+                  class="cursor-pointer text-black underline"
+                  @click="openModal(item.id, item.isRefund)"
+                >
                   Voir le statut du remboursement
                 </p>
-
               </div>
             </div>
           </div>
@@ -204,35 +225,40 @@ const reOrder = async () => {
     </div>
   </BasePage>
 
-  <Dialog v-model:visible="modalRefund" modalRefund
-    :header="`Retourner l'article ${order?.products.find(p => p.id === productId)?.name}`">
-
-
+  <Dialog
+    v-model:visible="modalRefund"
+    modalRefund
+    :header="`Retourner l'article ${order?.products.find((p) => p.id === productId)?.name}`"
+  >
     <strong class="mb-4 text-red-500">
       Si votre achat a été effectué, il y a moins de 14 jours, vous pouvez retourner votre article.
       Sinon votre demande sera soumise à l'approbation de notre service client.
     </strong>
 
-    <div class="flex flex-col gap-2 mt-4">
+    <div class="mt-4 flex flex-col gap-2">
       <label for="reason">Raison du retour</label>
       <Textarea id="reason" v-model="reason" rows="4" />
     </div>
 
     <template #footer>
-      <Button label="Annuler" outlined severity="secondary" @click="modalRefund = false" autofocus />
+      <Button
+        label="Annuler"
+        outlined
+        severity="secondary"
+        @click="modalRefund = false"
+        autofocus
+      />
       <Button label="Envoyer" outlined severity="secondary" @click="returnProduct" autofocus />
     </template>
   </Dialog>
 
-  <Dialog v-model:visible="modal" modal
-    :header="`Statut du remboursement de l'article ${order?.products.find(p => p.id === productId)?.name}`">
-
-
-    <p>
-      <strong>Statut du remboursement :</strong> {{ status(productRefund?.status ?? '') }}
-    </p>
+  <Dialog
+    v-model:visible="modal"
+    modal
+    :header="`Statut du remboursement de l'article ${order?.products.find((p) => p.id === productId)?.name}`"
+  >
+    <p><strong>Statut du remboursement :</strong> {{ status(productRefund?.status ?? '') }}</p>
   </Dialog>
-
 </template>
 
 <style></style>
