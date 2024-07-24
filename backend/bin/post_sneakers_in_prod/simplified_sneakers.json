@@ -1,0 +1,2628 @@
+[
+  {
+    "id": 1,
+    "name": "Air Jordan 1 Retro High OG 'Shadow' 2018",
+    "slug": "air-jordan-1-retro-high-og-'shadow'-2018",
+    "description": "This is the Air Jordan 1 Retro High OG 'Shadow' 2018.",
+    "price": 100.0,
+    "category": "basketball",
+    "brand": "Air Jordan",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 1,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/011/119/994/original/218099_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 2,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/011/119/994/original/218099_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 3,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/011/119/994/original/218099_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 4,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/011/119/994/original/218099_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 5,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/011/119/994/original/218099_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Air Jordan 4 Retro OG GS 'Bred' 2019",
+    "slug": "air-jordan-4-retro-og-gs-'bred'-2019",
+    "description": "This is the Air Jordan 4 Retro OG GS 'Bred' 2019.",
+    "price": 100.0,
+    "category": "basketball",
+    "brand": "Air Jordan",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 11,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/806/444/original/507844_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Air Jordan 11 Retro 'Space Jam' 2016",
+    "slug": "air-jordan-11-retro-'space-jam'-2016",
+    "description": "This is the Air Jordan 11 Retro 'Space Jam' 2016.",
+    "price": 100.0,
+    "category": "basketball",
+    "brand": "Air Jordan",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 21,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/900/original/52015_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 22,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/900/original/52015_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 23,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/900/original/52015_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 24,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/900/original/52015_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Air Jordan 11 Retro 'Win Like '96'",
+    "slug": "air-jordan-11-retro-'win-like-'96'",
+    "description": "This is the Air Jordan 11 Retro 'Win Like '96'.",
+    "price": 100.0,
+    "category": "basketball",
+    "brand": "Air Jordan",
+    "color": "Red",
+    "variants": [
+      {
+        "id": 31,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/870/353/original/235806_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 32,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/870/353/original/235806_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 33,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/870/353/original/235806_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 34,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/870/353/original/235806_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Air Jordan 11 Retro 'Legend Blue' 2014",
+    "slug": "air-jordan-11-retro-'legend-blue'-2014",
+    "description": "This is the Air Jordan 11 Retro 'Legend Blue' 2014.",
+    "price": 100.0,
+    "category": "basketball",
+    "brand": "Air Jordan",
+    "color": "White",
+    "variants": [
+      {
+        "id": 41,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/010/223/048/original/13607_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Wmns Air Jordan 1 Retro High OG 'Twist'",
+    "slug": "wmns-air-jordan-1-retro-high-og-'twist'",
+    "description": "This is the Wmns Air Jordan 1 Retro High OG 'Twist'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 51,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/545/481/original/509480_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Air Jordan 1 Mid 'Multicolor Swoosh Black'",
+    "slug": "air-jordan-1-mid-'multicolor-swoosh-black'",
+    "description": "This is the Air Jordan 1 Mid 'Multicolor Swoosh Black'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 61,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/012/910/690/original/554724_065.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Air Jordan 4 Retro OG 'Bred' 2019",
+    "slug": "air-jordan-4-retro-og-'bred'-2019",
+    "description": "This is the Air Jordan 4 Retro OG 'Bred' 2019.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 71,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/806/485/original/461782_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 72,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/806/485/original/461782_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 73,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/806/485/original/461782_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Air Jordan 6 Retro 'Infrared' 2019",
+    "slug": "air-jordan-6-retro-'infrared'-2019",
+    "description": "This is the Air Jordan 6 Retro 'Infrared' 2019.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 81,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/675/311/original/464372_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 82,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/675/311/original/464372_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 83,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/675/311/original/464372_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Wmns Air Jordan 12 Retro 'Reptile'",
+    "slug": "wmns-air-jordan-12-retro-'reptile'",
+    "description": "This is the Wmns Air Jordan 12 Retro 'Reptile'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 91,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/042/384/original/500924_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 92,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/042/384/original/500924_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 93,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/042/384/original/500924_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Air Jordan 4 Retro 'Laser'",
+    "slug": "air-jordan-4-retro-'laser'",
+    "description": "This is the Air Jordan 4 Retro 'Laser'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 101,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/071/547/original/479524_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 102,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/071/547/original/479524_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 103,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/071/547/original/479524_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 104,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/071/547/original/479524_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 105,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/071/547/original/479524_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "OFF-WHITE x Air Jordan 1 Retro High OG 'UNC'",
+    "slug": "off-white-x-air-jordan-1-retro-high-og-'unc'",
+    "description": "This is the OFF-WHITE x Air Jordan 1 Retro High OG 'UNC'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Blue",
+    "variants": [
+      {
+        "id": 111,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/012/219/518/original/335047_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 112,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/012/219/518/original/335047_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Trophy Room x Air Jordan 5 Retro 'Ice Blue'",
+    "slug": "trophy-room-x-air-jordan-5-retro-'ice-blue'",
+    "description": "This is the Trophy Room x Air Jordan 5 Retro 'Ice Blue'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Blue",
+    "variants": [
+      {
+        "id": 121,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/474/777/original/TR_JSP_5_ICE.png.png",
+        "isBest": true
+      },
+      {
+        "id": 122,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/474/777/original/TR_JSP_5_ICE.png.png",
+        "isBest": false
+      },
+      {
+        "id": 123,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/474/777/original/TR_JSP_5_ICE.png.png",
+        "isBest": false
+      },
+      {
+        "id": 124,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/474/777/original/TR_JSP_5_ICE.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Travis Scott x Air Jordan 4 Retro 'Cactus Jack'",
+    "slug": "travis-scott-x-air-jordan-4-retro-'cactus-jack'",
+    "description": "This is the Travis Scott x Air Jordan 4 Retro 'Cactus Jack'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Blue",
+    "variants": [
+      {
+        "id": 131,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/012/478/518/original/365514_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Air Jordan 1 Retro High OG 'Rookie of the Year'",
+    "slug": "air-jordan-1-retro-high-og-'rookie-of-the-year'",
+    "description": "This is the Air Jordan 1 Retro High OG 'Rookie of the Year'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Brown",
+    "variants": [
+      {
+        "id": 141,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/152/710/original/402491_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 142,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/152/710/original/402491_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 143,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/152/710/original/402491_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 144,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/152/710/original/402491_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 145,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/152/710/original/402491_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Travis Scott x Air Jordan 1 Retro High OG 'Mocha'",
+    "slug": "travis-scott-x-air-jordan-1-retro-high-og-'mocha'",
+    "description": "This is the Travis Scott x Air Jordan 1 Retro High OG 'Mocha'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Brown",
+    "variants": [
+      {
+        "id": 151,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/783/111/original/488879_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 152,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/783/111/original/488879_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Patta x Air Jordan 7 Retro OG SP 'Shimmer'",
+    "slug": "patta-x-air-jordan-7-retro-og-sp-'shimmer'",
+    "description": "This is the Patta x Air Jordan 7 Retro OG SP 'Shimmer'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Brown",
+    "variants": [
+      {
+        "id": 161,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/321/847/original/473391_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 162,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/321/847/original/473391_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Air Jordan 1 Retro High OG 'Turbo Green'",
+    "slug": "air-jordan-1-retro-high-og-'turbo-green'",
+    "description": "This is the Air Jordan 1 Retro High OG 'Turbo Green'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Green",
+    "variants": [
+      {
+        "id": 171,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/552/901/original/404758_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 172,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/552/901/original/404758_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 173,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/552/901/original/404758_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 174,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/552/901/original/404758_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 175,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/552/901/original/404758_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Air Jordan 1 Retro High OG 'Crimson Tint'",
+    "slug": "air-jordan-1-retro-high-og-'crimson-tint'",
+    "description": "This is the Air Jordan 1 Retro High OG 'Crimson Tint'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Pink",
+    "variants": [
+      {
+        "id": 181,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/249/059/original/485842_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 182,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/249/059/original/485842_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Wmns Air Jordan 11 Retro Low 'Pink Snakeskin'",
+    "slug": "wmns-air-jordan-11-retro-low-'pink-snakeskin'",
+    "description": "This is the Wmns Air Jordan 11 Retro Low 'Pink Snakeskin'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Pink",
+    "variants": [
+      {
+        "id": 191,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/357/907/original/478963_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 192,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/357/907/original/478963_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 193,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/357/907/original/478963_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 194,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/357/907/original/478963_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 195,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/357/907/original/478963_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Air Jordan 1 Retro High SB 'Lakers'",
+    "slug": "air-jordan-1-retro-high-sb-'lakers'",
+    "description": "This is the Air Jordan 1 Retro High SB 'Lakers'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Purple",
+    "variants": [
+      {
+        "id": 201,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/270/533/original/CD6578_507.png.png",
+        "isBest": false
+      },
+      {
+        "id": 202,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/270/533/original/CD6578_507.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Air Jordan 1 Retro High OG 'Bred Toe'",
+    "slug": "air-jordan-1-retro-high-og-'bred-toe'",
+    "description": "This is the Air Jordan 1 Retro High OG 'Bred Toe'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Red",
+    "variants": [
+      {
+        "id": 211,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/009/559/594/original/144690_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 212,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/009/559/594/original/144690_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 213,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/009/559/594/original/144690_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Air Jordan 1 Retro High OG 'Origin Story'",
+    "slug": "air-jordan-1-retro-high-og-'origin-story'",
+    "description": "This is the Air Jordan 1 Retro High OG 'Origin Story'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Red",
+    "variants": [
+      {
+        "id": 221,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/867/969/original/478648_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 222,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/867/969/original/478648_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 223,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/867/969/original/478648_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Air Jordan 12 Retro 'Gym Red'",
+    "slug": "air-jordan-12-retro-'gym-red'",
+    "description": "This is the Air Jordan 12 Retro 'Gym Red'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Red",
+    "variants": [
+      {
+        "id": 231,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/596/414/original/376931_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 232,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/596/414/original/376931_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 233,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/596/414/original/376931_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 234,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/596/414/original/376931_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Air Jordan 11 Retro Low 'Light Bone Snakeskin'",
+    "slug": "air-jordan-11-retro-low-'light-bone-snakeskin'",
+    "description": "This is the Air Jordan 11 Retro Low 'Light Bone Snakeskin'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "Red",
+    "variants": [
+      {
+        "id": 241,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/219/116/original/CD6846_002.png.png",
+        "isBest": false
+      },
+      {
+        "id": 242,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/219/116/original/CD6846_002.png.png",
+        "isBest": true
+      },
+      {
+        "id": 243,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/219/116/original/CD6846_002.png.png",
+        "isBest": true
+      },
+      {
+        "id": 244,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/219/116/original/CD6846_002.png.png",
+        "isBest": false
+      },
+      {
+        "id": 245,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/219/116/original/CD6846_002.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Air Jordan 1 Retro High SB 'Light Bone'",
+    "slug": "air-jordan-1-retro-high-sb-'light-bone'",
+    "description": "This is the Air Jordan 1 Retro High SB 'Light Bone'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "White",
+    "variants": [
+      {
+        "id": 251,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/147/976/original/497870_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 252,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/147/976/original/497870_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 253,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/147/976/original/497870_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Air Jordan 1 Retro High OG 'Phantom'",
+    "slug": "air-jordan-1-retro-high-og-'phantom'",
+    "description": "This is the Air Jordan 1 Retro High OG 'Phantom'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "White",
+    "variants": [
+      {
+        "id": 261,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/095/762/original/411931_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 262,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/095/762/original/411931_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 263,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/095/762/original/411931_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 264,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/095/762/original/411931_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Sneaker Politics x Air Jordan 1 Low 'Block Party'",
+    "slug": "sneaker-politics-x-air-jordan-1-low-'block-party'",
+    "description": "This is the Sneaker Politics x Air Jordan 1 Low 'Block Party'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "White",
+    "variants": [
+      {
+        "id": 271,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/317/617/original/SP_AJ1_LOW_BP.png.png",
+        "isBest": false
+      },
+      {
+        "id": 272,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/317/617/original/SP_AJ1_LOW_BP.png.png",
+        "isBest": false
+      },
+      {
+        "id": 273,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/317/617/original/SP_AJ1_LOW_BP.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Air Jordan 11 Retro 'Platinum Tint'",
+    "slug": "air-jordan-11-retro-'platinum-tint'",
+    "description": "This is the Air Jordan 11 Retro 'Platinum Tint'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "White",
+    "variants": [
+      {
+        "id": 281,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/015/392/851/original/429772_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 282,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/015/392/851/original/429772_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 283,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/015/392/851/original/429772_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Air Jordan 11 Retro 'Concord' 2018",
+    "slug": "air-jordan-11-retro-'concord'-2018",
+    "description": "This is the Air Jordan 11 Retro 'Concord' 2018.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "White",
+    "variants": [
+      {
+        "id": 291,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/934/177/original/351614_00.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Air Jordan 11 Retro Low 'Navy Snakeskin' 2019",
+    "slug": "air-jordan-11-retro-low-'navy-snakeskin'-2019",
+    "description": "This is the Air Jordan 11 Retro Low 'Navy Snakeskin' 2019.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "White",
+    "variants": [
+      {
+        "id": 301,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/310/667/original/459705_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 302,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/310/667/original/459705_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 303,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/310/667/original/459705_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Air Jordan 4 Retro OG 'White Cement' 2016",
+    "slug": "air-jordan-4-retro-og-'white-cement'-2016",
+    "description": "This is the Air Jordan 4 Retro OG 'White Cement' 2016.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Air Jordan",
+    "color": "White",
+    "variants": [
+      {
+        "id": 311,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/831/original/31342_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 312,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/831/original/31342_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 313,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/831/original/31342_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 314,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/831/original/31342_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Rally Pro 'Black'",
+    "slug": "rally-pro-'black'",
+    "description": "This is the Rally Pro 'Black'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Champion",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 321,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/015/567/335/original/CM100018M.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Tyler, The Creator x Foot Locker x Chuck 70 'Artist Series'",
+    "slug": "tyler,-the-creator-x-foot-locker-x-chuck-70-'artist-series'",
+    "description": "This is the Tyler, The Creator x Foot Locker x Chuck 70 'Artist Series'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Converse",
+    "color": "Cream",
+    "variants": [
+      {
+        "id": 331,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/552/840/original/476518_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 332,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/552/840/original/476518_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 333,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/552/840/original/476518_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "name": "Comme des Gar\u00e7ons x Chuck Taylor All Star Hi 'Milk'",
+    "slug": "comme-des-gar\u00e7ons-x-chuck-taylor-all-star-hi-'milk'",
+    "description": "This is the Comme des Gar\u00e7ons x Chuck Taylor All Star Hi 'Milk'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Converse",
+    "color": "White",
+    "variants": [
+      {
+        "id": 341,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/015/298/767/original/77243_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 342,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/015/298/767/original/77243_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 343,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/015/298/767/original/77243_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "name": "Gucci Pursuit '72 Rubber Slide 'Black'",
+    "slug": "gucci-pursuit-'72-rubber-slide-'black'",
+    "description": "This is the Gucci Pursuit '72 Rubber Slide 'Black'.",
+    "price": 100.0,
+    "category": "other",
+    "brand": "Gucci",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 351,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/009/249/006/original/259509_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 352,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/009/249/006/original/259509_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 353,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/009/249/006/original/259509_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 354,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/009/249/006/original/259509_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 355,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/009/249/006/original/259509_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "name": "Kyrie 5 'Friends'",
+    "slug": "kyrie-5-'friends'",
+    "description": "This is the Kyrie 5 'Friends'.",
+    "price": 100.0,
+    "category": "basketball",
+    "brand": "Nike",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 361,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/840/270/original/491192_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "name": "Air Max 97 'On Air: Neon Seoul'",
+    "slug": "air-max-97-'on-air:-neon-seoul'",
+    "description": "This is the Air Max 97 'On Air: Neon Seoul'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 371,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/627/570/original/491891_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 372,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/627/570/original/491891_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 373,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/627/570/original/491891_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 374,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/627/570/original/491891_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Air Fear Of God Raid 'Black'",
+    "slug": "air-fear-of-god-raid-'black'",
+    "description": "This is the Air Fear Of God Raid 'Black'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 381,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/545/549/original/489359_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 382,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/545/549/original/489359_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "name": "OFF-WHITE x Air Max 90 'Black'",
+    "slug": "off-white-x-air-max-90-'black'",
+    "description": "This is the OFF-WHITE x Air Max 90 'Black'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 391,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/017/763/484/original/466439_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 392,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/017/763/484/original/466439_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 393,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/017/763/484/original/466439_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "name": "OFF-WHITE x Air Presto 'Black'",
+    "slug": "off-white-x-air-presto-'black'",
+    "description": "This is the OFF-WHITE x Air Presto 'Black'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 401,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/012/750/761/original/351623_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 402,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/012/750/761/original/351623_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 403,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/012/750/761/original/351623_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "name": "Sacai x LDV Waffle 'Varsity Blue'",
+    "slug": "sacai-x-ldv-waffle-'varsity-blue'",
+    "description": "This is the Sacai x LDV Waffle 'Varsity Blue'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "Blue",
+    "variants": [
+      {
+        "id": 411,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/246/220/original/491897_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 412,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/246/220/original/491897_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 413,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/246/220/original/491897_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "name": "Blazer Mid '77 Vintage 'City Pride Chicago'",
+    "slug": "blazer-mid-'77-vintage-'city-pride-chicago'",
+    "description": "This is the Blazer Mid '77 Vintage 'City Pride Chicago'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "Cream",
+    "variants": [
+      {
+        "id": 421,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/545/501/original/507173_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 422,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/545/501/original/507173_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 423,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/545/501/original/507173_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 424,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/545/501/original/507173_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 425,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/545/501/original/507173_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "name": "Atmos x Air Max 2 Light QS 'Logos'",
+    "slug": "atmos-x-air-max-2-light-qs-'logos'",
+    "description": "This is the Atmos x Air Max 2 Light QS 'Logos'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "Multi-Color",
+    "variants": [
+      {
+        "id": 431,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/249/043/original/494127_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "name": "Air Force 1 '07 LV8 'Overbranding'",
+    "slug": "air-force-1-'07-lv8-'overbranding'",
+    "description": "This is the Air Force 1 '07 LV8 'Overbranding'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "Orange",
+    "variants": [
+      {
+        "id": 441,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/994/877/original/AJ7747_800.png.png",
+        "isBest": false
+      },
+      {
+        "id": 442,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/994/877/original/AJ7747_800.png.png",
+        "isBest": false
+      },
+      {
+        "id": 443,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/994/877/original/AJ7747_800.png.png",
+        "isBest": false
+      },
+      {
+        "id": 444,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/994/877/original/AJ7747_800.png.png",
+        "isBest": false
+      },
+      {
+        "id": 445,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/994/877/original/AJ7747_800.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "name": "Air Max 90 QS 'Mars Landing'",
+    "slug": "air-max-90-qs-'mars-landing'",
+    "description": "This is the Air Max 90 QS 'Mars Landing'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "Red",
+    "variants": [
+      {
+        "id": 451,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/804/999/original/488028_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 452,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/804/999/original/488028_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "name": "OFF-WHITE x Air Max 90 'Desert Ore'",
+    "slug": "off-white-x-air-max-90-'desert-ore'",
+    "description": "This is the OFF-WHITE x Air Max 90 'Desert Ore'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "Tan",
+    "variants": [
+      {
+        "id": 461,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/017/794/455/original/394710_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 462,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/017/794/455/original/394710_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 463,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/017/794/455/original/394710_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 464,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/017/794/455/original/394710_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "name": "OFF-WHITE x Air VaporMax 'Part 2'",
+    "slug": "off-white-x-air-vapormax-'part-2'",
+    "description": "This is the OFF-WHITE x Air VaporMax 'Part 2'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "White",
+    "variants": [
+      {
+        "id": 471,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/010/564/058/original/303229_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "name": "Travis Scott x Air Force 1 'Sail'",
+    "slug": "travis-scott-x-air-force-1-'sail'",
+    "description": "This is the Travis Scott x Air Force 1 'Sail'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "White",
+    "variants": [
+      {
+        "id": 481,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/013/832/092/original/306892_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 482,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/013/832/092/original/306892_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "name": "Steven Harrington x Air Force 1 Low Flyleather QS 'Earth Day'",
+    "slug": "steven-harrington-x-air-force-1-low-flyleather-qs-'earth-day'",
+    "description": "This is the Steven Harrington x Air Force 1 Low Flyleather QS 'Earth Day'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "White",
+    "variants": [
+      {
+        "id": 491,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/881/688/original/508101_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 492,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/881/688/original/508101_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "name": "Air Force 1 Low 'Have a Nike Day - White'",
+    "slug": "air-force-1-low-'have-a-nike-day---white'",
+    "description": "This is the Air Force 1 Low 'Have a Nike Day - White'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "White",
+    "variants": [
+      {
+        "id": 501,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/367/662/original/484799_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 502,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/367/662/original/484799_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 503,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/367/662/original/484799_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "name": "Air Force 1 '07 Low 'University Blue'",
+    "slug": "air-force-1-'07-low-'university-blue'",
+    "description": "This is the Air Force 1 '07 Low 'University Blue'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "White",
+    "variants": [
+      {
+        "id": 511,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/898/008/original/482531_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 512,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/898/008/original/482531_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "name": "Air Force 1 '07 'White'",
+    "slug": "air-force-1-'07-'white'",
+    "description": "This is the Air Force 1 '07 'White'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "White",
+    "variants": [
+      {
+        "id": 521,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/010/222/352/original/240_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 522,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/010/222/352/original/240_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 523,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/010/222/352/original/240_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 524,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/010/222/352/original/240_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "name": "Air Max 97 'All Star Jersey'",
+    "slug": "air-max-97-'all-star-jersey'",
+    "description": "This is the Air Max 97 'All Star Jersey'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "White",
+    "variants": [
+      {
+        "id": 531,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/562/245/original/480142_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "name": "Air Fear Of God Raid 'Light Bone'",
+    "slug": "air-fear-of-god-raid-'light-bone'",
+    "description": "This is the Air Fear Of God Raid 'Light Bone'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "White",
+    "variants": [
+      {
+        "id": 541,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/627/586/original/487222_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 542,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/627/586/original/487222_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "name": "Air Fear Of God Moc 'Pure Platinum'",
+    "slug": "air-fear-of-god-moc-'pure-platinum'",
+    "description": "This is the Air Fear Of God Moc 'Pure Platinum'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "Nike",
+    "color": "White",
+    "variants": [
+      {
+        "id": 551,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/737/643/original/504006_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 552,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/737/643/original/504006_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 553,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/737/643/original/504006_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "name": "Cactus Plant Flea Market x Wmns Air VaporMax 2019 'CPFM'",
+    "slug": "cactus-plant-flea-market-x-wmns-air-vapormax-2019-'cpfm'",
+    "description": "This is the Cactus Plant Flea Market x Wmns Air VaporMax 2019 'CPFM'.",
+    "price": 100.0,
+    "category": "running",
+    "brand": "Nike",
+    "color": "Grey",
+    "variants": [
+      {
+        "id": 561,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/321/832/original/503571_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 562,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/321/832/original/503571_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 563,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/321/832/original/503571_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "name": "Air Max 97 'Triple White'",
+    "slug": "air-max-97-'triple-white'",
+    "description": "This is the Air Max 97 'Triple White'.",
+    "price": 100.0,
+    "category": "running",
+    "brand": "Nike",
+    "color": "White",
+    "variants": [
+      {
+        "id": 571,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/010/988/952/original/180155_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "name": "Air Max 270 'White'",
+    "slug": "air-max-270-'white'",
+    "description": "This is the Air Max 270 'White'.",
+    "price": 100.0,
+    "category": "running",
+    "brand": "Nike",
+    "color": "White",
+    "variants": [
+      {
+        "id": 581,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/010/634/133/original/303217_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 582,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/010/634/133/original/303217_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 583,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/010/634/133/original/303217_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "name": "Old Skool 'Yacht Club'",
+    "slug": "old-skool-'yacht-club'",
+    "description": "This is the Old Skool 'Yacht Club'.",
+    "price": 100.0,
+    "category": "skateboarding",
+    "brand": "Vans",
+    "color": "Multi-Color",
+    "variants": [
+      {
+        "id": 591,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/011/051/956/original/335725_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 592,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/011/051/956/original/335725_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "name": "Yeezy Boost 350 V2 'Black Non-Reflective'",
+    "slug": "yeezy-boost-350-v2-'black-non-reflective'",
+    "description": "This is the Yeezy Boost 350 V2 'Black Non-Reflective'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 601,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/624/696/original/FU9013.png.png",
+        "isBest": false
+      },
+      {
+        "id": 602,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/624/696/original/FU9013.png.png",
+        "isBest": true
+      },
+      {
+        "id": 603,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/624/696/original/FU9013.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "name": "Yeezy Boost 700 V2 'Vanta'",
+    "slug": "yeezy-boost-700-v2-'vanta'",
+    "description": "This is the Yeezy Boost 700 V2 'Vanta'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Black",
+    "variants": [
+      {
+        "id": 611,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/147/972/original/504187_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 612,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/147/972/original/504187_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 613,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/147/972/original/504187_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "name": "Yeezy Boost 350 V2 'Blue Tint'",
+    "slug": "yeezy-boost-350-v2-'blue-tint'",
+    "description": "This is the Yeezy Boost 350 V2 'Blue Tint'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Blue",
+    "variants": [
+      {
+        "id": 621,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/707/328/original/152603_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 622,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/707/328/original/152603_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 623,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/707/328/original/152603_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 624,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/707/328/original/152603_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "name": "Pharrell x Billionaire Boys Club x NMD Human Race Trail 'Blue Plaid'",
+    "slug": "pharrell-x-billionaire-boys-club-x-nmd-human-race-trail-'blue-plaid'",
+    "description": "This is the Pharrell x Billionaire Boys Club x NMD Human Race Trail 'Blue Plaid'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Blue",
+    "variants": [
+      {
+        "id": 631,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/545/467/original/512006_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 632,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/545/467/original/512006_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 65,
+    "name": "Yeezy Boost 700 'Analog'",
+    "slug": "yeezy-boost-700-'analog'",
+    "description": "This is the Yeezy Boost 700 'Analog'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Cream",
+    "variants": [
+      {
+        "id": 641,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/287/568/original/480136_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 66,
+    "name": "Yeezy Boost 350 V2 GID 'Glow'",
+    "slug": "yeezy-boost-350-v2-gid-'glow'",
+    "description": "This is the Yeezy Boost 350 V2 GID 'Glow'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Green",
+    "variants": [
+      {
+        "id": 651,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/357/863/original/508082_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 652,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/357/863/original/508082_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 653,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/357/863/original/508082_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 654,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/357/863/original/508082_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 655,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/021/357/863/original/508082_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "name": "Yeezy Boost 350 V2 'Beluga 2.0'",
+    "slug": "yeezy-boost-350-v2-'beluga-2.0'",
+    "description": "This is the Yeezy Boost 350 V2 'Beluga 2.0'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Grey",
+    "variants": [
+      {
+        "id": 661,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/534/original/152982_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 662,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/534/original/152982_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 663,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/534/original/152982_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 664,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/534/original/152982_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 665,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/008/654/534/original/152982_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "name": "Yeezy Boost 700 'Inertia'",
+    "slug": "yeezy-boost-700-'inertia'",
+    "description": "This is the Yeezy Boost 700 'Inertia'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Grey",
+    "variants": [
+      {
+        "id": 671,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/367/689/original/479750_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 672,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/367/689/original/479750_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 673,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/367/689/original/479750_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "name": "Yeezy Boost 350 V2 'Sesame'",
+    "slug": "yeezy-boost-350-v2-'sesame'",
+    "description": "This is the Yeezy Boost 350 V2 'Sesame'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Grey",
+    "variants": [
+      {
+        "id": 681,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/037/000/original/357808_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 682,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/037/000/original/357808_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 683,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/037/000/original/357808_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 70,
+    "name": "Yeezy Boost 700 'Wave Runner'",
+    "slug": "yeezy-boost-700-'wave-runner'",
+    "description": "This is the Yeezy Boost 700 'Wave Runner'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Grey",
+    "variants": [
+      {
+        "id": 691,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/507/851/original/195483_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 692,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/507/851/original/195483_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 693,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/507/851/original/195483_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 694,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/507/851/original/195483_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 695,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/507/851/original/195483_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "name": "Yeezy Boost 350 V2 'Static Non-Reflective'",
+    "slug": "yeezy-boost-350-v2-'static-non-reflective'",
+    "description": "This is the Yeezy Boost 350 V2 'Static Non-Reflective'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Grey",
+    "variants": [
+      {
+        "id": 701,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/017/488/396/original/424152_00.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "name": "Pharrell x Solar Hu Glide ST 'Chinese New Year'",
+    "slug": "pharrell-x-solar-hu-glide-st-'chinese-new-year'",
+    "description": "This is the Pharrell x Solar Hu Glide ST 'Chinese New Year'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Red",
+    "variants": [
+      {
+        "id": 711,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/666/882/original/486579_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 712,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/666/882/original/486579_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 713,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/666/882/original/486579_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 73,
+    "name": "Yeezy Boost 350 V2 'Clay'",
+    "slug": "yeezy-boost-350-v2-'clay'",
+    "description": "This is the Yeezy Boost 350 V2 'Clay'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Tan",
+    "variants": [
+      {
+        "id": 721,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/471/948/original/487214_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 722,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/471/948/original/487214_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 723,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/019/471/948/original/487214_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "name": "Yeezy Boost 350 V2 'Cream White / Triple White'",
+    "slug": "yeezy-boost-350-v2-'cream-white-/-triple-white'",
+    "description": "This is the Yeezy Boost 350 V2 'Cream White / Triple White'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "White",
+    "variants": [
+      {
+        "id": 731,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/822/680/original/116662_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 732,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/822/680/original/116662_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 733,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/822/680/original/116662_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 734,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/822/680/original/116662_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "name": "Yeezy Boost 700 'Salt'",
+    "slug": "yeezy-boost-700-'salt'",
+    "description": "This is the Yeezy Boost 700 'Salt'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "White",
+    "variants": [
+      {
+        "id": 741,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/951/283/original/492186_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 742,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/951/283/original/492186_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 743,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/951/283/original/492186_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 744,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/018/951/283/original/492186_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 76,
+    "name": "Yeezy Boost 350 V2 'Zebra'",
+    "slug": "yeezy-boost-350-v2-'zebra'",
+    "description": "This is the Yeezy Boost 350 V2 'Zebra'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "White",
+    "variants": [
+      {
+        "id": 751,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/979/033/original/105568_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 752,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/014/979/033/original/105568_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 77,
+    "name": "NMD_R1 'Speckle Pack - White'",
+    "slug": "nmd_r1-'speckle-pack---white'",
+    "description": "This is the NMD_R1 'Speckle Pack - White'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "White",
+    "variants": [
+      {
+        "id": 761,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/249/956/original/EF3326.png.png",
+        "isBest": false
+      },
+      {
+        "id": 762,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/249/956/original/EF3326.png.png",
+        "isBest": false
+      },
+      {
+        "id": 763,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/249/956/original/EF3326.png.png",
+        "isBest": false
+      },
+      {
+        "id": 764,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/020/249/956/original/EF3326.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "name": "Yeezy Boost 350 V2 'Butter'",
+    "slug": "yeezy-boost-350-v2-'butter'",
+    "description": "This is the Yeezy Boost 350 V2 'Butter'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Yellow",
+    "variants": [
+      {
+        "id": 771,
+        "name": "Red",
+        "hexCode": "#FF0000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/012/598/505/original/348063_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 772,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/012/598/505/original/348063_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 773,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/012/598/505/original/348063_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 774,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/012/598/505/original/348063_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 775,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/012/598/505/original/348063_00.png.png",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "id": 79,
+    "name": "Yeezy Boost 350 V2 'Semi Frozen Yellow'",
+    "slug": "yeezy-boost-350-v2-'semi-frozen-yellow'",
+    "description": "This is the Yeezy Boost 350 V2 'Semi Frozen Yellow'.",
+    "price": 100.0,
+    "category": "lifestyle",
+    "brand": "adidas",
+    "color": "Yellow",
+    "variants": [
+      {
+        "id": 781,
+        "name": "White",
+        "hexCode": "#FFFFFF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/928/118/original/155573_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 782,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/928/118/original/155573_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 783,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/928/118/original/155573_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 784,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/016/928/118/original/155573_00.png.png",
+        "isBest": false
+      }
+    ]
+  },
+  {
+    "id": 80,
+    "name": "NMD_R1 'Blizzard'",
+    "slug": "nmd_r1-'blizzard'",
+    "description": "This is the NMD_R1 'Blizzard'.",
+    "price": 100.0,
+    "category": "running",
+    "brand": "adidas",
+    "color": "White",
+    "variants": [
+      {
+        "id": 791,
+        "name": "Black",
+        "hexCode": "#000000",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/011/292/904/original/298048_00.png.png",
+        "isBest": false
+      },
+      {
+        "id": 792,
+        "name": "Blue",
+        "hexCode": "#0000FF",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/011/292/904/original/298048_00.png.png",
+        "isBest": true
+      },
+      {
+        "id": 793,
+        "name": "Green",
+        "hexCode": "#00FF00",
+        "image": "https://image.goat.com/attachments/product_template_pictures/images/011/292/904/original/298048_00.png.png",
+        "isBest": false
+      }
+    ]
+  }
+]
