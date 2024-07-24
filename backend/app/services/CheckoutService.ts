@@ -11,41 +11,70 @@ import { Order } from '../models/sql/Order';
 import { OrderProduct } from '../models/sql/OrderProduct';
 import { OrderAddress } from '../models/sql/OrderAddress';
 import { formatAddress } from '../helpers/address';
+import { VariantRepository } from '../repositories/sql/VariantRepository';
+import { ColorRepository } from '../repositories/sql/ColorRepository';
+import { SizeRepository } from '../repositories/sql/SizeRepository';
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-06-20',
 });
 
 const WEBAPP_URL = process.env.WEBAPP_URL || 'http://localhost:5173';
+
 export class CheckoutService {
   public static async getCheckoutSession(
     cartProducts: CartProduct[] | OrderProduct[],
     userId: string,
     reference: string,
   ): Promise<Stripe.Checkout.Session> {
-    const products = cartProducts.map((product) => {
+    const taxRate = await stripe.taxRates.create({
+      display_name: 'TVA',
+      inclusive: false,
+      percentage: 20, // For a 20% VAT
+      country: 'FR',
+      description: 'French VAT',
+    });
+
+    // Map through cartProducts to create an array of promises
+    const productPromises = cartProducts.map(async (product) => {
+      const variant = await VariantRepository.findVariantById(
+        product.variantId,
+      );
+      if (!variant) throw new Error('Variant not found');
+
+      const color = await ColorRepository.findColorById(variant.colorId);
+      if (!color) throw new Error('Color not found');
+
+      const size = await SizeRepository.findSizeById(variant.sizeId);
+      if (!size) throw new Error('Size not found');
+
       return {
         price_data: {
           currency: 'eur',
           product_data: {
             name: product.name,
+            description: `${color.name} - ${size.name}`,
           },
           unit_amount: parseInt((product.unitPrice * 100).toFixed(0)),
         },
         quantity: product.quantity,
+        tax_rates: [taxRate.id],
       };
     });
+    const lineItems = await Promise.all(productPromises);
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       invoice_creation: {
         enabled: true,
       },
       metadata: { userId: userId },
-      line_items: products,
+      line_items: lineItems,
       mode: 'payment',
-      cancel_url: WEBAPP_URL + '/checkout/cancel/' + reference,
-      success_url: WEBAPP_URL + '/checkout/success/' + reference,
+      cancel_url: `${WEBAPP_URL}/checkout/cancel/${reference}`,
+      success_url: `${WEBAPP_URL}/checkout/success/${reference}`,
     });
+
     return session;
   }
 
