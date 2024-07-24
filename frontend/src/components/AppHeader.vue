@@ -90,6 +90,14 @@ onMounted(() => {
       ]
     })
   }
+  if (profile.profile && profile.profile.roles.includes('STORE_KEEPER')) {
+    itemsProfile.value.push({
+      label: 'Gestionnaire de stock',
+      items: [
+        { label: 'Stock', icon: 'pi pi-shopping-cart', command: () => router.push('/admin/store') }
+      ]
+    })
+  }
 })
 
 const menuProfile = ref<typeof Menu>()
@@ -129,15 +137,11 @@ watch(cart, async () => {
         </div>
         <i class="pi pi-bell cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
         <RouterLink to="/cart">
-          <div
-            id="cart"
-            class="relative flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
-          >
+          <div id="cart"
+            class="relative flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50">
             <i class="pi pi-shopping-bag"></i>
-            <span
-              v-if="cartItemCount"
-              class="absolute right-0 top-0 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#10b981] text-xs text-white"
-            >
+            <span v-if="cartItemCount"
+              class="absolute right-0 top-0 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#10b981] text-xs text-white">
               {{ cartItemCount }}
             </span>
           </div>
@@ -151,12 +155,8 @@ watch(cart, async () => {
           </div>
         </div>
         <!-- Login -->
-        <div
-          v-else
-          id="user"
-          class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
-          @click="openLoginModal"
-        >
+        <div v-else id="user" class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
+          @click="openLoginModal">
           <i class="pi pi-user"></i>
         </div>
       </div>

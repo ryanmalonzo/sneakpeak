@@ -15,6 +15,6 @@ const columns = [
 <template>
     <BasePageAdminView>
         <DataTable :columns="columns" resource="orders" uniqueKey="reference" headerTitle="Commandes" :isDelete="false"
-            path="/admin/orders" />
+            :isAdd="false" path="/admin/orders" />
     </BasePageAdminView>
 </template>

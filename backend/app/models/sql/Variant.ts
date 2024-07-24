@@ -10,6 +10,8 @@ import { Size } from './Size';
 import { Color } from './Color';
 import syncWithMongoDB from '../../helpers/syncPsqlMongo';
 import { VariantRepository } from '../../repositories/sql/VariantRepository';
+import { UserRepository } from '../../repositories/sql/UserRepository';
+import { PostmarkClient } from '../../helpers/postmark';
 
 export interface VariantDTO {
   stock: number;
@@ -29,6 +31,9 @@ export class Variant extends Model {
   declare sizeId: ForeignKey<Size['id']>;
   declare colorId: ForeignKey<Color['id']>;
 }
+
+const STOCK_MAX = 10;
+const TEMPLATE_ID_LOW_STOCK = 36711455;
 
 export const updateVariantInMongoDB = async (
   variant: Variant,
@@ -100,6 +105,26 @@ export default (sequelize: Sequelize) => {
   Variant.afterUpdate(async (variant) => {
     const sneaker = await Sneaker.findByPk(variant.sneakerId);
     if (!sneaker) return;
+    if (variant.stock < STOCK_MAX) {
+      const users = await UserRepository.findByRole('STORE_KEEPER');
+      if (!users) return;
+      const sneaker = await Sneaker.findByPk(variant.sneakerId);
+      if (!sneaker) return;
+      const color = await Color.findByPk(variant.colorId);
+      if (!color) return;
+      const size = await Size.findByPk(variant.sizeId);
+      if (!size) return;
+      const url = `${process.env.WEBAPP_URL}/admin/variants/${variant.id}`;
+      users.forEach(async (user) => {
+        await PostmarkClient.sendEmail(user.email, TEMPLATE_ID_LOW_STOCK, {
+          sneaker: sneaker.name,
+          url: url,
+          color: color.name,
+          size: size.name,
+        });
+      });
+    }
+    await updateVariantInMongoDB(variant, sneaker);
 
     await updateSneakerInMongoDB(sneaker);
   });

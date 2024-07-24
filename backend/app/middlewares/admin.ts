@@ -16,10 +16,38 @@ export const admin = async (
 ) => {
   await auth(req, res, async () => {
     if (!res.locals.user.roles.includes('ADMIN')) {
-      next(new RequestError(StatusCodes.FORBIDDEN, 'not_enough_permissions'));
+      next(new RequestError(StatusCodes.FORBIDDEN));
       return;
     }
 
     next();
   });
+};
+
+export const storeKeeper = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  await auth(req, res, async () => {
+    if (!res.locals.user.roles.includes('STORE_KEEPER')) {
+      next(new RequestError(StatusCodes.FORBIDDEN));
+      return;
+    }
+
+    next();
+  });
+};
+
+export const checkRoles = (requiredRoles: string[]) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    await auth(req, res, async () => {
+      if (requiredRoles.some((role) => res.locals.user.roles.includes(role))) {
+        next();
+        return;
+      }
+
+      next(new RequestError(StatusCodes.FORBIDDEN));
+    });
+  };
 };
