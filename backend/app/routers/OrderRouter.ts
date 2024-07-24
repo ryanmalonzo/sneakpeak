@@ -101,6 +101,9 @@ OrderRouter.put(
           return res.status(StatusCodes.NOT_FOUND).json();
         }
 
+        if (orderProduct.linkRefund !== null) {
+          return res.status(StatusCodes.BAD_REQUEST).json();
+        }
         const refund = await stripe.refunds.create({
           payment_intent: order.payment_intent,
           amount: parseInt(
