@@ -25,6 +25,7 @@ app.use(
       'http://localhost:5173',
       'https://sneakpeak.store',
       'https://www.sneakpeak.store',
+      'https://checkout.stripe.com',
     ],
     methods: 'GET,POST,PUT,PATCH,DELETE',
     allowedHeaders: 'Content-Type,Authorization',
