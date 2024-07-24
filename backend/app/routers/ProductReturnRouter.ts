@@ -2,6 +2,8 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { auth } from '../middlewares/auth';
 import { ProductReturnService } from '../services/ProductReturnService';
+import { schema } from '../middlewares/schema';
+import { z } from 'zod';
 
 export const ProductReturnRouter = Router();
 
@@ -21,6 +23,12 @@ ProductReturnRouter.get(
 
 ProductReturnRouter.post(
   '/',
+  schema(
+    z.object({
+      productId: z.number(),
+      reason: z.string(),
+    }),
+  ),
   auth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -9,6 +9,8 @@ import { auth } from '../middlewares/auth';
 import { stripe } from '../services/CheckoutService';
 import { OrderProductRepository } from '../repositories/sql/OrderProductRepository';
 import { OrderRepository } from '../repositories/sql/OrderRepository';
+import { schema } from '../middlewares/schema';
+import { z } from 'zod';
 
 export const OrderRouter = Router();
 
@@ -58,6 +60,11 @@ OrderRouter.get(
 
 OrderRouter.put(
   '/:id',
+  schema(
+    z.object({
+      status: z.string(),
+    }),
+  ),
   admin,
   auth,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -75,6 +82,11 @@ OrderRouter.put(
 
 OrderRouter.put(
   '/:id/return',
+  schema(
+    z.object({
+      status: z.string(),
+    }),
+  ),
   admin,
   auth,
   async (req: Request, res: Response, next: NextFunction) => {

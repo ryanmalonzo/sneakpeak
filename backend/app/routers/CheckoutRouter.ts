@@ -9,6 +9,8 @@ import { VariantRepository } from '../repositories/sql/VariantRepository';
 import { auth } from '../middlewares/auth';
 import { OrderRepository } from '../repositories/sql/OrderRepository';
 import { OrderProductRepository } from '../repositories/sql/OrderProductRepository';
+import { schema } from '../middlewares/schema';
+import { z } from 'zod';
 
 dotenv.config();
 
@@ -21,6 +23,20 @@ CheckoutRouter.get('/', auth, async (req: Request, res: Response) => {
 
 CheckoutRouter.post(
   '/',
+  schema(
+    z.object({
+      billing: z.object({
+        address: z.string(),
+        name: z.string(),
+        phone: z.string(),
+      }),
+      shipping: z.object({
+        address: z.string(),
+        name: z.string(),
+        phone: z.string(),
+      }),
+    }),
+  ),
   auth,
   async (req: Request, res: Response, next: NextFunction) => {
     const cartProducts = await CartService.getCartProducts(res.locals.user.id);
