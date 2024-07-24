@@ -213,7 +213,7 @@ async function testThatCantDeleteProductInCartWithoutUserId(): Promise<void> {
 async function testThatCantDeleteProductInCartWithoutProductId(): Promise<void> {
   const response = await request(app).delete('/cart').set('Cookie', [token]);
 
-  expect(response.status).to.equal(StatusCodes.UNPROCESSABLE_ENTITY);
+  expect(response.status).to.equal(StatusCodes.NOT_FOUND);
 }
 
 async function testThatCantInsertProductInCartWithInvalidUserId(): Promise<void> {
