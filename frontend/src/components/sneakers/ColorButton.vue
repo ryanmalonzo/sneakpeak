@@ -7,7 +7,7 @@ const props = defineProps({
 const emit = defineEmits(['colorEmittion'])
 
 const handleClick = () => {
-  emit('colorEmittion', props.variant?.name)
+  emit('colorEmittion', props.variant?.colorSlug)
 }
 </script>
 

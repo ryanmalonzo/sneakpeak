@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BasePage from '@/components/BasePage.vue'
-import CardProduct from '../components/cart/CartProduct.vue'
+import CartProduct from '../components/cart/CartProduct.vue'
 import { CartApi } from '@/services/cartApi'
 import { onMounted, onBeforeUnmount, ref, type Ref } from 'vue'
 import { RouterLink } from 'vue-router'
@@ -85,7 +85,7 @@ const updateTotal = async () => {
             <p>Le panier est vide</p>
           </div>
         </div>
-        <CardProduct
+        <CartProduct
           v-for="cartProduct in cartProducts"
           :key="cartProduct.id"
           :image="cartProduct.image"

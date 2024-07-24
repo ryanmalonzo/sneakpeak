@@ -2,7 +2,8 @@
 import { useRouter } from 'vue-router'
 
 defineProps<{
-  slug: string
+  sneakerSlug: string
+  colorSlug: string
   image: string
   name: string
   price: number
@@ -10,18 +11,20 @@ defineProps<{
 
 const router = useRouter()
 
-const redirectToSneakerView = (slug: string) => {
-  const slugs = slug.split('|')
+const redirectToSneakerView = (sneakerSlug: string, colorSlug: string) => {
   router.push({
     name: 'sneakers',
-    params: { slugSneaker: slugs[0] },
-    query: { color: slugs[1] }
+    params: { slugSneaker: sneakerSlug },
+    query: { color: colorSlug }
   })
 }
 </script>
 
 <template>
-  <div class="flex cursor-pointer flex-wrap justify-center" @click="redirectToSneakerView(slug)">
+  <div
+    class="flex cursor-pointer flex-wrap justify-center"
+    @click="redirectToSneakerView(sneakerSlug, colorSlug)"
+  >
     <img :src="image" :alt="name" class="h-[162px] w-[172px] object-contain" />
     <div class="flex flex-1 flex-col flex-wrap items-center justify-center gap-4 p-4">
       <p>{{ name }}</p>

@@ -8,8 +8,6 @@ import {
 import { Sneaker, updateSneakerInMongoDB } from './Sneaker';
 import { Size } from './Size';
 import { Color } from './Color';
-import syncWithMongoDB from '../../helpers/syncPsqlMongo';
-import { VariantRepository } from '../../repositories/sql/VariantRepository';
 import { UserRepository } from '../../repositories/sql/UserRepository';
 import { PostmarkClient } from '../../helpers/postmark';
 
@@ -34,46 +32,6 @@ export class Variant extends Model {
 
 const STOCK_MAX = 10;
 const TEMPLATE_ID_LOW_STOCK = 36711455;
-
-export const updateVariantInMongoDB = async (
-  variant: Variant,
-  sneaker: Sneaker,
-) => {
-  const color = await Color.findByPk(variant.colorId);
-  if (!color) return;
-  const sizes = await VariantRepository.findAllSizesForAColorSneaker(
-    sneaker.id,
-    color.id,
-  );
-  if (!sizes) return;
-
-  await updateSneakerInMongoDB(sneaker!);
-
-  const data = variant.toJSON();
-  data.id = variant.id;
-  data.name = color?.name;
-  data.slug = `${sneaker?.name}-${color?.name}`;
-  data.image = variant.image;
-  data.isBest = variant.isBest;
-  (data.sizes = await Promise.all(
-    sizes.map(async (size) => {
-      const variant =
-        await VariantRepository.findVariantBySneakerIdAndColorIdAndSizeId(
-          data.id,
-          color?.id ? color.id : 0,
-          size.id,
-        );
-
-      return {
-        id: size.id,
-        name: size.name,
-        slug: `${sneaker?.name}-${color?.name}-${size.name}`,
-        stock: variant?.stock,
-      };
-    }),
-  )),
-    await syncWithMongoDB(Variant.name, 'update', data);
-};
 
 export default (sequelize: Sequelize) => {
   Variant.init(
@@ -124,7 +82,6 @@ export default (sequelize: Sequelize) => {
         });
       });
     }
-    await updateVariantInMongoDB(variant, sneaker);
 
     await updateSneakerInMongoDB(sneaker);
   });
