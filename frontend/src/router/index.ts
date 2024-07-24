@@ -288,44 +288,43 @@ const adminRoutes = [
   'admin_variants_add',
   'admin_variants_edit'
 ]
+
 const storeRoutes = ['admin_store', 'admin_dashboard', 'admin_variants_edit', 'store']
 
+const authenticatedRoutes = ['profile', 'addresses', 'orders', 'order', 'checkout', 'cart']
+
 router.beforeEach(async (to) => {
-  console.log(to)
+  const routeName = to.name as string
+
   const { isAuthenticated, roles } = await checkAuth()
 
-  if (!publicRoutes.includes(to.name as string) && !isAuthenticated) {
-    console.log('not authenticated')
-    router.push('/')
+  if (!isAuthenticated) {
+    if (!publicRoutes.includes(routeName)) {
+      return router.push('/')
+    }
+    return true
   }
 
-  // faire un switch case pour les roles
-  switch (roles[0]) {
-    case 'ADMIN': {
-      if (
-        (adminRoutes.includes(to.name as string) ||
-          publicRoutes.includes(to.name as string) ||
-          roles.includes('ADMIN')) === false
-      ) {
-        console.log('not admin')
-        router.push('/')
-      }
-      break
+  if (roles.includes('ADMIN')) {
+    if (
+      !adminRoutes.includes(routeName) &&
+      !publicRoutes.includes(routeName) &&
+      !authenticatedRoutes.includes(routeName)
+    ) {
+      return router.push('/')
     }
-    case 'STORE_KEEPER': {
-      if (
-        (storeRoutes.includes(to.name as string) ||
-          publicRoutes.includes(to.name as string) ||
-          roles.includes('STORE_KEEPER')) === false
-      ) {
-        console.log('not store keeper')
-        router.push('/')
-      }
-      break
+  } else if (roles.includes('STORE_KEEPER')) {
+    if (
+      !storeRoutes.includes(routeName) &&
+      !publicRoutes.includes(routeName) &&
+      !authenticatedRoutes.includes(routeName)
+    ) {
+      return router.push('/')
     }
-    default:
-      console.log('not authenticated')
-      break
+  } else {
+    if (!authenticatedRoutes.includes(routeName) && !publicRoutes.includes(routeName)) {
+      return router.push('/')
+    }
   }
 
   return true
