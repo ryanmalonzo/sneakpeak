@@ -81,7 +81,22 @@ const router = createRouter({
           name: 'politique-de-confidentialite',
           component: PDCView
         },
-        { path: 'politique-de-cookies', name: 'politique-de-cookies', component: PCookiesView }
+        { path: 'politique-de-cookies', name: 'politique-de-cookies', component: PCookiesView },
+        {
+          path: 'notre-histoire',
+          name: 'notre-histoire',
+          component: () => import('@/views/legal/AboutView.vue')
+        },
+        {
+          path: 'nos-valeurs',
+          name: 'nos-valeurs',
+          component: () => import('@/views/legal/ValeurView.vue')
+        },
+        {
+          path: 'nos-engagements',
+          name: 'nos-engagements',
+          component: () => import('@/views/legal/EngagementView.vue')
+        }
       ]
     },
     {

@@ -144,7 +144,7 @@ const onSubmit = async () => {
             <img
               :src="selectedVariant?.image"
               :alt="selectedVariant?.slug"
-              class="h-full w-full object-cover"
+              class="h-full w-full object-contain"
             />
           </div>
         </section>

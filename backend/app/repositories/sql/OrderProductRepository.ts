@@ -27,4 +27,8 @@ export class OrderProductRepository {
   static async delete(id: number): Promise<void> {
     await OrderProduct.destroy({ where: { id } });
   }
+
+  static async findByVariantId(variantId: number): Promise<OrderProduct[]> {
+    return OrderProduct.findAll({ where: { variantId } });
+  }
 }
