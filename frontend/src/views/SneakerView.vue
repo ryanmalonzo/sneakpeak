@@ -38,9 +38,9 @@ onBeforeMount(async () => {
   // preselectionner la bonne taille parmis les tailles de la variante
   if (selectedColor.value) {
     const querySizeName = route.query.size as string
-    selectedSize.value = sneaker.value?.variants.find((variant) => variant.name === selectedColor.value)?.sizes.find(
-      (size) => size.name === querySizeName
-    )
+    selectedSize.value = sneaker.value?.variants
+      .find((variant) => variant.name === selectedColor.value)
+      ?.sizes.find((size) => size.name === querySizeName)
   }
 })
 
@@ -110,7 +110,7 @@ const newSizeList = computed(() => {
 })
 
 const openLoginModal = () => {
-  dialog.open(AppLogin, { props: { dismissableMask: true, modal: true, header: "Connexion" } })
+  dialog.open(AppLogin, { props: { dismissableMask: true, modal: true, header: 'Connexion' } })
 }
 
 const onSubmit = async () => {
@@ -141,7 +141,11 @@ const onSubmit = async () => {
         <!-- Image produit -->
         <section class="border--100 flex-1 rounded-2xl border p-2">
           <div class="flex h-full items-center rounded-xl bg-zinc-100 p-2">
-            <img :src="selectedVariant?.image" :alt="selectedVariant?.slug" class="h-full w-full object-cover" />
+            <img
+              :src="selectedVariant?.image"
+              :alt="selectedVariant?.slug"
+              class="h-full w-full object-cover"
+            />
           </div>
         </section>
 
@@ -157,7 +161,9 @@ const onSubmit = async () => {
 
           <!-- Marque + note + nombre de ventes -->
           <div class="flex flex-wrap items-center gap-2">
-            <div class="flex h-8 min-h-8 w-8 min-w-8 items-center rounded-full border border-slate-400 bg-white p-1">
+            <div
+              class="flex h-8 min-h-8 w-8 min-w-8 items-center rounded-full border border-slate-400 bg-white p-1"
+            >
               <img src="../assets/images/logo_nike.png" alt="logo marque" class="" />
             </div>
             <p class="font-medium">{{ sneaker.brand }}</p>
@@ -183,8 +189,11 @@ const onSubmit = async () => {
             <h2 class="text-title">Couleurs disponibles :</h2>
             <div class="flex gap-2">
               <div v-for="color in sneaker.variants" :key="color.name">
-                <ColorButton :variant="color" :isColorSelected="color.name === selectedVariant?.name"
-                  @color-emittion="(color) => selectColor(color)" />
+                <ColorButton
+                  :variant="color"
+                  :isColorSelected="color.name === selectedVariant?.name"
+                  @color-emittion="(color) => selectColor(color)"
+                />
               </div>
             </div>
           </div>
@@ -195,8 +204,12 @@ const onSubmit = async () => {
             <div class="flex flex-wrap gap-2">
               <div v-for="size in newSizeList" :key="size?.name">
                 <!-- {{ size }} -->
-                <SizeCard :size="size" :isSizeSelected="size?.name === selectedSize?.name"
-                  :isEnoughStock="size.stock > 0" @size-emittion="(size) => selectSize(size)" />
+                <SizeCard
+                  :size="size"
+                  :isSizeSelected="size?.name === selectedSize?.name"
+                  :isEnoughStock="size.stock > 0"
+                  @size-emittion="(size) => selectSize(size)"
+                />
               </div>
             </div>
           </div>
@@ -204,7 +217,10 @@ const onSubmit = async () => {
           <!-- Quantité -->
           <div class="card mb-4 flex flex-col">
             <label for="quantity" class="text-title">Quantité :</label>
-            <Select v-model="selectedQuantity" :options="selectedSize?.stock
+            <Select
+              v-model="selectedQuantity"
+              :options="
+                selectedSize?.stock
                   ? Array.from(
                       { length: Math.min(selectedSize.stock, MAX_QUANTITY_DISPLAYED) },
                       (_, i) => ({
@@ -212,17 +228,29 @@ const onSubmit = async () => {
                       })
                     )
                   : null
-              " optionLabel="quantity" placeholder="Selectionnez une quantité" class="w-full" />
+              "
+              optionLabel="quantity"
+              placeholder="Selectionnez une quantité"
+              class="w-full"
+            />
           </div>
 
           <!-- Boutton CTA -->
           <div class="flex justify-center gap-3">
-            <Button :label="profile.profile ? 'Ajouter au panier' : 'Se connecter'" rounded size="large" icon="pi pi-shopping-bag" class="w-fit" :class="{
+            <Button
+              :label="profile.profile ? 'Ajouter au panier' : 'Se connecter'"
+              rounded
+              size="large"
+              icon="pi pi-shopping-bag"
+              class="w-fit"
+              :class="{
                 'select-disable': !selectedQuantity,
                 'transition-transform': selectedQuantity,
                 'hover:scale-105': selectedQuantity
-            }" style="padding: 1rem 4rem; background-color: black; border: 1px solid black"
-              @click="selectedSize && selectedQuantity ? onSubmit() : null" />
+              }"
+              style="padding: 1rem 4rem; background-color: black; border: 1px solid black"
+              @click="selectedSize && selectedQuantity ? onSubmit() : null"
+            />
           </div>
         </section>
       </main>
@@ -250,8 +278,8 @@ const onSubmit = async () => {
               <div class="flex items-center gap-4">
                 <i class="pi pi-calendar-clock" style="font-size: 1.8rem"></i>
                 <p>
-                  Les délais de livraison sont de 5 à 7 jours ouvrés. Les frais de port sont offerts
-                  à partir de 100€ d'achat.
+                  Les délais de livraison sont de 5 à 7 jours ouvrés. Les frais de port sont à notre
+                  charge.
                 </p>
               </div>
             </div>
@@ -320,13 +348,9 @@ const onSubmit = async () => {
 }
 
 .text-title {
-  padding-bottom: 0.5rem
-    /* 8px */
-  ;
+  padding-bottom: 0.5rem /* 8px */;
   font-weight: 600;
-  font-size: 1.25rem
-    /* 20px */
-  ;
+  font-size: 1.25rem /* 20px */;
   line-height: 1.75rem;
   /* 28px */
 }
