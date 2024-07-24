@@ -7,6 +7,7 @@ import { auth } from '../middlewares/auth';
 import { admin, checkRoles } from '../middlewares/admin';
 import { schema } from '../middlewares/schema';
 import { VariantRepository } from '../repositories/sql/VariantRepository';
+import { OrderProductRepository } from '../repositories/sql/OrderProductRepository';
 
 export const VariantRouter = Router();
 
@@ -105,6 +106,16 @@ VariantRouter.delete(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
+
+      const orders = await OrderProductRepository.findByVariantId(
+        parseInt(id, 10),
+      );
+
+      if (orders.length) {
+        return res.status(StatusCodes.FORBIDDEN).json({
+          message: 'Impossible de supprimer un variant associé à une commande',
+        });
+      }
 
       const nbDeleted = await VariantService.delete(parseInt(id, 10));
 
