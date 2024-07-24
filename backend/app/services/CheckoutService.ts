@@ -16,6 +16,7 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-06-20',
 });
 
+const WEBAPP_URL = process.env.WEBAPP_URL || 'http://localhost:5173';
 export class CheckoutService {
   public static async getCheckoutSession(
     cartProducts: CartProduct[] | OrderProduct[],
@@ -42,8 +43,8 @@ export class CheckoutService {
       metadata: { userId: userId },
       line_items: products,
       mode: 'payment',
-      cancel_url: 'http://localhost:5173/checkout/cancel/' + reference,
-      success_url: 'http://localhost:5173/checkout/success/' + reference,
+      cancel_url: WEBAPP_URL + '/checkout/cancel/' + reference,
+      success_url: WEBAPP_URL + '/checkout/success/' + reference,
     });
     return session;
   }
