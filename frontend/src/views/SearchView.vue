@@ -22,6 +22,16 @@ const DEFAULT_LIMIT = 25
 
 const searchSneakers = async (pagination: SneakerApi.PaginationIn) => {
   const data = await SneakerApi.getVariantsPaginated(pagination)
+
+  // Filter out data.items with duplicate sneakerId AND color
+  data.items = data.items.filter(
+    (variant, index, self) =>
+      index ===
+      self.findIndex(
+        (v) => v.sneakerId === variant.sneakerId && v.variantName === variant.variantName
+      )
+  )
+
   variants.value = data.items
   totalCount.value = data.total
 }
@@ -130,7 +140,6 @@ if (
           :price="variant.sneakerPrice"
           :slug="variant.sneakerSlug"
           :color="variant.variantName"
-          :size="variant.sizeName"
         />
       </SneakerGrid>
 
