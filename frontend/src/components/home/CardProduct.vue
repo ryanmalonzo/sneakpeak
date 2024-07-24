@@ -7,6 +7,7 @@ defineProps<{
   image: string
   name: string
   price: number
+  color: string
 }>()
 
 const router = useRouter()
@@ -29,6 +30,7 @@ const redirectToSneakerView = (sneakerSlug: string, colorSlug: string) => {
       <img :src="image" :alt="name" />
       <p>{{ name }}</p>
       <p class="font-bold">{{ price }} €</p>
+      <small class="text-sm text-orange-500">{{ color }}</small>
     </div>
   </div>
 </template>

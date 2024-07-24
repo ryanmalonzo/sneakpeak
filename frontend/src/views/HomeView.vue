@@ -97,6 +97,7 @@ const redirectToSneakerView = (sneakerSlug: string, colorSlug: string) => {
           <CardProduct
             v-for="variant in latestVariants"
             :key="variant._id"
+            :color="variant.variantName"
             :sneakerSlug="variant.sneakerSlug"
             :colorSlug="variant.colorSlug"
             :image="variant.variantImage"
@@ -133,7 +134,7 @@ const redirectToSneakerView = (sneakerSlug: string, colorSlug: string) => {
       <section>
         <h1 class="py-10 text-center text-xl font-bold uppercase">Nos marques</h1>
         <div
-          class="hidden w-full shrink-0 flex-wrap content-start items-start justify-center gap-2.5 px-0 md:flex"
+          class="hidden w-full shrink-0 flex-wrap content-start items-center justify-center gap-2.5 px-0 md:flex"
         >
           <CardBrand
             v-for="brand in brands"
