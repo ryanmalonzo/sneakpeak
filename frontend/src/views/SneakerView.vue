@@ -12,6 +12,7 @@ import { useDialog } from 'primevue/usedialog'
 import { CartStore } from '@/store/cart'
 import { profileStore } from '@/store/profile'
 import AppLogin from '@/components/AppLogin.vue'
+import SizeGuideModal from './sneaker/SizeGuideModal.vue'
 
 const MAX_QUANTITY_DISPLAYED = 5
 
@@ -207,7 +208,6 @@ const onSubmit = async () => {
             <h2 class="text-title">Tailles disponibles :</h2>
             <div class="flex flex-wrap gap-2">
               <div v-for="size in newSizeList" :key="size?.name">
-                <!-- {{ size }} -->
                 <SizeCard
                   :size="size"
                   :isSizeSelected="size?.name === selectedSize?.name"
@@ -217,6 +217,9 @@ const onSubmit = async () => {
               </div>
             </div>
           </div>
+
+          <!-- Guide des tailles -->
+          <SizeGuideModal />
 
           <!-- Quantité -->
           <div class="card mb-4 flex flex-col">

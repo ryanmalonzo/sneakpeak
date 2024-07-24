@@ -27,7 +27,7 @@ onMounted(async () => {
 
   const dataVariants = await SneakerApi.getVariantsPaginated({
     limit: 8,
-    sort: 'variantCreatedAt',
+    sort: 'sneakerCreatedAt',
     order: 'desc'
   })
 
@@ -74,9 +74,16 @@ const redirectToSneakerView = (sneakerSlug: string, colorSlug: string) => {
   <BasePage>
     <div class="flex-col">
       <section>
-        <div @click="router.push(`/search?category=${lastCategory.name}`)"
-          class="flex w-screen cursor-pointer items-end justify-center" v-if="lastCategory">
-          <img :src="lastCategory.image" :alt="lastCategory.name" class="max-h-[372px] w-full object-cover" />
+        <div
+          @click="router.push(`/search?category=${lastCategory.name}`)"
+          class="flex w-screen cursor-pointer items-end justify-center"
+          v-if="lastCategory"
+        >
+          <img
+            :src="lastCategory.image"
+            :alt="lastCategory.name"
+            class="max-h-[372px] w-full object-cover"
+          />
 
           <a class="absolute mb-4 bg-white px-2 py-4 font-bold md:mb-20 md:px-40">
             Nouvelle collection : {{ lastCategory.name }}
@@ -97,9 +104,16 @@ const redirectToSneakerView = (sneakerSlug: string, colorSlug: string) => {
             :price="variant.sneakerPrice"
           />
         </div>
-        <Carousel :value="latestVariants" :numVisible="1" :numScroll="1" orientation="vertical"
-          verticalViewPortHeight="358px" containerClass="align-items-center flex md:!hidden" :autoplayInterval="3000"
-          :showNavigators="false">
+        <Carousel
+          :value="latestVariants"
+          :numVisible="1"
+          :numScroll="1"
+          orientation="vertical"
+          verticalViewPortHeight="358px"
+          containerClass="align-items-center flex md:!hidden"
+          :autoplayInterval="3000"
+          :showNavigators="false"
+        >
           <template #item="variant">
             <a
               href="#"
@@ -118,11 +132,26 @@ const redirectToSneakerView = (sneakerSlug: string, colorSlug: string) => {
 
       <section>
         <h1 class="py-10 text-center text-xl font-bold uppercase">Nos marques</h1>
-        <div class="hidden w-full shrink-0 flex-wrap content-start items-start justify-center gap-2.5 px-0 md:flex">
-          <CardBrand v-for="brand in brands" :key="brand.slug" :name="brand.name" :image="brand.image" />
+        <div
+          class="hidden w-full shrink-0 flex-wrap content-start items-start justify-center gap-2.5 px-0 md:flex"
+        >
+          <CardBrand
+            v-for="brand in brands"
+            :key="brand.slug"
+            :name="brand.name"
+            :image="brand.image"
+          />
         </div>
-        <Carousel :value="brands" :numVisible="1" :numScroll="1" orientation="vertical" verticalViewPortHeight="310px"
-          :autoplayInterval="3000" containerClass="flex align-items-center md:!hidden" :showNavigators="false">
+        <Carousel
+          :value="brands"
+          :numVisible="1"
+          :numScroll="1"
+          orientation="vertical"
+          verticalViewPortHeight="310px"
+          :autoplayInterval="3000"
+          containerClass="flex align-items-center md:!hidden"
+          :showNavigators="false"
+        >
           <template #item="brand">
             <a href="#" class="h-[310px]" @click="router.push(`/search?brand=${brand.name}`)">
               <div class="border-1 surface-border border-round flex flex-col items-center p-5">
@@ -138,7 +167,11 @@ const redirectToSneakerView = (sneakerSlug: string, colorSlug: string) => {
             Les meilleures ventes du moment
           </h1>
           <div class="flex justify-between gap-10">
-            <img src="../assets/images/cover.png" alt="" class="h-[566px] w-[439px] shrink-0 max-lg:hidden" />
+            <img
+              src="../assets/images/cover.png"
+              alt=""
+              class="h-[566px] w-[439px] shrink-0 max-lg:hidden"
+            />
             <div class="flex flex-1 flex-col justify-between gap-5">
               <CardBestProduct
                 v-for="variant in bestSellingVariants"
@@ -154,18 +187,16 @@ const redirectToSneakerView = (sneakerSlug: string, colorSlug: string) => {
         </section>
         <section class="flex justify-center">
           <div
-            class="my-10 flex w-full flex-1 flex-col items-center justify-center gap-30px bg-black px-4 py-30px text-center md:w-1/2">
+            class="my-10 flex w-full flex-1 flex-col items-center justify-center gap-30px bg-black px-4 py-30px text-center md:w-1/2"
+          >
             <p class="text-white">À propos de nous</p>
             <p class="text-white">
-              Chez Sneakpeak, nous sommes passionnés par l'excellence et le style. Nous vous proposons une sélection
-              exclusive
-              de sneakers de qualité supérieure, alliant design innovant et confort inégalé. Chaque paire est
-              soigneusement
-              choisie pour offrir à nos clients non seulement des chaussures élégantes mais aussi un véritable
-              investissement
-              dans la qualité. Découvrez l'élégance et le confort à chaque pas avec Sneakpeak, où chaque sneaker raconte
-              une
-              histoire de raffinement et de performance.
+              Chez Sneakpeak, nous sommes passionnés par l'excellence et le style. Nous vous
+              proposons une sélection exclusive de sneakers de qualité supérieure, alliant design
+              innovant et confort inégalé. Chaque paire est soigneusement choisie pour offrir à nos
+              clients non seulement des chaussures élégantes mais aussi un véritable investissement
+              dans la qualité. Découvrez l'élégance et le confort à chaque pas avec Sneakpeak, où
+              chaque sneaker raconte une histoire de raffinement et de performance.
             </p>
             <img src="../assets/images/about.png" alt="" class="h-auto shrink-0 self-stretch" />
           </div>
