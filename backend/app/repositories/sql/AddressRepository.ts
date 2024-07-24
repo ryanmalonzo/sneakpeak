@@ -14,7 +14,6 @@ export class AddressRepository {
     if (!address) {
       console.log(data);
       address = await Address.create(data);
-      console.log('fdp', address);
       return { created: true, address };
     }
 
