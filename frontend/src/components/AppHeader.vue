@@ -4,7 +4,7 @@ import logo from '@/assets/images/logo.svg'
 import SearchInput from '@/components/search/SearchInput.vue'
 import MegaMenu from 'primevue/megamenu'
 import Menu from 'primevue/menu'
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch, type Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { debounce } from 'underscore'
 import AppLogin from '@/components/AppLogin.vue'
@@ -13,6 +13,8 @@ import { RouterLink } from 'vue-router'
 import { CartStore } from '@/store/cart'
 import { profileStore } from '@/store/profile'
 import { useDialog } from 'primevue/usedialog'
+import { BrandApi } from '@/services/brandApi'
+import { CategoryApi } from '@/services/categoryApi'
 
 // Utilisation de la route et du routeur
 const router = useRouter()
@@ -29,12 +31,63 @@ const openLoginModal = () => {
   dialog.open(AppLogin, { props: { dismissableMask: true, modal: true, header: 'Connexion' } })
 }
 
+const menuBrands: Ref<{ label: string; command: Function }[]> = ref([])
+const menuCategories: Ref<{ label: string; command: Function }[]> = ref([])
+
+// Helper function to split array into groups
+const splitIntoGroups = (array: Array<{ label: string; command: Function }>, groupSize: number) => {
+  const result = []
+  for (let i = 0; i < array.length; i += groupSize) {
+    result.push(array.slice(i, i + groupSize))
+  }
+  return result
+}
+
 // Éléments de menu
-const items = ref([
-  { label: 'Promotions', root: true },
-  { label: 'Marques', root: true },
-  { label: 'Catégories', root: true }
+const items = computed(() => [
+  {
+    label: 'Accueil',
+    root: true,
+    command: () => {
+      router.push('/')
+    }
+  },
+  {
+    label: 'Marques',
+    root: true,
+    items: splitIntoGroups(menuBrands.value, Math.ceil(menuBrands.value.length / 2)).map(
+      (group) => [{ label: '', items: group }]
+    )
+  },
+  {
+    label: 'Catégories',
+    root: true,
+    items: splitIntoGroups(menuCategories.value, Math.ceil(menuCategories.value.length / 2)).map(
+      (group) => [{ label: '', items: group }]
+    )
+  }
 ])
+
+onMounted(async () => {
+  const [brands, categories] = await Promise.all([
+    BrandApi.getPaginated({ limit: 10 }),
+    CategoryApi.getPaginated({ limit: 10 })
+  ])
+
+  menuBrands.value = brands.map((brand) => ({
+    label: brand.name,
+    command: () => {
+      router.push({ path: '/search', query: { brand: brand.name } })
+    }
+  }))
+
+  menuCategories.value = categories.map((category) => ({
+    label: category.name,
+    command: () => {
+      router.push({ path: '/search', query: { category: category.name } })
+    }
+  }))
+})
 
 // Déclenche la recherche 500 ms après fin de saisie
 const goToSearch = debounce(() => {
@@ -67,7 +120,7 @@ const itemsProfile = ref([
         label: 'Mes commandes',
         icon: 'pi pi-truck',
         command: () => {
-          router.push('/profile/orders') //TODO change path
+          router.push('/profile/orders')
         }
       },
       {
@@ -137,11 +190,15 @@ watch(cart, async () => {
         </div>
         <i class="pi pi-bell cursor-pointer rounded-full p-2.5 hover:bg-gray-50"></i>
         <RouterLink to="/cart">
-          <div id="cart"
-            class="relative flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50">
+          <div
+            id="cart"
+            class="relative flex cursor-pointer items-center justify-end gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
+          >
             <i class="pi pi-shopping-bag"></i>
-            <span v-if="cartItemCount"
-              class="absolute right-0 top-0 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#10b981] text-xs text-white">
+            <span
+              v-if="cartItemCount"
+              class="absolute right-0 top-0 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#10b981] text-xs text-white"
+            >
               {{ cartItemCount }}
             </span>
           </div>
@@ -155,8 +212,12 @@ watch(cart, async () => {
           </div>
         </div>
         <!-- Login -->
-        <div v-else id="user" class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
-          @click="openLoginModal">
+        <div
+          v-else
+          id="user"
+          class="flex cursor-pointer items-center gap-2.5 rounded-full p-2.5 hover:bg-gray-50"
+          @click="openLoginModal"
+        >
           <i class="pi pi-user"></i>
         </div>
       </div>

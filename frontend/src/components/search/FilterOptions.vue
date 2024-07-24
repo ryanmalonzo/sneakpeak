@@ -45,21 +45,33 @@ const DEFAULT_PRICE_RANGE = [0, 500]
 const price: Ref<number[]> = ref(DEFAULT_PRICE_RANGE)
 
 // Set selected filters from URL
-if (route.query.brand) {
-  selectedBrands.value = (route.query.brand as string).split(',')
-}
-if (route.query.category) {
-  selectedCategories.value = (route.query.category as string).split(',')
-}
-if (route.query.price) {
-  price.value = (route.query.price as string).split(',').map(Number)
-}
+watchEffect(() => {
+  if (route.query.brand) {
+    selectedBrands.value = (route.query.brand as string).split(',')
+  } else {
+    selectedBrands.value = []
+  }
+  if (route.query.category) {
+    selectedCategories.value = (route.query.category as string).split(',')
+  } else {
+    selectedCategories.value = []
+  }
+  if (route.query.price) {
+    price.value = (route.query.price as string).split(',').map(Number)
+  } else {
+    price.value = DEFAULT_PRICE_RANGE
+  }
 if (route.query.color) {
   selectedColors.value = (route.query.color as string).split(',')
+} else {
+  selectedColors.value = []
 }
 if (route.query.size) {
   selectedSizes.value = (route.query.size as string).split(',')
+} else {
+  selectedSizes.value = []
 }
+})
 
 Promise.all([
   BrandApi.getPaginated(),
@@ -73,7 +85,7 @@ Promise.all([
   sizes.value = sizesData
 })
 
-watchEffect(() => {
+const handleFilterChange = () => {
   const query = {
     brand: selectedBrands.value.length ? selectedBrands.value.join(',') : undefined,
     category: selectedCategories.value.length ? selectedCategories.value.join(',') : undefined,
@@ -87,7 +99,7 @@ watchEffect(() => {
       ...query
     }
   })
-})
+}
 
 const getBrandsHeader = () => {
   if (!selectedBrands.value.length) {
@@ -155,6 +167,7 @@ const onSlideEnd = () => {
             :inputId="brand.slug"
             name="brand"
             :value="brand.name"
+            @change="handleFilterChange"
           />
           <label :for="brand.slug">{{ brand.name }}</label>
         </div>
@@ -166,6 +179,7 @@ const onSlideEnd = () => {
             :inputId="category.slug"
             name="category"
             :value="category.name"
+            @change="handleFilterChange"
           />
           <label :for="category.slug">{{ category.name }}</label>
         </div>
