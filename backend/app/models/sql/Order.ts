@@ -58,12 +58,11 @@ export const SyncOrderInMongoDB = async (Order: Order, type: Operation) => {
     if (!user) {
       throw new Error(`User not found for id ${data.userId}`);
     }
-
     data.user = {
       id: user.id,
       email: user.email,
-      firstName: user.firstName ?? '',
-      lastName: user.lastName ?? '',
+      firstName: user.firstName,
+      lastName: user.lastName,
     };
 
     const items = await OrderProductRepository.findByOrderId(data.id);

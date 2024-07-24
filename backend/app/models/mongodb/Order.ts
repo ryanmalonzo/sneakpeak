@@ -66,10 +66,10 @@ const OrderSchema: Schema<IOrder> = new Schema({
   invoice_link: { type: String, required: false },
   amount_refunded: { type: Number, required: false },
   user: {
-    id: { type: Number, required: true },
-    email: { type: String, required: true },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
+    id: { type: Number, required: false },
+    email: { type: String, required: false },
+    firstName: { type: String, required: false },
+    lastName: { type: String, required: false },
   },
   createdAt: { type: Date, required: true },
   shipping: {
