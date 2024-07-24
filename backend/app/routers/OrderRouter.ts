@@ -94,22 +94,27 @@ OrderRouter.put(
           productReturn.order_products_id,
         );
         if (!orderProduct) {
-          console.log('orderProduct not found');
           return res.status(StatusCodes.NOT_FOUND).json();
         }
         const order = await OrderRepository.findById(orderProduct.orderId);
         if (!order) {
-          console.log('order not found');
           return res.status(StatusCodes.NOT_FOUND).json();
         }
 
-        stripe.refunds.create({
+        const refund = await stripe.refunds.create({
           payment_intent: order.payment_intent,
           amount: parseInt(
             (orderProduct.unitPrice * orderProduct.quantity * 100).toFixed(0),
           ),
         });
+
+        const charge = refund.charge as string;
+
+        const url = await stripe.charges.retrieve(charge);
+
         order.amount_refunded += orderProduct.unitPrice * orderProduct.quantity;
+        orderProduct.linkRefund = url.receipt_url as string;
+        await OrderProductRepository.update(orderProduct);
         await OrderRepository.update(order);
       }
       await ProductReturnRepository.save(productReturn);

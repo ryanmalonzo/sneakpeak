@@ -72,7 +72,7 @@ const orderDetails = reactive({
     selectedStatus: '',
     selectedRefund: '',
     status: '',
-
+    amount_refunded: ''
 })
 const refundMessage = ref('')
 const productName = ref('')
@@ -101,6 +101,7 @@ const fetchOrderDetails = async () => {
             status: data.status,
             invoice: data.invoice_link,
             payment_status: data.payment_status,
+            amount_refunded: data.amount_refunded,
             user: {
                 id: data.user.id,
                 email: data.user.email,
@@ -236,7 +237,15 @@ const validRefund = () => {
                         </div>
                         <div class="flex gap-2">
                             <label for="total">Total : </label>
-                            <p>{{ orderDetails.total }}</p>
+                            <p>{{ orderDetails.total }} €</p>
+                        </div>
+                        <div class="flex gap-2" v-if="parseFloat(orderDetails.amount_refunded) > 0">
+                            <label for="status">Total remboursé : </label>
+                            <p>{{ orderDetails.amount_refunded }} €</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <label for="status">Statut de la commande : </label>
+                            <p>{{ translateStatus(orderDetails.status) }}</p>
                         </div>
                         <div class="flex gap-2">
                             <label for="total">Statut de paiement : </label>
@@ -334,7 +343,13 @@ const validRefund = () => {
                                     </div>
                                     <div>
                                         <span class="text-sm text-surface-500 dark:text-surface-400 text-green-500"
-                                            v-if="item.productReturn && item.productReturn.status == 'approved'">{{
+                                            v-if="item.productReturn && item.productReturn.status == 'approved' && item.linkRefund">
+                                            <a :href="item.linkRefund" target="_blank">
+                                                <Button type="submit" label="Voir l'avoir " />
+                                            </a>
+                                        </span>
+                                        <span class="text-sm text-surface-500 dark:text-surface-400 text-green-500"
+                                            v-else-if="item.productReturn && item.productReturn.status == 'approved'">{{
                                                 translateStatus(item.productReturn.status) }}</span>
 
                                         <span class="text-sm text-surface-500 dark:text-surface-400 text-red-500"

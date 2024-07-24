@@ -38,6 +38,7 @@ interface IOrder extends Document {
       name: string;
       category: string;
       isRefund: boolean;
+      linkRefund: string;
       brand: string;
       image: string;
       stock: number;
@@ -94,6 +95,7 @@ const OrderSchema: Schema<IOrder> = new Schema({
       name: { type: String, required: true },
       category: { type: String, required: true },
       isRefund: { type: Boolean, required: true },
+      linkRefund: { type: String, required: false },
       brand: { type: String, required: true },
       image: { type: String, required: true },
       stock: { type: Number, required: true },
