@@ -191,13 +191,14 @@ const onSlideEnd = () => {
             :inputId="color.slug"
             name="color"
             :value="color.name"
+            @change="handleFilterChange"
           />
           <label :for="color.slug">{{ color.name }}</label>
         </div>
       </AccordionTab>
       <AccordionTab :header="getSizesHeader()">
         <div v-for="size of sizes" :key="size.slug" class="flex items-center gap-2">
-          <Checkbox v-model="selectedSizes" :inputId="size.slug" name="size" :value="size.name" />
+          <Checkbox v-model="selectedSizes" :inputId="size.slug" name="size" :value="size.name" @change="handleFilterChange" />
           <label :for="size.slug">{{ size.name }}</label>
         </div>
       </AccordionTab>
