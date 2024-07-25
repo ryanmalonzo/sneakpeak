@@ -88,6 +88,7 @@ export class SneakerRepository {
           sizeName: '$variants.sizes.name',
           sizeSlug: '$variants.sizes.slug',
           sizeStock: '$variants.sizes.stock',
+          colorSlug: '$variants.colorSlug',
         },
       },
 
