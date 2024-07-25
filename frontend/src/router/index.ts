@@ -325,23 +325,42 @@ const adminRoutes = [
 
 const storeRoutes = ['admin_store', 'admin_dashboard', 'admin_variants_edit', 'store']
 
+const adminAndStoreRoutes = ['admin_variants_edit']
+
 router.beforeEach(async (to) => {
   const { isAuthenticated, roles } = await checkAuth()
 
+  // Si pas connecté et accède à une route protégée
   if (!publicRoutes.includes(to.name as string) && !isAuthenticated) {
     router.push('/')
   }
-  if (!roles.includes('ADMIN') && adminRoutes.includes(to.name as string)) {
-    router.push('/')
-  }
 
+  // Si pas admin et accède à une route admin
   if (
     !roles.includes('ADMIN') &&
-    !roles.includes('STORE_KEEPER') &&
-    (adminRoutes.includes(to.name as string) || storeRoutes.includes(to.name as string))
+    adminRoutes.includes(to.name as string) &&
+    !adminAndStoreRoutes.includes(to.name as string)
   ) {
     router.push('/')
   }
+
+  // Si pas store keeper et accède à une route store keeper
+  if (
+    !roles.includes('STORE_KEEPER') &&
+    storeRoutes.includes(to.name as string) &&
+    !adminAndStoreRoutes.includes(to.name as string)
+  ) {
+    router.push('/')
+  }
+
+  // // Si pas admin ou store keeper et accède à une route store
+  // if (
+  //   !roles.includes('ADMIN') &&
+  //   !roles.includes('STORE_KEEPER') &&
+  //   (adminRoutes.includes(to.name as string) || storeRoutes.includes(to.name as string))
+  // ) {
+  //   router.push('/')
+  // }
 
   return true
 })
