@@ -319,8 +319,7 @@ const adminRoutes = [
   'admin_orders',
   'admin_orders_edit',
   'admin_variants',
-  'admin_variants_add',
-  'admin_variants_edit'
+  'admin_variants_add'
 ]
 
 const storeRoutes = ['admin_store', 'admin_dashboard', 'admin_variants_edit', 'store']
@@ -328,13 +327,17 @@ const storeRoutes = ['admin_store', 'admin_dashboard', 'admin_variants_edit', 's
 router.beforeEach(async (to) => {
   const { isAuthenticated, roles } = await checkAuth()
 
+  // Si l'utilisateur n'est pas authentifié et qu'il tente d'accéder à une route protégée (non publique)
   if (!publicRoutes.includes(to.name as string) && !isAuthenticated) {
     router.push('/')
   }
+
+  // Ne pas autoriser les utilisateurs non-admin à accéder aux routes d'admin
   if (!roles.includes('ADMIN') && adminRoutes.includes(to.name as string)) {
     router.push('/')
   }
 
+  // Ne pas autoriser les utilisateurs non-admin et non-store_keeper à accéder aux routes de store et admin
   if (
     !roles.includes('ADMIN') &&
     !roles.includes('STORE_KEEPER') &&
